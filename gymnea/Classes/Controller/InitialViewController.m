@@ -14,6 +14,11 @@
 @property (nonatomic, weak) IBOutlet UIImageView *leftGradientLine;
 @property (nonatomic, weak) IBOutlet UIButton *getStartedButton;
 @property (nonatomic, weak) IBOutlet UIButton *logInButton;
+@property (nonatomic, weak) IBOutlet UIButton *goDownButton;
+@property (nonatomic, weak) IBOutlet UIView *getStartedView;
+@property (nonatomic, weak) IBOutlet UIView *beforeContinueView;
+
+-(IBAction) goBackToStartedView:(id)sender;
 
 @end
 
@@ -32,6 +37,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    [self.view addSubview:self.beforeContinueView];
+    CGRect beforeContinueViewRect = self.beforeContinueView.frame;
+    beforeContinueViewRect.origin.y = 0.0f - [[UIScreen mainScreen] bounds].size.height;
+    self.beforeContinueView.frame = beforeContinueViewRect;
+
+    [self.view addSubview:self.getStartedView];
 
     [self.getStartedButton addTarget:self action:@selector(getStarted:) forControlEvents:UIControlEventTouchUpInside];
     [self.getStartedButton addTarget:self action:@selector(setBgColorForGetStartedButton:) forControlEvents:UIControlEventTouchDown];
@@ -58,9 +70,27 @@
                          self.rightGradientLine.frame = rightGradientLineRect;
 
     } completion:^(BOOL finished) {
-        //indexView.userInteractionEnabled = !hide;
+
     }];
 
+}
+
+- (IBAction)goBackToStartedView:(id)sender
+{
+    [UIView animateWithDuration: 0.3
+                     animations:^{
+
+                         CGRect getStartedViewRect = self.getStartedView.frame;
+                         getStartedViewRect.origin.y = 0.0f;
+                         self.getStartedView.frame = getStartedViewRect;
+
+                         CGRect beforeContinueViewRect = self.beforeContinueView.frame;
+                         beforeContinueViewRect.origin.y = 0.0f - [[UIScreen mainScreen] bounds].size.height;
+                         self.beforeContinueView.frame = beforeContinueViewRect;
+                         
+                     } completion:^(BOOL finished) {
+                         
+                     }];
 }
 
 -(void)logIn:(UIButton*)sender
@@ -81,6 +111,21 @@
 -(void)getStarted:(UIButton*)sender
 {
     [self clearBgColorForGetStartedButton:sender];
+
+    [UIView animateWithDuration: 0.3
+                     animations:^{
+
+                         CGRect beforeContinueViewRect = self.beforeContinueView.frame;
+                         beforeContinueViewRect.origin.y = 0.0;
+                         self.beforeContinueView.frame = beforeContinueViewRect;
+
+                         CGRect getStartedViewRect = self.getStartedView.frame;
+                         getStartedViewRect.origin.y = [[UIScreen mainScreen] bounds].size.height + 1.0f;
+                         self.getStartedView.frame = getStartedViewRect;
+
+                     } completion:^(BOOL finished) {
+
+                     }];
 }
 
 -(void)setBgColorForGetStartedButton:(UIButton*)sender

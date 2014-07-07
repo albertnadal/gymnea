@@ -7,15 +7,25 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InitialViewController">
             <connections>
+                <outlet property="beforeContinueView" destination="blt-Ps-UR4" id="0U2-Qu-qeo"/>
                 <outlet property="getStartedButton" destination="WID-tA-YlF" id="TDF-Jq-7rV"/>
+                <outlet property="getStartedView" destination="i5M-Pr-FkT" id="pKc-eF-lYu"/>
                 <outlet property="leftGradientLine" destination="f8Z-cS-QSI" id="nUz-4x-jDb"/>
                 <outlet property="logInButton" destination="yku-Qh-ThS" id="8Uj-fp-dS0"/>
                 <outlet property="rightGradientLine" destination="DEE-Iu-Bao" id="pFR-b0-bUw"/>
-                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="view" destination="RPB-ua-H8m" id="hhQ-Ra-sAa"/>
             </connections>
         </placeholder>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="RPB-ua-H8m" userLabel="View">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="363" y="-284"/>
+        </view>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT" userLabel="getStartedView">
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -55,9 +65,54 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="740" y="-284"/>
+        </view>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="blt-Ps-UR4" userLabel="beforeContinueView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="p7C-nC-ZGg" userLabel="getStartedButton">
+                    <rect key="frame" x="15" y="405" width="290" height="55"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <color key="backgroundColor" red="0.019607843140000001" green="0.76470588240000004" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="18"/>
+                    <state key="normal" title="Okay">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Before we begin, tell us wich are your fitness preferences" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="a8S-hE-UIi">
+                    <rect key="frame" x="60" y="94" width="200" height="120"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="17"/>
+                    <color key="textColor" red="0.019607843140000001" green="0.76470588240000004" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="FiS-LG-6BI">
+                    <rect key="frame" x="4" y="21" width="50" height="40"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <state key="normal" backgroundImage="go-down-button">
+                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted">
+                        <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="goBackToStartedView:" destination="-1" eventType="touchUpInside" id="U1i-ds-MUL"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="1115" y="-284"/>
         </view>
     </objects>
     <resources>
+        <image name="go-down-button" width="50" height="40"/>
         <image name="gymnea-initial" width="320" height="480"/>
         <image name="gymnea-initial-line-left" width="320" height="2"/>
         <image name="gymnea-initial-line-right" width="320" height="2"/>
