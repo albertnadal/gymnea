@@ -1,0 +1,113 @@
+//
+//  InitialViewController.m
+//  gymnea
+//
+//  Created by Albert Nadal Garriga on 06/07/14.
+//  Copyright (c) 2014 Gymnea. All rights reserved.
+//
+
+#import "InitialViewController.h"
+
+@interface InitialViewController ()
+
+@property (nonatomic, weak) IBOutlet UIImageView *rightGradientLine;
+@property (nonatomic, weak) IBOutlet UIImageView *leftGradientLine;
+@property (nonatomic, weak) IBOutlet UIButton *getStartedButton;
+@property (nonatomic, weak) IBOutlet UIButton *logInButton;
+
+@end
+
+@implementation InitialViewController
+
+- (id)init
+{
+    self = [super initWithNibName:@"InitialViewController" bundle:nil];
+    if (self)
+    {
+        
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+    [self.getStartedButton addTarget:self action:@selector(getStarted:) forControlEvents:UIControlEventTouchUpInside];
+    [self.getStartedButton addTarget:self action:@selector(setBgColorForGetStartedButton:) forControlEvents:UIControlEventTouchDown];
+    [self.getStartedButton addTarget:self action:@selector(clearBgColorForGetStartedButton:) forControlEvents:UIControlEventTouchDragExit];
+
+    [self.logInButton addTarget:self action:@selector(logIn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.logInButton addTarget:self action:@selector(setBgColorForLogInButton:) forControlEvents:UIControlEventTouchDown];
+    [self.logInButton addTarget:self action:@selector(clearBgColorForLogInButton:) forControlEvents:UIControlEventTouchDragExit];
+
+    [UIView animateWithDuration:0.9
+                          delay:0.9
+                        options:UIViewAnimationOptionAllowUserInteraction
+                     animations:^{
+
+                         CGRect leftGradientLineRect = self.leftGradientLine.frame;
+                         leftGradientLineRect.origin.x = 0.0f - CGRectGetMaxX(leftGradientLineRect);
+                         self.leftGradientLine.frame = leftGradientLineRect;
+
+                         CGRect screenRect = [[UIScreen mainScreen] bounds];
+                         CGFloat screenWidth = screenRect.size.width;
+
+                         CGRect rightGradientLineRect = self.rightGradientLine.frame;
+                         rightGradientLineRect.origin.x = screenWidth + 1.0f;
+                         self.rightGradientLine.frame = rightGradientLineRect;
+
+    } completion:^(BOOL finished) {
+        //indexView.userInteractionEnabled = !hide;
+    }];
+
+}
+
+-(void)logIn:(UIButton*)sender
+{
+    [self clearBgColorForLogInButton:sender];
+}
+
+-(void)setBgColorForLogInButton:(UIButton*)sender
+{
+    [sender setTitleColor:[UIColor colorWithRed:5.0/255.0 green:195.0/255.0 blue:249.0/255.0 alpha:0.7] forState:UIControlStateNormal];
+}
+
+-(void)clearBgColorForLogInButton:(UIButton*)sender
+{
+    [sender setTitleColor:[UIColor colorWithRed:5.0/255.0 green:195.0/255.0 blue:249.0/255.0 alpha:1] forState:UIControlStateNormal];
+}
+
+-(void)getStarted:(UIButton*)sender
+{
+    [self clearBgColorForGetStartedButton:sender];
+}
+
+-(void)setBgColorForGetStartedButton:(UIButton*)sender
+{
+    [sender setBackgroundColor:[UIColor colorWithRed:5.0/255.0 green:195.0/255.0 blue:249.0/255.0 alpha:0.7]];
+}
+
+-(void)clearBgColorForGetStartedButton:(UIButton*)sender
+{
+    [sender setBackgroundColor:[UIColor colorWithRed:5.0/255.0 green:195.0/255.0 blue:249.0/255.0 alpha:1]];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

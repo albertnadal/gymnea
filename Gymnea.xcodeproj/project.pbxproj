@@ -1,0 +1,515 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FF76206B196ABA9100611B3B /* Avenir Next.ttc in Resources */ = {isa = PBXBuildFile; fileRef = FF76206A196ABA9100611B3B /* Avenir Next.ttc */; };
+		FFA137571969A58000DBEE68 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA137561969A58000DBEE68 /* main.m */; };
+		FFA1375A1969A58000DBEE68 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA137591969A58000DBEE68 /* AppDelegate.m */; };
+		FFA1375D1969A58000DBEE68 /* gymnea.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FFA1375B1969A58000DBEE68 /* gymnea.xcdatamodeld */; };
+		FFA137651969A58000DBEE68 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FFA137641969A58000DBEE68 /* Images.xcassets */; };
+		FFA137711969A58000DBEE68 /* gymneaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA137701969A58000DBEE68 /* gymneaTests.m */; };
+		FFA1377B1969A7C200DBEE68 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFA1377A1969A7C200DBEE68 /* HealthKit.framework */; };
+		FFA137871969F9EA00DBEE68 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA137861969F9EA00DBEE68 /* InitialViewController.m */; };
+		FFA1378E196A02D300DBEE68 /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFA1378D196A02D200DBEE68 /* InitialViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FFA1376B1969A58000DBEE68 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FFA137491969A58000DBEE68 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FFA137501969A58000DBEE68;
+			remoteInfo = gymnea;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		FF76206A196ABA9100611B3B /* Avenir Next.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Avenir Next.ttc"; path = "Resources/Fonts/Avenir Next.ttc"; sourceTree = "<group>"; };
+		FFA137511969A58000DBEE68 /* gymnea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gymnea.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FFA137551969A58000DBEE68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FFA137561969A58000DBEE68 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FFA137581969A58000DBEE68 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		FFA137591969A58000DBEE68 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		FFA1375C1969A58000DBEE68 /* gymnea.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = gymnea.xcdatamodel; sourceTree = "<group>"; };
+		FFA137641969A58000DBEE68 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		FFA1376A1969A58000DBEE68 /* gymneaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = gymneaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FFA1376F1969A58000DBEE68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FFA137701969A58000DBEE68 /* gymneaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = gymneaTests.m; sourceTree = "<group>"; };
+		FFA1377A1969A7C200DBEE68 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		FFA1377C1969A7C200DBEE68 /* gymnea.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = gymnea.entitlements; sourceTree = "<group>"; };
+		FFA137851969F9EA00DBEE68 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialViewController.h; path = Classes/Controller/InitialViewController.h; sourceTree = "<group>"; };
+		FFA137861969F9EA00DBEE68 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialViewController.m; path = Classes/Controller/InitialViewController.m; sourceTree = "<group>"; };
+		FFA1378D196A02D200DBEE68 /* InitialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InitialViewController.xib; path = Resources/Views/InitialViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FFA1374E1969A58000DBEE68 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FFA1377B1969A7C200DBEE68 /* HealthKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFA137671969A58000DBEE68 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FFA137481969A58000DBEE68 = {
+			isa = PBXGroup;
+			children = (
+				FFA137821969F83D00DBEE68 /* Classes */,
+				FFA137841969F99200DBEE68 /* Resources */,
+				FFA137541969A58000DBEE68 /* Supporting Files */,
+				FFA137531969A58000DBEE68 /* gymnea */,
+				FFA1376D1969A58000DBEE68 /* gymneaTests */,
+				FFA1378C1969FE7100DBEE68 /* Frameworks */,
+				FFA137521969A58000DBEE68 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FFA137521969A58000DBEE68 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FFA137511969A58000DBEE68 /* gymnea.app */,
+				FFA1376A1969A58000DBEE68 /* gymneaTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FFA137531969A58000DBEE68 /* gymnea */ = {
+			isa = PBXGroup;
+			children = (
+				FFA1377C1969A7C200DBEE68 /* gymnea.entitlements */,
+				FFA137641969A58000DBEE68 /* Images.xcassets */,
+				FFA1375B1969A58000DBEE68 /* gymnea.xcdatamodeld */,
+			);
+			path = gymnea;
+			sourceTree = "<group>";
+		};
+		FFA137541969A58000DBEE68 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FFA137551969A58000DBEE68 /* Info.plist */,
+				FFA137561969A58000DBEE68 /* main.m */,
+			);
+			name = "Supporting Files";
+			path = gymnea;
+			sourceTree = "<group>";
+		};
+		FFA1376D1969A58000DBEE68 /* gymneaTests */ = {
+			isa = PBXGroup;
+			children = (
+				FFA137701969A58000DBEE68 /* gymneaTests.m */,
+				FFA1376E1969A58000DBEE68 /* Supporting Files */,
+			);
+			path = gymneaTests;
+			sourceTree = "<group>";
+		};
+		FFA1376E1969A58000DBEE68 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FFA1376F1969A58000DBEE68 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FFA137821969F83D00DBEE68 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				FFA137831969F84900DBEE68 /* Controller */,
+				FFA137581969A58000DBEE68 /* AppDelegate.h */,
+				FFA137591969A58000DBEE68 /* AppDelegate.m */,
+			);
+			name = Classes;
+			path = gymnea;
+			sourceTree = "<group>";
+		};
+		FFA137831969F84900DBEE68 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				FFA137851969F9EA00DBEE68 /* InitialViewController.h */,
+				FFA137861969F9EA00DBEE68 /* InitialViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		FFA137841969F99200DBEE68 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FFA1378A1969FA2800DBEE68 /* Languages */,
+				FFA137891969FA2000DBEE68 /* Fonts */,
+				FFA137881969FA1100DBEE68 /* Views */,
+			);
+			name = Resources;
+			path = gymnea;
+			sourceTree = "<group>";
+		};
+		FFA137881969FA1100DBEE68 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FFA1378D196A02D200DBEE68 /* InitialViewController.xib */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		FFA137891969FA2000DBEE68 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				FF76206A196ABA9100611B3B /* Avenir Next.ttc */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
+		FFA1378A1969FA2800DBEE68 /* Languages */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Languages;
+			sourceTree = "<group>";
+		};
+		FFA1378C1969FE7100DBEE68 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FFA1377A1969A7C200DBEE68 /* HealthKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FFA137501969A58000DBEE68 /* gymnea */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FFA137741969A58000DBEE68 /* Build configuration list for PBXNativeTarget "gymnea" */;
+			buildPhases = (
+				FFA1374D1969A58000DBEE68 /* Sources */,
+				FFA1374E1969A58000DBEE68 /* Frameworks */,
+				FFA1374F1969A58000DBEE68 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = gymnea;
+			productName = gymnea;
+			productReference = FFA137511969A58000DBEE68 /* gymnea.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FFA137691969A58000DBEE68 /* gymneaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FFA137771969A58000DBEE68 /* Build configuration list for PBXNativeTarget "gymneaTests" */;
+			buildPhases = (
+				FFA137661969A58000DBEE68 /* Sources */,
+				FFA137671969A58000DBEE68 /* Frameworks */,
+				FFA137681969A58000DBEE68 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FFA1376C1969A58000DBEE68 /* PBXTargetDependency */,
+			);
+			name = gymneaTests;
+			productName = gymneaTests;
+			productReference = FFA1376A1969A58000DBEE68 /* gymneaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FFA137491969A58000DBEE68 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+				ORGANIZATIONNAME = Gymnea;
+				TargetAttributes = {
+					FFA137501969A58000DBEE68 = {
+						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = D5J23R36S2;
+						SystemCapabilities = {
+							com.apple.DataProtection = {
+								enabled = 1;
+							};
+							com.apple.HealthKit = {
+								enabled = 1;
+							};
+						};
+					};
+					FFA137691969A58000DBEE68 = {
+						CreatedOnToolsVersion = 6.0;
+						TestTargetID = FFA137501969A58000DBEE68;
+					};
+				};
+			};
+			buildConfigurationList = FFA1374C1969A58000DBEE68 /* Build configuration list for PBXProject "Gymnea" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FFA137481969A58000DBEE68;
+			productRefGroup = FFA137521969A58000DBEE68 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FFA137501969A58000DBEE68 /* gymnea */,
+				FFA137691969A58000DBEE68 /* gymneaTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FFA1374F1969A58000DBEE68 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF76206B196ABA9100611B3B /* Avenir Next.ttc in Resources */,
+				FFA137651969A58000DBEE68 /* Images.xcassets in Resources */,
+				FFA1378E196A02D300DBEE68 /* InitialViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFA137681969A58000DBEE68 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FFA1374D1969A58000DBEE68 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FFA1375D1969A58000DBEE68 /* gymnea.xcdatamodeld in Sources */,
+				FFA1375A1969A58000DBEE68 /* AppDelegate.m in Sources */,
+				FFA137571969A58000DBEE68 /* main.m in Sources */,
+				FFA137871969F9EA00DBEE68 /* InitialViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFA137661969A58000DBEE68 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FFA137711969A58000DBEE68 /* gymneaTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FFA1376C1969A58000DBEE68 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FFA137501969A58000DBEE68 /* gymnea */;
+			targetProxy = FFA1376B1969A58000DBEE68 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		FFA137721969A58000DBEE68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				METAL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		FFA137731969A58000DBEE68 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				METAL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FFA137751969A58000DBEE68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = gymnea/gymnea.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = gymnea/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "E90CBD3A-E279-42A5-8FDD-ED2980C77AAF";
+			};
+			name = Debug;
+		};
+		FFA137761969A58000DBEE68 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = gymnea/gymnea.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = gymnea/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "E90CBD3A-E279-42A5-8FDD-ED2980C77AAF";
+			};
+			name = Release;
+		};
+		FFA137781969A58000DBEE68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/gymnea.app/gymnea";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = gymneaTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				METAL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Debug;
+		};
+		FFA137791969A58000DBEE68 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/gymnea.app/gymnea";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = gymneaTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FFA1374C1969A58000DBEE68 /* Build configuration list for PBXProject "Gymnea" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FFA137721969A58000DBEE68 /* Debug */,
+				FFA137731969A58000DBEE68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FFA137741969A58000DBEE68 /* Build configuration list for PBXNativeTarget "gymnea" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FFA137751969A58000DBEE68 /* Debug */,
+				FFA137761969A58000DBEE68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FFA137771969A58000DBEE68 /* Build configuration list for PBXNativeTarget "gymneaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FFA137781969A58000DBEE68 /* Debug */,
+				FFA137791969A58000DBEE68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		FFA1375B1969A58000DBEE68 /* gymnea.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				FFA1375C1969A58000DBEE68 /* gymnea.xcdatamodel */,
+			);
+			currentVersion = FFA1375C1969A58000DBEE68 /* gymnea.xcdatamodel */;
+			path = gymnea.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = FFA137491969A58000DBEE68 /* Project object */;
+}
