@@ -10,8 +10,10 @@
                 <outlet property="beforeContinueView" destination="blt-Ps-UR4" id="0U2-Qu-qeo"/>
                 <outlet property="getStartedButton" destination="WID-tA-YlF" id="TDF-Jq-7rV"/>
                 <outlet property="getStartedView" destination="i5M-Pr-FkT" id="pKc-eF-lYu"/>
+                <outlet property="goDownButton" destination="FiS-LG-6BI" id="DCo-4W-hCK"/>
                 <outlet property="leftGradientLine" destination="f8Z-cS-QSI" id="nUz-4x-jDb"/>
                 <outlet property="logInButton" destination="yku-Qh-ThS" id="8Uj-fp-dS0"/>
+                <outlet property="okayButton" destination="p7C-nC-ZGg" id="s1Z-Pl-mXG"/>
                 <outlet property="rightGradientLine" destination="DEE-Iu-Bao" id="pFR-b0-bUw"/>
                 <outlet property="view" destination="RPB-ua-H8m" id="hhQ-Ra-sAa"/>
             </connections>

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		FF76206B196ABA9100611B3B /* Avenir Next.ttc in Resources */ = {isa = PBXBuildFile; fileRef = FF76206A196ABA9100611B3B /* Avenir Next.ttc */; };
+		FF80E93F196B39D100D29986 /* InitialQuestionnaireViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF80E93D196B39D100D29986 /* InitialQuestionnaireViewController.m */; };
+		FF80E942196B3A3600D29986 /* InitialQuestionnaireViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF80E941196B3A3600D29986 /* InitialQuestionnaireViewController.xib */; };
 		FFA137571969A58000DBEE68 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA137561969A58000DBEE68 /* main.m */; };
 		FFA1375A1969A58000DBEE68 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA137591969A58000DBEE68 /* AppDelegate.m */; };
 		FFA1375D1969A58000DBEE68 /* gymnea.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FFA1375B1969A58000DBEE68 /* gymnea.xcdatamodeld */; };
@@ -16,6 +18,8 @@
 		FFA1377B1969A7C200DBEE68 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFA1377A1969A7C200DBEE68 /* HealthKit.framework */; };
 		FFA137871969F9EA00DBEE68 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA137861969F9EA00DBEE68 /* InitialViewController.m */; };
 		FFA1378E196A02D300DBEE68 /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFA1378D196A02D200DBEE68 /* InitialViewController.xib */; };
+		FFABFDCF196C4A03004FC527 /* InitialQuestionnaireGoalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFABFDCD196C4A03004FC527 /* InitialQuestionnaireGoalViewController.m */; };
+		FFABFDD2196C4A48004FC527 /* InitialQuestionnaireGoalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFABFDD1196C4A48004FC527 /* InitialQuestionnaireGoalViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +34,9 @@
 
 /* Begin PBXFileReference section */
 		FF76206A196ABA9100611B3B /* Avenir Next.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Avenir Next.ttc"; path = "Resources/Fonts/Avenir Next.ttc"; sourceTree = "<group>"; };
+		FF80E93C196B39D100D29986 /* InitialQuestionnaireViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialQuestionnaireViewController.h; path = Classes/Controller/InitialQuestionnaireViewController.h; sourceTree = "<group>"; };
+		FF80E93D196B39D100D29986 /* InitialQuestionnaireViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialQuestionnaireViewController.m; path = Classes/Controller/InitialQuestionnaireViewController.m; sourceTree = "<group>"; };
+		FF80E941196B3A3600D29986 /* InitialQuestionnaireViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InitialQuestionnaireViewController.xib; path = Resources/Views/InitialQuestionnaireViewController.xib; sourceTree = "<group>"; };
 		FFA137511969A58000DBEE68 /* gymnea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gymnea.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFA137551969A58000DBEE68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FFA137561969A58000DBEE68 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -45,6 +52,9 @@
 		FFA137851969F9EA00DBEE68 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialViewController.h; path = Classes/Controller/InitialViewController.h; sourceTree = "<group>"; };
 		FFA137861969F9EA00DBEE68 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialViewController.m; path = Classes/Controller/InitialViewController.m; sourceTree = "<group>"; };
 		FFA1378D196A02D200DBEE68 /* InitialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InitialViewController.xib; path = Resources/Views/InitialViewController.xib; sourceTree = "<group>"; };
+		FFABFDCC196C4A03004FC527 /* InitialQuestionnaireGoalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialQuestionnaireGoalViewController.h; path = Classes/Controller/InitialQuestionnaireGoalViewController.h; sourceTree = "<group>"; };
+		FFABFDCD196C4A03004FC527 /* InitialQuestionnaireGoalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialQuestionnaireGoalViewController.m; path = Classes/Controller/InitialQuestionnaireGoalViewController.m; sourceTree = "<group>"; };
+		FFABFDD1196C4A48004FC527 /* InitialQuestionnaireGoalViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InitialQuestionnaireGoalViewController.xib; path = Resources/Views/InitialQuestionnaireGoalViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +151,10 @@
 			children = (
 				FFA137851969F9EA00DBEE68 /* InitialViewController.h */,
 				FFA137861969F9EA00DBEE68 /* InitialViewController.m */,
+				FF80E93C196B39D100D29986 /* InitialQuestionnaireViewController.h */,
+				FF80E93D196B39D100D29986 /* InitialQuestionnaireViewController.m */,
+				FFABFDCC196C4A03004FC527 /* InitialQuestionnaireGoalViewController.h */,
+				FFABFDCD196C4A03004FC527 /* InitialQuestionnaireGoalViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -160,6 +174,8 @@
 			isa = PBXGroup;
 			children = (
 				FFA1378D196A02D200DBEE68 /* InitialViewController.xib */,
+				FF80E941196B3A3600D29986 /* InitialQuestionnaireViewController.xib */,
+				FFABFDD1196C4A48004FC527 /* InitialQuestionnaireGoalViewController.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -276,9 +292,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFABFDD2196C4A48004FC527 /* InitialQuestionnaireGoalViewController.xib in Resources */,
 				FF76206B196ABA9100611B3B /* Avenir Next.ttc in Resources */,
 				FFA137651969A58000DBEE68 /* Images.xcassets in Resources */,
 				FFA1378E196A02D300DBEE68 /* InitialViewController.xib in Resources */,
+				FF80E942196B3A3600D29986 /* InitialQuestionnaireViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,8 +315,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FFA1375D1969A58000DBEE68 /* gymnea.xcdatamodeld in Sources */,
+				FF80E93F196B39D100D29986 /* InitialQuestionnaireViewController.m in Sources */,
 				FFA1375A1969A58000DBEE68 /* AppDelegate.m in Sources */,
 				FFA137571969A58000DBEE68 /* main.m in Sources */,
+				FFABFDCF196C4A03004FC527 /* InitialQuestionnaireGoalViewController.m in Sources */,
 				FFA137871969F9EA00DBEE68 /* InitialViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

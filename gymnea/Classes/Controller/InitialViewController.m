@@ -7,6 +7,7 @@
 //
 
 #import "InitialViewController.h"
+#import "InitialQuestionnaireViewController.h"
 
 @interface InitialViewController ()
 
@@ -15,10 +16,11 @@
 @property (nonatomic, weak) IBOutlet UIButton *getStartedButton;
 @property (nonatomic, weak) IBOutlet UIButton *logInButton;
 @property (nonatomic, weak) IBOutlet UIButton *goDownButton;
+@property (nonatomic, weak) IBOutlet UIButton *okayButton;
 @property (nonatomic, weak) IBOutlet UIView *getStartedView;
 @property (nonatomic, weak) IBOutlet UIView *beforeContinueView;
 
--(IBAction) goBackToStartedView:(id)sender;
+- (IBAction)goBackToStartedView:(id)sender;
 
 @end
 
@@ -46,12 +48,16 @@
     [self.view addSubview:self.getStartedView];
 
     [self.getStartedButton addTarget:self action:@selector(getStarted:) forControlEvents:UIControlEventTouchUpInside];
-    [self.getStartedButton addTarget:self action:@selector(setBgColorForGetStartedButton:) forControlEvents:UIControlEventTouchDown];
-    [self.getStartedButton addTarget:self action:@selector(clearBgColorForGetStartedButton:) forControlEvents:UIControlEventTouchDragExit];
+    [self.getStartedButton addTarget:self action:@selector(setBgColorForButton:) forControlEvents:UIControlEventTouchDown];
+    [self.getStartedButton addTarget:self action:@selector(clearBgColorForButton:) forControlEvents:UIControlEventTouchDragExit];
 
     [self.logInButton addTarget:self action:@selector(logIn:) forControlEvents:UIControlEventTouchUpInside];
     [self.logInButton addTarget:self action:@selector(setBgColorForLogInButton:) forControlEvents:UIControlEventTouchDown];
     [self.logInButton addTarget:self action:@selector(clearBgColorForLogInButton:) forControlEvents:UIControlEventTouchDragExit];
+
+    [self.okayButton addTarget:self action:@selector(goToQuestionnaire:) forControlEvents:UIControlEventTouchUpInside];
+    [self.okayButton addTarget:self action:@selector(setBgColorForButton:) forControlEvents:UIControlEventTouchDown];
+    [self.okayButton addTarget:self action:@selector(clearBgColorForButton:) forControlEvents:UIControlEventTouchDragExit];
 
     [UIView animateWithDuration:0.9
                           delay:0.9
@@ -73,6 +79,14 @@
 
     }];
 
+}
+
+- (IBAction)goToQuestionnaire:(id)sender
+{
+    [self clearBgColorForButton:sender];
+
+    InitialQuestionnaireViewController *initialQuestionnaireViewController = [[InitialQuestionnaireViewController alloc] init];
+    [self.navigationController pushViewController:initialQuestionnaireViewController animated:YES];
 }
 
 - (IBAction)goBackToStartedView:(id)sender
@@ -110,7 +124,7 @@
 
 -(void)getStarted:(UIButton*)sender
 {
-    [self clearBgColorForGetStartedButton:sender];
+    [self clearBgColorForButton:sender];
 
     [UIView animateWithDuration: 0.3
                      animations:^{
@@ -128,12 +142,12 @@
                      }];
 }
 
--(void)setBgColorForGetStartedButton:(UIButton*)sender
+-(void)setBgColorForButton:(UIButton*)sender
 {
     [sender setBackgroundColor:[UIColor colorWithRed:5.0/255.0 green:195.0/255.0 blue:249.0/255.0 alpha:0.7]];
 }
 
--(void)clearBgColorForGetStartedButton:(UIButton*)sender
+-(void)clearBgColorForButton:(UIButton*)sender
 {
     [sender setBackgroundColor:[UIColor colorWithRed:5.0/255.0 green:195.0/255.0 blue:249.0/255.0 alpha:1]];
 }
