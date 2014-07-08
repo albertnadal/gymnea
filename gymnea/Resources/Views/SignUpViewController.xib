@@ -38,7 +38,7 @@
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </label>
-                <view contentMode="scaleToFill" id="81S-iP-7fe" userLabel="buttonsContainerView">
+                <view contentMode="scaleToFill" id="81S-iP-7fe" userLabel="formContainerView">
                     <rect key="frame" x="0.0" y="90" width="320" height="300"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -114,7 +114,7 @@
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" keyboardAppearance="light"/>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Height" minimumFontSize="13" id="R2E-QO-Dqy" userLabel="hrightTextField">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Height" minimumFontSize="13" id="R2E-QO-Dqy" userLabel="heightTextField">
                             <rect key="frame" x="222" y="115" width="89" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <nil key="textColor"/>

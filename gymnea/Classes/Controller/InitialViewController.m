@@ -8,6 +8,7 @@
 
 #import "InitialViewController.h"
 #import "InitialQuestionnaireViewController.h"
+#import "LogInViewController.h"
 
 @interface InitialViewController ()
 
@@ -110,6 +111,9 @@
 -(void)logIn:(UIButton*)sender
 {
     [self clearBgColorForLogInButton:sender];
+
+    LogInViewController *logInViewController = [[LogInViewController alloc] init];
+    [self.navigationController pushViewController:logInViewController animated:YES];
 }
 
 -(void)setBgColorForLogInButton:(UIButton*)sender

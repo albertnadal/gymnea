@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FF0DC1B9196CA1CC006E1817 /* LogInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF0DC1B8196CA1CC006E1817 /* LogInViewController.xib */; };
 		FF76206B196ABA9100611B3B /* Avenir Next.ttc in Resources */ = {isa = PBXBuildFile; fileRef = FF76206A196ABA9100611B3B /* Avenir Next.ttc */; };
 		FF80E93F196B39D100D29986 /* InitialQuestionnaireViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF80E93D196B39D100D29986 /* InitialQuestionnaireViewController.m */; };
 		FF80E942196B3A3600D29986 /* InitialQuestionnaireViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF80E941196B3A3600D29986 /* InitialQuestionnaireViewController.xib */; };
@@ -22,6 +23,7 @@
 		FFABFDD2196C4A48004FC527 /* InitialQuestionnaireGoalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFABFDD1196C4A48004FC527 /* InitialQuestionnaireGoalViewController.xib */; };
 		FFABFDD6196C88C4004FC527 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFABFDD4196C88C4004FC527 /* SignUpViewController.m */; };
 		FFABFDD9196C8920004FC527 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFABFDD8196C8920004FC527 /* SignUpViewController.xib */; };
+		FFABFDDD196CA111004FC527 /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFABFDDB196CA111004FC527 /* LogInViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FF0DC1B8196CA1CC006E1817 /* LogInViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LogInViewController.xib; path = Resources/Views/LogInViewController.xib; sourceTree = "<group>"; };
 		FF76206A196ABA9100611B3B /* Avenir Next.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Avenir Next.ttc"; path = "Resources/Fonts/Avenir Next.ttc"; sourceTree = "<group>"; };
 		FF80E93C196B39D100D29986 /* InitialQuestionnaireViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialQuestionnaireViewController.h; path = Classes/Controller/InitialQuestionnaireViewController.h; sourceTree = "<group>"; };
 		FF80E93D196B39D100D29986 /* InitialQuestionnaireViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialQuestionnaireViewController.m; path = Classes/Controller/InitialQuestionnaireViewController.m; sourceTree = "<group>"; };
@@ -60,6 +63,8 @@
 		FFABFDD3196C88C4004FC527 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SignUpViewController.h; path = Classes/Controller/SignUpViewController.h; sourceTree = "<group>"; };
 		FFABFDD4196C88C4004FC527 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SignUpViewController.m; path = Classes/Controller/SignUpViewController.m; sourceTree = "<group>"; };
 		FFABFDD8196C8920004FC527 /* SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SignUpViewController.xib; path = Resources/Views/SignUpViewController.xib; sourceTree = "<group>"; };
+		FFABFDDA196CA111004FC527 /* LogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogInViewController.h; path = Classes/Controller/LogInViewController.h; sourceTree = "<group>"; };
+		FFABFDDB196CA111004FC527 /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LogInViewController.m; path = Classes/Controller/LogInViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +167,8 @@
 				FFABFDCD196C4A03004FC527 /* InitialQuestionnaireGoalViewController.m */,
 				FFABFDD3196C88C4004FC527 /* SignUpViewController.h */,
 				FFABFDD4196C88C4004FC527 /* SignUpViewController.m */,
+				FFABFDDA196CA111004FC527 /* LogInViewController.h */,
+				FFABFDDB196CA111004FC527 /* LogInViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -184,6 +191,7 @@
 				FF80E941196B3A3600D29986 /* InitialQuestionnaireViewController.xib */,
 				FFABFDD1196C4A48004FC527 /* InitialQuestionnaireGoalViewController.xib */,
 				FFABFDD8196C8920004FC527 /* SignUpViewController.xib */,
+				FF0DC1B8196CA1CC006E1817 /* LogInViewController.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -306,6 +314,7 @@
 				FFA1378E196A02D300DBEE68 /* InitialViewController.xib in Resources */,
 				FFABFDD9196C8920004FC527 /* SignUpViewController.xib in Resources */,
 				FF80E942196B3A3600D29986 /* InitialQuestionnaireViewController.xib in Resources */,
+				FF0DC1B9196CA1CC006E1817 /* LogInViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,6 +332,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFABFDDD196CA111004FC527 /* LogInViewController.m in Sources */,
 				FFA1375D1969A58000DBEE68 /* gymnea.xcdatamodeld in Sources */,
 				FF80E93F196B39D100D29986 /* InitialQuestionnaireViewController.m in Sources */,
 				FFA1375A1969A58000DBEE68 /* AppDelegate.m in Sources */,
