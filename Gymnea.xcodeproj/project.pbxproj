@@ -20,6 +20,8 @@
 		FFA1378E196A02D300DBEE68 /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFA1378D196A02D200DBEE68 /* InitialViewController.xib */; };
 		FFABFDCF196C4A03004FC527 /* InitialQuestionnaireGoalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFABFDCD196C4A03004FC527 /* InitialQuestionnaireGoalViewController.m */; };
 		FFABFDD2196C4A48004FC527 /* InitialQuestionnaireGoalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFABFDD1196C4A48004FC527 /* InitialQuestionnaireGoalViewController.xib */; };
+		FFABFDD6196C88C4004FC527 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFABFDD4196C88C4004FC527 /* SignUpViewController.m */; };
+		FFABFDD9196C8920004FC527 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFABFDD8196C8920004FC527 /* SignUpViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,9 @@
 		FFABFDCC196C4A03004FC527 /* InitialQuestionnaireGoalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialQuestionnaireGoalViewController.h; path = Classes/Controller/InitialQuestionnaireGoalViewController.h; sourceTree = "<group>"; };
 		FFABFDCD196C4A03004FC527 /* InitialQuestionnaireGoalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialQuestionnaireGoalViewController.m; path = Classes/Controller/InitialQuestionnaireGoalViewController.m; sourceTree = "<group>"; };
 		FFABFDD1196C4A48004FC527 /* InitialQuestionnaireGoalViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InitialQuestionnaireGoalViewController.xib; path = Resources/Views/InitialQuestionnaireGoalViewController.xib; sourceTree = "<group>"; };
+		FFABFDD3196C88C4004FC527 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SignUpViewController.h; path = Classes/Controller/SignUpViewController.h; sourceTree = "<group>"; };
+		FFABFDD4196C88C4004FC527 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SignUpViewController.m; path = Classes/Controller/SignUpViewController.m; sourceTree = "<group>"; };
+		FFABFDD8196C8920004FC527 /* SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SignUpViewController.xib; path = Resources/Views/SignUpViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +160,8 @@
 				FF80E93D196B39D100D29986 /* InitialQuestionnaireViewController.m */,
 				FFABFDCC196C4A03004FC527 /* InitialQuestionnaireGoalViewController.h */,
 				FFABFDCD196C4A03004FC527 /* InitialQuestionnaireGoalViewController.m */,
+				FFABFDD3196C88C4004FC527 /* SignUpViewController.h */,
+				FFABFDD4196C88C4004FC527 /* SignUpViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -176,6 +183,7 @@
 				FFA1378D196A02D200DBEE68 /* InitialViewController.xib */,
 				FF80E941196B3A3600D29986 /* InitialQuestionnaireViewController.xib */,
 				FFABFDD1196C4A48004FC527 /* InitialQuestionnaireGoalViewController.xib */,
+				FFABFDD8196C8920004FC527 /* SignUpViewController.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -296,6 +304,7 @@
 				FF76206B196ABA9100611B3B /* Avenir Next.ttc in Resources */,
 				FFA137651969A58000DBEE68 /* Images.xcassets in Resources */,
 				FFA1378E196A02D300DBEE68 /* InitialViewController.xib in Resources */,
+				FFABFDD9196C8920004FC527 /* SignUpViewController.xib in Resources */,
 				FF80E942196B3A3600D29986 /* InitialQuestionnaireViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -319,6 +328,7 @@
 				FFA1375A1969A58000DBEE68 /* AppDelegate.m in Sources */,
 				FFA137571969A58000DBEE68 /* main.m in Sources */,
 				FFABFDCF196C4A03004FC527 /* InitialQuestionnaireGoalViewController.m in Sources */,
+				FFABFDD6196C88C4004FC527 /* SignUpViewController.m in Sources */,
 				FFA137871969F9EA00DBEE68 /* InitialViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

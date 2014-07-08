@@ -7,6 +7,7 @@
 //
 
 #import "InitialQuestionnaireGoalViewController.h"
+#import "SignUpViewController.h"
 
 @interface InitialQuestionnaireGoalViewController ()
 
@@ -45,6 +46,9 @@
 - (void)goToRegister:(id)sender
 {
     [self clearBgColorForButton:sender];
+
+    SignUpViewController *signUpViewController = [[SignUpViewController alloc] init];
+    [self.navigationController pushViewController:signUpViewController animated:YES];
 }
 
 -(void)setBgColorForButton:(UIButton*)sender
