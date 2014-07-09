@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FF03958A196D528200EA1CF6 /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF039588196D528200EA1CF6 /* StartViewController.m */; };
 		FF0DC1B9196CA1CC006E1817 /* LogInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF0DC1B8196CA1CC006E1817 /* LogInViewController.xib */; };
+		FF11F5C4196DF08200590C10 /* GEALabel.m in Sources */ = {isa = PBXBuildFile; fileRef = FF11F5C1196DF08200590C10 /* GEALabel.m */; };
+		FF11F5C5196DF08200590C10 /* GEALabel+Gymnea.m in Sources */ = {isa = PBXBuildFile; fileRef = FF11F5C3196DF08200590C10 /* GEALabel+Gymnea.m */; };
+		FF3F70A4196D52EF007AADF1 /* StartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF3F70A3196D52EF007AADF1 /* StartViewController.xib */; };
+		FF3F70A8196D54BE007AADF1 /* GEASideMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF3F70A7196D54BE007AADF1 /* GEASideMenuController.m */; };
 		FF76206B196ABA9100611B3B /* Avenir Next.ttc in Resources */ = {isa = PBXBuildFile; fileRef = FF76206A196ABA9100611B3B /* Avenir Next.ttc */; };
 		FF80E93F196B39D100D29986 /* InitialQuestionnaireViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF80E93D196B39D100D29986 /* InitialQuestionnaireViewController.m */; };
 		FF80E942196B3A3600D29986 /* InitialQuestionnaireViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF80E941196B3A3600D29986 /* InitialQuestionnaireViewController.xib */; };
@@ -37,7 +42,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FF039587196D528200EA1CF6 /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartViewController.h; path = Classes/Controller/StartViewController.h; sourceTree = "<group>"; };
+		FF039588196D528200EA1CF6 /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartViewController.m; path = Classes/Controller/StartViewController.m; sourceTree = "<group>"; };
 		FF0DC1B8196CA1CC006E1817 /* LogInViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LogInViewController.xib; path = Resources/Views/LogInViewController.xib; sourceTree = "<group>"; };
+		FF11F5C0196DF08200590C10 /* GEALabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GEALabel.h; path = Classes/Controller/Views/GEALabel.h; sourceTree = "<group>"; };
+		FF11F5C1196DF08200590C10 /* GEALabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GEALabel.m; path = Classes/Controller/Views/GEALabel.m; sourceTree = "<group>"; };
+		FF11F5C2196DF08200590C10 /* GEALabel+Gymnea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GEALabel+Gymnea.h"; path = "Classes/Controller/Views/GEALabel+Gymnea.h"; sourceTree = "<group>"; };
+		FF11F5C3196DF08200590C10 /* GEALabel+Gymnea.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "GEALabel+Gymnea.m"; path = "Classes/Controller/Views/GEALabel+Gymnea.m"; sourceTree = "<group>"; };
+		FF3F70A3196D52EF007AADF1 /* StartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StartViewController.xib; path = Resources/Views/StartViewController.xib; sourceTree = "<group>"; };
+		FF3F70A6196D54BE007AADF1 /* GEASideMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GEASideMenuController.h; path = Classes/Controller/Containers/GEASideMenuController.h; sourceTree = "<group>"; };
+		FF3F70A7196D54BE007AADF1 /* GEASideMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GEASideMenuController.m; path = Classes/Controller/Containers/GEASideMenuController.m; sourceTree = "<group>"; };
 		FF76206A196ABA9100611B3B /* Avenir Next.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Avenir Next.ttc"; path = "Resources/Fonts/Avenir Next.ttc"; sourceTree = "<group>"; };
 		FF80E93C196B39D100D29986 /* InitialQuestionnaireViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialQuestionnaireViewController.h; path = Classes/Controller/InitialQuestionnaireViewController.h; sourceTree = "<group>"; };
 		FF80E93D196B39D100D29986 /* InitialQuestionnaireViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialQuestionnaireViewController.m; path = Classes/Controller/InitialQuestionnaireViewController.m; sourceTree = "<group>"; };
@@ -86,6 +100,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FF11F5BF196DF01900590C10 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FF11F5C0196DF08200590C10 /* GEALabel.h */,
+				FF11F5C1196DF08200590C10 /* GEALabel.m */,
+				FF11F5C2196DF08200590C10 /* GEALabel+Gymnea.h */,
+				FF11F5C3196DF08200590C10 /* GEALabel+Gymnea.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		FF3F70A5196D5391007AADF1 /* Containers */ = {
+			isa = PBXGroup;
+			children = (
+				FF3F70A6196D54BE007AADF1 /* GEASideMenuController.h */,
+				FF3F70A7196D54BE007AADF1 /* GEASideMenuController.m */,
+			);
+			name = Containers;
+			sourceTree = "<group>";
+		};
 		FFA137481969A58000DBEE68 = {
 			isa = PBXGroup;
 			children = (
@@ -159,6 +193,8 @@
 		FFA137831969F84900DBEE68 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				FF11F5BF196DF01900590C10 /* Views */,
+				FF3F70A5196D5391007AADF1 /* Containers */,
 				FFA137851969F9EA00DBEE68 /* InitialViewController.h */,
 				FFA137861969F9EA00DBEE68 /* InitialViewController.m */,
 				FF80E93C196B39D100D29986 /* InitialQuestionnaireViewController.h */,
@@ -169,6 +205,8 @@
 				FFABFDD4196C88C4004FC527 /* SignUpViewController.m */,
 				FFABFDDA196CA111004FC527 /* LogInViewController.h */,
 				FFABFDDB196CA111004FC527 /* LogInViewController.m */,
+				FF039587196D528200EA1CF6 /* StartViewController.h */,
+				FF039588196D528200EA1CF6 /* StartViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -192,6 +230,7 @@
 				FFABFDD1196C4A48004FC527 /* InitialQuestionnaireGoalViewController.xib */,
 				FFABFDD8196C8920004FC527 /* SignUpViewController.xib */,
 				FF0DC1B8196CA1CC006E1817 /* LogInViewController.xib */,
+				FF3F70A3196D52EF007AADF1 /* StartViewController.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -313,6 +352,7 @@
 				FFA137651969A58000DBEE68 /* Images.xcassets in Resources */,
 				FFA1378E196A02D300DBEE68 /* InitialViewController.xib in Resources */,
 				FFABFDD9196C8920004FC527 /* SignUpViewController.xib in Resources */,
+				FF3F70A4196D52EF007AADF1 /* StartViewController.xib in Resources */,
 				FF80E942196B3A3600D29986 /* InitialQuestionnaireViewController.xib in Resources */,
 				FF0DC1B9196CA1CC006E1817 /* LogInViewController.xib in Resources */,
 			);
@@ -335,11 +375,15 @@
 				FFABFDDD196CA111004FC527 /* LogInViewController.m in Sources */,
 				FFA1375D1969A58000DBEE68 /* gymnea.xcdatamodeld in Sources */,
 				FF80E93F196B39D100D29986 /* InitialQuestionnaireViewController.m in Sources */,
+				FF03958A196D528200EA1CF6 /* StartViewController.m in Sources */,
 				FFA1375A1969A58000DBEE68 /* AppDelegate.m in Sources */,
+				FF11F5C5196DF08200590C10 /* GEALabel+Gymnea.m in Sources */,
+				FF11F5C4196DF08200590C10 /* GEALabel.m in Sources */,
 				FFA137571969A58000DBEE68 /* main.m in Sources */,
 				FFABFDCF196C4A03004FC527 /* InitialQuestionnaireGoalViewController.m in Sources */,
 				FFABFDD6196C88C4004FC527 /* SignUpViewController.m in Sources */,
 				FFA137871969F9EA00DBEE68 /* InitialViewController.m in Sources */,
+				FF3F70A8196D54BE007AADF1 /* GEASideMenuController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

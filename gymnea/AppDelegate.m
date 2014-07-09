@@ -10,18 +10,21 @@
 #import "InitialViewController.h"
 
 @interface AppDelegate ()
-            
+
 
 @end
 
 @implementation AppDelegate
-            
+
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] ;
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+
+    [[UIBarButtonItem appearance] setTintColor:[UIColor colorWithRed:7.0/255.0 green:154.0/255.0 blue:204.0/255.0 alpha:1.0]];
 
     InitialViewController *initialViewController = [[InitialViewController alloc] initWithNibName:@"InitialViewController" bundle:nil];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:initialViewController];
@@ -29,6 +32,7 @@
 
     [navigationController setNavigationBarHidden:YES animated:NO];
 
+    [self.window setBackgroundColor:[UIColor whiteColor]];
     [self.window makeKeyAndVisible];
 
     return YES;

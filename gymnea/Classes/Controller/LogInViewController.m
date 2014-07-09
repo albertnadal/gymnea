@@ -7,6 +7,7 @@
 //
 
 #import "LogInViewController.h"
+#import "StartViewController.h"
 
 @interface LogInViewController ()
 
@@ -61,6 +62,14 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    StartViewController *startViewController = [[StartViewController alloc] init];
+    [self.navigationController pushViewController:startViewController animated:NO];
+
+    return TRUE;
 }
 
 /*
