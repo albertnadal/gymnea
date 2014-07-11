@@ -10,17 +10,19 @@
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
 
-static const CGFloat kGEASideMenuViewTopInset = 28.0f;
+static const CGFloat kGEASideMenuViewTopSeparation = 83.0f;
+static const CGFloat kGEASideMenuViewTopInset568ScreenDevice = 25.0f;
+static const CGFloat kGEASideMenuViewTopInset320ScreenDevice = 14.5f;
 static const CGFloat kGEASideMenuViewLeftInset = 20.0f;
 
-static const CGFloat kGEASideMenuViewItemHeight = 58.0f;
+static const CGFloat kGEASideMenuViewItemHeight = 36.0f;
 static const CGFloat kGEASideMenuViewItemWidth = 200.0f;
 static const CGFloat kGEASideMenuViewItemIconAndTextSpacing = 12.0f;
 
 static const CGFloat kGEASideMenuViewItemTitleFontSize = 20.0f;
 
-static const CGFloat kGEAMainViewScaleOffset = 0.65;
-static const CGFloat kGEAMainViewContainerOffset = 220.0f;
+static const CGFloat kGEAMainViewScaleOffset = 0.60;
+static const CGFloat kGEAMainViewContainerOffset = 240.0f;
 static const CGFloat kGEAVelocityTresshold = 200.0f;
 
 static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
@@ -74,13 +76,22 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
   // Regenerate UIButtons in tabBarButtons array
   [self.tabBarButtons makeObjectsPerformSelector:@selector(removeFromSuperview)];
   [self.tabBarButtons removeAllObjects];
-  
+
+  // Calculate the vertical button separation depending on screen height
+  CGFloat buttonSeparation = ([[UIScreen mainScreen] bounds].size.height == 568.0f) ? kGEASideMenuViewTopInset568ScreenDevice : kGEASideMenuViewTopInset320ScreenDevice;
+
+  CGRect screenRect = [[UIScreen mainScreen] bounds];
+  CGFloat screenHeight = screenRect.size.height;
+
+  CGFloat maxTopSeparation = MAX((screenHeight - (screenHeight * kGEAMainViewScaleOffset)) / 2.0f, kGEASideMenuViewTopSeparation);
+
   for (UITabBarItem *item in _items) {
     NSUInteger index = [_items indexOfObject:item];
+
     UIButton *tabBarButton = [[UIButton alloc] initWithFrame:CGRectMake(0,
-                                                                        (index ? index * kGEASideMenuViewItemHeight + 2 * kGEASideMenuViewTopInset : kGEASideMenuViewTopInset ),
+                                                                        (index ? (index * (kGEASideMenuViewItemHeight + buttonSeparation)) + maxTopSeparation : maxTopSeparation),
                                                                         CGRectGetWidth(self.bounds),
-                                                                        (index ? kGEASideMenuViewItemHeight : kGEASideMenuViewItemHeight + kGEASideMenuViewTopInset ) )];
+                                                                        kGEASideMenuViewItemHeight)];
 
     [tabBarButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
     tabBarButton.adjustsImageWhenHighlighted = NO;
@@ -123,15 +134,15 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
       [button setTitleShadowColor:[UIColor clearColor]
                          forState:UIControlStateNormal];
     }
-    
+
+
     // Calculate the content inset
-    NSUInteger index = [self.items indexOfObject:item];
-    CGFloat contentTopInset = index ? 0.0f : kGEASideMenuViewTopInset;
+    //NSUInteger index = [self.items indexOfObject:item];
     CGFloat horizontalContentInset = CGRectGetWidth(self.bounds) - kGEASideMenuViewItemWidth;
-    button.contentEdgeInsets = UIEdgeInsetsMake(contentTopInset, kGEASideMenuViewLeftInset, 0.0f, horizontalContentInset - kGEASideMenuViewLeftInset);
+    button.contentEdgeInsets = UIEdgeInsetsMake(0.0f, kGEASideMenuViewLeftInset, 0.0f, horizontalContentInset - kGEASideMenuViewLeftInset);
 
     // lower the text and push it left to center it
-    button.titleEdgeInsets = UIEdgeInsetsMake(7.0f, kGEASideMenuViewItemIconAndTextSpacing, 0.0f, 0.0f);
+    button.titleEdgeInsets = UIEdgeInsetsMake(5.0f, kGEASideMenuViewItemIconAndTextSpacing, 0.0f, 0.0f);
 
     // raise the image and push it right to center it
     button.imageEdgeInsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
@@ -155,6 +166,7 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
 @property (nonatomic, strong) GEASideMenuView *sideMenuView;
 @property (nonatomic, strong) UIView *mainViewContainer;
 @property (nonatomic, strong) UIView *tapCaptureView;
+@property (nonatomic, retain) IBOutlet UIView *userInformationView;
 
 - (void)changeChildViewController:(UIViewController *)childViewController withViewController:(UIViewController *)viewController;
 - (void)setupChildViewControllersForSideViewVisibility:(BOOL)hidden;
@@ -170,7 +182,7 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
 
 // Designated initializer
 - (id)init {
-  self = [super initWithNibName:nil bundle:nil];
+  self = [super initWithNibName:@"GEASideMenuController" bundle:nil];
   if (!self) {
     return nil;
   }
@@ -180,41 +192,47 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
   
   return self;
 }
-
+/*
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
   return [self init];
-}
+}*/
 
 #pragma mark - UIViewController
-
+/*
 - (void)loadView {
   // Create and configure the main container UIView
+
+
   CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
   self.view = [[UIView alloc] initWithFrame:applicationFrame];
   self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
   self.view.backgroundColor = [UIColor colorWithRed:5.0/255.0 green:195.0/255.0 blue:249.0/255.0 alpha:1.0];
 
-  // Create and configure the side menu view
-  self.sideMenuView = [[GEASideMenuView alloc] initWithFrame:self.view.bounds];
-  self.sideMenuView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-  self.sideMenuView.backgroundColor = [UIColor clearColor]; //[UIColor colorWithWhite:0.11f alpha:1.0f];
-  self.sideMenuView.delegate = self;
-  [self.view addSubview:self.sideMenuView];
-  
-  // Create the main view container
-  self.mainViewContainer = [[UIView alloc] initWithFrame:self.view.bounds];
-  self.mainViewContainer.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-  self.mainViewContainer.backgroundColor = [UIColor clearColor];
-  [self.view addSubview:self.mainViewContainer];
-  
-  // Create a view to capture taps when side view is visible
-  self.tapCaptureView = [[UIView alloc] initWithFrame:self.view.bounds];
-  self.tapCaptureView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-  self.tapCaptureView.backgroundColor = [UIColor clearColor];
-  [self.mainViewContainer addSubview:self.tapCaptureView];
-}
+}*/
 
 - (void)viewDidLoad {
+
+    [super viewDidLoad];
+
+    // Create and configure the side menu view
+    self.sideMenuView = [[GEASideMenuView alloc] initWithFrame:self.view.bounds];
+    self.sideMenuView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.sideMenuView.backgroundColor = [UIColor clearColor];
+    self.sideMenuView.delegate = self;
+    [self.view addSubview:self.sideMenuView];
+    
+    // Create the main view container
+    self.mainViewContainer = [[UIView alloc] initWithFrame:self.view.bounds];
+    self.mainViewContainer.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.mainViewContainer.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.mainViewContainer];
+    
+    // Create a view to capture taps when side view is visible
+    self.tapCaptureView = [[UIView alloc] initWithFrame:self.view.bounds];
+    self.tapCaptureView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.tapCaptureView.backgroundColor = [UIColor clearColor];
+    [self.mainViewContainer addSubview:self.tapCaptureView];
+
 
   if (self.viewControllers) {
     NSMutableArray *tabBarItemsArray = [NSMutableArray array];

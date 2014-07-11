@@ -39,7 +39,7 @@
     favoritesViewController.navigationController.toolbar.frame = frame;
     favoritesViewController.edgesForExtendedLayout = UIRectEdgeNone;
     [favoritesViewController.view setBackgroundColor:[UIColor whiteColor]];
-    UITabBarItem *favoritesTabBarItem = [[UITabBarItem alloc] initWithTitle:@"Dashboard" image:[UIImage imageNamed:@"favorites-icon-unselected"] selectedImage:[UIImage imageNamed:@"favorites-icon-selected"]];
+    UITabBarItem *favoritesTabBarItem = [[UITabBarItem alloc] initWithTitle:@"Dashboard" image:[UIImage imageNamed:@"sidebar-dashboard-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-dashboard-icon"]];
     [favoritesViewController setTabBarItem:favoritesTabBarItem];
     UINavigationController *favoritesController = [[UINavigationController alloc] initWithRootViewController:favoritesViewController];
     // Add the screen title
@@ -58,12 +58,16 @@
     favorites2ViewController.navigationController.toolbar.frame = frame2;
     favorites2ViewController.edgesForExtendedLayout = UIRectEdgeNone;
     [favorites2ViewController.view setBackgroundColor:[UIColor whiteColor]];
-    UITabBarItem *favorites2TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Workouts" image:[UIImage imageNamed:@"favorites-icon-unselected"] selectedImage:[UIImage imageNamed:@"favorites-icon-selected"]];
+    UITabBarItem *favorites2TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Workouts" image:[UIImage imageNamed:@"sidebar-workouts-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-workouts-icon"]];
     [favorites2ViewController setTabBarItem:favorites2TabBarItem];
     UINavigationController *favorites2Controller = [[UINavigationController alloc] initWithRootViewController:favorites2ViewController];
     // Add the screen title
     favorites2ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Workouts" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
+    
+    
+    
+    
 
 
     UIViewController *favorites3ViewController = [[UIViewController alloc] init];
@@ -73,12 +77,15 @@
     favorites3ViewController.navigationController.toolbar.frame = frame3;
     favorites3ViewController.edgesForExtendedLayout = UIRectEdgeNone;
     [favorites3ViewController.view setBackgroundColor:[UIColor whiteColor]];
-    UITabBarItem *favorites3TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Exercises" image:[UIImage imageNamed:@"favorites-icon-unselected"] selectedImage:[UIImage imageNamed:@"favorites-icon-selected"]];
+    UITabBarItem *favorites3TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Exercises" image:[UIImage imageNamed:@"sidebar-exercises-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-exercises-icon"]];
     [favorites3ViewController setTabBarItem:favorites3TabBarItem];
     UINavigationController *favorites3Controller = [[UINavigationController alloc] initWithRootViewController:favorites3ViewController];
     // Add the screen title
     favorites3ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Exercises" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
+    
+    
+    
     
     
     
@@ -89,13 +96,16 @@
     favorites4ViewController.navigationController.toolbar.frame = frame4;
     favorites4ViewController.edgesForExtendedLayout = UIRectEdgeNone;
     [favorites4ViewController.view setBackgroundColor:[UIColor whiteColor]];
-    UITabBarItem *favorites4TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Classes" image:[UIImage imageNamed:@"favorites-icon-unselected"] selectedImage:[UIImage imageNamed:@"favorites-icon-selected"]];
+    UITabBarItem *favorites4TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Classes" image:[UIImage imageNamed:@"sidebar-classes-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-classes-icon"]];
     [favorites4ViewController setTabBarItem:favorites4TabBarItem];
     UINavigationController *favorites4Controller = [[UINavigationController alloc] initWithRootViewController:favorites4ViewController];
     // Add the screen title
     favorites4ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Classes" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
 
+    
+
+    
 
 
     UIViewController *favorites5ViewController = [[UIViewController alloc] init];
@@ -105,17 +115,58 @@
     favorites5ViewController.navigationController.toolbar.frame = frame5;
     favorites5ViewController.edgesForExtendedLayout = UIRectEdgeNone;
     [favorites5ViewController.view setBackgroundColor:[UIColor whiteColor]];
-    UITabBarItem *favorites5TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Pictures" image:[UIImage imageNamed:@"favorites-icon-unselected"] selectedImage:[UIImage imageNamed:@"favorites-icon-selected"]];
+    UITabBarItem *favorites5TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Health Logs" image:[UIImage imageNamed:@"sidebar-health-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-health-icon"]];
     [favorites5ViewController setTabBarItem:favorites5TabBarItem];
     UINavigationController *favorites5Controller = [[UINavigationController alloc] initWithRootViewController:favorites5ViewController];
     // Add the screen title
-    favorites5ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Pictures" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+    favorites5ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Health / Logs" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+
+    
+    
+    
+    
+    
+    
+    UIViewController *favorites6ViewController = [[UIViewController alloc] init];
+    [favorites6ViewController.view setFrame:CGRectMake(0,0,320,690)];
+    CGRect frame6 = favorites6ViewController.navigationController.toolbar.frame;
+    frame6.origin.y = 20;
+    favorites6ViewController.navigationController.toolbar.frame = frame6;
+    favorites6ViewController.edgesForExtendedLayout = UIRectEdgeNone;
+    [favorites6ViewController.view setBackgroundColor:[UIColor whiteColor]];
+    UITabBarItem *favorites6TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Pictures" image:[UIImage imageNamed:@"sidebar-pictures-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-pictures-icon"]];
+    [favorites6ViewController setTabBarItem:favorites6TabBarItem];
+    UINavigationController *favorites6Controller = [[UINavigationController alloc] initWithRootViewController:favorites6ViewController];
+    // Add the screen title
+    favorites6ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Pictures" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+
+    
+    
+
+    
+    
+/*
+    UIViewController *favorites7ViewController = [[UIViewController alloc] init];
+    [favorites7ViewController.view setFrame:CGRectMake(0,0,320,690)];
+    CGRect frame7 = favorites7ViewController.navigationController.toolbar.frame;
+    frame7.origin.y = 20;
+    favorites7ViewController.navigationController.toolbar.frame = frame7;
+    favorites7ViewController.edgesForExtendedLayout = UIRectEdgeNone;
+    [favorites7ViewController.view setBackgroundColor:[UIColor whiteColor]];
+    UITabBarItem *favorites7TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Settings" image:[UIImage imageNamed:@"sidebar-settings-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-settings-icon"]];
+    [favorites7ViewController setTabBarItem:favorites7TabBarItem];
+    UINavigationController *favorites7Controller = [[UINavigationController alloc] initWithRootViewController:favorites7ViewController];
+    // Add the screen title
+    favorites7ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Settings" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+*/
+
+
 
 
 
     // Side menu
     GEASideMenuController *sideMenuController = [[GEASideMenuController alloc] init];
-    sideMenuController.viewControllers = @[favoritesController, favorites2Controller, favorites3Controller, favorites4Controller, favorites5Controller];
+    sideMenuController.viewControllers = @[favoritesController, favorites2Controller, favorites3Controller, favorites4Controller, favorites5Controller, favorites6Controller];
 
     [self.navigationController pushViewController:sideMenuController animated:NO];
 }
