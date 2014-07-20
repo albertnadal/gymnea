@@ -10,6 +10,7 @@
 #import "GEASideMenuController.h"
 #import "InitialViewController.h"
 #import "GEALabel+Gymnea.h"
+#import "EventDetailViewController.h"
 
 @interface StartViewController ()
 
@@ -50,20 +51,17 @@
     
     
     
-    
-    UIViewController *favorites2ViewController = [[UIViewController alloc] init];
-    [favorites2ViewController.view setFrame:CGRectMake(0,0,320,690)];
-    CGRect frame2 = favorites2ViewController.navigationController.toolbar.frame;
-    frame2.origin.y = 20;
-    favorites2ViewController.navigationController.toolbar.frame = frame2;
-    favorites2ViewController.edgesForExtendedLayout = UIRectEdgeNone;
-    [favorites2ViewController.view setBackgroundColor:[UIColor whiteColor]];
-    UITabBarItem *favorites2TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Workouts" image:[UIImage imageNamed:@"sidebar-workouts-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-workouts-icon"]];
-    [favorites2ViewController setTabBarItem:favorites2TabBarItem];
-    UINavigationController *favorites2Controller = [[UINavigationController alloc] initWithRootViewController:favorites2ViewController];
-    // Add the screen title
-    favorites2ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Workouts" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+    EventDetailViewController *viewController = [[EventDetailViewController alloc] initWithEventId:1];
 
+    [viewController.view setFrame:CGRectMake(0,0,320,690)];
+    CGRect frame2 = viewController.navigationController.toolbar.frame;
+    frame2.origin.y = 20;
+    viewController.navigationController.toolbar.frame = frame2;
+    viewController.edgesForExtendedLayout = UIRectEdgeNone;
+    //[viewController.view setBackgroundColor:[UIColor whiteColor]];
+    UITabBarItem *favorites2TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Workouts" image:[UIImage imageNamed:@"sidebar-workouts-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-workouts-icon"]];
+    [viewController setTabBarItem:favorites2TabBarItem];
+    UINavigationController *favorites2Controller = [[UINavigationController alloc] initWithRootViewController:viewController];
     
     
     

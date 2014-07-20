@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F78AC13037F04624A2F80D9A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F89F9838FFAD409CB7CBD870 /* libPods.a */; };
 		FF03958A196D528200EA1CF6 /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF039588196D528200EA1CF6 /* StartViewController.m */; };
 		FF0DC1B9196CA1CC006E1817 /* LogInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF0DC1B8196CA1CC006E1817 /* LogInViewController.xib */; };
 		FF11F5C4196DF08200590C10 /* GEALabel.m in Sources */ = {isa = PBXBuildFile; fileRef = FF11F5C1196DF08200590C10 /* GEALabel.m */; };
@@ -17,6 +18,16 @@
 		FF76206B196ABA9100611B3B /* Avenir Next.ttc in Resources */ = {isa = PBXBuildFile; fileRef = FF76206A196ABA9100611B3B /* Avenir Next.ttc */; };
 		FF80E93F196B39D100D29986 /* InitialQuestionnaireViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF80E93D196B39D100D29986 /* InitialQuestionnaireViewController.m */; };
 		FF80E942196B3A3600D29986 /* InitialQuestionnaireViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF80E941196B3A3600D29986 /* InitialQuestionnaireViewController.xib */; };
+		FF9110A4197B10BD00818E95 /* EventDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF91109F197B10BD00818E95 /* EventDescriptionViewController.m */; };
+		FF9110A5197B10BD00818E95 /* EventDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9110A1197B10BD00818E95 /* EventDetailViewController.m */; };
+		FF9110A6197B10BD00818E95 /* EventReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9110A3197B10BD00818E95 /* EventReviewViewController.m */; };
+		FF9110AB197B187600818E95 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9110AA197B187600818E95 /* Event.m */; };
+		FF9110B5197B1DF200818E95 /* EventReview.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9110B4197B1DF200818E95 /* EventReview.m */; };
+		FF9110B8197B1ED400818E95 /* EventDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9110B7197B1ED400818E95 /* EventDetail.m */; };
+		FF9110BC197BB1B500818E95 /* EventDescriptionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF9110B9197BB1B500818E95 /* EventDescriptionViewController.xib */; };
+		FF9110BD197BB1B500818E95 /* EventDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF9110BA197BB1B500818E95 /* EventDetailViewController.xib */; };
+		FF9110BE197BB1B500818E95 /* EventReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF9110BB197BB1B500818E95 /* EventReviewViewController.xib */; };
+		FF9110C1197BB4AD00818E95 /* GEAPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9110C0197BB4AD00818E95 /* GEAPopoverViewController.m */; };
 		FFA137571969A58000DBEE68 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA137561969A58000DBEE68 /* main.m */; };
 		FFA1375A1969A58000DBEE68 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA137591969A58000DBEE68 /* AppDelegate.m */; };
 		FFA1375D1969A58000DBEE68 /* gymnea.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FFA1375B1969A58000DBEE68 /* gymnea.xcdatamodeld */; };
@@ -43,6 +54,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		835B97ED97C9435588A3435D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		F89F9838FFAD409CB7CBD870 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF039587196D528200EA1CF6 /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartViewController.h; path = Classes/Controller/StartViewController.h; sourceTree = "<group>"; };
 		FF039588196D528200EA1CF6 /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartViewController.m; path = Classes/Controller/StartViewController.m; sourceTree = "<group>"; };
 		FF0DC1B8196CA1CC006E1817 /* LogInViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LogInViewController.xib; path = Resources/Views/LogInViewController.xib; sourceTree = "<group>"; };
@@ -58,6 +71,23 @@
 		FF80E93C196B39D100D29986 /* InitialQuestionnaireViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialQuestionnaireViewController.h; path = Classes/Controller/InitialQuestionnaireViewController.h; sourceTree = "<group>"; };
 		FF80E93D196B39D100D29986 /* InitialQuestionnaireViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialQuestionnaireViewController.m; path = Classes/Controller/InitialQuestionnaireViewController.m; sourceTree = "<group>"; };
 		FF80E941196B3A3600D29986 /* InitialQuestionnaireViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InitialQuestionnaireViewController.xib; path = Resources/Views/InitialQuestionnaireViewController.xib; sourceTree = "<group>"; };
+		FF91109E197B10BD00818E95 /* EventDescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventDescriptionViewController.h; path = Classes/Controller/EventDescriptionViewController.h; sourceTree = "<group>"; };
+		FF91109F197B10BD00818E95 /* EventDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventDescriptionViewController.m; path = Classes/Controller/EventDescriptionViewController.m; sourceTree = "<group>"; };
+		FF9110A0197B10BD00818E95 /* EventDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventDetailViewController.h; path = Classes/Controller/EventDetailViewController.h; sourceTree = "<group>"; };
+		FF9110A1197B10BD00818E95 /* EventDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventDetailViewController.m; path = Classes/Controller/EventDetailViewController.m; sourceTree = "<group>"; };
+		FF9110A2197B10BD00818E95 /* EventReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventReviewViewController.h; path = Classes/Controller/EventReviewViewController.h; sourceTree = "<group>"; };
+		FF9110A3197B10BD00818E95 /* EventReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventReviewViewController.m; path = Classes/Controller/EventReviewViewController.m; sourceTree = "<group>"; };
+		FF9110A9197B187600818E95 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Event.h; path = Classes/Model/Event.h; sourceTree = "<group>"; };
+		FF9110AA197B187600818E95 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Event.m; path = Classes/Model/Event.m; sourceTree = "<group>"; };
+		FF9110B3197B1DF200818E95 /* EventReview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventReview.h; path = Classes/Model/EventReview.h; sourceTree = "<group>"; };
+		FF9110B4197B1DF200818E95 /* EventReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventReview.m; path = Classes/Model/EventReview.m; sourceTree = "<group>"; };
+		FF9110B6197B1ED400818E95 /* EventDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventDetail.h; path = Classes/Model/EventDetail.h; sourceTree = "<group>"; };
+		FF9110B7197B1ED400818E95 /* EventDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventDetail.m; path = Classes/Model/EventDetail.m; sourceTree = "<group>"; };
+		FF9110B9197BB1B500818E95 /* EventDescriptionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EventDescriptionViewController.xib; path = Resources/Views/EventDescriptionViewController.xib; sourceTree = "<group>"; };
+		FF9110BA197BB1B500818E95 /* EventDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EventDetailViewController.xib; path = Resources/Views/EventDetailViewController.xib; sourceTree = "<group>"; };
+		FF9110BB197BB1B500818E95 /* EventReviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EventReviewViewController.xib; path = Resources/Views/EventReviewViewController.xib; sourceTree = "<group>"; };
+		FF9110BF197BB4AD00818E95 /* GEAPopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GEAPopoverViewController.h; path = Classes/Controller/Views/GEAPopoverViewController.h; sourceTree = "<group>"; };
+		FF9110C0197BB4AD00818E95 /* GEAPopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GEAPopoverViewController.m; path = Classes/Controller/Views/GEAPopoverViewController.m; sourceTree = "<group>"; };
 		FFA137511969A58000DBEE68 /* gymnea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gymnea.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFA137551969A58000DBEE68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FFA137561969A58000DBEE68 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -89,6 +119,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FFA1377B1969A7C200DBEE68 /* HealthKit.framework in Frameworks */,
+				F78AC13037F04624A2F80D9A /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,6 +136,8 @@
 		FF11F5BF196DF01900590C10 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FF9110BF197BB4AD00818E95 /* GEAPopoverViewController.h */,
+				FF9110C0197BB4AD00818E95 /* GEAPopoverViewController.m */,
 				FF11F5C0196DF08200590C10 /* GEALabel.h */,
 				FF11F5C1196DF08200590C10 /* GEALabel.m */,
 				FF11F5C2196DF08200590C10 /* GEALabel+Gymnea.h */,
@@ -122,6 +155,39 @@
 			name = Containers;
 			sourceTree = "<group>";
 		};
+		FF9110A7197B10F700818E95 /* WorkoutDetails */ = {
+			isa = PBXGroup;
+			children = (
+				FF91109E197B10BD00818E95 /* EventDescriptionViewController.h */,
+				FF91109F197B10BD00818E95 /* EventDescriptionViewController.m */,
+				FF9110A0197B10BD00818E95 /* EventDetailViewController.h */,
+				FF9110A1197B10BD00818E95 /* EventDetailViewController.m */,
+				FF9110A2197B10BD00818E95 /* EventReviewViewController.h */,
+				FF9110A3197B10BD00818E95 /* EventReviewViewController.m */,
+			);
+			name = WorkoutDetails;
+			sourceTree = "<group>";
+		};
+		FF9110A8197B186900818E95 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FF9110A9197B187600818E95 /* Event.h */,
+				FF9110AA197B187600818E95 /* Event.m */,
+				FF9110B3197B1DF200818E95 /* EventReview.h */,
+				FF9110B4197B1DF200818E95 /* EventReview.m */,
+				FF9110B6197B1ED400818E95 /* EventDetail.h */,
+				FF9110B7197B1ED400818E95 /* EventDetail.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		FF9110AF197B1C0600818E95 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
 		FFA137481969A58000DBEE68 = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +198,7 @@
 				FFA1376D1969A58000DBEE68 /* gymneaTests */,
 				FFA1378C1969FE7100DBEE68 /* Frameworks */,
 				FFA137521969A58000DBEE68 /* Products */,
+				835B97ED97C9435588A3435D /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -184,6 +251,8 @@
 		FFA137821969F83D00DBEE68 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				FF9110AF197B1C0600818E95 /* Services */,
+				FF9110A8197B186900818E95 /* Model */,
 				FFA137831969F84900DBEE68 /* Controller */,
 				FFA137581969A58000DBEE68 /* AppDelegate.h */,
 				FFA137591969A58000DBEE68 /* AppDelegate.m */,
@@ -195,6 +264,7 @@
 		FFA137831969F84900DBEE68 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				FF9110A7197B10F700818E95 /* WorkoutDetails */,
 				FF11F5BF196DF01900590C10 /* Views */,
 				FF3F70A5196D5391007AADF1 /* Containers */,
 				FFA137851969F9EA00DBEE68 /* InitialViewController.h */,
@@ -227,6 +297,9 @@
 		FFA137881969FA1100DBEE68 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FF9110B9197BB1B500818E95 /* EventDescriptionViewController.xib */,
+				FF9110BA197BB1B500818E95 /* EventDetailViewController.xib */,
+				FF9110BB197BB1B500818E95 /* EventReviewViewController.xib */,
 				FFA1378D196A02D200DBEE68 /* InitialViewController.xib */,
 				FF80E941196B3A3600D29986 /* InitialQuestionnaireViewController.xib */,
 				FFABFDD1196C4A48004FC527 /* InitialQuestionnaireGoalViewController.xib */,
@@ -257,6 +330,7 @@
 			isa = PBXGroup;
 			children = (
 				FFA1377A1969A7C200DBEE68 /* HealthKit.framework */,
+				F89F9838FFAD409CB7CBD870 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -268,9 +342,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FFA137741969A58000DBEE68 /* Build configuration list for PBXNativeTarget "gymnea" */;
 			buildPhases = (
+				1FA951FE7E134BA9AD4973EB /* Check Pods Manifest.lock */,
 				FFA1374D1969A58000DBEE68 /* Sources */,
 				FFA1374E1969A58000DBEE68 /* Frameworks */,
 				FFA1374F1969A58000DBEE68 /* Resources */,
+				2ACA3E04E06D4C188850CAE2 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -350,13 +426,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF9110BD197BB1B500818E95 /* EventDetailViewController.xib in Resources */,
 				FFABFDD2196C4A48004FC527 /* InitialQuestionnaireGoalViewController.xib in Resources */,
 				FF76206B196ABA9100611B3B /* Avenir Next.ttc in Resources */,
+				FF9110BC197BB1B500818E95 /* EventDescriptionViewController.xib in Resources */,
 				FFA137651969A58000DBEE68 /* Images.xcassets in Resources */,
 				FFA1378E196A02D300DBEE68 /* InitialViewController.xib in Resources */,
 				FFABFDD9196C8920004FC527 /* SignUpViewController.xib in Resources */,
 				FF3F70A4196D52EF007AADF1 /* StartViewController.xib in Resources */,
 				FF80E942196B3A3600D29986 /* InitialQuestionnaireViewController.xib in Resources */,
+				FF9110BE197BB1B500818E95 /* EventReviewViewController.xib in Resources */,
 				FF0DC1B9196CA1CC006E1817 /* LogInViewController.xib in Resources */,
 				FF441EAA197067EC00865065 /* GEASideMenuController.xib in Resources */,
 			);
@@ -371,23 +450,63 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1FA951FE7E134BA9AD4973EB /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		2ACA3E04E06D4C188850CAE2 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		FFA1374D1969A58000DBEE68 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				FFABFDDD196CA111004FC527 /* LogInViewController.m in Sources */,
+				FF9110A4197B10BD00818E95 /* EventDescriptionViewController.m in Sources */,
 				FFA1375D1969A58000DBEE68 /* gymnea.xcdatamodeld in Sources */,
 				FF80E93F196B39D100D29986 /* InitialQuestionnaireViewController.m in Sources */,
+				FF9110AB197B187600818E95 /* Event.m in Sources */,
+				FF9110B8197B1ED400818E95 /* EventDetail.m in Sources */,
 				FF03958A196D528200EA1CF6 /* StartViewController.m in Sources */,
 				FFA1375A1969A58000DBEE68 /* AppDelegate.m in Sources */,
+				FF9110A5197B10BD00818E95 /* EventDetailViewController.m in Sources */,
 				FF11F5C5196DF08200590C10 /* GEALabel+Gymnea.m in Sources */,
+				FF9110A6197B10BD00818E95 /* EventReviewViewController.m in Sources */,
 				FF11F5C4196DF08200590C10 /* GEALabel.m in Sources */,
 				FFA137571969A58000DBEE68 /* main.m in Sources */,
 				FFABFDCF196C4A03004FC527 /* InitialQuestionnaireGoalViewController.m in Sources */,
 				FFABFDD6196C88C4004FC527 /* SignUpViewController.m in Sources */,
 				FFA137871969F9EA00DBEE68 /* InitialViewController.m in Sources */,
+				FF9110C1197BB4AD00818E95 /* GEAPopoverViewController.m in Sources */,
 				FF3F70A8196D54BE007AADF1 /* GEASideMenuController.m in Sources */,
+				FF9110B5197B1DF200818E95 /* EventReview.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,6 +607,7 @@
 		};
 		FFA137751969A58000DBEE68 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 835B97ED97C9435588A3435D /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -504,6 +624,7 @@
 		};
 		FFA137761969A58000DBEE68 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 835B97ED97C9435588A3435D /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

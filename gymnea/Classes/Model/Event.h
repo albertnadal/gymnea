@@ -1,0 +1,38 @@
+//
+//  Event.h
+//  Vegas
+//
+//  Created by Carlos Nuñez on 5/27/13.
+//  Copyright (c) 2013 Golden Gekko. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
+
+
+@interface Event : NSObject//NSManagedObject
+
+@property (nonatomic) int16_t ageRestriction;
+@property (nonatomic, retain) NSString * eventDescription;
+@property (nonatomic, retain) NSString * eventId;
+@property (nonatomic) BOOL featured;
+@property (nonatomic, retain) NSString * imageBigUrl;
+@property (nonatomic, retain) NSString * imageHorizontalUrl;
+@property (nonatomic, retain) NSString * imageSquareUrl;
+@property (nonatomic, retain) NSString * imageVerticalUrl;
+//@property (nonatomic) NSTimeInterval lastUpdateDate;
+@property (nonatomic, retain) NSDate *lastUpdateDate;
+@property (nonatomic) float priceHighest;
+@property (nonatomic) float priceLowest;
+@property (nonatomic) float rating;
+@property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSString * venueCity;
+@property (nonatomic) double venueCoordinateLatitude;
+@property (nonatomic) double venueCoordinateLongitude;
+@property (nonatomic, retain) NSString * venueCountry;
+@property (nonatomic) int32_t venueId;
+@property (nonatomic, retain) NSString * venueName;
+@property (nonatomic, retain) NSString * venueState;
+@property (nonatomic, retain) NSString * venueStreet;
+
+@end
