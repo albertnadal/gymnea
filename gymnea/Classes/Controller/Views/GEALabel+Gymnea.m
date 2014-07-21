@@ -35,6 +35,8 @@
     [self setTextColor:[UIColor whiteColor]];
     [self setBackgroundColor:[UIColor clearColor]];
     [self setTextAlignment:textAlign];
+    [self setAdjustsFontSizeToFitWidth:YES];
+    [self setMinimumScaleFactor:8.0/size];
     [self setShadowBlur:0.1f];
     [self setTextGradient:goldenGradient];
 

@@ -10,7 +10,7 @@
 #import "GEASideMenuController.h"
 #import "InitialViewController.h"
 #import "GEALabel+Gymnea.h"
-#import "EventDetailViewController.h"
+#import "WorkoutsViewController.h"
 
 @interface StartViewController ()
 
@@ -49,19 +49,21 @@
     
     
     
-    
-    
-    EventDetailViewController *viewController = [[EventDetailViewController alloc] initWithEventId:1];
 
-    [viewController.view setFrame:CGRectMake(0,0,320,690)];
-    CGRect frame2 = viewController.navigationController.toolbar.frame;
+    
+    WorkoutsViewController *workoutsViewController = [[WorkoutsViewController alloc] init];
+    [workoutsViewController.view setFrame:CGRectMake(0,0,320,690)];
+    CGRect frame2 = workoutsViewController.navigationController.toolbar.frame;
     frame2.origin.y = 20;
-    viewController.navigationController.toolbar.frame = frame2;
-    viewController.edgesForExtendedLayout = UIRectEdgeNone;
-    //[viewController.view setBackgroundColor:[UIColor whiteColor]];
+    workoutsViewController.navigationController.toolbar.frame = frame2;
+    //workoutsViewController.edgesForExtendedLayout = UIRectEdgeNone;
+    [workoutsViewController.view setBackgroundColor:[UIColor whiteColor]];
     UITabBarItem *favorites2TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Workouts" image:[UIImage imageNamed:@"sidebar-workouts-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-workouts-icon"]];
-    [viewController setTabBarItem:favorites2TabBarItem];
-    UINavigationController *favorites2Controller = [[UINavigationController alloc] initWithRootViewController:viewController];
+    [workoutsViewController setTabBarItem:favorites2TabBarItem];
+    UINavigationController *favorites2Controller = [[UINavigationController alloc] initWithRootViewController:workoutsViewController];
+    favorites2Controller.navigationBar.tintColor = [UIColor colorWithRed:7.0/255.0 green:154.0/255.0 blue:204.0/255.0 alpha:1.0];
+    // Add the screen title
+    workoutsViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Workouts" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
     
     
     
@@ -138,25 +140,7 @@
     // Add the screen title
     favorites6ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Pictures" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
-    
-    
 
-    
-    
-/*
-    UIViewController *favorites7ViewController = [[UIViewController alloc] init];
-    [favorites7ViewController.view setFrame:CGRectMake(0,0,320,690)];
-    CGRect frame7 = favorites7ViewController.navigationController.toolbar.frame;
-    frame7.origin.y = 20;
-    favorites7ViewController.navigationController.toolbar.frame = frame7;
-    favorites7ViewController.edgesForExtendedLayout = UIRectEdgeNone;
-    [favorites7ViewController.view setBackgroundColor:[UIColor whiteColor]];
-    UITabBarItem *favorites7TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Settings" image:[UIImage imageNamed:@"sidebar-settings-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-settings-icon"]];
-    [favorites7ViewController setTabBarItem:favorites7TabBarItem];
-    UINavigationController *favorites7Controller = [[UINavigationController alloc] initWithRootViewController:favorites7ViewController];
-    // Add the screen title
-    favorites7ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Settings" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
-*/
 
 
 
@@ -166,7 +150,8 @@
     GEASideMenuController *sideMenuController = [[GEASideMenuController alloc] init];
     sideMenuController.viewControllers = @[favoritesController, favorites2Controller, favorites3Controller, favorites4Controller, favorites5Controller, favorites6Controller];
 
-    [self.navigationController pushViewController:sideMenuController animated:NO];
+    [[[UIApplication sharedApplication] keyWindow] setRootViewController:sideMenuController];
+    //[self.navigationController pushViewController:sideMenuController animated:NO];
 }
 
 - (void)didReceiveMemoryWarning

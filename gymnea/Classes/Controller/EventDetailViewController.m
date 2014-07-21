@@ -26,8 +26,8 @@
 #import "GEALabel+Gymnea.h"
 #import "UIImageView+AFNetworking.h"
 
-#define DETAILS_BUTTON_TAG 1
-#define REVIEWS_BUTTON_TAG 2
+#define DETAILS_SEGMENT_INDEX 0
+#define WORKOUT_DAYS_SEGMENT_INDEX 1
 
 static float const kVTSSpaceBetweenLabels = 15.0f;
 static float const kVTSContainerPadding = 7.0f;
@@ -39,14 +39,6 @@ static CGFloat const kVTSBannerZoomFactor = 0.65f;
 static CGFloat const kVTSBannerOffsetFactor = 0.45f;
 static float const kVTSBannerTransitionCrossDissolveDuration = 0.3f;
 static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeholder";
-
-// Facebook wall post text
-#warning please, update the following default texts and app ID before upload the app to production stage
-static NSString *const kVTSFacebookPostOnWallMessage = @"Hi! Take a look at this amazing Event I just found on **** app!";
-static NSString *const kVTSTwitterPostOnTimelineMessage = @"Hi! Take a look at this amazing Event I just found on **** app!";
-static NSString *const kVTSFacebookAppId = @"149131791929760";
-static int const kGEAFacebookMaxDescriptionLength = 100;
-
 
 @interface EventDetailViewController () <GEAPopoverViewControllerDelegate, UIScrollViewDelegate>
 {
@@ -110,14 +102,10 @@ static int const kGEAFacebookMaxDescriptionLength = 100;
 - (void)updateBuyNowContainerData;
 - (void)updateScroll;
 - (IBAction)showSelectedSegment:(id)sender;
-- (IBAction)showSeeOnMap:(id)sender;
 - (IBAction)showDescription:(id)sender;
 - (IBAction)buyNow:(id)sender;
 - (void)setupSegmentButtons;
-- (void)shareWithFacebook;
-- (void)shareWithTwitter;
-- (void)loginWithFacebook;
-- (void)addShareButton;
+- (void)addActionsButton;
 - (void)stretchBannerWithVerticalOffset:(CGFloat)offset;
 - (void)updateBannerSizeAndPosition:(CGFloat)offset;
 - (void)moveBannerWithVerticalOffset:(CGFloat)offset;
@@ -149,10 +137,10 @@ static int const kGEAFacebookMaxDescriptionLength = 100;
 /*    [[VegasAPIClient sharedClient] getEvent:[NSString stringWithFormat:@"%d", self.eventId] success:^(Event *event)
     {*/
         Event *event = [[Event alloc] init];
-        [event setTitle:@"Hola"];
+        [event setTitle:@"No Equipment At Home Workout"];
         [event setEventId:@"1"];
-        [event setEventDescription:@"La descripcio"];
-        [event setImageHorizontalUrl:@"http://lh3.ggpht.com/D8ppaqlRV8uZU33nj5Je2LkLsnaC8PIYJX7XAAydH95xYSsACrQtRbf_HnaK9Pyj6X0PDcqrD2qMvgFAUncg"];
+        [event setEventDescription:@"This workout routine provides a workout routine that can be done in the comfort of your own home without the usage of weight lifting or workout equipment other than your own bodyweight. The No Equipment at Home Workout can be performed for 3 to 5 days out of the week as long as you give your self a day or two worth of rest in between two days of working out. For this workout an individual will be performing bodyweight only exercises to improve muscular strength and endurance. You can burn more calories during the workout by turning it into a circuit and super-setting the exercises, performing one after another to keep your heart-rate up thus increasing your body's ability to burn more calories."];
+        [event setImageHorizontalUrl:@"http://www.lafruitera.com/19834.jpg"];
         self.eventDetail = event;
 /*
 #warning Please, remove the following log before sending the app to production. This was made just for debug purposes.
@@ -160,6 +148,8 @@ static int const kGEAFacebookMaxDescriptionLength = 100;
         for (NSString *key in [attributes allKeys])
             NSLog(@"%@: %@", key, [event valueForKey:key]);
 */
+        self.navigationItem.titleView = [[GEALabel alloc] initWithText:[event title] fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+
         [self loadBanner];
 //        [self loadEventReviewsData];        // Download event reviews
 //        [self updateEventDetailData];       // Updates the UI from model
@@ -168,7 +158,7 @@ static int const kGEAFacebookMaxDescriptionLength = 100;
         [self.scroll setHidden:NO];
         [self.buyContainer setHidden:NO];
 
-//        [self addShareButton];
+        [self addActionsButton];
 /*
     } failure:^(NSError *error)
     {
@@ -243,44 +233,81 @@ static int const kGEAFacebookMaxDescriptionLength = 100;
 
 - (void)loadBanner
 {
+/*
     // Set the image placeholder
-    [self.banner setImage:[UIImage imageNamed:kVTSEventDetailImagePlaceholder]];
+    UIImage *bannerPlaceholder = [UIImage imageNamed:kVTSEventDetailImagePlaceholder];
+    if(bannerPlaceholder.size.width != [[UIScreen mainScreen] bounds].size.width)
+    {
+        CGFloat bannerWidth = [[UIScreen mainScreen] bounds].size.width;
+        CGFloat bannerHeight = floor((([[UIScreen mainScreen] bounds].size.width * bannerPlaceholder.size.height) / bannerPlaceholder.size.width) + 0.5f);
+        CGSize newBannerSize = CGSizeMake(bannerWidth, bannerHeight);
+
+        UIGraphicsBeginImageContext(newBannerSize);
+        [bannerPlaceholder drawInRect:CGRectMake(0, 0, newBannerSize.width, newBannerSize.height)];
+
+        // Cross dissolve effect
+        [UIView transitionWithView:self.view
+                          duration:kVTSBannerTransitionCrossDissolveDuration
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{
+                            [self.banner setImage:UIGraphicsGetImageFromCurrentImageContext()];
+                        } completion:nil];
+
+        UIGraphicsEndImageContext();
+    }
+    else
+    {
+        CGFloat offsetAmplified = 0.0f;
+        CGFloat offsetAmplifiedDiff = 0.0f;
+
+        CGRect bannerFrame = self.banner.frame;
+        bannerFrame.size.height = bannerPlaceholder.size.height + (offsetAmplified) + 0.5f;
+        bannerFrame.size.width = (bannerFrame.size.height * [[UIScreen mainScreen] bounds].size.width) / bannerPlaceholder.size.height;
+        bannerFrame.origin.y = -offsetAmplified + (offsetAmplifiedDiff/2.0f);
+        bannerFrame.origin.x = ([[UIScreen mainScreen] bounds].size.width - bannerFrame.size.width) / 2.0f;
+        [self.banner setFrame:bannerFrame];
+        [self.banner setImage:bannerPlaceholder];
+    }*/
 
     if([self.eventDetail.imageHorizontalUrl length])
     {
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.eventDetail.imageHorizontalUrl]];
-        [[[UIImageView alloc] init] setImageWithURLRequest:request placeholderImage:[UIImage imageNamed:kVTSEventDetailImagePlaceholder] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)
-         {
-             // First of all is necessary to rescale the image if the image width is diferent from the device screen width.
-             if(image.size.width != [[UIScreen mainScreen] bounds].size.width)
-             {
-                 CGFloat bannerWidth = [[UIScreen mainScreen] bounds].size.width;
-                 CGFloat bannerHeight = floor((([[UIScreen mainScreen] bounds].size.width * image.size.height) / image.size.width) + 0.5f);
-                 CGSize newBannerSize = CGSizeMake(bannerWidth, bannerHeight);
 
-                 UIGraphicsBeginImageContext(newBannerSize);
-                 [image drawInRect:CGRectMake(0, 0, newBannerSize.width, newBannerSize.height)];
+        __weak UIImageView *weakImageView = self.banner;
 
-                 // Cross dissolve effect
-                 [UIView transitionWithView:self.view
-                                   duration:kVTSBannerTransitionCrossDissolveDuration
-                                    options:UIViewAnimationOptionTransitionCrossDissolve
-                                 animations:^{
-                                     [self.banner setImage:UIGraphicsGetImageFromCurrentImageContext()];
-                                 } completion:nil];
+        [weakImageView setImageWithURLRequest:request placeholderImage: [UIImage imageNamed:kVTSEventDetailImagePlaceholder] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+            // First of all is necessary to rescale the image if the image width is diferent from the device screen width.
+            if(image.size.width != [[UIScreen mainScreen] bounds].size.width)
+            {
+                CGFloat bannerWidth = [[UIScreen mainScreen] bounds].size.width;
+                CGFloat bannerHeight = floor((([[UIScreen mainScreen] bounds].size.width * image.size.height) / image.size.width) + 0.5f);
+                CGSize newBannerSize = CGSizeMake(bannerWidth, bannerHeight);
+                
+                UIGraphicsBeginImageContext(newBannerSize);
+                [image drawInRect:CGRectMake(0, 0, newBannerSize.width, newBannerSize.height)];
+                
+                // Cross dissolve effect
+                [UIView transitionWithView:self.view
+                                  duration:kVTSBannerTransitionCrossDissolveDuration
+                                   options:UIViewAnimationOptionTransitionCrossDissolve
+                                animations:^{
+                                    [self.banner setImage:UIGraphicsGetImageFromCurrentImageContext()];
+                                } completion:nil];
+                
+                UIGraphicsEndImageContext();
+            }
+            else
+            {
+                [self.banner setImage:image];
+            }
+            
+            [self updateBannerData];
+            [self updateEventDetailData];       // Updates the UI from model
+            [self updateBuyNowContainerData];   // Updates the starting price of the event
 
-                 UIGraphicsEndImageContext();
-             }
-             else
-             {
-                 [self.banner setImage:image];
-             }
+        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
 
-             [self updateBannerData];
-             [self updateEventDetailData];       // Updates the UI from model
-             [self updateBuyNowContainerData];   // Updates the starting price of the event
-
-         } failure:nil];
+        }];
 
         [self updateBannerData];
     }
@@ -310,7 +337,7 @@ static int const kGEAFacebookMaxDescriptionLength = 100;
     [self.scoreBackgroundView setFrame:scoreBackgroundViewFrame];
 
     // Round the corners of the score background
-    self.scoreBackgroundView.layer.cornerRadius = 4.0;
+    self.scoreBackgroundView.layer.cornerRadius = 2.0;
     UIBezierPath *scoreBackgroundViewShadowPath = [UIBezierPath bezierPathWithRect:self.scoreBackgroundView.bounds];
     self.scoreBackgroundView.layer.shadowPath = scoreBackgroundViewShadowPath.CGPath;
 
@@ -539,6 +566,7 @@ static int const kGEAFacebookMaxDescriptionLength = 100;
         CGRect bannerContainerFrame = self.bannerContainer.frame;
         bannerContainerFrame.size.height = CGRectGetMaxY(bannerGoldenDividerFrame) - 1.0f; //bannerHeight + bannerGoldenDividerFrame.size.height;
         [self.bannerContainer setFrame:bannerContainerFrame];
+
     }
 }
 
@@ -559,42 +587,40 @@ static int const kGEAFacebookMaxDescriptionLength = 100;
     [self.reviewsButton setBackgroundImage:[UIImage imageNamed:@"img_segment_right_button_selected_bg.png"] forState:(UIControlStateSelected | UIControlStateHighlighted)];
 }
 
-- (void)showPopover:(id)sender
-{
-    UIBarButtonItem *button = (UIBarButtonItem *)sender;
-    if(!self.popover)
-    {
-        // Create an instance of GEAPopoverViewController
-        self.popover = [[GEAPopoverViewController alloc] initWithDelegate:self withBarButton:button alignedTo:GEAPopoverAlignmentRight];
-    }
-
-    if([self.popover isPresented])
-    {
-        // Dismiss the popover
-        [self.popover dismissPopoverAnimated:YES];
-    }
-    else
-    {
-        // Present the popover
-        [self.popover presentPopoverInView:self.navigationController.view animated:YES];
-    }
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    // Add the back button
-//    AddVegasBackButton();
+    self.descriptionButton.layer.borderWidth = 1.0f;
+    self.descriptionButton.layer.borderColor = [UIColor colorWithRed:111.0/255.0 green:190.0/255.0 blue:226.0/255.0 alpha:1.0].CGColor;
+    self.descriptionButton.layer.cornerRadius = 2.0;
+    UIBezierPath *descriptionBackgroundViewShadowPath = [UIBezierPath bezierPathWithRect:self.descriptionButton.bounds];
+    self.descriptionButton.layer.shadowPath = descriptionBackgroundViewShadowPath.CGPath;
 
-    // Add the screen title
-    self.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Workouts" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+    // Add the back button
+/*    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    [fixedSpace setWidth:16.0];
+    NSArray* items = @[fixedSpace];
+    [self.navigationItem setLeftBarButtonItems:items animated:NO];
+    [self.navigationItem setLeftItemsSupplementBackButton:YES];*/
 
     [self.scroll setHidden:YES];
     [self.buyContainer setHidden:YES];
 
 //    [self setupSegmentButtons];
     [self loadEventDetailData];         // Download event details from web service
+
+/*    dispatch_sync(dispatch_get_main_queue(), ^{
+        [self.navigationController.navigationBar setNeedsDisplay];
+    });*/
+
+}
+
+- (void)addActionsButton
+{
+    UIBarButtonItem *navBarShareButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showPopover:)];
+
+    [self.navigationItem setRightBarButtonItem:navBarShareButtonItem];
 }
 
 - (void)didReceiveMemoryWarning
@@ -612,36 +638,18 @@ static int const kGEAFacebookMaxDescriptionLength = 100;
     eventReviews = nil;
 }
 
-- (IBAction)showSelectedSegment:(UIButton *)sender
+- (IBAction)showSelectedSegment:(UISegmentedControl *)sender
 {
-    if([sender isSelected]) return;
-    else                    [sender setSelected:YES];
-
-    switch([sender tag])
+    switch([sender selectedSegmentIndex])
     {
-        case DETAILS_BUTTON_TAG:    [self.reviewsButton setSelected:NO];
-                                    showingDetails = true;
-                                    break;
+        case DETAILS_SEGMENT_INDEX:         showingDetails = true;
+                                            break;
 
-        case REVIEWS_BUTTON_TAG:    [self.detailsButton setSelected:NO];
-                                    showingDetails = false;
-                                    break;
+        case WORKOUT_DAYS_SEGMENT_INDEX:    showingDetails = false;
+                                            break;
     }
 
     [self updateEventDetailData];
-}
-
-- (IBAction)showSeeOnMap:(id)sender
-{
-/*
-    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake((CLLocationDegrees)self.eventDetail.venueCoordinateLatitude, (CLLocationDegrees)self.eventDetail.venueCoordinateLongitude);
-
-    NSString *placeName = self.eventDetail.venueName;
-    NSString *streetName = self.eventDetail.venueStreet;
-
-    SeeOnMapViewController *somvc = [[SeeOnMapViewController alloc] initWithNibName:@"SeeOnMapViewController" bundle:nil withCoordinate:coordinate withName:placeName withStreetName:streetName];
-    [self.navigationController pushViewController:somvc animated:YES];
-*/
 }
 
 - (IBAction)showDescription:(id)sender
@@ -687,133 +695,6 @@ static int const kGEAFacebookMaxDescriptionLength = 100;
 */
 }
 
-- (void)addShareButton
-{
-    UIBarButtonItem *navBarShareButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"NavBarShareButton"]
-                                                                              style:UIBarButtonItemStyleBordered
-                                                                             target:self
-                                                                             action:@selector(showPopover:)];
-    [self.navigationItem setRightBarButtonItem:navBarShareButtonItem];
-}
-
-- (bool)userIsLoggedInWithFacebook
-{
-    return true;
-}
-
-- (void)loginWithFacebook
-{
-    //AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    //[appDelegate openSessionWithAllowLoginUI:YES];
-}
-
-- (void)shareWithFacebook
-{
-/*    BOOL displayedNativeDialog =
-    [FBNativeDialogs
-     presentShareDialogModallyFrom:self
-     initialText:kVTSFacebookPostOnWallMessage
-     image:self.banner.image
-     url: [NSURL URLWithString:self.eventDetail.eventUrl]
-     handler:^(FBNativeDialogResult result, NSError *error) {
-         if (error)
-         {
-             // handle failure
-             NSLog(@"Error: %@", error);
-             // User probably has no setup their credentials in the iPhone settings
-         }
-         else
-         {
-             if (result == FBNativeDialogResultSucceeded)
-             {
-                 // handle success
-                 NSLog(@"OK!");
-             }
-             else
-             {
-                 // handle user cancel
-                 NSLog(@"CANCEL!");
-             }
-         }
-     }];
-
-    if(!displayedNativeDialog)
-    {
-        NSRange substringRange = NSMakeRange(0, MIN(kVTSFacebookMaxDescriptionLength, [self.eventDetail.description length]));
-        NSString *cropDescription = [self.eventDetail.description substringWithRange:substringRange];
-
-        NSMutableDictionary *params =
-        [NSMutableDictionary dictionaryWithObjectsAndKeys:
-         @"149131791929760", @"app_id",
-         self.eventDetail.title, @"name",
-         cropDescription, @"description",
-         self.eventDetail.eventUrl, @"link",
-         self.eventDetail.bannerUrl, @"picture",
-         nil];
-
-        // Invoke the dialog
-        [FBWebDialogs presentFeedDialogModallyWithSession:nil
-                                               parameters:params
-                                                  handler:
-         ^(FBWebDialogResult result, NSURL *resultURL, NSError *error)
-         {
-             if (error)
-             {
-                 // Error launching the dialog or publishing a story.
-                 NSLog(@"Error publishing story.");
-             }
-             else
-             {
-                 if (result == FBWebDialogResultDialogNotCompleted)
-                 {
-                     NSLog(@"User canceled story publishing.");
-                 }
-                 else
-                 {
-                     // Handle the publish feed callback
-                     NSDictionary *urlParams = [self parseURLParams:[resultURL query]];
-                     if (![urlParams valueForKey:@"post_id"])
-                     {
-                         NSLog(@"User canceled story publishing.");
-                     }
-                     else
-                     {
-                         NSLog(@"Success!");
-                     }
-                 }
-             }
-         }];
-    }
-*/
-}
-
-- (void)shareWithTwitter
-{
-/*
-    TWTweetComposeViewController *twitter = [[TWTweetComposeViewController alloc] init];
-
-    [twitter setInitialText:kVTSTwitterPostOnTimelineMessage];
-    if(self.banner.image)
-        [twitter addImage:self.banner.image];
-
-    [self presentViewController:twitter animated:YES completion:nil];
-
-    twitter.completionHandler = ^(TWTweetComposeViewControllerResult res)
-        {
-            if(res == TWTweetComposeViewControllerResultDone)
-            {
-                // Success
-            }
-            else if(res == TWTweetComposeViewControllerResultCancelled)
-            {
-                // Fail
-            }
-
-            [self dismissModalViewControllerAnimated:YES];
-        };
-*/
-}
-
 - (NSDictionary*)parseURLParams:(NSString *)query
 {
     NSArray *pairs = [query componentsSeparatedByString:@"&"];
@@ -829,66 +710,24 @@ static int const kGEAFacebookMaxDescriptionLength = 100;
     return params;
 }
 
-#pragma GEAPopoverViewControllerDelegate
-
-- (NSInteger)numberOfRowsInPopoverViewController:(GEAPopoverViewController *)popover
+- (void)showPopover:(id)sender
 {
-    return 4;
-}
-
-- (UIImage *)iconImageInPopoverViewController:(GEAPopoverViewController *)popover atRowIndex:(NSInteger)index
-{
-    switch (index)
+    UIBarButtonItem *button = (UIBarButtonItem *)sender;
+    if(!self.popover)
     {
-        case 0: return [UIImage imageNamed:@"img_icon_popover_add_to_favorites.png"];
-                break;
-
-        case 1: return [UIImage imageNamed:@"img_icon_popover_facebook.png"];
-                break;
-
-        case 2: return [UIImage imageNamed:@"img_icon_popover_twitter.png"];
-            break;
-
-        case 3: return [UIImage imageNamed:@"img_icon_popover_email.png"];
-            break;
+        // Create an instance of GEAPopoverViewController
+        self.popover = [[GEAPopoverViewController alloc] initWithDelegate:self withBarButton:button alignedTo:GEAPopoverAlignmentRight];
     }
-
-    return nil;
-}
-
-- (NSString *)textInPopoverViewController:(GEAPopoverViewController *)popover atRowIndex:(NSInteger)index
-{
-    switch(index)
+    
+    if([self.popover isPresented])
     {
-        case 0: return @"Add to Favorites";
-                break;
-
-        case 1: return @"Post on Facebook";
-                break;
-
-        case 2: return @"Post on Twitter";
-                break;
-
-        case 3: return @"Send via Email";
-                break;
+        // Dismiss the popover
+        [self.popover dismissPopoverAnimated:YES];
     }
-
-    return @"";
-}
-
-- (void)willSelectRowInPopoverViewController:(GEAPopoverViewController *)popover atRowIndex:(NSInteger)index
-{
-    switch(index)
+    else
     {
-        case 0: break;
-
-        case 1: [self shareWithFacebook];
-                break;
-
-        case 2: [self shareWithTwitter];
-                break;
-
-        case 3: break;
+        // Present the popover
+        [self.popover presentPopoverInView:self.navigationController.view animated:YES];
     }
 }
 
@@ -906,6 +745,7 @@ static int const kGEAFacebookMaxDescriptionLength = 100;
     bannerFrame.origin.y = -offsetAmplified + (offsetAmplifiedDiff/2.0f);
     bannerFrame.origin.x = ([[UIScreen mainScreen] bounds].size.width - bannerFrame.size.width) / 2.0f;
     [self.banner setFrame:bannerFrame];
+
 }
 
 - (void)moveBannerWithVerticalOffset:(CGFloat)offset
@@ -915,6 +755,7 @@ static int const kGEAFacebookMaxDescriptionLength = 100;
     
     CGRect bannerFrame = self.banner.frame;
     CGFloat y = ((offset * kVTSBannerOffsetFactor));
+    //bannerFrame.origin.x = 0.0f;
     bannerFrame.origin.y = y;
     
     [self.banner setFrame:bannerFrame];
@@ -936,6 +777,69 @@ static int const kGEAFacebookMaxDescriptionLength = 100;
 {
     CGPoint contentOffset = scrollView.contentOffset;
     [self updateBannerSizeAndPosition:contentOffset.y];
+}
+
+#pragma GEAPopoverViewControllerDelegate
+
+- (NSInteger)numberOfRowsInPopoverViewController:(GEAPopoverViewController *)popover
+{
+    return 4;
+}
+
+- (UIImage *)iconImageInPopoverViewController:(GEAPopoverViewController *)popover atRowIndex:(NSInteger)index
+{
+    switch (index)
+    {
+        case 0: return [UIImage imageNamed:@"img_icon_popover_add_to_favorites.png"];
+            break;
+            
+        case 1: return [UIImage imageNamed:@"img_icon_popover_facebook.png"];
+            break;
+            
+        case 2: return [UIImage imageNamed:@"img_icon_popover_twitter.png"];
+            break;
+            
+        case 3: return [UIImage imageNamed:@"img_icon_popover_email.png"];
+            break;
+    }
+    
+    return nil;
+}
+
+- (NSString *)textInPopoverViewController:(GEAPopoverViewController *)popover atRowIndex:(NSInteger)index
+{
+    switch(index)
+    {
+        case 0: return @"Add to Favorites";
+            break;
+            
+        case 1: return @"Post on Facebook";
+            break;
+            
+        case 2: return @"Post on Twitter";
+            break;
+            
+        case 3: return @"Send via Email";
+            break;
+    }
+    
+    return @"";
+}
+
+- (void)willSelectRowInPopoverViewController:(GEAPopoverViewController *)popover atRowIndex:(NSInteger)index
+{
+    switch(index)
+    {
+        case 0: break;
+
+        case 1: //[self shareWithFacebook];
+                break;
+
+        case 2: //[self shareWithTwitter];
+                break;
+
+        case 3: break;
+    }
 }
 
 @end

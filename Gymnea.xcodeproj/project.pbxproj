@@ -41,6 +41,8 @@
 		FFABFDD6196C88C4004FC527 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFABFDD4196C88C4004FC527 /* SignUpViewController.m */; };
 		FFABFDD9196C8920004FC527 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFABFDD8196C8920004FC527 /* SignUpViewController.xib */; };
 		FFABFDDD196CA111004FC527 /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFABFDDB196CA111004FC527 /* LogInViewController.m */; };
+		FFDDE707197D2A34009694D9 /* WorkoutsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFDDE705197D2A34009694D9 /* WorkoutsViewController.m */; };
+		FFDDE708197D2A34009694D9 /* WorkoutsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFDDE706197D2A34009694D9 /* WorkoutsViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +113,9 @@
 		FFABFDD8196C8920004FC527 /* SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SignUpViewController.xib; path = Resources/Views/SignUpViewController.xib; sourceTree = "<group>"; };
 		FFABFDDA196CA111004FC527 /* LogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogInViewController.h; path = Classes/Controller/LogInViewController.h; sourceTree = "<group>"; };
 		FFABFDDB196CA111004FC527 /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LogInViewController.m; path = Classes/Controller/LogInViewController.m; sourceTree = "<group>"; };
+		FFDDE704197D2A34009694D9 /* WorkoutsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutsViewController.h; path = Classes/Controller/WorkoutsViewController.h; sourceTree = "<group>"; };
+		FFDDE705197D2A34009694D9 /* WorkoutsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutsViewController.m; path = Classes/Controller/WorkoutsViewController.m; sourceTree = "<group>"; };
+		FFDDE706197D2A34009694D9 /* WorkoutsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkoutsViewController.xib; path = Classes/Controller/WorkoutsViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -264,6 +269,7 @@
 		FFA137831969F84900DBEE68 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				FFDDE703197D29FB009694D9 /* Workouts */,
 				FF9110A7197B10F700818E95 /* WorkoutDetails */,
 				FF11F5BF196DF01900590C10 /* Views */,
 				FF3F70A5196D5391007AADF1 /* Containers */,
@@ -333,6 +339,16 @@
 				F89F9838FFAD409CB7CBD870 /* libPods.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FFDDE703197D29FB009694D9 /* Workouts */ = {
+			isa = PBXGroup;
+			children = (
+				FFDDE704197D2A34009694D9 /* WorkoutsViewController.h */,
+				FFDDE705197D2A34009694D9 /* WorkoutsViewController.m */,
+				FFDDE706197D2A34009694D9 /* WorkoutsViewController.xib */,
+			);
+			name = Workouts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -426,6 +442,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFDDE708197D2A34009694D9 /* WorkoutsViewController.xib in Resources */,
 				FF9110BD197BB1B500818E95 /* EventDetailViewController.xib in Resources */,
 				FFABFDD2196C4A48004FC527 /* InitialQuestionnaireGoalViewController.xib in Resources */,
 				FF76206B196ABA9100611B3B /* Avenir Next.ttc in Resources */,
@@ -496,6 +513,7 @@
 				FF9110B8197B1ED400818E95 /* EventDetail.m in Sources */,
 				FF03958A196D528200EA1CF6 /* StartViewController.m in Sources */,
 				FFA1375A1969A58000DBEE68 /* AppDelegate.m in Sources */,
+				FFDDE707197D2A34009694D9 /* WorkoutsViewController.m in Sources */,
 				FF9110A5197B10BD00818E95 /* EventDetailViewController.m in Sources */,
 				FF11F5C5196DF08200590C10 /* GEALabel+Gymnea.m in Sources */,
 				FF9110A6197B10BD00818E95 /* EventReviewViewController.m in Sources */,

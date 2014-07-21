@@ -307,13 +307,10 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
         UIViewController *rootViewController = (UIViewController *)navController.viewControllers[0];
         rootViewController.sideMenuController = self;
 
-        UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-        [fixedSpace setWidth:16.0];
-
         // First UIViewController must not have a left margin space in the navigation bar
         NSInteger selectedViewControllerIndex = [self.viewControllers indexOfObject:selectedViewController];
         
-        rootViewController.navigationItem.leftBarButtonItems = selectedViewControllerIndex ? @[fixedSpace, leftBarButtonItem] : @[leftBarButtonItem];
+        rootViewController.navigationItem.leftBarButtonItems = selectedViewControllerIndex ? @[/*fixedSpace,*/ leftBarButtonItem] : @[leftBarButtonItem];
     } else {
         selectedViewController.navigationItem.leftBarButtonItem = leftBarButtonItem;
     }
@@ -323,6 +320,7 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
 
   _selectedViewController = selectedViewController;
 
+
   if (_selectedViewController) {
     _selectedIndex = [self.viewControllers indexOfObject:_selectedViewController];
     [self.sideMenuView setSelectedItem:_selectedViewController.tabBarItem];
@@ -330,11 +328,12 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
     _selectedIndex = NSNotFound;
     [self.sideMenuView setSelectedItem:nil];
   }
+  
 }
 
 - (void)setSelectedIndex:(NSUInteger)selectedIndex {
   if (selectedIndex != NSNotFound) {
-    self.selectedViewController = [self.viewControllers objectAtIndex:selectedIndex];
+      self.selectedViewController = [self.viewControllers objectAtIndex:selectedIndex];
   } else {
     self.selectedViewController = nil;
   }
@@ -398,6 +397,7 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
   
   childViewController = viewController;
 
+  [viewController.view setNeedsDisplay];
 }
 
 - (void)setupChildViewControllersForSideViewVisibility:(BOOL)hidden {
