@@ -1,5 +1,5 @@
 //
-//  VTSPopoverViewController.m
+//  GEAPopoverViewController.m
 //  Vegas
 //
 //  Created by Albert Nadal Garriga on 27/03/13.
@@ -24,22 +24,22 @@ static const float kGEAPopoverTextHeight = 20.0f;
 
 // Sizes of standard iOS controls
 static const float kGEAiPhoneStatusBarHeight = 20.0f;
-static const float kGEAiPhoneNavigationBarHeight = 24.0f;
+static const float kGEAiPhoneNavigationBarHeight = 44.0f;
 
 // Paddings and margins
 static const float kGEAPopoverUIToolbarMargin = 5.0f;
-static const float kGEAPopoverContentHorizontalPadding = 10.0f;
-static const float kGEAPopoverContentVerticalPadding = 53.0f;
+static const float kGEAPopoverContentHorizontalPadding = 9.0f;
+static const float kGEAPopoverContentVerticalPadding = 73.0f;
 static const float kGEAPopoverContentVerticalMargin = 2.0f;//4.0f;
 static const float kGEAPopoverSpaceBetweenTailAndContent = -1.0f; //Tail overlaps the content 3px
 static const float kGEAPopoverIconLeftPadding = 13.0f;
 static const float kGEAPopoverTextLeftPadding = 13.0f;
 
 // Alphas
-static const float kGEAPopoverDarkContainerAlpha = 0.75f;
+static const float kGEAPopoverDarkContainerAlpha = 0.60f;
 
 // Rounded corners and decorators
-static const float kGEAPopoverContentCornerRadius = 4.0f;
+static const float kGEAPopoverContentCornerRadius = 3.0f;
 
 // Font
 static NSString * const kGEAPopoverFont = @"AvenirNext-Regular";
@@ -55,10 +55,9 @@ static NSString * const kReuseIdentifierLast = @"VTSPopoverLastCellID";
 @property (strong, nonatomic) UITableView *tableView;
 @property (retain, nonatomic) UIBarButtonItem *barButtonItem;
 @property (retain, nonatomic) UIView *contentContainer;
-@property (retain, nonatomic) UIView *shadowContainer;
 @property (retain, nonatomic) UIView *darkContainer;
 @property (retain, nonatomic) UIImageView *tailImage;
-@property (retain, nonatomic) UIImageView *contentContainerBackground;
+//@property (retain, nonatomic) UIImageView *contentContainerBackground;
 @property (atomic) GEAAlignment contentAlignment;
 @property (atomic) float tailCenterX;
 @property (atomic) float totalRows;
@@ -80,7 +79,6 @@ static NSString * const kReuseIdentifierLast = @"VTSPopoverLastCellID";
     {
         self.isPresented = false;
         self.contentContainer = nil;
-        self.shadowContainer = nil;
         self.darkContainer = nil;
         self.tableView = nil;
         self.tailImage = nil;
@@ -115,7 +113,7 @@ static NSString * const kReuseIdentifierLast = @"VTSPopoverLastCellID";
     if(self.darkContainer)
         [self.darkContainer removeFromSuperview];
     self.darkContainer = [[UIView alloc] initWithFrame:CGRectMake(0, verticalPosition, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height - verticalPosition)];
-    [self.darkContainer setBackgroundColor:[UIColor blackColor]];
+    [self.darkContainer setBackgroundColor:[UIColor darkGrayColor]];
     [self.darkContainer setAlpha:kGEAPopoverDarkContainerAlpha];
     [self.darkContainer setUserInteractionEnabled:YES];
     [v addSubview:self.darkContainer];
@@ -131,7 +129,7 @@ static NSString * const kReuseIdentifierLast = @"VTSPopoverLastCellID";
     if(self.tailImage)
         [self.tailImage removeFromSuperview];
     self.tailImage = [[UIImageView alloc] initWithFrame:CGRectMake(self.tailCenterX - (kGEAPopoverTailWidth/2.0f), kGEAPopoverContentVerticalPadding - kGEAPopoverTailHeight, kGEAPopoverTailWidth, kGEAPopoverTailHeight)];
-    [self.tailImage setImage:[UIImage imageNamed:@"img_popover_tail.png"]];
+    [self.tailImage setImage:[UIImage imageNamed:@"popover-tail"]];
     [self.tailImage setBackgroundColor:[UIColor clearColor]];
     [v addSubview:self.tailImage];
 }
@@ -141,29 +139,26 @@ static NSString * const kReuseIdentifierLast = @"VTSPopoverLastCellID";
     if(self.contentContainer)
         [self.contentContainer removeFromSuperview];
 
-    if(self.shadowContainer)
-        [self.shadowContainer removeFromSuperview];
-
     if(self.contentAlignment == GEAPopoverAlignmentLeft)
     {
         self.contentContainer = [[UIView alloc] initWithFrame:CGRectMake(kGEAPopoverContentHorizontalPadding, kGEAPopoverContentVerticalPadding + kGEAPopoverSpaceBetweenTailAndContent, kGEAPopoverContentWidth, kGEAPopoverMaxContentHeight)];
-        [self.contentContainer setBackgroundColor:[UIColor darkGrayColor]];
+        [self.contentContainer setBackgroundColor:[UIColor colorWithRed:111.0/255.0 green:190.0/255.0 blue:226.0/255.0 alpha:1.0]];
         [v addSubview:self.contentContainer];
     }
     else if(self.contentAlignment == GEAPopoverAlignmentRight)
     {
         self.contentContainer = [[UIView alloc] initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width - kGEAPopoverContentWidth - kGEAPopoverContentHorizontalPadding, kGEAPopoverContentVerticalPadding + kGEAPopoverSpaceBetweenTailAndContent, kGEAPopoverContentWidth, kGEAPopoverMaxContentHeight)];
-        [self.contentContainer setBackgroundColor:[UIColor darkGrayColor]];
+        [self.contentContainer setBackgroundColor:[UIColor colorWithRed:111.0/255.0 green:190.0/255.0 blue:226.0/255.0 alpha:1.0]];
         [v addSubview:self.contentContainer];
     }
     else if(self.contentAlignment == GEAPopoverAlignmentCenter)
     {
         self.contentContainer = [[UIView alloc] initWithFrame:CGRectMake(([[UIScreen mainScreen] bounds].size.width/2.0f) - (kGEAPopoverContentWidth/2.0f), kGEAPopoverContentVerticalPadding + kGEAPopoverSpaceBetweenTailAndContent, kGEAPopoverContentWidth, kGEAPopoverMaxContentHeight)];
-        [self.contentContainer setBackgroundColor:[UIColor darkGrayColor]];
+        [self.contentContainer setBackgroundColor:[UIColor colorWithRed:111.0/255.0 green:190.0/255.0 blue:226.0/255.0 alpha:1.0]];
         [v addSubview:self.contentContainer];
     }
 
-    
+/*
     self.contentContainerBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,kGEAPopoverContentWidth,kGEAPopoverMaxContentHeight)];
     [self.contentContainerBackground setContentMode:UIViewContentModeScaleToFill];
 
@@ -172,7 +167,7 @@ static NSString * const kReuseIdentifierLast = @"VTSPopoverLastCellID";
     [self.contentContainerBackground setImage:contentContainerBackgroundImage];
     [self.contentContainer addSubview:self.contentContainerBackground];
     [self.contentContainer setAutoresizesSubviews:YES];
-
+*/
     //self.contentContainer.layer.masksToBounds = YES;
     self.contentContainer.layer.cornerRadius = kGEAPopoverContentCornerRadius;
 
@@ -180,21 +175,6 @@ static NSString * const kReuseIdentifierLast = @"VTSPopoverLastCellID";
     self.contentContainer.layer.masksToBounds = YES;
     self.contentContainer.clipsToBounds = YES;
 
-    self.shadowContainer = [[UIView alloc] initWithFrame:self.contentContainer.frame];
-    [v addSubview:self.shadowContainer];
-    [v bringSubviewToFront:self.contentContainer];
-
-    [self.shadowContainer setOpaque:YES];
-    [self.shadowContainer setBackgroundColor:[UIColor darkGrayColor]];
-    self.shadowContainer.layer.shouldRasterize = YES;
-    self.shadowContainer.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-    self.shadowContainer.layer.cornerRadius = kGEAPopoverContentCornerRadius;
-    self.shadowContainer.layer.masksToBounds = YES;
-    self.shadowContainer.layer.shadowColor = [[UIColor blackColor] CGColor];
-    self.shadowContainer.layer.shadowOffset = CGSizeMake(0.0f,0.0f);
-    self.shadowContainer.layer.shadowRadius = 10.0f;
-    self.shadowContainer.layer.shadowOpacity = 1.0f;
-    self.shadowContainer.clipsToBounds = NO;
 }
 
 - (void)presentTableViewAnimated:(bool)a
@@ -223,8 +203,6 @@ static NSString * const kReuseIdentifierLast = @"VTSPopoverLastCellID";
 
 - (void)dismissPopoverAnimated:(bool)animated
 {
-    [self.shadowContainer removeFromSuperview];
-
     if(animated)
     {
         [UIView animateWithDuration:0.3
@@ -317,12 +295,12 @@ static NSString * const kReuseIdentifierLast = @"VTSPopoverLastCellID";
     CGRect contentContainerFrame = self.contentContainer.frame;
     contentContainerFrame.size.height = kGEAPopoverContentVerticalMargin + tableViewHeight + kGEAPopoverContentVerticalMargin;
     self.contentContainer.frame = contentContainerFrame;
-    self.shadowContainer.frame = contentContainerFrame;
 
+/*
     CGRect contentContainerBackgroundFrame = self.contentContainerBackground.frame;
     contentContainerBackgroundFrame.size.height = contentContainerFrame.size.height;
     self.contentContainerBackground.frame = contentContainerBackgroundFrame;
-
+*/
     return self.totalRows;
 }
 
@@ -352,16 +330,16 @@ static NSString * const kReuseIdentifierLast = @"VTSPopoverLastCellID";
         if(!lastCell)
         {
             UIImageView *cellSeparator = [[UIImageView alloc] initWithFrame:CGRectMake(0,kGEAPopoverContentRowHeight - kGEAPopoverContentSeparatorHeight, kGEAPopoverContentWidth, kGEAPopoverContentSeparatorHeight)];
-            [cellSeparator setImage:[UIImage imageNamed:@"img_popover_separator.png"]];
+            [cellSeparator setImage:[UIImage imageNamed:@"popover-separator"]];
             [cell.contentView addSubview:cellSeparator];
         }
 
-        [cell.contentView setBackgroundColor:[UIColor clearColor]];
+        [cell.contentView setBackgroundColor:[UIColor colorWithRed:111.0/255.0 green:190.0/255.0 blue:226.0/255.0 alpha:1.0]];
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 
         UIView *selectedBackgroundView = [[UIView alloc] init];
-        [selectedBackgroundView setBackgroundColor:[UIColor colorWithRed:70.0f/255.0f green:70.0f/255.0f blue:70.0f/255.0f alpha:1.0f]];
+        [selectedBackgroundView setBackgroundColor:[UIColor colorWithRed:0.0f/255.0f green:109.0f/255.0f blue:157.0f/255.0f alpha:1.0f]];
         [cell setSelectedBackgroundView:selectedBackgroundView];
 
         [cell setClipsToBounds:YES];

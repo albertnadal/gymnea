@@ -7,22 +7,15 @@
 //
 
 #import "EventDetailViewController.h"
-//#import "PurchaseDateAndTimesViewController.h"
 #import "GEAPopoverViewController.h"
-//#import "SeeOnMapViewController.h"
 #import "EventReviewViewController.h"
 #import "EventDescriptionViewController.h"
 #import "AppDelegate.h"
-//#import "GGFBConnect.h"
 #import "EventReview.h"
 #import <QuartzCore/QuartzCore.h>
-//#import <Twitter/Twitter.h>
-//#import <Accounts/Accounts.h>
 //#import "VegasAPIClient.h"
 #import "Event.h"
 #import "EventDetail.h"
-//#import "AFNetworking.h"
-//#import "UIImageView+AFNetworking.h"
 #import "GEALabel+Gymnea.h"
 #import "UIImageView+AFNetworking.h"
 
@@ -58,8 +51,6 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
 }
 
 @property (atomic) int eventId;
-@property (nonatomic, weak) IBOutlet UIButton *detailsButton;
-@property (nonatomic, weak) IBOutlet UIButton *reviewsButton;
 @property (nonatomic, weak) IBOutlet UIScrollView *scroll;
 @property (nonatomic, strong) IBOutlet UIView *detailsView;
 @property (nonatomic, strong) UIView *reviewsView;
@@ -68,22 +59,19 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
 @property (nonatomic, strong) IBOutlet UIView *dealContainer;
 @property (nonatomic, weak) IBOutlet UIView *segmentContainer;
 @property (nonatomic, weak) IBOutlet UIView *buyContainer;
-@property (nonatomic, weak) IBOutlet UILabel *startingAtLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *banner;
 @property (nonatomic, weak) IBOutlet UIImageView *bannerTopShadow;
 @property (nonatomic, weak) IBOutlet UIImageView *bannerBottomShadow;
-@property (nonatomic, weak) IBOutlet UIImageView *bannerGoldenDivider;
 @property (nonatomic, weak) IBOutlet UILabel *eventTitle;
 @property (nonatomic, weak) IBOutlet UIImageView *ratingImage;
 @property (nonatomic, weak) IBOutlet UILabel *overallRating;
 @property (nonatomic, weak) IBOutlet UIView *scoreBackgroundView;
 @property (nonatomic, weak) IBOutlet UIButton *descriptionButton;
 @property (nonatomic, weak) IBOutlet UILabel *description;
-@property (nonatomic, weak) IBOutlet UILabel *fromToDates;
-@property (nonatomic, weak) IBOutlet UILabel *maxMinPrice;
-@property (nonatomic, weak) IBOutlet UILabel *minAgeRequired;
-@property (nonatomic, weak) IBOutlet UILabel *address;
-@property (nonatomic, weak) IBOutlet UIButton *seeOnMapButton;
+@property (nonatomic, weak) IBOutlet UILabel *workoutType;
+@property (nonatomic, weak) IBOutlet UILabel *workoutFrequency;
+@property (nonatomic, weak) IBOutlet UILabel *workoutDifficulty;
+@property (nonatomic, weak) IBOutlet UILabel *workoutMuscles;
 @property (nonatomic, strong) GEAPopoverViewController *popover;
 @property (nonatomic) bool showingDetails;
 @property (nonatomic, strong) Event *eventDetail;
@@ -99,12 +87,10 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
 - (void)updateSegmentControl;
 - (void)updateDetailsData;
 - (void)updateReviewsData;
-- (void)updateBuyNowContainerData;
 - (void)updateScroll;
 - (IBAction)showSelectedSegment:(id)sender;
 - (IBAction)showDescription:(id)sender;
 - (IBAction)buyNow:(id)sender;
-- (void)setupSegmentButtons;
 - (void)addActionsButton;
 - (void)stretchBannerWithVerticalOffset:(CGFloat)offset;
 - (void)updateBannerSizeAndPosition:(CGFloat)offset;
@@ -141,6 +127,10 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
         [event setEventId:@"1"];
         [event setEventDescription:@"This workout routine provides a workout routine that can be done in the comfort of your own home without the usage of weight lifting or workout equipment other than your own bodyweight. The No Equipment at Home Workout can be performed for 3 to 5 days out of the week as long as you give your self a day or two worth of rest in between two days of working out. For this workout an individual will be performing bodyweight only exercises to improve muscular strength and endurance. You can burn more calories during the workout by turning it into a circuit and super-setting the exercises, performing one after another to keep your heart-rate up thus increasing your body's ability to burn more calories."];
         [event setImageHorizontalUrl:@"http://www.lafruitera.com/19834.jpg"];
+        [event setMuscles:@"Chest, Triceps, Abdominals, Shoulders, Traps, Quadriceps, Hamstrings, Calves, Biceps, Forearms, Lower Back, Middle Back, Lats"];
+        [event setDaysAWeek:3];
+        [event setDifficulty:@"Intermediate"];
+        [event setType:@"General Fitness"];
         self.eventDetail = event;
 /*
 #warning Please, remove the following log before sending the app to production. This was made just for debug purposes.
@@ -152,8 +142,7 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
 
         [self loadBanner];
 //        [self loadEventReviewsData];        // Download event reviews
-//        [self updateEventDetailData];       // Updates the UI from model
-//        [self updateBuyNowContainerData];   // Updates the starting price of the event
+        [self updateEventDetailData];       // Updates the UI from model
 
         [self.scroll setHidden:NO];
         [self.buyContainer setHidden:NO];
@@ -233,41 +222,6 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
 
 - (void)loadBanner
 {
-/*
-    // Set the image placeholder
-    UIImage *bannerPlaceholder = [UIImage imageNamed:kVTSEventDetailImagePlaceholder];
-    if(bannerPlaceholder.size.width != [[UIScreen mainScreen] bounds].size.width)
-    {
-        CGFloat bannerWidth = [[UIScreen mainScreen] bounds].size.width;
-        CGFloat bannerHeight = floor((([[UIScreen mainScreen] bounds].size.width * bannerPlaceholder.size.height) / bannerPlaceholder.size.width) + 0.5f);
-        CGSize newBannerSize = CGSizeMake(bannerWidth, bannerHeight);
-
-        UIGraphicsBeginImageContext(newBannerSize);
-        [bannerPlaceholder drawInRect:CGRectMake(0, 0, newBannerSize.width, newBannerSize.height)];
-
-        // Cross dissolve effect
-        [UIView transitionWithView:self.view
-                          duration:kVTSBannerTransitionCrossDissolveDuration
-                           options:UIViewAnimationOptionTransitionCrossDissolve
-                        animations:^{
-                            [self.banner setImage:UIGraphicsGetImageFromCurrentImageContext()];
-                        } completion:nil];
-
-        UIGraphicsEndImageContext();
-    }
-    else
-    {
-        CGFloat offsetAmplified = 0.0f;
-        CGFloat offsetAmplifiedDiff = 0.0f;
-
-        CGRect bannerFrame = self.banner.frame;
-        bannerFrame.size.height = bannerPlaceholder.size.height + (offsetAmplified) + 0.5f;
-        bannerFrame.size.width = (bannerFrame.size.height * [[UIScreen mainScreen] bounds].size.width) / bannerPlaceholder.size.height;
-        bannerFrame.origin.y = -offsetAmplified + (offsetAmplifiedDiff/2.0f);
-        bannerFrame.origin.x = ([[UIScreen mainScreen] bounds].size.width - bannerFrame.size.width) / 2.0f;
-        [self.banner setFrame:bannerFrame];
-        [self.banner setImage:bannerPlaceholder];
-    }*/
 
     if([self.eventDetail.imageHorizontalUrl length])
     {
@@ -303,7 +257,6 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
             
             [self updateBannerData];
             [self updateEventDetailData];       // Updates the UI from model
-            [self updateBuyNowContainerData];   // Updates the starting price of the event
 
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
 
@@ -415,18 +368,6 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
     return valueString;
 }
 
-- (void)updateBuyNowContainerData
-{
-    NSString *startingPriceString = [NSString stringWithFormat:@"$%@", [self stringFromFloat:self.eventDetail.priceLowest]];
-
-    CGRect startingPriceLabelFrame = self.startingAtLabel.frame;
-    startingPriceLabelFrame.origin.x = CGRectGetMaxX(self.startingAtLabel.frame);
-    startingPriceLabelFrame.size.width = 100.0f;
-
-    GEALabel *startingPriceLabel = [[GEALabel alloc] initWithText:startingPriceString fontSize:20.0f textAlign:NSTextAlignmentLeft frame:startingPriceLabelFrame];
-    [self.buyContainer addSubview:startingPriceLabel];
-}
-
 - (void)updateReviewsData
 {
     if(showingDetails)
@@ -479,39 +420,16 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
         CGRect segmentContainerFrame = self.segmentContainer.frame;
         CGFloat baseYPosition = segmentContainerFrame.origin.y + segmentContainerFrame.size.height + 1.0f;
 
-#warning fake start-end dates for buying tickets for this event
-        NSDateComponents *comps = [[NSDateComponents alloc] init];
-        [comps setDay:23];
-        [comps setMonth:10];
-        [comps setYear:2012];
-        NSDate *startDate = [[NSCalendar currentCalendar] dateFromComponents:comps];
+        [self.workoutType setText:self.eventDetail.type];
 
-        [comps setDay:23];
-        [comps setMonth:10];
-        [comps setYear:2012];
-        NSDate *endDate = [[NSCalendar currentCalendar] dateFromComponents:comps];
-
-        NSCalendar* calendar = [NSCalendar currentCalendar];
-        NSDateComponents* startDateComponents = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:startDate];
-        NSDateComponents* endDateComponents = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:endDate];
-
-        [self.fromToDates setText:[NSString stringWithFormat:@"%d/%d/%d to %d/%d/%d", [startDateComponents month], [startDateComponents day], [startDateComponents year] - 2000, [endDateComponents month], [endDateComponents day], [endDateComponents year] - 2000]];
-
-        [self.maxMinPrice setText:[NSString stringWithFormat:@"$%@ to $%@", [self stringFromFloat:self.eventDetail.priceLowest], [self stringFromFloat:self.eventDetail.priceHighest]]];
-        [self.minAgeRequired setText:[NSString stringWithFormat:@"%d+", self.eventDetail.ageRestriction]];
-
-        NSString *eventAddress = [NSString stringWithFormat:@"%@\n%@\n%@\n%@", self.eventDetail.venueName, self.eventDetail.venueStreet, [NSString stringWithFormat:@"%@, %@", self.eventDetail.venueCity, self.eventDetail.venueState], self.eventDetail.venueCountry];
-        [self.address setText:[eventAddress stringByReplacingOccurrencesOfString:@"\n\n" withString:@"\n"]];
-        [self.address sizeToFit];
-
-        CGRect addressFrame = self.address.frame;
-        CGRect seeOnMapButtonFrame = self.seeOnMapButton.frame;
-        seeOnMapButtonFrame.origin.y = addressFrame.origin.y + addressFrame.size.height + kVTSSpaceBetweenLabels;
-        [self.seeOnMapButton setFrame:seeOnMapButtonFrame];
+        [self.workoutFrequency setText:[NSString stringWithFormat:@"%d days / week", self.eventDetail.daysAWeek]];
+        [self.workoutDifficulty setText:self.eventDetail.difficulty];
+        [self.workoutMuscles setText:self.eventDetail.muscles];
+        [self.workoutMuscles sizeToFit];
 
         CGRect detailsViewFrame = self.detailsView.frame;
         detailsViewFrame.origin.y = baseYPosition;
-        detailsViewFrame.size.height = seeOnMapButtonFrame.origin.y + seeOnMapButtonFrame.size.height;
+        detailsViewFrame.size.height = CGRectGetMaxY(self.workoutMuscles.frame) + kVTSSpaceBetweenLabels;
         [self.detailsView setFrame:detailsViewFrame];
         [self.scroll addSubview:self.detailsView];
     }
@@ -545,28 +463,22 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
     {
         // If banner image is available to show
         [self.bannerContainer setHidden:NO];
-        
+
         // Adjust banner height
         int bannerHeight = self.banner.image.size.height;
         CGRect bannerFrame = self.banner.frame;
         bannerFrame.size.height = bannerHeight;
         [self.banner setFrame:bannerFrame];
-        
+
         // Adjust banner shadow position
         CGRect bannerBottomShadowFrame = self.bannerBottomShadow.frame;
         bannerBottomShadowFrame.origin.y = bannerHeight - bannerBottomShadowFrame.size.height + 1.0f;
         [self.bannerBottomShadow setFrame:bannerBottomShadowFrame];
-        
-        // Adjust banner golden divider position
-        CGRect bannerGoldenDividerFrame = self.bannerGoldenDivider.frame;
-        bannerGoldenDividerFrame.origin.y = bannerHeight + 1.0f;
-        [self.bannerGoldenDivider setFrame:bannerGoldenDividerFrame];
-        
+
         // Adjust banner container height
         CGRect bannerContainerFrame = self.bannerContainer.frame;
-        bannerContainerFrame.size.height = CGRectGetMaxY(bannerGoldenDividerFrame) - 1.0f; //bannerHeight + bannerGoldenDividerFrame.size.height;
+        bannerContainerFrame.size.height = bannerHeight;
         [self.bannerContainer setFrame:bannerContainerFrame];
-
     }
 }
 
@@ -581,15 +493,14 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
     [self updateScroll];
 }
 
-- (void)setupSegmentButtons
-{
-    [self.detailsButton setBackgroundImage:[UIImage imageNamed:@"img_segment_left_button_selected_bg.png"] forState:(UIControlStateSelected | UIControlStateHighlighted)];
-    [self.reviewsButton setBackgroundImage:[UIImage imageNamed:@"img_segment_right_button_selected_bg.png"] forState:(UIControlStateSelected | UIControlStateHighlighted)];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:nil
+                                                                            action:nil];
 
     self.descriptionButton.layer.borderWidth = 1.0f;
     self.descriptionButton.layer.borderColor = [UIColor colorWithRed:111.0/255.0 green:190.0/255.0 blue:226.0/255.0 alpha:1.0].CGColor;
@@ -607,12 +518,7 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
     [self.scroll setHidden:YES];
     [self.buyContainer setHidden:YES];
 
-//    [self setupSegmentButtons];
     [self loadEventDetailData];         // Download event details from web service
-
-/*    dispatch_sync(dispatch_get_main_queue(), ^{
-        [self.navigationController.navigationBar setNeedsDisplay];
-    });*/
 
 }
 
@@ -779,6 +685,13 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
     [self updateBannerSizeAndPosition:contentOffset.y];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+
+    [self.popover dismissPopoverAnimated:YES];
+}
+
 #pragma GEAPopoverViewControllerDelegate
 
 - (NSInteger)numberOfRowsInPopoverViewController:(GEAPopoverViewController *)popover
@@ -790,16 +703,16 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
 {
     switch (index)
     {
-        case 0: return [UIImage imageNamed:@"img_icon_popover_add_to_favorites.png"];
+        case 0: return [UIImage imageNamed:@"popover-set-as-current"];
             break;
             
-        case 1: return [UIImage imageNamed:@"img_icon_popover_facebook.png"];
+        case 1: return [UIImage imageNamed:@"popover-add-to-favorites"];
             break;
             
-        case 2: return [UIImage imageNamed:@"img_icon_popover_twitter.png"];
+        case 2: return [UIImage imageNamed:@"popover-download"];
             break;
             
-        case 3: return [UIImage imageNamed:@"img_icon_popover_email.png"];
+        case 3: return [UIImage imageNamed:@"popover-send-via-email"];
             break;
     }
     
@@ -810,13 +723,13 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
 {
     switch(index)
     {
-        case 0: return @"Add to Favorites";
+        case 0: return @"Set as current";
             break;
             
-        case 1: return @"Post on Facebook";
+        case 1: return @"Save workout";
             break;
             
-        case 2: return @"Post on Twitter";
+        case 2: return @"Download";
             break;
             
         case 3: return @"Send via Email";

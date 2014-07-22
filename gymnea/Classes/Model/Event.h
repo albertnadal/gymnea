@@ -24,8 +24,12 @@
 @property (nonatomic, retain) NSDate *lastUpdateDate;
 @property (nonatomic) float priceHighest;
 @property (nonatomic) float priceLowest;
-@property (nonatomic) float rating;
 @property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSString * type;
+@property (nonatomic, retain) NSString * difficulty;
+@property (nonatomic, retain) NSString * muscles;
+@property (nonatomic) int32_t daysAWeek;
+@property (nonatomic) float rating;
 @property (nonatomic, retain) NSString * venueCity;
 @property (nonatomic) double venueCoordinateLatitude;
 @property (nonatomic) double venueCoordinateLongitude;

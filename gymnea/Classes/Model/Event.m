@@ -24,6 +24,12 @@
 @synthesize priceLowest;
 @synthesize rating;
 @synthesize title;
+
+@synthesize type;
+@synthesize difficulty;
+@synthesize muscles;
+@synthesize daysAWeek;
+
 @synthesize venueCity;
 @synthesize venueCoordinateLatitude;
 @synthesize venueCoordinateLongitude;

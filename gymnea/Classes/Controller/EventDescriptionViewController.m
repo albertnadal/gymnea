@@ -23,8 +23,7 @@ static const float kVTSiPhoneNavigationBarHeight = 44.0f;
 
 @property (nonatomic, weak) IBOutlet UILabel *eventTitle;
 @property (nonatomic, weak) IBOutlet UILabel *eventAuthor;
-@property (nonatomic, weak) IBOutlet UIImageView *backgroundImage;
-@property (nonatomic, weak) IBOutlet UIImageView *separator;
+@property (nonatomic, weak) IBOutlet UIView *separator;
 @property (nonatomic, weak) IBOutlet UILabel *description;
 @property (nonatomic, weak) IBOutlet UIScrollView *scroll;
 @property (nonatomic, strong) Event *event;
@@ -46,12 +45,12 @@ static const float kVTSiPhoneNavigationBarHeight = 44.0f;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
+
+  self.edgesForExtendedLayout = UIRectEdgeNone;
+
   // Add the screen title
-  self.navigationItem.titleView = [[GEALabel alloc] initWithText:@"DESCRIPTION" fontSize:20.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
-  
-  [self.backgroundImage setImage:[[UIImage imageNamed:@"img_description_bg.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(20.0f, 20.0f, 20.0f, 20.0f)]];
-  
+  self.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Workout guide" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+
   [self.eventTitle setText:self.event.title];
   [self.eventTitle sizeToFit];
   
@@ -81,7 +80,6 @@ static const float kVTSiPhoneNavigationBarHeight = 44.0f;
   self.description.frame = descriptionFrame;
   
   baseYPosition+=(descriptionFrame.size.height+kVTSContentMargin);
-  CGRect backgroundImageFrame = self.backgroundImage.frame;
   
   CGRect scrollFrame = self.scroll.frame;
   scrollFrame.size.height = [UIApplication sharedApplication].keyWindow.frame.size.height - kVTSiPhoneStatusBarHeight - kVTSiPhoneNavigationBarHeight;
@@ -89,13 +87,10 @@ static const float kVTSiPhoneNavigationBarHeight = 44.0f;
   
   if(baseYPosition > self.scroll.frame.size.height) {
     [self.scroll setScrollEnabled:YES];
-    backgroundImageFrame.size.height = baseYPosition;
   } else {
     [self.scroll setScrollEnabled:NO];
-    backgroundImageFrame.size.height = [UIApplication sharedApplication].keyWindow.frame.size.height - kVTSiPhoneStatusBarHeight - kVTSiPhoneNavigationBarHeight;
   }
-  
-  [self.backgroundImage setFrame:backgroundImageFrame];
+
   [self.scroll setContentSize:CGSizeMake([[UIScreen mainScreen] bounds].size.width, baseYPosition)];
 }
 

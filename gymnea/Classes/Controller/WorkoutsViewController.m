@@ -44,10 +44,12 @@
 {
     [super viewDidLoad];
 
-/*    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:nil
-                                                                            action:nil];*/
+                                                                            action:nil];
 }
 
 - (void)didReceiveMemoryWarning

@@ -43,6 +43,7 @@
     UITabBarItem *favoritesTabBarItem = [[UITabBarItem alloc] initWithTitle:@"Dashboard" image:[UIImage imageNamed:@"sidebar-dashboard-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-dashboard-icon"]];
     [favoritesViewController setTabBarItem:favoritesTabBarItem];
     UINavigationController *favoritesController = [[UINavigationController alloc] initWithRootViewController:favoritesViewController];
+    [favoritesController.interactivePopGestureRecognizer setEnabled:NO];
     // Add the screen title
     favoritesViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Dashboard" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
@@ -61,6 +62,7 @@
     UITabBarItem *favorites2TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Workouts" image:[UIImage imageNamed:@"sidebar-workouts-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-workouts-icon"]];
     [workoutsViewController setTabBarItem:favorites2TabBarItem];
     UINavigationController *favorites2Controller = [[UINavigationController alloc] initWithRootViewController:workoutsViewController];
+    [favorites2Controller.interactivePopGestureRecognizer setEnabled:NO];
     favorites2Controller.navigationBar.tintColor = [UIColor colorWithRed:7.0/255.0 green:154.0/255.0 blue:204.0/255.0 alpha:1.0];
     // Add the screen title
     workoutsViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Workouts" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
@@ -80,6 +82,7 @@
     UITabBarItem *favorites3TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Exercises" image:[UIImage imageNamed:@"sidebar-exercises-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-exercises-icon"]];
     [favorites3ViewController setTabBarItem:favorites3TabBarItem];
     UINavigationController *favorites3Controller = [[UINavigationController alloc] initWithRootViewController:favorites3ViewController];
+    [favorites3Controller.interactivePopGestureRecognizer setEnabled:NO];
     // Add the screen title
     favorites3ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Exercises" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
@@ -99,6 +102,7 @@
     UITabBarItem *favorites4TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Classes" image:[UIImage imageNamed:@"sidebar-classes-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-classes-icon"]];
     [favorites4ViewController setTabBarItem:favorites4TabBarItem];
     UINavigationController *favorites4Controller = [[UINavigationController alloc] initWithRootViewController:favorites4ViewController];
+    [favorites4Controller.interactivePopGestureRecognizer setEnabled:NO];
     // Add the screen title
     favorites4ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Classes" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
@@ -118,6 +122,7 @@
     UITabBarItem *favorites5TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Health Logs" image:[UIImage imageNamed:@"sidebar-health-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-health-icon"]];
     [favorites5ViewController setTabBarItem:favorites5TabBarItem];
     UINavigationController *favorites5Controller = [[UINavigationController alloc] initWithRootViewController:favorites5ViewController];
+    [favorites5Controller.interactivePopGestureRecognizer setEnabled:NO];
     // Add the screen title
     favorites5ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Health / Logs" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
@@ -137,6 +142,7 @@
     UITabBarItem *favorites6TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Pictures" image:[UIImage imageNamed:@"sidebar-pictures-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-pictures-icon"]];
     [favorites6ViewController setTabBarItem:favorites6TabBarItem];
     UINavigationController *favorites6Controller = [[UINavigationController alloc] initWithRootViewController:favorites6ViewController];
+    [favorites6Controller.interactivePopGestureRecognizer setEnabled:NO];
     // Add the screen title
     favorites6ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Pictures" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
