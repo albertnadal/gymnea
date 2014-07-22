@@ -1,9 +1,9 @@
 //
 //  EventReview.h
-//  Vegas
+//  Gymnea
 //
 //  Created by Albert Nadal Garriga on 11/04/13.
-//  Copyright (c) 2013 Golden Gekko. All rights reserved.
+//  Copyright (c) 2014 Gymnea. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

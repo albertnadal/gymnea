@@ -1,15 +1,15 @@
 //
 //  EventDetailViewController.m
-//  Vegas
+//  Gymnea
 //
 //  Created by Albert Nadal Garriga on 09/04/13.
-//  Copyright (c) 2013 Golden Gekko. All rights reserved.
+//  Copyright (c) 2014 Gymnea. All rights reserved.
 //
 
-#import "EventDetailViewController.h"
+#import "WorkoutDetailViewController.h"
 #import "GEAPopoverViewController.h"
 #import "EventReviewViewController.h"
-#import "EventDescriptionViewController.h"
+#import "WorkoutDescriptionViewController.h"
 #import "AppDelegate.h"
 #import "EventReview.h"
 #import <QuartzCore/QuartzCore.h>
@@ -22,18 +22,18 @@
 #define DETAILS_SEGMENT_INDEX 0
 #define WORKOUT_DAYS_SEGMENT_INDEX 1
 
-static float const kVTSSpaceBetweenLabels = 15.0f;
-static float const kVTSContainerPadding = 7.0f;
-static float const kVTSHorizontalMargin = 11.0f;
-static float const kVTSDescriptionButtonMargin = 10.0f;
+static float const kGEASpaceBetweenLabels = 15.0f;
+static float const kGEAContainerPadding = 7.0f;
+static float const kGEAHorizontalMargin = 11.0f;
+static float const kGEADescriptionButtonMargin = 10.0f;
 
 // Banner setup
-static CGFloat const kVTSBannerZoomFactor = 0.65f;
-static CGFloat const kVTSBannerOffsetFactor = 0.45f;
-static float const kVTSBannerTransitionCrossDissolveDuration = 0.3f;
-static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeholder";
+static CGFloat const kGEABannerZoomFactor = 0.65f;
+static CGFloat const kGEABannerOffsetFactor = 0.45f;
+static float const kGEABannerTransitionCrossDissolveDuration = 0.3f;
+static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeholder";
 
-@interface EventDetailViewController () <GEAPopoverViewControllerDelegate, UIScrollViewDelegate>
+@interface WorkoutDetailViewController () <GEAPopoverViewControllerDelegate, UIScrollViewDelegate>
 {
     // Id and model of the event to show
     int eventId;
@@ -99,13 +99,13 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
 
 @end
 
-@implementation EventDetailViewController
+@implementation WorkoutDetailViewController
 
 @synthesize eventId, eventDetail, showingDetails, popover, eventReviews, reviewsView, detailsView;
 
 - (id)initWithEventId:(int)eventId_
 {
-    if(self = [super initWithNibName:@"EventDetailViewController" bundle:nil])
+    if(self = [super initWithNibName:@"WorkoutDetailViewController" bundle:nil])
     {
         self.eventId = eventId_;
         showingDetails = true; // Showing 'Details' (default) or 'Reviews'
@@ -229,7 +229,7 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
 
         __weak UIImageView *weakImageView = self.banner;
 
-        [weakImageView setImageWithURLRequest:request placeholderImage: [UIImage imageNamed:kVTSEventDetailImagePlaceholder] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        [weakImageView setImageWithURLRequest:request placeholderImage: [UIImage imageNamed:kGEAEventDetailImagePlaceholder] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             // First of all is necessary to rescale the image if the image width is diferent from the device screen width.
             if(image.size.width != [[UIScreen mainScreen] bounds].size.width)
             {
@@ -242,7 +242,7 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
                 
                 // Cross dissolve effect
                 [UIView transitionWithView:self.view
-                                  duration:kVTSBannerTransitionCrossDissolveDuration
+                                  duration:kGEABannerTransitionCrossDissolveDuration
                                    options:UIViewAnimationOptionTransitionCrossDissolve
                                 animations:^{
                                     [self.banner setImage:UIGraphicsGetImageFromCurrentImageContext()];
@@ -275,7 +275,7 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
     [self.eventTitle sizeToFit];
 
     CGRect eventTitleFrame = self.eventTitle.frame;
-    CGFloat y = eventTitleFrame.origin.y + eventTitleFrame.size.height + kVTSSpaceBetweenLabels + kVTSContainerPadding;
+    CGFloat y = eventTitleFrame.origin.y + eventTitleFrame.size.height + kGEASpaceBetweenLabels + kGEAContainerPadding;
 
     CGRect ratingImageFrame = self.ratingImage.frame;
     ratingImageFrame.origin.y = y;
@@ -286,7 +286,7 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
     [self.overallRating setFrame:overallRatingFrame];
 
     CGRect scoreBackgroundViewFrame = self.scoreBackgroundView.frame;
-    scoreBackgroundViewFrame.origin.y = ratingImageFrame.origin.y - kVTSContainerPadding - 1.0f;
+    scoreBackgroundViewFrame.origin.y = ratingImageFrame.origin.y - kGEAContainerPadding - 1.0f;
     [self.scoreBackgroundView setFrame:scoreBackgroundViewFrame];
 
     // Round the corners of the score background
@@ -294,14 +294,14 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
     UIBezierPath *scoreBackgroundViewShadowPath = [UIBezierPath bezierPathWithRect:self.scoreBackgroundView.bounds];
     self.scoreBackgroundView.layer.shadowPath = scoreBackgroundViewShadowPath.CGPath;
 
-    y = ratingImageFrame.origin.y + ratingImageFrame.size.height + kVTSSpaceBetweenLabels + kVTSContainerPadding;
+    y = ratingImageFrame.origin.y + ratingImageFrame.size.height + kGEASpaceBetweenLabels + kGEAContainerPadding;
 
     CGRect descriptionButtonFrame = self.descriptionButton.frame;
     descriptionButtonFrame.origin.y = y;
     [self.descriptionButton setFrame:descriptionButtonFrame];
 
     CGRect descriptionFrame = self.description.frame;
-    descriptionFrame.origin.y = descriptionButtonFrame.origin.y + kVTSDescriptionButtonMargin;
+    descriptionFrame.origin.y = descriptionButtonFrame.origin.y + kGEADescriptionButtonMargin;
     [self.description setFrame:descriptionFrame];
 
     [self.description setText:self.eventDetail.eventDescription];
@@ -315,11 +315,11 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
 - (void)updateDealData
 {
     CGRect basicInfoContainerFrame = self.basicInfoContainer.frame;
-    CGFloat baseYPosition = CGRectGetMaxY(basicInfoContainerFrame) + kVTSSpaceBetweenLabels;
+    CGFloat baseYPosition = CGRectGetMaxY(basicInfoContainerFrame) + kGEASpaceBetweenLabels;
 
     CGRect dealContainerFrame = self.dealContainer.frame;
     dealContainerFrame.origin.y = baseYPosition;
-    dealContainerFrame.origin.x = kVTSHorizontalMargin;
+    dealContainerFrame.origin.x = kGEAHorizontalMargin;
 #warning please, set the deal height for enabling deals inside the event detail screen
     dealContainerFrame.size.height = 0.0f; //150.0f;
     [self.dealContainer setFrame:dealContainerFrame];
@@ -378,7 +378,7 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
     else
     {
         CGRect segmentContainerFrame = self.segmentContainer.frame;
-        CGFloat baseYPosition = segmentContainerFrame.origin.y + segmentContainerFrame.size.height + kVTSSpaceBetweenLabels;
+        CGFloat baseYPosition = segmentContainerFrame.origin.y + segmentContainerFrame.size.height + kGEASpaceBetweenLabels;
         CGFloat y = 0;
 
         if(!self.reviewsView)
@@ -396,11 +396,11 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
 
             if(y)
             {
-                y+=kVTSSpaceBetweenLabels;
+                y+=kGEASpaceBetweenLabels;
                 UIImageView *yelp = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"yelp.png"]];
                 [yelp setFrame:CGRectMake(([[UIScreen mainScreen] bounds].size.width/2.0f) - (44.0f/2.0f), y, 44.0f, 24.0f)];
                 [self.reviewsView addSubview:yelp];
-                y+=(yelp.frame.size.height + kVTSSpaceBetweenLabels);
+                y+=(yelp.frame.size.height + kGEASpaceBetweenLabels);
             }
         }
 
@@ -429,7 +429,7 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
 
         CGRect detailsViewFrame = self.detailsView.frame;
         detailsViewFrame.origin.y = baseYPosition;
-        detailsViewFrame.size.height = CGRectGetMaxY(self.workoutMuscles.frame) + kVTSSpaceBetweenLabels;
+        detailsViewFrame.size.height = CGRectGetMaxY(self.workoutMuscles.frame) + kGEASpaceBetweenLabels;
         [self.detailsView setFrame:detailsViewFrame];
         [self.scroll addSubview:self.detailsView];
     }
@@ -443,7 +443,7 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
 - (void)updateScroll
 {
     CGFloat heightSegmentSelectedOption = self.showingDetails ? self.detailsView.frame.size.height : self.reviewsView.frame.size.height;
-    CGFloat scrollContentLength = self.bannerContainer.frame.size.height + self.basicInfoContainer.frame.size.height + kVTSSpaceBetweenLabels + self.dealContainer.frame.size.height + self.segmentContainer.frame.size.height + heightSegmentSelectedOption + kVTSSpaceBetweenLabels;
+    CGFloat scrollContentLength = self.bannerContainer.frame.size.height + self.basicInfoContainer.frame.size.height + kGEASpaceBetweenLabels + self.dealContainer.frame.size.height + self.segmentContainer.frame.size.height + heightSegmentSelectedOption + kGEASpaceBetweenLabels;
 
     [self.scroll setContentSize:CGSizeMake([[UIScreen mainScreen] bounds].size.width, scrollContentLength)];
     [self.scroll setFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, self.buyContainer.frame.origin.y - 1.0f)];
@@ -560,7 +560,7 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
 
 - (IBAction)showDescription:(id)sender
 {
-    EventDescriptionViewController *edvc = [[EventDescriptionViewController alloc] initWithEvent:self.eventDetail];
+    WorkoutDescriptionViewController *edvc = [[WorkoutDescriptionViewController alloc] initWithEvent:self.eventDetail];
     [self.navigationController pushViewController:edvc animated:YES];
 }
 
@@ -642,8 +642,8 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
     if(offset>=0)
         return;
     
-    CGFloat offsetAmplified = fabsf(offset*(1+kVTSBannerZoomFactor));
-    CGFloat offsetAmplifiedDiff = fabsf(offset*kVTSBannerZoomFactor);
+    CGFloat offsetAmplified = fabsf(offset*(1+kGEABannerZoomFactor));
+    CGFloat offsetAmplifiedDiff = fabsf(offset*kGEABannerZoomFactor);
     
     CGRect bannerFrame = self.banner.frame;
     bannerFrame.size.height = self.banner.image.size.height + (offsetAmplified) + 0.5f;
@@ -660,7 +660,7 @@ static NSString *const kVTSEventDetailImagePlaceholder = @"workout-banner-placeh
         return;
     
     CGRect bannerFrame = self.banner.frame;
-    CGFloat y = ((offset * kVTSBannerOffsetFactor));
+    CGFloat y = ((offset * kGEABannerOffsetFactor));
     //bannerFrame.origin.x = 0.0f;
     bannerFrame.origin.y = y;
     

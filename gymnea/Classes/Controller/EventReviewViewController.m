@@ -1,14 +1,14 @@
 //
 //  ReviewViewController.m
-//  Vegas
+//  Gymnea
 //
 //  Created by Albert Nadal Garriga on 11/04/13.
-//  Copyright (c) 2013 Golden Gekko. All rights reserved.
+//  Copyright (c) 2014 Gymnea. All rights reserved.
 //
 
 #import "EventReviewViewController.h"
 
-static float const kVTSSpaceBetweenLabels = 13.0f;
+static float const kGEASpaceBetweenLabels = 13.0f;
 
 @interface EventReviewViewController ()
 {
@@ -53,7 +53,7 @@ static float const kVTSSpaceBetweenLabels = 13.0f;
     [self.text sizeToFit];
 
     CGRect separatorFrame = self.separator.frame;
-    separatorFrame.origin.y = self.text.frame.origin.y + self.text.frame.size.height + kVTSSpaceBetweenLabels;
+    separatorFrame.origin.y = self.text.frame.origin.y + self.text.frame.size.height + kGEASpaceBetweenLabels;
     self.separator.frame = separatorFrame;
 
     CGRect viewFrame = self.view.frame;

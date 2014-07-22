@@ -1,9 +1,9 @@
 //
 //  GEAPopoverViewController.m
-//  Vegas
+//  Gymnea
 //
 //  Created by Albert Nadal Garriga on 27/03/13.
-//  Copyright (c) 2013 Golden Gekko. All rights reserved.
+//  Copyright (c) 2014 Gymnea. All rights reserved.
 //
 
 #import "QuartzCore/QuartzCore.h"
@@ -46,8 +46,8 @@ static NSString * const kGEAPopoverFont = @"AvenirNext-Regular";
 static const float kGEAPopoverFontSize = 16.0f;
 
 // Reuse identifier string
-static NSString * const kReuseIdentifier = @"VTSPopoverCellID";
-static NSString * const kReuseIdentifierLast = @"VTSPopoverLastCellID";
+static NSString * const kReuseIdentifier = @"GEAPopoverCellID";
+static NSString * const kReuseIdentifierLast = @"GEAPopoverLastCellID";
 
 
 @interface GEAPopoverViewController ()

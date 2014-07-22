@@ -7,7 +7,7 @@
 //
 
 #import "WorkoutsViewController.h"
-#import "EventDetailViewController.h"
+#import "WorkoutDetailViewController.h"
 
 
 @interface WorkoutsViewController ()
@@ -30,7 +30,7 @@
 
 - (IBAction)showWorkoutDetails:(id)sender
 {
-    EventDetailViewController *viewController = [[EventDetailViewController alloc] initWithEventId:1];
+    WorkoutDetailViewController *viewController = [[WorkoutDetailViewController alloc] initWithEventId:1];
 
     [viewController.view setFrame:CGRectMake(0,0,320,690)];
     CGRect frame2 = viewController.navigationController.toolbar.frame;
