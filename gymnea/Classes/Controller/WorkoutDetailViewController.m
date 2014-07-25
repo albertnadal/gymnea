@@ -10,6 +10,7 @@
 #import "GEAPopoverViewController.h"
 #import "EventReviewViewController.h"
 #import "WorkoutDescriptionViewController.h"
+#import "WorkoutDayTableViewController.h"
 #import "AppDelegate.h"
 #import "EventReview.h"
 #import <QuartzCore/QuartzCore.h>
@@ -45,6 +46,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
     // Scroll and containers
     UIView *reviewsView;
+    WorkoutDayTableViewController *workoutDaysTableViewController;
 
     // State flags
     bool showingDetails;
@@ -54,6 +56,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 @property (nonatomic, weak) IBOutlet UIScrollView *scroll;
 @property (nonatomic, strong) IBOutlet UIView *detailsView;
 @property (nonatomic, strong) UIView *reviewsView;
+@property (nonatomic, strong) WorkoutDayTableViewController *workoutDaysTableViewController;
 @property (nonatomic, weak) IBOutlet UIView *bannerContainer;
 @property (nonatomic, weak) IBOutlet UIView *basicInfoContainer;
 @property (nonatomic, strong) IBOutlet UIView *dealContainer;
@@ -87,6 +90,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 - (void)updateSegmentControl;
 - (void)updateDetailsData;
 - (void)updateReviewsData;
+- (void)updateWorkoutDaysData;
 - (void)updateScroll;
 - (IBAction)showSelectedSegment:(id)sender;
 - (IBAction)showDescription:(id)sender;
@@ -101,7 +105,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 @implementation WorkoutDetailViewController
 
-@synthesize eventId, eventDetail, showingDetails, popover, eventReviews, reviewsView, detailsView;
+@synthesize eventId, eventDetail, showingDetails, popover, eventReviews, reviewsView, detailsView, workoutDaysTableViewController;
 
 - (id)initWithEventId:(int)eventId_
 {
@@ -112,6 +116,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         popover = nil;
         eventReviews = nil;
         reviewsView = nil;
+        workoutDaysTableViewController = nil;
     }
 
     return self;
@@ -141,7 +146,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         self.navigationItem.titleView = [[GEALabel alloc] initWithText:[event title] fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
         [self loadBanner];
-//        [self loadEventReviewsData];        // Download event reviews
+        [self loadEventReviewsData];        // Download event reviews
         [self updateEventDetailData];       // Updates the UI from model
 
         [self.scroll setHidden:NO];
@@ -368,6 +373,38 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     return valueString;
 }
 
+- (void)updateWorkoutDaysData
+{
+    if(showingDetails)
+    {
+        [self.workoutDaysTableViewController.view removeFromSuperview];
+        [self.workoutDaysTableViewController.view setHidden:YES];
+    }
+    else
+    {
+
+        CGRect segmentContainerFrame = self.segmentContainer.frame;
+        CGFloat baseYPosition = segmentContainerFrame.origin.y + segmentContainerFrame.size.height + kGEASpaceBetweenLabels;
+        
+        if(!self.workoutDaysTableViewController)
+        {
+            self.workoutDaysTableViewController = [[WorkoutDayTableViewController alloc] initWithWorkoutDays:[self.eventReviews objectAtIndex:0]];
+//            [self.workoutDaysTableViewController set
+
+            CGRect workoutDaysFrame = self.workoutDaysTableViewController.view.frame;
+            workoutDaysFrame.origin.x = 0.0f;
+            workoutDaysFrame.origin.y = baseYPosition;
+            workoutDaysFrame.size.width = [[UIScreen mainScreen] bounds].size.width;
+            workoutDaysFrame.size.height = [self.workoutDaysTableViewController getHeight];
+
+            [self.workoutDaysTableViewController.view setFrame:workoutDaysFrame];
+        }
+
+        [self.scroll addSubview:self.workoutDaysTableViewController.view];
+        [self.workoutDaysTableViewController.view setHidden:NO];
+    }
+}
+
 - (void)updateReviewsData
 {
     if(showingDetails)
@@ -407,6 +444,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         if(!y)  y = self.reviewsView.frame.size.height;
 
         [self.reviewsView setFrame:CGRectMake(0, baseYPosition, [[UIScreen mainScreen] bounds].size.width, y)];
+
         [self.scroll addSubview:self.reviewsView];
         [self.reviewsView setHidden:NO];
     }
@@ -442,7 +480,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 - (void)updateScroll
 {
-    CGFloat heightSegmentSelectedOption = self.showingDetails ? self.detailsView.frame.size.height : self.reviewsView.frame.size.height;
+    CGFloat heightSegmentSelectedOption = self.showingDetails ? self.detailsView.frame.size.height : [self.workoutDaysTableViewController getHeight];
     CGFloat scrollContentLength = self.bannerContainer.frame.size.height + self.basicInfoContainer.frame.size.height + kGEASpaceBetweenLabels + self.dealContainer.frame.size.height + self.segmentContainer.frame.size.height + heightSegmentSelectedOption + kGEASpaceBetweenLabels;
 
     [self.scroll setContentSize:CGSizeMake([[UIScreen mainScreen] bounds].size.width, scrollContentLength)];
@@ -489,7 +527,8 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     [self updateDealData];
     [self updateSegmentControl];
     [self updateDetailsData];
-    [self updateReviewsData];
+    //[self updateReviewsData];
+    [self updateWorkoutDaysData];
     [self updateScroll];
 }
 
@@ -540,6 +579,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
     detailsView = nil;
     reviewsView = nil;
+    workoutDaysTableViewController = nil;
     popover = nil;
     eventReviews = nil;
 }

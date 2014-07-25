@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6154.21" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6153.13"/>
     </dependencies>
     <objects>
@@ -220,15 +219,6 @@
             <rect key="frame" x="0.0" y="0.0" width="297" height="150"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="img_purchase_ticket_category_header.png" id="94" userLabel="categoryHeader">
-                    <rect key="frame" x="0.0" y="0.0" width="297" height="144"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <rect key="contentStretch" x="0.0" y="1" width="1" height="1"/>
-                </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="img_purchase_text_deal.png" id="89" userLabel="DEAL">
-                    <rect key="frame" x="14" y="11" width="58" height="19"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Ends on 11/26/13" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="90" userLabel="endDate">
                     <rect key="frame" x="79" y="14" width="112" height="19"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -236,10 +226,6 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="img_purchase_deal_golden_divider.png" id="91" userLabel="goldenDivider">
-                    <rect key="frame" x="0.0" y="39" width="297" height="1"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                </imageView>
                 <view contentMode="scaleToFill" id="93" userLabel="dealView">
                     <rect key="frame" x="195" y="5" width="98" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -289,9 +275,6 @@
     </objects>
     <resources>
         <image name="8-stars" width="88" height="14"/>
-        <image name="img_purchase_deal_golden_divider.png" width="297" height="1"/>
-        <image name="img_purchase_text_deal.png" width="58" height="19"/>
-        <image name="img_purchase_ticket_category_header.png" width="297" height="45"/>
         <image name="workout-banner-bottom-shadow" width="320" height="14"/>
         <image name="workout-banner-placeholder" width="320" height="103"/>
         <image name="workout-banner-top-shadow" width="320" height="14"/>
