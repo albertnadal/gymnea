@@ -19,6 +19,7 @@
 #import "EventDetail.h"
 #import "GEALabel+Gymnea.h"
 #import "UIImageView+AFNetworking.h"
+#import "ChooseWorkoutDayViewController.h"
 
 #define DETAILS_SEGMENT_INDEX 0
 #define WORKOUT_DAYS_SEGMENT_INDEX 1
@@ -94,7 +95,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 - (void)updateScroll;
 - (IBAction)showSelectedSegment:(id)sender;
 - (IBAction)showDescription:(id)sender;
-- (IBAction)buyNow:(id)sender;
+- (IBAction)startWorkout:(id)sender;
 - (void)addActionsButton;
 - (void)stretchBannerWithVerticalOffset:(CGFloat)offset;
 - (void)updateBannerSizeAndPosition:(CGFloat)offset;
@@ -166,6 +167,12 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         [alert show];
     }];
 */
+}
+
+- (IBAction)startWorkout:(id)sender
+{
+    ChooseWorkoutDayViewController *chooseWorkoutDayViewController = [[ChooseWorkoutDayViewController alloc] init];
+    [self presentViewController:chooseWorkoutDayViewController animated:YES completion:nil];
 }
 
 - (void)loadEventReviewsData
@@ -604,6 +611,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     [self.navigationController pushViewController:edvc animated:YES];
 }
 
+/*
 - (IBAction)buyNow:(id)sender
 {
 #warning the following event detail fake is used only for testing purposes. This must use the event detail information provided by the web service
@@ -636,10 +644,10 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
     [eventDetailTest setTimes:@[@"5:00 PM", @"7:00 PM", @"9:00 PM", @"11:00 PM"]];
 
-/*    PurchaseDateAndTimesViewController *pdtvc = [[PurchaseDateAndTimesViewController alloc] initWithEvent:eventDetailTest];
-    [self.navigationController pushViewController:pdtvc animated:YES];
-*/
-}
+//    PurchaseDateAndTimesViewController *pdtvc = [[PurchaseDateAndTimesViewController alloc] initWithEvent:eventDetailTest];
+//    [self.navigationController pushViewController:pdtvc animated:YES];
+
+}*/
 
 - (NSDictionary*)parseURLParams:(NSString *)query
 {

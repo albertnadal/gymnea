@@ -1,52 +1,26 @@
 //
-//  WorkoutDayTableViewController.m
+//  ChooseWorkoutDayTableViewController.m
 //  Gymnea
 //
-//  Created by Albert Nadal Garriga on 23/07/14.
+//  Created by Albert Nadal Garriga on 25/07/14.
 //  Copyright (c) 2014 Gymnea. All rights reserved.
 //
 
-#import "WorkoutDayTableViewController.h"
-#import "WorkoutDayTableViewCell.h"
+#import "ChooseWorkoutDayTableViewController.h"
+#import "ChooseWorkoutDayTableViewCell.h"
 
-@interface WorkoutDayTableViewController ()
-{
-    // Id and model of the review to show
-    EventReview *workoutDays;
-}
-
-@property (nonatomic, strong) EventReview *workoutDays;
+@interface ChooseWorkoutDayTableViewController ()
 
 @end
 
-
-@implementation WorkoutDayTableViewController
-
-@synthesize workoutDays;
-
-- (id)initWithWorkoutDays:(EventReview *)workout_days_
-{
-    if(self = [super initWithNibName:@"WorkoutDayTableViewController" bundle:nil])
-    {
-        self.workoutDays = workout_days_;
-    }
-
-    return self;
-}
+@implementation ChooseWorkoutDayTableViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    [self.tableView registerNib:[UINib nibWithNibName:@"WorkoutDayTableViewCell" bundle:nil] forCellReuseIdentifier:@"GEAWorkoutDay"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"ChooseWorkoutDayTableViewCell" bundle:nil] forCellReuseIdentifier:@"GEAChooseWorkoutDay"];
     self.clearsSelectionOnViewWillAppear = YES;
-}
-
-- (CGFloat)getHeight
-{
-    CGFloat totalHeight = (2 * 5 * 70.0f) + (2 * 46.0f) + (2 * 18.0f);
-
-    return totalHeight;
 }
 
 - (void)didReceiveMemoryWarning
@@ -59,12 +33,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -74,47 +48,23 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 46.0f;
+    return 10.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 18.0f;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0,0,[[UIScreen mainScreen] bounds].size.width, 46.0f)];
-    UIImageView *calendarIcon = [[UIImageView alloc] initWithFrame:CGRectMake(8, 8, 30, 30)];
-    [calendarIcon setImage:[UIImage imageNamed:@"calendar-empty-icon"]];
-    [headerView addSubview:calendarIcon];
-
-    UILabel *dayTitle = [[UILabel alloc] init];
-    [dayTitle setFont:[UIFont fontWithName:@"AvenirNext-Medium" size:16.0]];
-    [dayTitle setText:@"Monday"];
-    [dayTitle sizeToFit];
-    [dayTitle setFrame:CGRectMake(CGRectGetMaxX(calendarIcon.frame) + 6.0f, calendarIcon.frame.origin.y, dayTitle.frame.size.width, calendarIcon.frame.size.height)];
-    [headerView addSubview:dayTitle];
-
-    UILabel *workoutDayTitle = [[UILabel alloc] init];
-    [workoutDayTitle setFont:[UIFont fontWithName:@"AvenirNext-Regular" size:16.0]];
-    [workoutDayTitle setText:@"Chest and Back"];
-    [workoutDayTitle sizeToFit];
-    [workoutDayTitle setFrame:CGRectMake(CGRectGetMaxX(dayTitle.frame) + 6.0f, calendarIcon.frame.origin.y, [[UIScreen mainScreen] bounds].size.width - CGRectGetMaxX(dayTitle.frame), calendarIcon.frame.size.height)];
-    [headerView addSubview:workoutDayTitle];
-
-    return headerView;
+    return 10.0f;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GEAWorkoutDay"];
-
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GEAChooseWorkoutDay"];
+    
     if(cell == nil)
     {
-        cell = [[WorkoutDayTableViewCell alloc] init];
+        cell = [[ChooseWorkoutDayTableViewCell alloc] init];
     }
-
+    
     return cell;
 }
 
@@ -166,6 +116,17 @@
     
     // Push the view controller.
     [self.navigationController pushViewController:detailViewController animated:YES];
+}
+*/
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
 }
 */
 
