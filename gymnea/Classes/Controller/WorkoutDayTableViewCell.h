@@ -10,6 +10,5 @@
 
 @interface WorkoutDayTableViewCell : UITableViewCell
 
-- (id)init;
 
 @end

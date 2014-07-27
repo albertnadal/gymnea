@@ -10,7 +10,7 @@
 #import "ChooseWorkoutDayTableViewController.h"
 #import "GEALabel+Gymnea.h"
 
-@interface ChooseWorkoutDayViewController ()
+@interface ChooseWorkoutDayViewController ()<ChooseWorkoutDayTableViewControllerDelegate>
 {
     ChooseWorkoutDayTableViewController *chooseWorkoutDayTableViewController;
 }
@@ -27,13 +27,14 @@
 
 @synthesize chooseWorkoutDayTableViewController;
 
-- (id)init
+- (id)initWithDelegate:(id<ChooseWorkoutDayViewControllerDelegate>)delegate_
 {
     if(self = [super initWithNibName:@"ChooseWorkoutDayViewController" bundle:nil])
     {
         chooseWorkoutDayTableViewController = nil;
+        self.delegate = delegate_;
     }
-
+    
     return self;
 }
 
@@ -48,7 +49,7 @@
     topLineSeparatorFrame.origin.y = CGRectGetMaxY(titleModal.frame);
     [self.view bringSubviewToFront:self.topLineSeparator];
 
-    self.chooseWorkoutDayTableViewController = [[ChooseWorkoutDayTableViewController alloc] init];
+    self.chooseWorkoutDayTableViewController = [[ChooseWorkoutDayTableViewController alloc] initWithDelegate:self];
 
     CGRect workoutDaysFrame = self.chooseWorkoutDayTableViewController.view.frame;
     workoutDaysFrame.origin.x = 0.0f;
@@ -74,6 +75,13 @@
 - (void)dealloc
 {
     chooseWorkoutDayTableViewController = nil;
+}
+
+- (void)willSelectRowInChooseWorkoutViewController:(ChooseWorkoutDayTableViewController *)tableViewController atRowIndex:(NSInteger)index
+{
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+        [self.delegate willSelectRowInChooseWorkoutDayViewController:self atRowIndex:index];
+    }];
 }
 
 /*

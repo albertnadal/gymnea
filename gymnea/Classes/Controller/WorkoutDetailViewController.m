@@ -20,6 +20,7 @@
 #import "GEALabel+Gymnea.h"
 #import "UIImageView+AFNetworking.h"
 #import "ChooseWorkoutDayViewController.h"
+#import "WorkoutPlayViewController.h"
 
 #define DETAILS_SEGMENT_INDEX 0
 #define WORKOUT_DAYS_SEGMENT_INDEX 1
@@ -35,7 +36,7 @@ static CGFloat const kGEABannerOffsetFactor = 0.45f;
 static float const kGEABannerTransitionCrossDissolveDuration = 0.3f;
 static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeholder";
 
-@interface WorkoutDetailViewController () <GEAPopoverViewControllerDelegate, UIScrollViewDelegate>
+@interface WorkoutDetailViewController () <GEAPopoverViewControllerDelegate, UIScrollViewDelegate, ChooseWorkoutDayViewControllerDelegate>
 {
     // Id and model of the event to show
     int eventId;
@@ -171,7 +172,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 - (IBAction)startWorkout:(id)sender
 {
-    ChooseWorkoutDayViewController *chooseWorkoutDayViewController = [[ChooseWorkoutDayViewController alloc] init];
+    ChooseWorkoutDayViewController *chooseWorkoutDayViewController = [[ChooseWorkoutDayViewController alloc] initWithDelegate:self];
     [self presentViewController:chooseWorkoutDayViewController animated:YES completion:nil];
 }
 
@@ -801,6 +802,12 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
         case 3: break;
     }
+}
+
+- (void)willSelectRowInChooseWorkoutDayViewController:(ChooseWorkoutDayViewController *)chooseWorkoutDayViewController atRowIndex:(NSInteger)index
+{
+    WorkoutPlayViewController *workoutPlayViewController = [[WorkoutPlayViewController alloc] init];
+    [self.navigationController pushViewController:workoutPlayViewController animated:YES];
 }
 
 @end

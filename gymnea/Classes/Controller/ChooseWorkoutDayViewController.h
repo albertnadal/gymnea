@@ -8,8 +8,25 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol ChooseWorkoutDayViewControllerDelegate;
+
 @interface ChooseWorkoutDayViewController : UIViewController
 
-- (id)init;
+@property (weak, nonatomic) id<ChooseWorkoutDayViewControllerDelegate>delegate;
+
+- (id)initWithDelegate:(id<ChooseWorkoutDayViewControllerDelegate>)delegate_;
+
+@end
+
+@protocol ChooseWorkoutDayViewControllerDelegate <NSObject>
+
+/*
+- (NSInteger)numberOfSecondsToCoundown:(NextExerciseCountdownViewController *)nextExerciseCountdown;
+- (NSString *)nextExerciseName:(NextExerciseCountdownViewController *)nextExerciseCountdown;
+- (NSInteger)nextExerciseTotalRepetitions:(NextExerciseCountdownViewController *)nextExerciseCountdown;
+- (NSString *)nextExerciseSetsRepetitionsString:(NextExerciseCountdownViewController *)nextExerciseCountdown;
+*/
+
+- (void)willSelectRowInChooseWorkoutDayViewController:(ChooseWorkoutDayViewController *)chooseWorkoutDayViewController atRowIndex:(NSInteger)index;
 
 @end
