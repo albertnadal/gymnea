@@ -20,11 +20,14 @@ PODS:
   - AFNetworking/UIKit (2.3.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - CHTCollectionViewWaterfallLayout (0.7)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.3.1)
+  - CHTCollectionViewWaterfallLayout (~> 0.7)
 
 SPEC CHECKSUMS:
   AFNetworking: 6d7b76aa5d04c8c37daad3eef4b7e3f2a7620da3
+  CHTCollectionViewWaterfallLayout: 184d3b6d5456b48e93ac97e93e606bd8b68aedcc
 
 COCOAPODS: 0.33.1

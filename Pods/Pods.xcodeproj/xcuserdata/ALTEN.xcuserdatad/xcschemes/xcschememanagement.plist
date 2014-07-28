@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-CHTCollectionViewWaterfallLayout.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -17,12 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>6F1BC7BB1AE64D7BA1A458F1</key>
+		<key>47183863B5444CEF9040FCA8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DDDC83C73CFE4C51A981A370</key>
+		<key>833C2957BB4342DEBA4917A0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BB9EA9EF7DB94CB19FCAF496</key>
 		<dict>
 			<key>primary</key>
 			<true/>
