@@ -23,6 +23,10 @@
 		FF6A19101985430800DA4E40 /* WorkoutPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF6A190E1985430800DA4E40 /* WorkoutPlayViewController.m */; };
 		FF6A19111985430800DA4E40 /* WorkoutPlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF6A190F1985430800DA4E40 /* WorkoutPlayViewController.xib */; };
 		FF76206B196ABA9100611B3B /* Avenir Next.ttc in Resources */ = {isa = PBXBuildFile; fileRef = FF76206A196ABA9100611B3B /* Avenir Next.ttc */; };
+		FF78E77E198647AF001396E3 /* WorkoutPlayExerciseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF78E77C198647AF001396E3 /* WorkoutPlayExerciseViewController.m */; };
+		FF78E77F198647AF001396E3 /* WorkoutPlayExerciseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF78E77D198647AF001396E3 /* WorkoutPlayExerciseViewController.xib */; };
+		FF78E78319867265001396E3 /* WorkoutPlayRestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF78E78119867265001396E3 /* WorkoutPlayRestViewController.m */; };
+		FF78E78419867265001396E3 /* WorkoutPlayRestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF78E78219867265001396E3 /* WorkoutPlayRestViewController.xib */; };
 		FF80E93F196B39D100D29986 /* InitialQuestionnaireViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF80E93D196B39D100D29986 /* InitialQuestionnaireViewController.m */; };
 		FF80E942196B3A3600D29986 /* InitialQuestionnaireViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF80E941196B3A3600D29986 /* InitialQuestionnaireViewController.xib */; };
 		FF8162541982F5C800443C13 /* ChooseWorkoutDayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF8162531982F5C800443C13 /* ChooseWorkoutDayViewController.xib */; };
@@ -94,6 +98,12 @@
 		FF6A190E1985430800DA4E40 /* WorkoutPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutPlayViewController.m; path = Classes/Controller/WorkoutPlayViewController.m; sourceTree = "<group>"; };
 		FF6A190F1985430800DA4E40 /* WorkoutPlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkoutPlayViewController.xib; path = Classes/Controller/WorkoutPlayViewController.xib; sourceTree = "<group>"; };
 		FF76206A196ABA9100611B3B /* Avenir Next.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Avenir Next.ttc"; path = "Resources/Fonts/Avenir Next.ttc"; sourceTree = "<group>"; };
+		FF78E77B198647AF001396E3 /* WorkoutPlayExerciseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutPlayExerciseViewController.h; path = Classes/Controller/WorkoutPlayExerciseViewController.h; sourceTree = "<group>"; };
+		FF78E77C198647AF001396E3 /* WorkoutPlayExerciseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutPlayExerciseViewController.m; path = Classes/Controller/WorkoutPlayExerciseViewController.m; sourceTree = "<group>"; };
+		FF78E77D198647AF001396E3 /* WorkoutPlayExerciseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkoutPlayExerciseViewController.xib; path = Classes/Controller/WorkoutPlayExerciseViewController.xib; sourceTree = "<group>"; };
+		FF78E78019867265001396E3 /* WorkoutPlayRestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutPlayRestViewController.h; path = Classes/Controller/WorkoutPlayRestViewController.h; sourceTree = "<group>"; };
+		FF78E78119867265001396E3 /* WorkoutPlayRestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutPlayRestViewController.m; path = Classes/Controller/WorkoutPlayRestViewController.m; sourceTree = "<group>"; };
+		FF78E78219867265001396E3 /* WorkoutPlayRestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkoutPlayRestViewController.xib; path = Classes/Controller/WorkoutPlayRestViewController.xib; sourceTree = "<group>"; };
 		FF80E93C196B39D100D29986 /* InitialQuestionnaireViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialQuestionnaireViewController.h; path = Classes/Controller/InitialQuestionnaireViewController.h; sourceTree = "<group>"; };
 		FF80E93D196B39D100D29986 /* InitialQuestionnaireViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialQuestionnaireViewController.m; path = Classes/Controller/InitialQuestionnaireViewController.m; sourceTree = "<group>"; };
 		FF80E941196B3A3600D29986 /* InitialQuestionnaireViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InitialQuestionnaireViewController.xib; path = Resources/Views/InitialQuestionnaireViewController.xib; sourceTree = "<group>"; };
@@ -207,6 +217,12 @@
 				FF6A190D1985430800DA4E40 /* WorkoutPlayViewController.h */,
 				FF6A190E1985430800DA4E40 /* WorkoutPlayViewController.m */,
 				FF6A190F1985430800DA4E40 /* WorkoutPlayViewController.xib */,
+				FF78E77B198647AF001396E3 /* WorkoutPlayExerciseViewController.h */,
+				FF78E77C198647AF001396E3 /* WorkoutPlayExerciseViewController.m */,
+				FF78E77D198647AF001396E3 /* WorkoutPlayExerciseViewController.xib */,
+				FF78E78019867265001396E3 /* WorkoutPlayRestViewController.h */,
+				FF78E78119867265001396E3 /* WorkoutPlayRestViewController.m */,
+				FF78E78219867265001396E3 /* WorkoutPlayRestViewController.xib */,
 			);
 			name = WorkoutPlay;
 			sourceTree = "<group>";
@@ -520,6 +536,7 @@
 				FFF779481985340C0073E0BE /* NextExerciseCountdownViewController.xib in Resources */,
 				FF9110BC197BB1B500818E95 /* WorkoutDescriptionViewController.xib in Resources */,
 				FF816259198305B500443C13 /* ChooseWorkoutDayTableViewController.xib in Resources */,
+				FF78E78419867265001396E3 /* WorkoutPlayRestViewController.xib in Resources */,
 				FF23A6431982964100E62C5B /* WorkoutDayTableViewController.xib in Resources */,
 				FFA137651969A58000DBEE68 /* Images.xcassets in Resources */,
 				FFA1378E196A02D300DBEE68 /* InitialViewController.xib in Resources */,
@@ -531,6 +548,7 @@
 				FF6A19111985430800DA4E40 /* WorkoutPlayViewController.xib in Resources */,
 				FF8162541982F5C800443C13 /* ChooseWorkoutDayViewController.xib in Resources */,
 				FF9110BE197BB1B500818E95 /* EventReviewViewController.xib in Resources */,
+				FF78E77F198647AF001396E3 /* WorkoutPlayExerciseViewController.xib in Resources */,
 				FF0DC1B9196CA1CC006E1817 /* LogInViewController.xib in Resources */,
 				FF441EAA197067EC00865065 /* GEASideMenuController.xib in Resources */,
 				FF81625E1983222000443C13 /* ChooseWorkoutDayTableViewCell.xib in Resources */,
@@ -601,6 +619,7 @@
 				FF11F5C5196DF08200590C10 /* GEALabel+Gymnea.m in Sources */,
 				FF9110A6197B10BD00818E95 /* EventReviewViewController.m in Sources */,
 				FF11F5C4196DF08200590C10 /* GEALabel.m in Sources */,
+				FF78E78319867265001396E3 /* WorkoutPlayRestViewController.m in Sources */,
 				FF23A64019825DDC00E62C5B /* WorkoutDayTableViewCell.m in Sources */,
 				FFF779471985340C0073E0BE /* NextExerciseCountdownViewController.m in Sources */,
 				FFA137571969A58000DBEE68 /* main.m in Sources */,
@@ -610,6 +629,7 @@
 				FFA137871969F9EA00DBEE68 /* InitialViewController.m in Sources */,
 				FF9110C1197BB4AD00818E95 /* GEAPopoverViewController.m in Sources */,
 				FF3F70A8196D54BE007AADF1 /* GEASideMenuController.m in Sources */,
+				FF78E77E198647AF001396E3 /* WorkoutPlayExerciseViewController.m in Sources */,
 				FF9110B5197B1DF200818E95 /* EventReview.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

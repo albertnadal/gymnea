@@ -64,6 +64,9 @@
     if(countdownSeconds<=0) {
         [self.countdownTemporizer invalidate];
         self.countdownTemporizer = nil;
+
+        if([self.delegate respondsToSelector:@selector(nextExerciseCountdownFinished:)])
+            [self.delegate nextExerciseCountdownFinished:self];
     }
 }
 

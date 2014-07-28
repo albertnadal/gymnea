@@ -8,6 +8,7 @@
 
 #import "WorkoutPlayViewController.h"
 
+
 @interface WorkoutPlayViewController ()
 
 @end
@@ -58,7 +59,7 @@
 
 - (NSInteger)numberOfSecondsToCoundown:(NextExerciseCountdownViewController *)nextExerciseCountdown
 {
-    return 15;
+    return 5;
 }
 
 - (NSString *)nextExerciseName:(NextExerciseCountdownViewController *)nextExerciseCountdown
@@ -76,5 +77,28 @@
     return nil;
 }
 
+- (void)nextExerciseCountdownFinished:(NextExerciseCountdownViewController *)nextExerciseCountdown
+{
+    [self.navigationController popToViewController:self animated:NO];
+
+    WorkoutPlayExerciseViewController *workoutPlayExerciseViewController = [[WorkoutPlayExerciseViewController alloc] initWithDelegate:self];
+    [self.navigationController pushViewController:workoutPlayExerciseViewController animated:NO];
+}
+
+- (void)workoutExerciseFinished:(WorkoutPlayExerciseViewController *)workoutExercise
+{
+    [self.navigationController popToViewController:self animated:NO];
+
+    WorkoutPlayRestViewController *workoutPlayRestViewController = [[WorkoutPlayRestViewController alloc] initWithDelegate:self];
+    [self.navigationController pushViewController:workoutPlayRestViewController animated:NO];
+}
+
+- (void)workoutExerciseRestFinished:(WorkoutPlayRestViewController *)workoutExerciseRest
+{
+    [self.navigationController popToViewController:self animated:NO];
+
+    WorkoutPlayExerciseViewController *workoutPlayExerciseViewController = [[WorkoutPlayExerciseViewController alloc] initWithDelegate:self];
+    [self.navigationController pushViewController:workoutPlayExerciseViewController animated:NO];
+}
 
 @end
