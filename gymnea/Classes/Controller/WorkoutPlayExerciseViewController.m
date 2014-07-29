@@ -34,6 +34,8 @@
 {
     [super viewDidLoad];
 
+    self.navigationController.navigationBar.hidden = TRUE;
+
     GEALabel *titleModal = [[GEALabel alloc] initWithText:@"Front Squats With Two Kettlebells" fontSize:21.0f frame:CGRectMake(10.0f,20.0f,[[UIScreen mainScreen] bounds].size.width - 20.0f,44.0f)];
     [self.view addSubview:titleModal];
 
@@ -86,6 +88,12 @@
     if (buttonIndex == 0) {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:_videoPlayer];
         [_videoPlayer stop];
+
+        if([self.delegate respondsToSelector:@selector(userDidSelectFinishWorkoutFromExercise:)])
+        {
+            [self.delegate userDidSelectFinishWorkoutFromExercise:self];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
 
     } else if (buttonIndex == 1) {
         [_videoPlayer play];

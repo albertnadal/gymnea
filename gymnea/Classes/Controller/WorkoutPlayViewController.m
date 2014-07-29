@@ -7,6 +7,7 @@
 //
 
 #import "WorkoutPlayViewController.h"
+#import "GEALabel+Gymnea.h"
 
 
 @interface WorkoutPlayViewController ()
@@ -28,7 +29,7 @@
 {
     [super viewDidLoad];
 
-    self.navigationController.navigationBar.hidden = TRUE;
+    self.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Results" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
                                                                              style:UIBarButtonItemStylePlain
@@ -91,6 +92,20 @@
 
     WorkoutPlayRestViewController *workoutPlayRestViewController = [[WorkoutPlayRestViewController alloc] initWithDelegate:self];
     [self.navigationController pushViewController:workoutPlayRestViewController animated:NO];
+}
+
+- (void)userDidSelectFinishWorkoutFromExercise:(WorkoutPlayExerciseViewController *)workoutExercise
+{
+    self.navigationController.navigationBar.hidden = FALSE;
+
+//    [self.navigationController popToViewController:self animated:NO];
+}
+
+- (void)userDidSelectFinishWorkoutFromRest:(WorkoutPlayRestViewController *)workoutExerciseRest
+{
+    self.navigationController.navigationBar.hidden = FALSE;
+
+//    [self.navigationController popToViewController:self animated:NO];
 }
 
 - (void)workoutExerciseRestFinished:(WorkoutPlayRestViewController *)workoutExerciseRest

@@ -807,7 +807,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 - (void)willSelectRowInChooseWorkoutDayViewController:(ChooseWorkoutDayViewController *)chooseWorkoutDayViewController atRowIndex:(NSInteger)index
 {
     WorkoutPlayViewController *workoutPlayViewController = [[WorkoutPlayViewController alloc] init];
-    [self.navigationController pushViewController:workoutPlayViewController animated:YES];
+    [self.navigationController pushViewController:workoutPlayViewController animated:NO];
 }
 
 @end

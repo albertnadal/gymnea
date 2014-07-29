@@ -17,7 +17,7 @@
     UICollectionView *_collectionView;
 }
 
-- (IBAction)showWorkoutDetails:(id)sender;
+- (void)showWorkoutDetails:(int)workoutId;
 
 @end
 
@@ -33,9 +33,9 @@
     return self;
 }
 
-- (IBAction)showWorkoutDetails:(id)sender
+- (void)showWorkoutDetails:(int)workoutId
 {
-    WorkoutDetailViewController *viewController = [[WorkoutDetailViewController alloc] initWithEventId:1];
+    WorkoutDetailViewController *viewController = [[WorkoutDetailViewController alloc] initWithEventId:workoutId];
 
     [viewController.view setFrame:CGRectMake(0,0,320,690)];
     CGRect frame2 = viewController.navigationController.toolbar.frame;
@@ -89,9 +89,9 @@
         cell = [[GenericWorkoutCollectionViewCell alloc] init];
     }
 
-    cell.layer.borderWidth = 1.0f;
+    cell.layer.borderWidth = 0.5f;
     cell.layer.borderColor = [UIColor colorWithRed:80.0/255.0 green:80.0/255.0 blue:80.0/255.0 alpha:0.3].CGColor;
-    cell.layer.cornerRadius = 3.0;
+    cell.layer.cornerRadius = 4.0;
     UIBezierPath *cellViewShadowPath = [UIBezierPath bezierPathWithRect:cell.bounds];
     cell.layer.shadowPath = cellViewShadowPath.CGPath;
 
@@ -100,7 +100,12 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(145.0f, 170.0f + (arc4random() % 60));
+    return CGSizeMake(145.0f, 222.0f + (arc4random() % 50));
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self showWorkoutDetails:1];
 }
 
 - (void)didReceiveMemoryWarning

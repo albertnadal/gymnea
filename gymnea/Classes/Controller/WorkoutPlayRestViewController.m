@@ -9,6 +9,8 @@
 #import "WorkoutPlayRestViewController.h"
 #import "GEALabel+Gymnea.h"
 
+@import AVFoundation;
+
 @interface WorkoutPlayRestViewController ()<UIActionSheetDelegate>
 {
     int countdownSeconds;
@@ -17,6 +19,7 @@
 
 @property (nonatomic, weak) IBOutlet UILabel *countdownLabel;
 @property (nonatomic, retain) NSTimer *countdownTemporizer;
+@property (assign) SystemSoundID countdownSound;
 
 - (void)updateTimer:(id)sender;
 - (IBAction)exerciseRestFinished:(id)sender;
@@ -33,7 +36,7 @@
         self.delegate = delegate_;
         self.countdownTemporizer = nil;
         countdownActive = TRUE;
-        countdownSeconds = 60;
+        countdownSeconds = 10;
     }
     
     return self;
@@ -43,11 +46,17 @@
 {
     [super viewDidLoad];
 
+    self.navigationController.navigationBar.hidden = TRUE;
+
     GEALabel *titleModal = [[GEALabel alloc] initWithText:@"Take a breath" fontSize:21.0f frame:CGRectMake(10.0f,20.0f,[[UIScreen mainScreen] bounds].size.width - 20.0f,44.0f)];
     [self.view addSubview:titleModal];
 
     [self.countdownLabel setText:[NSString stringWithFormat:@"%d", countdownSeconds]];
-    
+
+    NSString *pewPewPath = [[NSBundle mainBundle] pathForResource:@"clock_tic" ofType:@"wav"];
+    NSURL *pewPewURL = [NSURL fileURLWithPath:pewPewPath];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)pewPewURL, &_countdownSound);
+
     self.countdownTemporizer = [NSTimer scheduledTimerWithTimeInterval:1.0f
                                                                 target:self
                                                               selector:@selector(updateTimer:)
@@ -60,9 +69,12 @@
     if(!countdownActive)
         return;
 
-    countdownSeconds--;
     [self.countdownLabel setText:[NSString stringWithFormat:@"%d", countdownSeconds]];
-    
+
+    if((countdownSeconds<=3) && (countdownSeconds>0)) {
+        AudioServicesPlaySystemSound(self.countdownSound);
+    }
+
     if(countdownSeconds<=0) {
         [self.countdownTemporizer invalidate];
         self.countdownTemporizer = nil;
@@ -70,6 +82,8 @@
         if([self.delegate respondsToSelector:@selector(workoutExerciseRestFinished:)])
             [self.delegate workoutExerciseRestFinished:self];
     }
+
+    countdownSeconds--;
 }
 
 - (void)didReceiveMemoryWarning
@@ -92,8 +106,9 @@
     [self.countdownTemporizer invalidate];
     self.countdownTemporizer = nil;
 
-    if([self.delegate respondsToSelector:@selector(workoutExerciseRestFinished:)])
+    if([self.delegate respondsToSelector:@selector(workoutExerciseRestFinished:)]) {
         [self.delegate workoutExerciseRestFinished:self];
+    }
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -101,6 +116,13 @@
     if (buttonIndex == 0) {
         [self.countdownTemporizer invalidate];
         self.countdownTemporizer = nil;
+
+        if([self.delegate respondsToSelector:@selector(userDidSelectFinishWorkoutFromRest:)])
+        {
+            [self.delegate userDidSelectFinishWorkoutFromRest:self];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+
     } else if (buttonIndex == 1) {
         countdownActive = TRUE;
     }

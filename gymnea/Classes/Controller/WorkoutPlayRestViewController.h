@@ -27,5 +27,6 @@
  - (NSString *)nextExerciseSetsRepetitionsString:(NextExerciseCountdownViewController *)nextExerciseCountdown;
  */
 - (void)workoutExerciseRestFinished:(WorkoutPlayRestViewController *)workoutExerciseRest;
+- (void)userDidSelectFinishWorkoutFromRest:(WorkoutPlayRestViewController *)workoutExerciseRest;
 
 @end

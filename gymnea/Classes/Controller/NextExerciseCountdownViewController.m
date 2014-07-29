@@ -9,6 +9,8 @@
 #import "NextExerciseCountdownViewController.h"
 #import "GEALabel+Gymnea.h"
 
+@import AVFoundation;
+
 @interface NextExerciseCountdownViewController ()
 {
     int countdownSeconds;
@@ -16,6 +18,7 @@
 
 @property (nonatomic, weak) IBOutlet UILabel *countdownLabel;
 @property (nonatomic, retain) NSTimer *countdownTemporizer;
+@property (assign) SystemSoundID countdownSound;
 
 - (void)updateTimer:(id)sender;
 
@@ -44,6 +47,10 @@
     GEALabel *titleModal = [[GEALabel alloc] initWithText:@"Get ready!" fontSize:18.0f frame:CGRectMake(0.0f,20.0f,[[UIScreen mainScreen] bounds].size.width,44.0f)];
     [self.view addSubview:titleModal];
 
+    NSString *pewPewPath = [[NSBundle mainBundle] pathForResource:@"clock_tic" ofType:@"wav"];
+    NSURL *pewPewURL = [NSURL fileURLWithPath:pewPewPath];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)pewPewURL, &_countdownSound);
+
     if([self.delegate respondsToSelector:@selector(numberOfSecondsToCoundown:)])
         countdownSeconds = [self.delegate numberOfSecondsToCoundown:self];
 
@@ -58,8 +65,11 @@
 
 - (void)updateTimer:(id)sender
 {
-    countdownSeconds--;
     [self.countdownLabel setText:[NSString stringWithFormat:@"%d", countdownSeconds]];
+
+    if((countdownSeconds<=3) && (countdownSeconds>0)) {
+        AudioServicesPlaySystemSound(self.countdownSound);
+    }
 
     if(countdownSeconds<=0) {
         [self.countdownTemporizer invalidate];
@@ -68,6 +78,8 @@
         if([self.delegate respondsToSelector:@selector(nextExerciseCountdownFinished:)])
             [self.delegate nextExerciseCountdownFinished:self];
     }
+
+    countdownSeconds--;
 }
 
 - (void)didReceiveMemoryWarning

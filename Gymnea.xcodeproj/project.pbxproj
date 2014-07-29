@@ -61,6 +61,7 @@
 		FFABFDD6196C88C4004FC527 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFABFDD4196C88C4004FC527 /* SignUpViewController.m */; };
 		FFABFDD9196C8920004FC527 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFABFDD8196C8920004FC527 /* SignUpViewController.xib */; };
 		FFABFDDD196CA111004FC527 /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFABFDDB196CA111004FC527 /* LogInViewController.m */; };
+		FFADD41C198851A4009F14F3 /* clock_tic.wav in Resources */ = {isa = PBXBuildFile; fileRef = FFADD41B198851A4009F14F3 /* clock_tic.wav */; };
 		FFDDE707197D2A34009694D9 /* GenericWorkoutsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFDDE705197D2A34009694D9 /* GenericWorkoutsViewController.m */; };
 		FFF5715219800CBD00BE457B /* WorkoutDayTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF5715019800CBD00BE457B /* WorkoutDayTableViewController.m */; };
 		FFF779471985340C0073E0BE /* NextExerciseCountdownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF779451985340C0073E0BE /* NextExerciseCountdownViewController.m */; };
@@ -165,6 +166,8 @@
 		FFABFDD8196C8920004FC527 /* SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SignUpViewController.xib; path = Resources/Views/SignUpViewController.xib; sourceTree = "<group>"; };
 		FFABFDDA196CA111004FC527 /* LogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogInViewController.h; path = Classes/Controller/LogInViewController.h; sourceTree = "<group>"; };
 		FFABFDDB196CA111004FC527 /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LogInViewController.m; path = Classes/Controller/LogInViewController.m; sourceTree = "<group>"; };
+		FFADD41619884E0E009F14F3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		FFADD41B198851A4009F14F3 /* clock_tic.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = clock_tic.wav; sourceTree = "<group>"; };
 		FFDDE704197D2A34009694D9 /* GenericWorkoutsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericWorkoutsViewController.h; path = Classes/Controller/GenericWorkoutsViewController.h; sourceTree = "<group>"; };
 		FFDDE705197D2A34009694D9 /* GenericWorkoutsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenericWorkoutsViewController.m; path = Classes/Controller/GenericWorkoutsViewController.m; sourceTree = "<group>"; };
 		FFF5714F19800CBD00BE457B /* WorkoutDayTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutDayTableViewController.h; path = Classes/Controller/WorkoutDayTableViewController.h; sourceTree = "<group>"; };
@@ -396,6 +399,7 @@
 		FFA137841969F99200DBEE68 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FFADD4181988500B009F14F3 /* Audio */,
 				FFA1378A1969FA2800DBEE68 /* Languages */,
 				FFA137891969FA2000DBEE68 /* Fonts */,
 				FFA137881969FA1100DBEE68 /* Views */,
@@ -439,10 +443,19 @@
 		FFA1378C1969FE7100DBEE68 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FFADD41619884E0E009F14F3 /* AudioToolbox.framework */,
 				FFA1377A1969A7C200DBEE68 /* HealthKit.framework */,
 				F89F9838FFAD409CB7CBD870 /* libPods.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FFADD4181988500B009F14F3 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				FFADD41B198851A4009F14F3 /* clock_tic.wav */,
+			);
+			name = Audio;
 			sourceTree = "<group>";
 		};
 		FFDDE703197D29FB009694D9 /* Workouts */ = {
@@ -552,6 +565,7 @@
 				FFABFDD2196C4A48004FC527 /* InitialQuestionnaireGoalViewController.xib in Resources */,
 				FF76206B196ABA9100611B3B /* Avenir Next.ttc in Resources */,
 				FFF779481985340C0073E0BE /* NextExerciseCountdownViewController.xib in Resources */,
+				FFADD41C198851A4009F14F3 /* clock_tic.wav in Resources */,
 				FF9110BC197BB1B500818E95 /* WorkoutDescriptionViewController.xib in Resources */,
 				FF816259198305B500443C13 /* ChooseWorkoutDayTableViewController.xib in Resources */,
 				FF78E78419867265001396E3 /* WorkoutPlayRestViewController.xib in Resources */,
