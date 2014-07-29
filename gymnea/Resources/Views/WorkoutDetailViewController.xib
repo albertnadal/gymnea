@@ -135,7 +135,7 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="43">
                             <rect key="frame" x="7" y="9" width="305" height="42"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                            <color key="backgroundColor" red="0.0" green="0.42745098040000001" blue="0.61568627450000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" red="0.45098039215686275" green="0.68235294117647061" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="15"/>
                             <state key="normal" title="Start Workout">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

@@ -1,5 +1,5 @@
 //
-//  WorkoutsViewController.h
+//  GenericWorkoutsViewController.h
 //  Gymnea
 //
 //  Created by Albert Nadal Garriga on 21/07/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WorkoutsViewController : UIViewController
+@interface GenericWorkoutsViewController : UIViewController
 
 @end

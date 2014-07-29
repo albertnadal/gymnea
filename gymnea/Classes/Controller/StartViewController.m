@@ -10,7 +10,8 @@
 #import "GEASideMenuController.h"
 #import "InitialViewController.h"
 #import "GEALabel+Gymnea.h"
-#import "WorkoutsViewController.h"
+#import "GenericWorkoutsViewController.h"
+#import "GEAScrollableTabBarController.h"
 
 @interface StartViewController ()
 
@@ -49,9 +50,52 @@
 
     
     
-    
 
+    GenericWorkoutsViewController *workoutsViewController = [[GenericWorkoutsViewController alloc] init];
+    //[workoutsViewController.view setFrame:CGRectMake(0,0,320,690)];
+    [workoutsViewController setTitle:@"Generic"];
+
+/*    UIViewController *viewController = [[UIViewController alloc] init];
+    [viewController.view setFrame:CGRectMake(0,0,320,690)];
+    [viewController.view setBackgroundColor:[UIColor redColor]];
+    [viewController setTitle:@"Test"];*/
     
+    UIViewController *customWorkoutsViewController = [[UIViewController alloc] init];
+    [customWorkoutsViewController.view setFrame:CGRectMake(0,0,320,690)];
+    [customWorkoutsViewController.view setBackgroundColor:[UIColor whiteColor]];
+    [customWorkoutsViewController setTitle:@"Custom"];
+
+    UIViewController *savedWorkoutsViewController = [[UIViewController alloc] init];
+    [savedWorkoutsViewController.view setFrame:CGRectMake(0,0,320,690)];
+    [savedWorkoutsViewController.view setBackgroundColor:[UIColor whiteColor]];
+    [savedWorkoutsViewController setTitle:@"Saved"];
+
+    UIViewController *assignedWorkoutsViewController = [[UIViewController alloc] init];
+    [assignedWorkoutsViewController.view setFrame:CGRectMake(0,0,320,690)];
+    [assignedWorkoutsViewController.view setBackgroundColor:[UIColor whiteColor]];
+    [assignedWorkoutsViewController setTitle:@"Assigned"];
+
+    UIViewController *currentWorkoutViewController = [[UIViewController alloc] init];
+    [currentWorkoutViewController.view setFrame:CGRectMake(0,0,320,690)];
+    [currentWorkoutViewController.view setBackgroundColor:[UIColor whiteColor]];
+    [currentWorkoutViewController setTitle:@"Current"];
+
+    GEAScrollableTabBarController *scrollableTabBarController = [[GEAScrollableTabBarController alloc] init];
+    [scrollableTabBarController.view setFrame:CGRectMake(0,0,320,690)];
+    [scrollableTabBarController setViewControllers:@[workoutsViewController, customWorkoutsViewController, savedWorkoutsViewController, assignedWorkoutsViewController, currentWorkoutViewController]];
+
+    UITabBarItem *favorites2TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Workouts" image:[UIImage imageNamed:@"sidebar-workouts-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-workouts-icon"]];
+    [scrollableTabBarController setTabBarItem:favorites2TabBarItem];
+    UINavigationController *favorites2Controller = [[UINavigationController alloc] initWithRootViewController:scrollableTabBarController];
+    [favorites2Controller.interactivePopGestureRecognizer setEnabled:NO];
+    favorites2Controller.navigationBar.tintColor = [UIColor colorWithRed:7.0/255.0 green:154.0/255.0 blue:204.0/255.0 alpha:1.0];
+    // Add the screen title
+    scrollableTabBarController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Workouts" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+
+
+
+
+/*
     WorkoutsViewController *workoutsViewController = [[WorkoutsViewController alloc] init];
     [workoutsViewController.view setFrame:CGRectMake(0,0,320,690)];
     CGRect frame2 = workoutsViewController.navigationController.toolbar.frame;
@@ -66,7 +110,7 @@
     favorites2Controller.navigationBar.tintColor = [UIColor colorWithRed:7.0/255.0 green:154.0/255.0 blue:204.0/255.0 alpha:1.0];
     // Add the screen title
     workoutsViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Workouts" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
-    
+*/
     
     
     
