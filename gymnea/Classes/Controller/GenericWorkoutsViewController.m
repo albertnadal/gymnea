@@ -67,7 +67,6 @@
     [_collectionView setDataSource:self];
     [_collectionView setDelegate:self];
 
-    //[_collectionView registerClass:[GenericWorkoutCollectionViewCell class] forCellWithReuseIdentifier:@"genericWorkoutCellIdentifier"];
     [_collectionView registerNib:[UINib nibWithNibName:@"GenericWorkoutCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"genericWorkoutCellIdentifier"];
     [_collectionView setBackgroundColor:[UIColor clearColor]];
 
@@ -80,7 +79,6 @@
     return 15;
 }
 
-// The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"genericWorkoutCellIdentifier" forIndexPath:indexPath];
@@ -112,16 +110,5 @@
 {
     [super didReceiveMemoryWarning];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

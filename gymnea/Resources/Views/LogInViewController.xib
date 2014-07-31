@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6154.21" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6153.13"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LogInViewController">
             <connections>
                 <outlet property="forgotPasswordButton" destination="adt-78-Q98" id="c8N-y8-swS"/>
+                <outlet property="passwordTextField" destination="874-Bf-7WA" id="bji-Tq-hhb"/>
+                <outlet property="usernameTextField" destination="y26-1g-WEp" id="IpH-E8-1pK"/>
                 <outlet property="view" destination="P2d-Rg-P9o" id="Dz7-A8-U18"/>
             </connections>
         </placeholder>

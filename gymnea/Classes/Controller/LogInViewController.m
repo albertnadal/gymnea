@@ -8,9 +8,13 @@
 
 #import "LogInViewController.h"
 #import "StartViewController.h"
+#import "MBProgressHUD.h"
+#import "GymneaWSClient.h"
 
 @interface LogInViewController ()
 
+@property (nonatomic, weak) IBOutlet UITextField *usernameTextField;
+@property (nonatomic, weak) IBOutlet UITextField *passwordTextField;
 @property (nonatomic, weak) IBOutlet UIButton *forgotPasswordButton;
 
 - (IBAction)goBack:(id)sender;
@@ -66,8 +70,37 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    StartViewController *startViewController = [[StartViewController alloc] init];
-    [self.navigationController pushViewController:startViewController animated:NO];
+    if(textField == self.usernameTextField) {
+        [self.usernameTextField resignFirstResponder];
+        [self.passwordTextField becomeFirstResponder];
+    }
+    else if(textField == self.passwordTextField) {
+        [self.passwordTextField resignFirstResponder];
+
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+        GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
+        [gymneaWSClient signInForUsername:[self.usernameTextField text] /*@"albert@gymnia.com"*/
+                              andPassword:[self.passwordTextField text] /*@"albert"*/
+                      withCompletionBlock:^(GymneaSignInWSClientRequestResponse success, NSDictionary *responseData) {
+
+                      [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+//                      NSLog(@"SIGN IN RESPONSE: %@", responseData);
+
+                      if([[[responseData objectForKey:@"success"] lowercaseString] isEqual: @"false"]) {
+                          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[responseData objectForKey:@"errorMsg"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                          [alert show];
+                      } else if([[[responseData objectForKey:@"success"] lowercaseString] isEqual: @"true"]){
+                          StartViewController *startViewController = [[StartViewController alloc] init];
+                          [self.navigationController pushViewController:startViewController animated:NO];
+                      } else {
+                          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"An unexpected error occurred. Check your Internet connection and retry again." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                          [alert show];
+                      }
+
+                  }];
+    }
 
     return TRUE;
 }
