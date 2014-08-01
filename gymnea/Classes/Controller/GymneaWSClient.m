@@ -52,12 +52,15 @@ typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDi
               if(success == GymneaWSClientRequestSuccess) {
                   signInStatus = GymneaSignInWSClientRequestSuccess;
 
-                  GEAAuthentication *authentication = [[GEAAuthentication alloc] initWithAuthBaseURL:[NSString stringWithFormat:@"%@", kWSDomain]
-                                                                                      clientInfoHash:[cookies objectForKey:@"uid"]
-                                                                                           clientKey:[cookies objectForKey:@"ukey"]];
+                  if([cookies objectForKey:@"uid"] != nil) {
+                      GEAAuthentication *authentication = [[GEAAuthentication alloc] initWithAuthBaseURL:[NSString stringWithFormat:@"%@", kWSDomain]
+                                                                                          clientInfoHash:[cookies objectForKey:@"uid"]
+                                                                                               clientKey:[cookies objectForKey:@"ukey"]];
 
-                  GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
-                  [keychainStore setAuthentication:authentication forIdentifier:@"gymnea"];
+                      GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+                      [keychainStore setAuthentication:authentication forIdentifier:@"gymnea"];
+                  }
+
               }
 
               dispatch_async(dispatch_get_main_queue(), ^{

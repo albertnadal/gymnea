@@ -8,6 +8,9 @@
 
 #import "AppDelegate.h"
 #import "InitialViewController.h"
+#import "GEAAuthentication.h"
+#import "GEAAuthenticationKeychainStore.h"
+#import "StartViewController.h"
 
 @interface AppDelegate ()
 
@@ -26,11 +29,29 @@
 
     [[UIBarButtonItem appearance] setTintColor:[UIColor colorWithRed:7.0/255.0 green:154.0/255.0 blue:204.0/255.0 alpha:1.0]];
 
-    InitialViewController *initialViewController = [[InitialViewController alloc] initWithNibName:@"InitialViewController" bundle:nil];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:initialViewController];
-    self.window.rootViewController = navigationController;
+    // Check if auto-login
 
-    [navigationController setNavigationBarHidden:YES animated:NO];
+    // Uncomment the following line for removing all data in the keychain. YOU MUST USE THIS CALL WHEN LOG OUT!
+    //[GEAAuthenticationKeychainStore clearAllData];
+
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *authentication = [keychainStore authenticationForIdentifier:@"gymnea"];
+
+    if(authentication == nil) {
+        // NO AUTOLOGIN
+        InitialViewController *initialViewController = [[InitialViewController alloc] initWithNibName:@"InitialViewController" bundle:nil];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:initialViewController];
+        self.window.rootViewController = navigationController;
+
+        [navigationController setNavigationBarHidden:YES animated:NO];
+    } else {
+        // USER PREVIOUSLY AUTHENTICATED => AUTOLOGIN ENABLED
+        StartViewController *startViewController = [[StartViewController alloc] init];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:startViewController];
+        self.window.rootViewController = navigationController;
+
+        [navigationController setNavigationBarHidden:YES animated:NO];
+    }
 
     [self.window setBackgroundColor:[UIColor whiteColor]];
     [self.window makeKeyAndVisible];
