@@ -11,5 +11,6 @@
 @interface InitialQuestionnaireViewController : UIViewController<UIScrollViewDelegate>
 
 - (id)init;
+- (IBAction)selectOptionButton:(id)button;
 
 @end

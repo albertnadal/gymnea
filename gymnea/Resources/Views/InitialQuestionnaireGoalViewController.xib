@@ -7,6 +7,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InitialQuestionnaireGoalViewController">
             <connections>
+                <outlet property="burnFatButton" destination="O9Z-Eg-RIJ" id="ExU-UQ-x1x"/>
+                <outlet property="getLeanButton" destination="xGZ-by-fWv" id="U20-By-1Ah"/>
+                <outlet property="increaseStrengthButton" destination="HH0-yD-5l9" id="C75-Er-KK5"/>
+                <outlet property="muscleBuildingButton" destination="nFq-W8-pcK" id="FVZ-sp-aKx"/>
                 <outlet property="nextButton" destination="3mS-gK-T7n" id="2YS-ZQ-Tiz"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -53,7 +57,7 @@
                     <rect key="frame" x="0.0" y="108" width="320" height="265"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <button clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="O9Z-Eg-RIJ" userLabel="burnFatButton">
+                        <button clearsContextBeforeDrawing="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="O9Z-Eg-RIJ" userLabel="burnFatButton">
                             <rect key="frame" x="15" y="70" width="290" height="55"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -68,8 +72,11 @@
                             <state key="highlighted" backgroundImage="fitness-goal-button-highlighted">
                                 <color key="titleColor" red="0.019607843140000001" green="0.76470588240000004" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
+                            <connections>
+                                <action selector="selectOptionButton:" destination="-1" eventType="touchUpInside" id="kba-Nv-2kt"/>
+                            </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nFq-W8-pcK" userLabel="muscleBuildingButton">
+                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nFq-W8-pcK" userLabel="muscleBuildingButton">
                             <rect key="frame" x="15" y="140" width="290" height="55"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -84,8 +91,11 @@
                             <state key="highlighted" backgroundImage="fitness-goal-button-highlighted">
                                 <color key="titleColor" red="0.019607843140000001" green="0.76470588240000004" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
+                            <connections>
+                                <action selector="selectOptionButton:" destination="-1" eventType="touchUpInside" id="Ygh-Of-6T2"/>
+                            </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="HH0-yD-5l9" userLabel="increaseStrengthButton">
+                        <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="HH0-yD-5l9" userLabel="increaseStrengthButton">
                             <rect key="frame" x="15" y="210" width="290" height="55"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -100,8 +110,11 @@
                             <state key="highlighted" backgroundImage="fitness-goal-button-highlighted">
                                 <color key="titleColor" red="0.019607843140000001" green="0.76470588240000004" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
+                            <connections>
+                                <action selector="selectOptionButton:" destination="-1" eventType="touchUpInside" id="eNl-wC-Dch"/>
+                            </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="xGZ-by-fWv" userLabel="getLeanButton">
+                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="xGZ-by-fWv" userLabel="getLeanButton">
                             <rect key="frame" x="15" y="0.0" width="290" height="55"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -116,6 +129,9 @@
                             <state key="highlighted" backgroundImage="fitness-goal-button-highlighted">
                                 <color key="titleColor" red="0.019607843140000001" green="0.76470588240000004" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
+                            <connections>
+                                <action selector="selectOptionButton:" destination="-1" eventType="touchUpInside" id="Ngg-OT-Lcz"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

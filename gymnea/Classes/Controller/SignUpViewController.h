@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SignUpInForm.h"
 
-@interface SignUpViewController : UIViewController
+@interface SignUpViewController : UIViewController<UITextFieldDelegate>
 
-- (id)init;
+- (id)initWithSignUpForm:(SignUpInForm *)theSignUpForm;
 
 @end

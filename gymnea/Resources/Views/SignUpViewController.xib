@@ -7,7 +7,17 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SignUpViewController">
             <connections>
+                <outlet property="ageButton" destination="aPL-f4-g1s" id="Xmh-vm-kkR"/>
+                <outlet property="ageTextField" destination="of7-e3-rHM" id="ecP-mn-pbH"/>
+                <outlet property="emailAddressTextField" destination="7yE-ff-Peo" id="DUo-81-JjC"/>
+                <outlet property="firstNameTextField" destination="WcU-9X-BeL" id="WfO-yF-T9h"/>
+                <outlet property="heightButton" destination="ocv-d9-vBA" id="90A-ho-Tdz"/>
+                <outlet property="heightTextField" destination="R2E-QO-Dqy" id="Tm7-dr-fy8"/>
+                <outlet property="lastNameTextField" destination="vGX-kz-A0P" id="F6r-4n-XeS"/>
+                <outlet property="passwordTextField" destination="1u9-Df-evw" id="KAX-dR-Sgc"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="weightButton" destination="Ccx-aD-6rW" id="mkm-gD-dC7"/>
+                <outlet property="weightTextField" destination="vAR-hW-o8h" id="Siw-cu-9VB"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -78,6 +88,11 @@
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="light" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                            <connections>
+                                <action selector="hideKeyboard:" destination="-1" eventType="editingDidEnd" id="pYy-da-Ye3"/>
+                                <action selector="hideSelectors:" destination="-1" eventType="editingDidBegin" id="xWR-3t-fM8"/>
+                                <outlet property="delegate" destination="-1" id="TCr-8o-qPP"/>
+                            </connections>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" minimumFontSize="13" id="vGX-kz-A0P" userLabel="lastNameTextField">
                             <rect key="frame" x="170" y="0.0" width="140" height="30"/>
@@ -85,6 +100,11 @@
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="light" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                            <connections>
+                                <action selector="hideKeyboard:" destination="-1" eventType="editingDidEnd" id="7yR-qv-ezj"/>
+                                <action selector="hideSelectors:" destination="-1" eventType="editingDidBegin" id="0RK-SU-Qwo"/>
+                                <outlet property="delegate" destination="-1" id="PGP-vF-m6j"/>
+                            </connections>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="E-mail Address" minimumFontSize="13" id="7yE-ff-Peo" userLabel="emailAddressTextField">
                             <rect key="frame" x="10" y="36" width="300" height="30"/>
@@ -92,6 +112,11 @@
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" keyboardAppearance="light" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                            <connections>
+                                <action selector="hideKeyboard:" destination="-1" eventType="editingDidEnd" id="DRh-Vx-q60"/>
+                                <action selector="hideSelectors:" destination="-1" eventType="editingDidBegin" id="yME-M0-mxO"/>
+                                <outlet property="delegate" destination="-1" id="WAf-aA-9Uz"/>
+                            </connections>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="13" id="1u9-Df-evw" userLabel="passwordTextField">
                             <rect key="frame" x="10" y="76" width="300" height="30"/>
@@ -99,28 +124,78 @@
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="light" returnKeyType="next" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
+                            <connections>
+                                <action selector="hideKeyboard:" destination="-1" eventType="editingDidEnd" id="fw2-LD-iKw"/>
+                                <action selector="hideSelectors:" destination="-1" eventType="editingDidBegin" id="82H-xJ-ez9"/>
+                                <outlet property="delegate" destination="-1" id="zq6-3J-0Fy"/>
+                            </connections>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Age" minimumFontSize="13" id="of7-e3-rHM" userLabel="ageTextField">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Age" minimumFontSize="13" id="of7-e3-rHM" userLabel="ageTextField">
                             <rect key="frame" x="10" y="115" width="89" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="light" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="UNN-vx-uVc"/>
+                            </connections>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Weight" minimumFontSize="13" id="vAR-hW-o8h" userLabel="weightTextField">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Weight" minimumFontSize="13" id="vAR-hW-o8h" userLabel="weightTextField">
                             <rect key="frame" x="116" y="115" width="89" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="light" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="Q3d-wn-iOM"/>
+                            </connections>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Height" minimumFontSize="13" id="R2E-QO-Dqy" userLabel="heightTextField">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Height" minimumFontSize="13" id="R2E-QO-Dqy" userLabel="heightTextField">
                             <rect key="frame" x="222" y="115" width="89" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="light" returnKeyType="go" enablesReturnKeyAutomatically="YES"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="s3G-T5-Zxd"/>
+                            </connections>
                         </textField>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="aPL-f4-g1s" userLabel="ageButton">
+                            <rect key="frame" x="10" y="115" width="89" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                            <state key="normal">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="showBirthdateSelector:" destination="-1" eventType="touchUpInside" id="MEr-EY-hY2"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Ccx-aD-6rW" userLabel="weightButton">
+                            <rect key="frame" x="116" y="115" width="89" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                            <state key="normal">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="showWeightSelector:" destination="-1" eventType="touchUpInside" id="GAr-Kf-kA0"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ocv-d9-vBA" userLabel="heightButton">
+                            <rect key="frame" x="222" y="115" width="89" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                            <state key="normal">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="showHeightSelector:" destination="-1" eventType="touchUpInside" id="yka-Cy-1Nb"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>

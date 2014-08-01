@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "GymneaWSClient.h"
-//#import "Book.h"
-#import "BookDetails.h"
 
 static const NSString *kWSDomain = @"athlete.gymnea.com";
 
@@ -75,6 +73,30 @@ typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDi
 
     }];
 }
+
+- (void)signUpWithForm:(SignUpInForm *)signUpForm
+   withCompletionBlock:(signUpCompletionBlock)completionBlock
+{
+    NSString *requestPath = @"/api/signup";
+
+    [self performAsyncRequest:requestPath
+               withDictionary:@{@"firstname" : signUpForm.firstName, @"lastname": signUpForm.lastName, @"email": signUpForm.emailAddress, @"password": signUpForm.password, @"age": [NSNumber numberWithInt:signUpForm.age], @"weight": [NSNumber numberWithInt:signUpForm.weight], @"height": [NSNumber numberWithInt:signUpForm.height]}
+          withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData) {
+
+              GymneaSignUpWSClientRequestResponse signUpStatus = GymneaSignUpWSClientRequestError;
+
+              if(success == GymneaWSClientRequestSuccess) {
+                  signUpStatus = GymneaSignUpWSClientRequestSuccess;
+              }
+
+              dispatch_async(dispatch_get_main_queue(), ^{
+                  completionBlock(signUpStatus, responseData);
+              });
+
+          }];
+
+}
+
 /*
 - (void)retrieveBook:(int)identifier
  withCompletionBlock:(bookDetailsCompletionBlock)completionBlock

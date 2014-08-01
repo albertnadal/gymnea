@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BookDetails.h"
+#import "SignUpInForm.h"
 
 typedef enum _GymneaWSClientRequestStatus
 {
@@ -21,9 +21,14 @@ typedef enum _GymneaSignInWSClientRequestResponse
     GymneaSignInWSClientRequestError = 0
 } GymneaSignInWSClientRequestResponse;
 
+typedef enum _GymneaSignUpWSClientRequestResponse
+{
+    GymneaSignUpWSClientRequestSuccess = 1,
+    GymneaSignUpWSClientRequestError = 0
+} GymneaSignUpWSClientRequestResponse;
 
 typedef void(^signInCompletionBlock)(GymneaSignInWSClientRequestResponse success, NSDictionary *responseData);
-//typedef void(^bookDetailsCompletionBlock)(CatalogWSClientRequestError success, BookDetails *responseBook);
+typedef void(^signUpCompletionBlock)(GymneaSignUpWSClientRequestResponse success, NSDictionary *responseData);
 
 @interface GymneaWSClient : NSObject<NSURLSessionDelegate>
 
@@ -33,7 +38,7 @@ typedef void(^signInCompletionBlock)(GymneaSignInWSClientRequestResponse success
               andPassword:(NSString *)password
       withCompletionBlock:(signInCompletionBlock)completionBlock;
 
-/*- (void)retrieveBook:(int)identifier
- withCompletionBlock:(bookDetailsCompletionBlock)completionBlock;*/
+- (void)signUpWithForm:(SignUpInForm *)signInForm
+      withCompletionBlock:(signUpCompletionBlock)completionBlock;
 
 @end

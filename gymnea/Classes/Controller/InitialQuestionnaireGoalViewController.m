@@ -12,19 +12,25 @@
 @interface InitialQuestionnaireGoalViewController ()
 
 @property (nonatomic, weak) IBOutlet UIButton *nextButton;
+@property (nonatomic, weak) IBOutlet UIButton *getLeanButton;
+@property (nonatomic, weak) IBOutlet UIButton *burnFatButton;
+@property (nonatomic, weak) IBOutlet UIButton *muscleBuildingButton;
+@property (nonatomic, weak) IBOutlet UIButton *increaseStrengthButton;
+@property (nonatomic, retain) SignUpInForm *signUpForm;
 
 - (IBAction)goBack:(id)sender;
+- (IBAction)selectOptionButton:(id)button;
 
 @end
 
 @implementation InitialQuestionnaireGoalViewController
 
-- (id)init
+- (id)initWithSignUpForm:(SignUpInForm *)theSignUpForm
 {
     self = [super initWithNibName:@"InitialQuestionnaireGoalViewController" bundle:nil];
     if (self)
     {
-        
+        self.signUpForm = theSignUpForm;
     }
     return self;
 }
@@ -43,11 +49,38 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (IBAction)selectOptionButton:(id)button
+{
+    [self.getLeanButton setSelected:NO];
+    [self.burnFatButton setSelected:NO];
+    [self.muscleBuildingButton setSelected:NO];
+    [self.increaseStrengthButton setSelected:NO];
+
+    [button setSelected:YES];
+    
+    switch ([button tag]) {
+        case 1:     [self.signUpForm setFitnessGoal:FitnessGoalAnswerGetLean];
+                    break;
+            
+        case 2:     [self.signUpForm setFitnessGoal:FitnessGoalAnswerBurnFat];
+                    break;
+            
+        case 3:     [self.signUpForm setFitnessGoal:FitnessGoalAnswerMuscleBuilding];
+                    break;
+            
+        case 4:     [self.signUpForm setFitnessGoal:FitnessGoalAnswerIncreaseStrength];
+                    break;
+
+        default:
+                    break;
+    }
+}
+
 - (void)goToRegister:(id)sender
 {
     [self clearBgColorForButton:sender];
 
-    SignUpViewController *signUpViewController = [[SignUpViewController alloc] init];
+    SignUpViewController *signUpViewController = [[SignUpViewController alloc] initWithSignUpForm:self.signUpForm];
     [self.navigationController pushViewController:signUpViewController animated:YES];
 }
 

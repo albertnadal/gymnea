@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SignUpInForm.h"
 
 @interface InitialQuestionnaireGoalViewController : UIViewController
 
-- (id)init;
+- (id)initWithSignUpForm:(SignUpInForm *)theSignUpForm;
 
 @end

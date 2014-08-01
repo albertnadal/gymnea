@@ -8,6 +8,7 @@
 
 #import "InitialQuestionnaireViewController.h"
 #import "InitialQuestionnaireGoalViewController.h"
+#import "SignUpInForm.h"
 
 @interface InitialQuestionnaireViewController ()
 
@@ -15,9 +16,10 @@
 @property (nonatomic, weak) IBOutlet UIView *scrollContainerView;
 @property (nonatomic, weak) IBOutlet UIPageControl *pageControl;
 @property (nonatomic, weak) IBOutlet UIButton *skipButton;
+@property (nonatomic, retain) SignUpInForm *signUpForm;
 
 - (IBAction)goBack:(id)sender;
-
+- (void)goToQuestionnaireGoal;
 
 @end
 
@@ -28,8 +30,19 @@
     self = [super initWithNibName:@"InitialQuestionnaireViewController" bundle:nil];
     if (self)
     {
-        
+        self.signUpForm = [[SignUpInForm alloc] initWithName:@""
+                                                    lastName:@""
+                                                emailAddress:@""
+                                                    password:@""
+                                                         age:0
+                                                      weight:0
+                                                      height:0
+                                           wearTrackerAnswer:QuestionaireAnswerUnknown
+                                               goToGymAnswer:QuestionaireAnswerUnknown
+                                                    useVideo:QuestionaireAnswerUnknown
+                                                 fitnessGoal:FitnessGoalAnswerNoGoal];
     }
+
     return self;
 }
 
@@ -50,11 +63,55 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (IBAction)selectOptionButton:(id)button
+{
+    [button setSelected:![button isSelected]];
+
+    switch ([button tag]) {
+        case 1:     [(UIButton *)[self.scrollContainerView viewWithTag:2] setSelected:NO];
+                    [self.signUpForm setDoYouWearActivityTracker:QuestionaireAnswerNO];
+                    [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width * 1, 0.0f) animated:YES];
+                    break;
+
+        case 2:     [(UIButton *)[self.scrollContainerView viewWithTag:1] setSelected:NO];
+                    [self.signUpForm setDoYouWearActivityTracker:QuestionaireAnswerYes];
+                    [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width * 1, 0.0f) animated:YES];
+                    break;
+
+        case 3:     [(UIButton *)[self.scrollContainerView viewWithTag:4] setSelected:NO];
+                    [self.signUpForm setDoYouGoToGym:QuestionaireAnswerNO];
+                    [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width * 2, 0.0f) animated:YES];
+                    break;
+            
+        case 4:     [(UIButton *)[self.scrollContainerView viewWithTag:3] setSelected:NO];
+                    [self.signUpForm setDoYouGoToGym:QuestionaireAnswerYes];
+                    [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width * 2, 0.0f) animated:YES];
+                    break;
+
+        case 5:     [(UIButton *)[self.scrollContainerView viewWithTag:6] setSelected:NO];
+                    [self.signUpForm setAreYouFamiliarWithVideoconference:QuestionaireAnswerNO];
+                    [self goToQuestionnaireGoal];
+                    break;
+            
+        case 6:     [(UIButton *)[self.scrollContainerView viewWithTag:5] setSelected:NO];
+                    [self.signUpForm setAreYouFamiliarWithVideoconference:QuestionaireAnswerYes];
+                    [self goToQuestionnaireGoal];
+                    break;
+
+        default:
+            break;
+    }
+}
+
 - (void)skip:(id)sender
 {
     [self clearBgColorForSkipButton:sender];
+    [self goToQuestionnaireGoal];
+}
 
-    InitialQuestionnaireGoalViewController *initialQuestionnaireGoalViewController = [[InitialQuestionnaireGoalViewController alloc] init];
+- (void)goToQuestionnaireGoal
+{
+    InitialQuestionnaireGoalViewController *initialQuestionnaireGoalViewController = [[InitialQuestionnaireGoalViewController alloc] initWithSignUpForm:self.signUpForm];
     [self.navigationController pushViewController:initialQuestionnaireGoalViewController animated:YES];
 }
 
