@@ -6,29 +6,45 @@
 //  Copyright (c) 2013 Albert Nadal Garriga. All rights reserved.
 //
 
-#import "SignUpInForm.h"
+#import "SignUpForm.h"
 
-@implementation SignUpInForm
+@implementation SignUpForm
 
 @synthesize firstName;
 @synthesize lastName;
 @synthesize emailAddress;
 @synthesize password;
-@synthesize age;
+@synthesize gender;
+@synthesize day;
+@synthesize month;
+@synthesize year;
 @synthesize weight;
-@synthesize height;
+@synthesize weightIsMetricUnits;
+@synthesize heightCentimeters;
+@synthesize heightFoot;
+@synthesize heightInches;
+@synthesize heightIsMetricUnits;
 @synthesize doYouWearActivityTracker;
 @synthesize doYouGoToGym;
 @synthesize areYouFamiliarWithVideoconference;
 @synthesize fitnessGoal;
 
+
 - (id)initWithName:(NSString *)theName
           lastName:(NSString *)theLastName
       emailAddress:(NSString *)theEmail
           password:(NSString *)thePassword
-               age:(int)theAge
+            gender:(NSString *)theGender
+               day:(int)theDay
+             month:(int)theMonth
+            weight:(int)theYear
             weight:(int)theWeight
+    weightIsMetric:(BOOL)theWeightIsMetric
+       centimeters:(int)theCentimeters
+              foot:(int)theFoot
+            inches:(int)theInches
             height:(int)theHeight
+    heightIsMetric:(BOOL)theHeightIsMetric
  wearTrackerAnswer:(QuestionaireAnswer)wearTracker
      goToGymAnswer:(QuestionaireAnswer)goToGym
           useVideo:(QuestionaireAnswer)useVideoconference
@@ -41,9 +57,16 @@
         [self setLastName:theLastName];
         [self setEmailAddress:theEmail];
         [self setPassword:thePassword];
-        [self setAge:theAge];
+        [self setGender:theGender];
+        [self setDay:theDay];
+        [self setMonth:theMonth];
+        [self setYear:theYear];
         [self setWeight:theWeight];
-        [self setHeight:theWeight];
+        [self setWeightIsMetricUnits:theWeightIsMetric];
+        [self setHeightCentimeters:theCentimeters];
+        [self setHeightFoot:theFoot];
+        [self setHeightInches:theInches];
+        [self setHeightIsMetricUnits:theHeightIsMetric];
         [self setDoYouWearActivityTracker:wearTracker];
         [self setDoYouGoToGym:goToGym];
         [self setAreYouFamiliarWithVideoconference:useVideoconference];

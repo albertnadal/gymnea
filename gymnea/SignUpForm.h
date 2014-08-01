@@ -24,7 +24,7 @@ typedef enum _FitnessGoalAnswer
     FitnessGoalAnswerIncreaseStrength = 4
 } FitnessGoalAnswer;
 
-@interface SignUpInForm : NSObject
+@interface SignUpForm : NSObject
 
 @property (nonatomic) QuestionaireAnswer doYouWearActivityTracker;
 @property (nonatomic) QuestionaireAnswer doYouGoToGym;
@@ -34,18 +34,33 @@ typedef enum _FitnessGoalAnswer
 @property (nonatomic, retain) NSString * lastName;
 @property (nonatomic, retain) NSString * emailAddress;
 @property (nonatomic, retain) NSString * password;
-@property (nonatomic) int age;
-@property (nonatomic) int weight;
-@property (nonatomic) int height;
-//@property (nonatomic) double price;
+@property (nonatomic, retain) NSString * gender;
+@property (nonatomic) int day;
+@property (nonatomic) int month;
+@property (nonatomic) int year;
+@property (nonatomic) float weight;
+@property (nonatomic) BOOL weightIsMetricUnits;
+@property (nonatomic) int heightCentimeters;
+@property (nonatomic) int heightFoot;
+@property (nonatomic) int heightInches;
+@property (nonatomic) BOOL heightIsMetricUnits;
+
 
 - (id)initWithName:(NSString *)theName
           lastName:(NSString *)theLastName
       emailAddress:(NSString *)theEmail
           password:(NSString *)thePassword
-               age:(int)theAge
+            gender:(NSString *)theGender
+               day:(int)theDay
+             month:(int)theMonth
+            weight:(int)theYear
             weight:(int)theWeight
+    weightIsMetric:(BOOL)theWeightIsMetric
+       centimeters:(int)theCentimeters
+              foot:(int)theFoot
+            inches:(int)theInches
             height:(int)theHeight
+    heightIsMetric:(BOOL)theHeightIsMetric
  wearTrackerAnswer:(QuestionaireAnswer)wearTracker
      goToGymAnswer:(QuestionaireAnswer)goToGym
           useVideo:(QuestionaireAnswer)useVideoconference

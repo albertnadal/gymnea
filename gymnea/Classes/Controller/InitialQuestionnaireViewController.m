@@ -8,7 +8,7 @@
 
 #import "InitialQuestionnaireViewController.h"
 #import "InitialQuestionnaireGoalViewController.h"
-#import "SignUpInForm.h"
+#import "SignUpForm.h"
 
 @interface InitialQuestionnaireViewController ()
 
@@ -16,7 +16,7 @@
 @property (nonatomic, weak) IBOutlet UIView *scrollContainerView;
 @property (nonatomic, weak) IBOutlet UIPageControl *pageControl;
 @property (nonatomic, weak) IBOutlet UIButton *skipButton;
-@property (nonatomic, retain) SignUpInForm *signUpForm;
+@property (nonatomic, retain) SignUpForm *signUpForm;
 
 - (IBAction)goBack:(id)sender;
 - (void)goToQuestionnaireGoal;
@@ -30,17 +30,25 @@
     self = [super initWithNibName:@"InitialQuestionnaireViewController" bundle:nil];
     if (self)
     {
-        self.signUpForm = [[SignUpInForm alloc] initWithName:@""
-                                                    lastName:@""
-                                                emailAddress:@""
-                                                    password:@""
-                                                         age:0
-                                                      weight:0
-                                                      height:0
-                                           wearTrackerAnswer:QuestionaireAnswerUnknown
-                                               goToGymAnswer:QuestionaireAnswerUnknown
-                                                    useVideo:QuestionaireAnswerUnknown
-                                                 fitnessGoal:FitnessGoalAnswerNoGoal];
+        self.signUpForm = [[SignUpForm alloc] initWithName:@""
+                                                  lastName:@""
+                                              emailAddress:@""
+                                                  password:@""
+                                                    gender:@""
+                                                       day:0
+                                                     month:0
+                                                    weight:0
+                                                    weight:0.0f
+                                            weightIsMetric:NO
+                                               centimeters:0
+                                                      foot:0
+                                                    inches:0
+                                                    height:0
+                                            heightIsMetric:NO
+                                         wearTrackerAnswer:QuestionaireAnswerUnknown
+                                             goToGymAnswer:QuestionaireAnswerUnknown
+                                                  useVideo:QuestionaireAnswerUnknown
+                                               fitnessGoal:FitnessGoalAnswerNoGoal];
     }
 
     return self;

@@ -25,7 +25,7 @@
 		FF6A19101985430800DA4E40 /* WorkoutPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF6A190E1985430800DA4E40 /* WorkoutPlayViewController.m */; };
 		FF6A19111985430800DA4E40 /* WorkoutPlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF6A190F1985430800DA4E40 /* WorkoutPlayViewController.xib */; };
 		FF7609831988FB9100939C93 /* GymneaWSClient.m in Sources */ = {isa = PBXBuildFile; fileRef = FF7609821988FB9100939C93 /* GymneaWSClient.m */; };
-		FF7609861988FBE700939C93 /* SignUpInForm.m in Sources */ = {isa = PBXBuildFile; fileRef = FF7609851988FBE700939C93 /* SignUpInForm.m */; };
+		FF7609861988FBE700939C93 /* SignUpForm.m in Sources */ = {isa = PBXBuildFile; fileRef = FF7609851988FBE700939C93 /* SignUpForm.m */; };
 		FF76206B196ABA9100611B3B /* Avenir Next.ttc in Resources */ = {isa = PBXBuildFile; fileRef = FF76206A196ABA9100611B3B /* Avenir Next.ttc */; };
 		FF78E77E198647AF001396E3 /* WorkoutPlayExerciseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF78E77C198647AF001396E3 /* WorkoutPlayExerciseViewController.m */; };
 		FF78E77F198647AF001396E3 /* WorkoutPlayExerciseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF78E77D198647AF001396E3 /* WorkoutPlayExerciseViewController.xib */; };
@@ -109,8 +109,8 @@
 		FF6A190F1985430800DA4E40 /* WorkoutPlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkoutPlayViewController.xib; path = Classes/Controller/WorkoutPlayViewController.xib; sourceTree = "<group>"; };
 		FF7609811988FB9100939C93 /* GymneaWSClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GymneaWSClient.h; sourceTree = "<group>"; };
 		FF7609821988FB9100939C93 /* GymneaWSClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GymneaWSClient.m; sourceTree = "<group>"; };
-		FF7609841988FBE700939C93 /* SignUpInForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpInForm.h; sourceTree = "<group>"; };
-		FF7609851988FBE700939C93 /* SignUpInForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpInForm.m; sourceTree = "<group>"; };
+		FF7609841988FBE700939C93 /* SignUpForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpForm.h; sourceTree = "<group>"; };
+		FF7609851988FBE700939C93 /* SignUpForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpForm.m; sourceTree = "<group>"; };
 		FF76206A196ABA9100611B3B /* Avenir Next.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Avenir Next.ttc"; path = "Resources/Fonts/Avenir Next.ttc"; sourceTree = "<group>"; };
 		FF78E77B198647AF001396E3 /* WorkoutPlayExerciseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutPlayExerciseViewController.h; path = Classes/Controller/WorkoutPlayExerciseViewController.h; sourceTree = "<group>"; };
 		FF78E77C198647AF001396E3 /* WorkoutPlayExerciseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutPlayExerciseViewController.m; path = Classes/Controller/WorkoutPlayExerciseViewController.m; sourceTree = "<group>"; };
@@ -301,8 +301,8 @@
 		FF9110AF197B1C0600818E95 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				FF7609841988FBE700939C93 /* SignUpInForm.h */,
-				FF7609851988FBE700939C93 /* SignUpInForm.m */,
+				FF7609841988FBE700939C93 /* SignUpForm.h */,
+				FF7609851988FBE700939C93 /* SignUpForm.m */,
 				FF7609811988FB9100939C93 /* GymneaWSClient.h */,
 				FF7609821988FB9100939C93 /* GymneaWSClient.m */,
 			);
@@ -648,7 +648,7 @@
 				FFABFDDD196CA111004FC527 /* LogInViewController.m in Sources */,
 				FF816258198305B500443C13 /* ChooseWorkoutDayTableViewController.m in Sources */,
 				FF7609831988FB9100939C93 /* GymneaWSClient.m in Sources */,
-				FF7609861988FBE700939C93 /* SignUpInForm.m in Sources */,
+				FF7609861988FBE700939C93 /* SignUpForm.m in Sources */,
 				FF23A64D1982F48800E62C5B /* ChooseWorkoutDayViewController.m in Sources */,
 				FF8E69AA1987AD1E008C6BF9 /* GEATouchView.m in Sources */,
 				FF9110A4197B10BD00818E95 /* WorkoutDescriptionViewController.m in Sources */,

@@ -66,7 +66,7 @@
 @property (nonatomic) NSString *gender;
 
 
-@property (nonatomic, retain) SignUpInForm *signUpForm;
+@property (nonatomic, retain) SignUpForm *signUpForm;
 
 - (IBAction)goBack:(id)sender;
 - (IBAction)showBirthdateSelector:(id)sender;
@@ -103,7 +103,7 @@
 @synthesize genderSelected;
 
 
-- (id)initWithSignUpForm:(SignUpInForm *)theSignUpForm
+- (id)initWithSignUpForm:(SignUpForm *)theSignUpForm
 {
     self = [super initWithNibName:@"SignUpViewController" bundle:nil];
     if (self)
@@ -883,9 +883,16 @@
     [self.signUpForm setLastName:self.lastNameTextField.text];
     [self.signUpForm setEmailAddress:self.emailAddressTextField.text];
     [self.signUpForm setPassword:self.passwordTextField.text];
-    [self.signUpForm setAge:[self.ageTextField.text intValue]];
-    [self.signUpForm setWeight:[self.weightTextField.text intValue]];
-    [self.signUpForm setHeight:[self.heightTextField.text intValue]];
+    [self.signUpForm setGender:self.gender];
+    [self.signUpForm setDay:self.day];
+    [self.signUpForm setMonth:self.month];
+    [self.signUpForm setYear:self.year];
+    [self.signUpForm setWeight:self.weight];
+    [self.signUpForm setWeightIsMetricUnits:self.weightIsMetricUnits];
+    [self.signUpForm setHeightCentimeters:self.heightCentimeters];
+    [self.signUpForm setHeightFoot:self.heightFoot];
+    [self.signUpForm setHeightInches:self.heightInches];
+    [self.signUpForm setHeightIsMetricUnits:self.heightIsMetricUnits];
 
     GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
     [gymneaWSClient signUpWithForm:self.signUpForm

@@ -74,13 +74,30 @@ typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDi
     }];
 }
 
-- (void)signUpWithForm:(SignUpInForm *)signUpForm
+- (void)signUpWithForm:(SignUpForm *)signUpForm
    withCompletionBlock:(signUpCompletionBlock)completionBlock
 {
     NSString *requestPath = @"/api/signup";
-
+    
     [self performAsyncRequest:requestPath
-               withDictionary:@{@"firstname" : signUpForm.firstName, @"lastname": signUpForm.lastName, @"email": signUpForm.emailAddress, @"password": signUpForm.password, @"age": [NSNumber numberWithInt:signUpForm.age], @"weight": [NSNumber numberWithInt:signUpForm.weight], @"height": [NSNumber numberWithInt:signUpForm.height]}
+               withDictionary:@{@"firstname" : signUpForm.firstName,
+                                @"lastname": signUpForm.lastName,
+                                @"email": signUpForm.emailAddress,
+                                @"password": signUpForm.password,
+                                @"gender": signUpForm.gender,
+                                @"day": [NSNumber numberWithInt:signUpForm.day],
+                                @"month": [NSNumber numberWithInt:signUpForm.month],
+                                @"year": [NSNumber numberWithInt:signUpForm.year],
+                                @"weight": [NSNumber numberWithFloat:signUpForm.weight],
+                                @"weightIsMetric": [NSNumber numberWithBool:signUpForm.weightIsMetricUnits],
+                                @"centimeters": [NSNumber numberWithInt:signUpForm.heightCentimeters],
+                                @"foot": [NSNumber numberWithInt:signUpForm.heightFoot],
+                                @"inches": [NSNumber numberWithInt:signUpForm.heightInches],
+                                @"heightIsMetric": [NSNumber numberWithBool:signUpForm.heightIsMetricUnits],
+                                @"wearTracker": [NSNumber numberWithInt:signUpForm.doYouWearActivityTracker],
+                                @"goGym": [NSNumber numberWithInt:signUpForm.doYouGoToGym],
+                                @"useVideoconference": [NSNumber numberWithInt:signUpForm.areYouFamiliarWithVideoconference],
+                                @"fitnessGoal": [NSNumber numberWithInt:signUpForm.fitnessGoal]}
           withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData) {
 
               GymneaSignUpWSClientRequestResponse signUpStatus = GymneaSignUpWSClientRequestError;
@@ -148,6 +165,8 @@ typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDi
                                                         GymneaWSClientRequestStatus success = GymneaWSClientRequestError;
                                                         NSHTTPURLResponse *response = (NSHTTPURLResponse*)urlResponse;
 
+                                                        NSLog(@"HTTP RESPONSE: %@", response);
+
                                                         NSInteger responseCode = response.statusCode;
                                                         NSDictionary *results = nil;
                                                         if(error == nil && ((responseCode/100)==2))
@@ -155,6 +174,7 @@ typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDi
                                                             if(responseData != nil)
                                                             {
                                                                 results = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error];
+                                                                NSLog(@"JSON RESULTS: %@", results);
                                                                 success = GymneaWSClientRequestSuccess;
                                                             }
                                                         }

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SignUpInForm.h"
+#import "SignUpForm.h"
 
 typedef enum _GymneaWSClientRequestStatus
 {
@@ -38,7 +38,7 @@ typedef void(^signUpCompletionBlock)(GymneaSignUpWSClientRequestResponse success
               andPassword:(NSString *)password
       withCompletionBlock:(signInCompletionBlock)completionBlock;
 
-- (void)signUpWithForm:(SignUpInForm *)signInForm
+- (void)signUpWithForm:(SignUpForm *)signInForm
       withCompletionBlock:(signUpCompletionBlock)completionBlock;
 
 @end

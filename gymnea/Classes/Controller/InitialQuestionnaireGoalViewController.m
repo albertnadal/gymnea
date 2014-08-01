@@ -16,7 +16,7 @@
 @property (nonatomic, weak) IBOutlet UIButton *burnFatButton;
 @property (nonatomic, weak) IBOutlet UIButton *muscleBuildingButton;
 @property (nonatomic, weak) IBOutlet UIButton *increaseStrengthButton;
-@property (nonatomic, retain) SignUpInForm *signUpForm;
+@property (nonatomic, retain) SignUpForm *signUpForm;
 
 - (IBAction)goBack:(id)sender;
 - (IBAction)selectOptionButton:(id)button;
@@ -25,7 +25,7 @@
 
 @implementation InitialQuestionnaireGoalViewController
 
-- (id)initWithSignUpForm:(SignUpInForm *)theSignUpForm
+- (id)initWithSignUpForm:(SignUpForm *)theSignUpForm
 {
     self = [super initWithNibName:@"InitialQuestionnaireGoalViewController" bundle:nil];
     if (self)
