@@ -24,6 +24,10 @@
     UIPickerView *heightPickerView;
     UIToolbar *heightPickerToolbar;
     BOOL heightSelected;
+
+    UIPickerView *genderPickerView;
+    UIToolbar *genderPickerToolbar;
+    BOOL genderSelected;
 }
 
 @property (nonatomic, weak) IBOutlet UITextField *firstNameTextField;
@@ -33,6 +37,7 @@
 @property (nonatomic, weak) IBOutlet UITextField *ageTextField;
 @property (nonatomic, weak) IBOutlet UITextField *weightTextField;
 @property (nonatomic, weak) IBOutlet UITextField *heightTextField;
+@property (nonatomic, weak) IBOutlet UITextField *genderTextField;
 @property (nonatomic, weak) IBOutlet UIButton *ageButton;
 @property (nonatomic, retain) UIPickerView *birthdatePickerView;
 @property (nonatomic, retain) UIToolbar *birthdatePickerToolbar;
@@ -45,13 +50,21 @@
 @property (nonatomic, retain) UIPickerView *heightPickerView;
 @property (nonatomic, retain) UIToolbar *heightPickerToolbar;
 @property (nonatomic) BOOL heightSelected;
+@property (nonatomic, weak) IBOutlet UIButton *genderButton;
+@property (nonatomic, retain) UIPickerView *genderPickerView;
+@property (nonatomic, retain) UIToolbar *genderPickerToolbar;
+@property (nonatomic) BOOL genderSelected;
 @property (nonatomic) int day;
 @property (nonatomic) int month;
 @property (nonatomic) int year;
 @property (nonatomic) float weight;
 @property (nonatomic) BOOL weightIsMetricUnits;
-@property (nonatomic) float height;
+@property (nonatomic) int heightCentimeters;
+@property (nonatomic) int heightFoot;
+@property (nonatomic) int heightInches;
 @property (nonatomic) BOOL heightIsMetricUnits;
+@property (nonatomic) NSString *gender;
+
 
 @property (nonatomic, retain) SignUpInForm *signUpForm;
 
@@ -59,15 +72,18 @@
 - (IBAction)showBirthdateSelector:(id)sender;
 - (IBAction)showWeightSelector:(id)sender;
 - (IBAction)showHeightSelector:(id)sender;
+- (IBAction)showGenderSelector:(id)sender;
 - (IBAction)hideSelectors:(id)sender;
 - (IBAction)hideKeyboard:(id)sender;
 - (void)hideAllKeyboards;
-- (void)sendSignUpRequest;
+- (IBAction)sendSignUpRequest:(id)sender;
 - (void)createBirthdatePicker;
 - (void)createWeightPicker;
+- (void)createGenderPicker;
 - (void)birthdayDoneButtonPressed;
 - (void)weightDoneButtonPressed;
 - (void)heightDoneButtonPressed;
+- (void)genderDoneButtonPressed;
 
 @end
 
@@ -82,6 +98,10 @@
 @synthesize heightPickerView;
 @synthesize heightPickerToolbar;
 @synthesize heightSelected;
+@synthesize genderPickerView;
+@synthesize genderPickerToolbar;
+@synthesize genderSelected;
+
 
 - (id)initWithSignUpForm:(SignUpInForm *)theSignUpForm
 {
@@ -101,12 +121,18 @@
 
         self.ageSelected = NO;
         self.weightSelected = NO;
+        self.heightSelected = NO;
+        self.genderSelected = NO;
 
         self.weight = 0.0f;
         self.weightIsMetricUnits = NO;
 
-        self.height = 0.0f;
+        self.heightCentimeters = 0;
+        self.heightFoot = 0;
+        self.heightInches = 0;
         self.heightIsMetricUnits = NO;
+
+        self.gender = @"";
     }
 
     return self;
@@ -115,7 +141,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
 }
 
 - (void)hideAllKeyboards
@@ -124,6 +149,7 @@
     [self.lastNameTextField resignFirstResponder];
     [self.emailAddressTextField resignFirstResponder];
     [self.passwordTextField resignFirstResponder];
+    [self.genderTextField resignFirstResponder];
     [self.ageTextField resignFirstResponder];
     [self.weightTextField resignFirstResponder];
     [self.heightTextField resignFirstResponder];
@@ -138,6 +164,9 @@
 
 - (IBAction)hideSelectors:(id)sender
 {
+    [self.genderPickerToolbar setHidden:YES];
+    [self.genderPickerView setHidden:YES];
+
     [self.birthdatePickerToolbar setHidden:YES];
     [self.birthdatePickerView setHidden:YES];
 
@@ -155,6 +184,9 @@
     }
 
     [self hideAllKeyboards];
+
+    [self.genderPickerToolbar setHidden:YES];
+    [self.genderPickerView setHidden:YES];
 
     [self.birthdatePickerToolbar setHidden:NO];
     [self.birthdatePickerView setHidden:NO];
@@ -174,6 +206,9 @@
 
     [self hideAllKeyboards];
 
+    [self.genderPickerToolbar setHidden:YES];
+    [self.genderPickerView setHidden:YES];
+
     [self.weightPickerToolbar setHidden:NO];
     [self.weightPickerView setHidden:NO];
 
@@ -192,12 +227,36 @@
 
     [self hideAllKeyboards];
 
+    [self.genderPickerToolbar setHidden:YES];
+    [self.genderPickerView setHidden:YES];
+
     [self.heightPickerToolbar setHidden:NO];
     [self.heightPickerView setHidden:NO];
 
     [self.weightPickerToolbar setHidden:YES];
     [self.weightPickerView setHidden:YES];
 
+    [self.birthdatePickerToolbar setHidden:YES];
+    [self.birthdatePickerView setHidden:YES];
+}
+
+- (IBAction)showGenderSelector:(id)sender
+{
+    if(self.genderPickerView == nil) {
+        [self createGenderPicker];
+    }
+    
+    [self hideAllKeyboards];
+
+    [self.genderPickerToolbar setHidden:NO];
+    [self.genderPickerView setHidden:NO];
+
+    [self.heightPickerToolbar setHidden:YES];
+    [self.heightPickerView setHidden:YES];
+    
+    [self.weightPickerToolbar setHidden:YES];
+    [self.weightPickerView setHidden:YES];
+    
     [self.birthdatePickerToolbar setHidden:YES];
     [self.birthdatePickerView setHidden:YES];
 }
@@ -229,12 +288,12 @@
 
     } else if(textField == self.passwordTextField) {
         [self.passwordTextField resignFirstResponder];
-        if(self.birthdatePickerView == nil) {
-            [self createBirthdatePicker];
+        if(self.genderPickerView == nil) {
+            [self createGenderPicker];
         }
 
-        [self.birthdatePickerToolbar setHidden:NO];
-        [self.birthdatePickerView setHidden:NO];
+        [self.genderPickerToolbar setHidden:NO];
+        [self.genderPickerView setHidden:NO];
     }
 
 //    [self sendSignUpRequest];
@@ -356,6 +415,51 @@
     [self.view addSubview:heightPickerToolbar];
 }
 
+- (void)createGenderPicker
+{
+    self.genderPickerView = [[UIPickerView alloc] init];
+    CGRect genderPickerViewFrame = self.genderPickerView.frame;
+    CGFloat pickerHeight = genderPickerViewFrame.size.height;
+    genderPickerViewFrame.origin.y = self.view.frame.size.height - pickerHeight;
+    genderPickerViewFrame.origin.x = 0.0f;
+    self.genderPickerView.frame = genderPickerViewFrame;
+    
+    [self.genderPickerView setDataSource: self];
+    [self.genderPickerView setDelegate: self];
+    self.genderPickerView.showsSelectionIndicator = YES;
+    
+    self.genderPickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    genderPickerToolbar.barStyle = UIBarStyleDefault;
+    [genderPickerToolbar sizeToFit];
+    
+    UILabel *setGenderLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    [setGenderLabel setTextAlignment:NSTextAlignmentCenter];
+    [setGenderLabel setText:@"Set Gender"];
+    [genderPickerToolbar addSubview:setGenderLabel];
+    
+    UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(genderDoneButtonPressed)];
+    
+    [genderPickerToolbar setItems:@[flexSpace, doneBtn] animated:YES];
+    
+    CGRect pickerToolbarFrame = genderPickerToolbar.frame;
+    pickerToolbarFrame.origin.y = genderPickerViewFrame.origin.y - pickerToolbarFrame.size.height;
+    genderPickerToolbar.frame = pickerToolbarFrame;
+    
+    [self.genderPickerToolbar setHidden:YES];
+    [self.genderPickerView setHidden:YES];
+    
+    [self.view addSubview:genderPickerView];
+    [self.view addSubview:genderPickerToolbar];
+
+    self.gender = @"male";
+    
+    [self.genderButton setTitle:[self.gender capitalizedString] forState:UIControlStateNormal];
+    [self.genderButton setBackgroundColor:[UIColor whiteColor]];
+    
+    self.genderSelected = YES;
+}
+
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
 
     if(pickerView == self.birthdatePickerView)
@@ -408,22 +512,59 @@
         }
 
         if(self.weightIsMetricUnits) {
-            self.weight = ([pickerView selectedRowInComponent:0] + 40.0f) + (([pickerView selectedRowInComponent:1])/10.0f);
+            self.weight = ([pickerView selectedRowInComponent:0] + 30.0f) + (([pickerView selectedRowInComponent:1])/10.0f);
             [self.weightButton setTitle:[NSString stringWithFormat:@"%.1f kg", self.weight] forState:UIControlStateNormal];
 //            NSLog(@"WEIGHT: %.1f", self.weight);
 
         } else {
-            self.weight = ([pickerView selectedRowInComponent:0] + 50.0f) + (([pickerView selectedRowInComponent:1])/10.0f);
-            [self.weightButton setTitle:[NSString stringWithFormat:@"%.2f lbs", self.weight] forState:UIControlStateNormal];
+            self.weight = ([pickerView selectedRowInComponent:0] + 30.0f) + (([pickerView selectedRowInComponent:1])/10.0f);
+            [self.weightButton setTitle:[NSString stringWithFormat:@"%.1f lbs", self.weight] forState:UIControlStateNormal];
 //            NSLog(@"WEIGHT: %.2f", self.weight);
 
         }
 
         [self.weightButton setBackgroundColor:[UIColor whiteColor]];
+        self.weightSelected = YES;
     }
     else if(pickerView == self.heightPickerView)
     {
-        
+        if(component == 2) {
+            
+            if(row == 0) {
+                self.heightIsMetricUnits = NO;
+            } else {
+                self.heightIsMetricUnits = YES;
+            }
+
+            [pickerView reloadComponent:0];
+            [pickerView reloadComponent:1];
+        }
+
+        if(self.heightIsMetricUnits) {
+            self.heightCentimeters = (([pickerView selectedRowInComponent:0] + 1) * 100) + ([pickerView selectedRowInComponent:1]);
+            [self.heightButton setTitle:[NSString stringWithFormat:@"%dm %dcm", [pickerView selectedRowInComponent:0] + 1, [pickerView selectedRowInComponent:1]] forState:UIControlStateNormal];
+//            NSLog(@"HEIGHT CENTIMETERS: %d", self.heightCentimeters);
+
+        } else {
+            self.heightFoot = [pickerView selectedRowInComponent:0] + 1.0f;
+            self.heightInches = [pickerView selectedRowInComponent:1];
+            [self.heightButton setTitle:[NSString stringWithFormat:@"%d' %d\"", [pickerView selectedRowInComponent:0] + 1, [pickerView selectedRowInComponent:1]] forState:UIControlStateNormal];
+//            NSLog(@"HEIGHT FT/IN: %d ft %d in", self.heightFoot, self.heightInches);
+
+        }
+
+        [self.heightButton setBackgroundColor:[UIColor whiteColor]];
+        self.heightSelected = YES;
+    }
+    else if(pickerView == self.genderPickerView)
+    {
+        if(row == 0)        self.gender = @"male";
+        else if(row == 1)   self.gender = @"female";
+
+        [self.genderButton setTitle:[self.gender capitalizedString] forState:UIControlStateNormal];
+        [self.genderButton setBackgroundColor:[UIColor whiteColor]];
+
+        self.genderSelected = YES;
     }
 }
 
@@ -456,7 +597,7 @@
                 return 100;
 
             } else {
-                return 80;
+                return 430;
 
             }
 
@@ -470,7 +611,32 @@
     }
     else if(pickerView == self.heightPickerView)
     {
-        return 0;
+        if(component == 0) {
+            if(self.heightIsMetricUnits) {
+                return 3;
+                
+            } else {
+                return 9;
+                
+            }
+            
+        } else if(component == 1) {
+            if(self.heightIsMetricUnits) {
+                return 100;
+                
+            } else {
+                return 12;
+                
+            }
+            
+        } else if(component == 2) {
+            return 2;
+            
+        }
+    }
+    else if(pickerView == self.genderPickerView)
+    {
+        return 2;
     }
 
     return 0;
@@ -489,7 +655,11 @@
     }
     else if(pickerView == self.heightPickerView)
     {
-        return 0;
+        return 3;
+    }
+    else if(pickerView == self.genderPickerView)
+    {
+        return 1;
     }
 
     return 0;
@@ -525,9 +695,9 @@
     {
         if(component == 0) {
             if(self.weightIsMetricUnits) {
-                return [NSString stringWithFormat:@"%d", row + 40];
+                return [NSString stringWithFormat:@"%d", row + 30];
             } else {
-                return [NSString stringWithFormat:@"%d", row + 50];
+                return [NSString stringWithFormat:@"%d", row + 30];
             }
 
         } else if(component == 1) {
@@ -555,7 +725,48 @@
     }
     else if(pickerView == self.heightPickerView)
     {
-        return @"";
+        if(component == 0) {
+            if(self.heightIsMetricUnits) {
+                return [NSString stringWithFormat:@"%d m", row + 1];
+            } else {
+                return [NSString stringWithFormat:@"%d '", row + 1];
+            }
+            
+        } else if(component == 1) {
+            if(self.heightIsMetricUnits) {
+                return [NSString stringWithFormat:@"%d cm", row];
+            } else {
+                return [NSString stringWithFormat:@"%d \"", row];
+            }
+            
+        } else if(component == 2) {
+            
+            //lbs/kg
+            switch (row) {
+                case 0: return @"ft/in";
+                    break;
+                    
+                case 1: return @"m/cm";
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+        }
+    }
+    else if(pickerView == self.genderPickerView)
+    {
+        switch (row) {
+            case 0: return @"Male";
+                break;
+
+            case 1: return @"Female";
+                break;
+
+            default:
+                break;
+        }
     }
 
     return @"";
@@ -579,10 +790,35 @@
     }
     else if(pickerView == self.heightPickerView)
     {
-        return 100;
+        if(component == 0)      return 100;
+        else if(component == 1) return 100;
+        else if(component == 2) return 120;
+        else return 75;
+    }
+    else if(pickerView == self.genderPickerView)
+    {
+        return 300;
     }
 
     return 0;
+}
+
+- (void)genderDoneButtonPressed {
+    if(self.birthdatePickerView == nil) {
+        [self createBirthdatePicker];
+    }
+
+    [self.genderPickerToolbar setHidden:YES];
+    [self.genderPickerView setHidden:YES];
+    
+    [self.birthdatePickerToolbar setHidden:NO];
+    [self.birthdatePickerView setHidden:NO];
+    
+    [self.weightPickerToolbar setHidden:YES];
+    [self.weightPickerView setHidden:YES];
+    
+    [self.heightPickerToolbar setHidden:YES];
+    [self.heightPickerView setHidden:YES];
 }
 
 -(void)birthdayDoneButtonPressed {
@@ -590,6 +826,9 @@
     if(self.weightPickerView == nil) {
         [self createWeightPicker];
     }
+
+    [self.genderPickerToolbar setHidden:YES];
+    [self.genderPickerView setHidden:YES];
 
     [self.birthdatePickerToolbar setHidden:YES];
     [self.birthdatePickerView setHidden:YES];
@@ -607,6 +846,9 @@
         [self createHeightPicker];
     }
 
+    [self.genderPickerToolbar setHidden:YES];
+    [self.genderPickerView setHidden:YES];
+
     [self.birthdatePickerToolbar setHidden:YES];
     [self.birthdatePickerView setHidden:YES];
 
@@ -619,6 +861,9 @@
 
 - (void)heightDoneButtonPressed {
 
+    [self.genderPickerToolbar setHidden:YES];
+    [self.genderPickerView setHidden:YES];
+
     [self.birthdatePickerToolbar setHidden:YES];
     [self.birthdatePickerView setHidden:YES];
     
@@ -628,11 +873,9 @@
     [self.heightPickerToolbar setHidden:YES];
     [self.heightPickerView setHidden:YES];
 
-    // Send sign up form to server API
-    [self sendSignUpRequest];
 }
 
-- (void)sendSignUpRequest
+- (IBAction)sendSignUpRequest:(id)sender
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
@@ -650,7 +893,7 @@
 
                    [MBProgressHUD hideHUDForView:self.view animated:YES];
 
-                   NSLog(@"SIGN IN RESPONSE: %@", responseData);
+//                   NSLog(@"SIGN IN RESPONSE: %@", responseData);
 
                    if([[[responseData objectForKey:@"success"] lowercaseString] isEqual: @"false"]) {
                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[responseData objectForKey:@"errorMsg"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];

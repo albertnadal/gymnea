@@ -11,6 +11,8 @@
                 <outlet property="ageTextField" destination="of7-e3-rHM" id="ecP-mn-pbH"/>
                 <outlet property="emailAddressTextField" destination="7yE-ff-Peo" id="DUo-81-JjC"/>
                 <outlet property="firstNameTextField" destination="WcU-9X-BeL" id="WfO-yF-T9h"/>
+                <outlet property="genderButton" destination="SWU-ku-0Yj" id="2lo-6Q-9qw"/>
+                <outlet property="genderTextField" destination="Sn9-wJ-gma" id="0DG-Re-234"/>
                 <outlet property="heightButton" destination="ocv-d9-vBA" id="90A-ho-Tdz"/>
                 <outlet property="heightTextField" destination="R2E-QO-Dqy" id="Tm7-dr-fy8"/>
                 <outlet property="lastNameTextField" destination="vGX-kz-A0P" id="F6r-4n-XeS"/>
@@ -82,6 +84,11 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" red="0.019607843140000001" green="0.76470588240000004" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
+                        <view contentMode="scaleToFill" id="jtB-TC-ntE">
+                            <rect key="frame" x="214" y="71" width="1" height="39"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" red="0.019607843140000001" green="0.76470588240000004" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                        </view>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" minimumFontSize="13" id="WcU-9X-BeL" userLabel="firstNameTextField">
                             <rect key="frame" x="10" y="0.0" width="140" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -119,7 +126,7 @@
                             </connections>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="13" id="1u9-Df-evw" userLabel="passwordTextField">
-                            <rect key="frame" x="10" y="76" width="300" height="30"/>
+                            <rect key="frame" x="10" y="76" width="196" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
@@ -160,6 +167,16 @@
                                 <outlet property="delegate" destination="-1" id="s3G-T5-Zxd"/>
                             </connections>
                         </textField>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Gender" minimumFontSize="13" id="Sn9-wJ-gma" userLabel="genderTextField">
+                            <rect key="frame" x="222" y="76" width="89" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <nil key="textColor"/>
+                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="light" returnKeyType="go" enablesReturnKeyAutomatically="YES"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="R3m-DQ-bfy"/>
+                            </connections>
+                        </textField>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="aPL-f4-g1s" userLabel="ageButton">
                             <rect key="frame" x="10" y="115" width="89" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -196,9 +213,32 @@
                                 <action selector="showHeightSelector:" destination="-1" eventType="touchUpInside" id="yka-Cy-1Nb"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SWU-ku-0Yj" userLabel="genderButton">
+                            <rect key="frame" x="222" y="76" width="89" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                            <state key="normal">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="showGenderSelector:" destination="-1" eventType="touchUpInside" id="tnf-vO-FTj"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="UWU-lO-6gG">
+                    <rect key="frame" x="266" y="21" width="50" height="40"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                    <state key="normal" title="Done">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="sendSignUpRequest:" destination="-1" eventType="touchUpInside" id="Q6c-QU-Qui"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
