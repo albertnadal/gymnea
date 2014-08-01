@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "GymneaWSClient.h"
+#import "GEAAuthentication.h"
+#import "GEAAuthenticationKeychainStore.h"
 
 static const NSString *kWSDomain = @"athlete.gymnea.com";
 
 @interface GymneaWSClient ()
 
-typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDictionary *responseData);
+typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *responseCookies);
 
 - (void) performAsyncRequest:(NSString *)path
               withDictionary:(NSDictionary *)values
@@ -43,29 +45,20 @@ typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDi
 
     [self performAsyncRequest:requestPath
                withDictionary:@{@"username" : username, @"password": password}
-          withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData) {
+          withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
 
               GymneaSignInWSClientRequestResponse signInStatus = GymneaSignInWSClientRequestError;
 
               if(success == GymneaWSClientRequestSuccess) {
                   signInStatus = GymneaSignInWSClientRequestSuccess;
+
+                  GEAAuthentication *authentication = [[GEAAuthentication alloc] initWithAuthBaseURL:[NSString stringWithFormat:@"%@", kWSDomain]
+                                                                                      clientInfoHash:[cookies objectForKey:@"uid"]
+                                                                                           clientKey:[cookies objectForKey:@"ukey"]];
+
+                  GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+                  [keychainStore setAuthentication:authentication forIdentifier:@"gymnea"];
               }
-
-/*
-        NSMutableArray *booksList = [[NSMutableArray alloc] initWithCapacity:[responseData count]];
-
-        for (NSDictionary* book in responseData)
-        {
-            // Book object mapping with the received JSON data
-            int bookId = [[book objectForKey:@"id"] intValue];
-            NSString *bookTitle = (NSString *)[book objectForKey:@"title"];
-            NSString *bookLink = (NSString *)[book objectForKey:@"link"];
-
-            // Add a new book into the list
-            Book *book = [[Book alloc] initWithId:bookId link:bookLink title:bookTitle];
-            [booksList addObject:book];
-        }
-*/
 
               dispatch_async(dispatch_get_main_queue(), ^{
                   completionBlock(signInStatus, responseData);
@@ -98,7 +91,7 @@ typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDi
                                 @"goGym": [NSNumber numberWithInt:signUpForm.doYouGoToGym],
                                 @"useVideoconference": [NSNumber numberWithInt:signUpForm.areYouFamiliarWithVideoconference],
                                 @"fitnessGoal": [NSNumber numberWithInt:signUpForm.fitnessGoal]}
-          withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData) {
+          withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
 
               GymneaSignUpWSClientRequestResponse signUpStatus = GymneaSignUpWSClientRequestError;
 
@@ -165,7 +158,7 @@ typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDi
                                                         GymneaWSClientRequestStatus success = GymneaWSClientRequestError;
                                                         NSHTTPURLResponse *response = (NSHTTPURLResponse*)urlResponse;
 
-                                                        NSLog(@"HTTP RESPONSE: %@", response);
+                                                        //NSLog(@"HTTP RESPONSE: %@", response);
 
                                                         NSInteger responseCode = response.statusCode;
                                                         NSDictionary *results = nil;
@@ -174,11 +167,24 @@ typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDi
                                                             if(responseData != nil)
                                                             {
                                                                 results = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error];
-                                                                NSLog(@"JSON RESULTS: %@", results);
+                                                                //NSLog(@"JSON RESULTS: %@", results);
                                                                 success = GymneaWSClientRequestSuccess;
                                                             }
                                                         }
-                                                        completionBlock(success, results);
+
+                                                        NSArray *cookiesArray =[[NSArray alloc]init];
+                                                        cookiesArray = [NSHTTPCookie
+                                                                   cookiesWithResponseHeaderFields:[response allHeaderFields]
+                                                                   forURL:[NSURL URLWithString:@""]];
+
+                                                        NSMutableDictionary *cookies = [[NSMutableDictionary alloc] init];
+                                                        for(NSHTTPCookie *cookie in cookiesArray) {
+                                                            [cookies setObject:[cookie valueForKey:@"value"] forKey:[cookie valueForKey:@"name"]];
+                                                        }
+
+                                                        //NSLog(@"Cookies: %@", cookies);
+
+                                                        completionBlock(success, results, cookies);
                                                     }];
 
     [sessionDataTask resume];

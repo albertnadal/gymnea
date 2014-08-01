@@ -12,6 +12,10 @@
 		FF0DC1B9196CA1CC006E1817 /* LogInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF0DC1B8196CA1CC006E1817 /* LogInViewController.xib */; };
 		FF11F5C4196DF08200590C10 /* GEALabel.m in Sources */ = {isa = PBXBuildFile; fileRef = FF11F5C1196DF08200590C10 /* GEALabel.m */; };
 		FF11F5C5196DF08200590C10 /* GEALabel+Gymnea.m in Sources */ = {isa = PBXBuildFile; fileRef = FF11F5C3196DF08200590C10 /* GEALabel+Gymnea.m */; };
+		FF13B06B198C26B600FB6461 /* GymneaWSClient.m in Sources */ = {isa = PBXBuildFile; fileRef = FF13B068198C26B600FB6461 /* GymneaWSClient.m */; };
+		FF13B06C198C26B600FB6461 /* SignUpForm.m in Sources */ = {isa = PBXBuildFile; fileRef = FF13B06A198C26B600FB6461 /* SignUpForm.m */; };
+		FF13B071198C26CE00FB6461 /* GEAAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = FF13B06E198C26CE00FB6461 /* GEAAuthentication.m */; };
+		FF13B072198C26CE00FB6461 /* GEAAuthenticationKeychainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = FF13B070198C26CE00FB6461 /* GEAAuthenticationKeychainStore.m */; };
 		FF23A64019825DDC00E62C5B /* WorkoutDayTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FF23A63E19825DDC00E62C5B /* WorkoutDayTableViewCell.m */; };
 		FF23A6431982964100E62C5B /* WorkoutDayTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF23A6421982964100E62C5B /* WorkoutDayTableViewController.xib */; };
 		FF23A6461982968200E62C5B /* WorkoutDayTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF23A6441982968200E62C5B /* WorkoutDayTableViewCell.xib */; };
@@ -24,8 +28,6 @@
 		FF441EAA197067EC00865065 /* GEASideMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF441EA9197067EC00865065 /* GEASideMenuController.xib */; };
 		FF6A19101985430800DA4E40 /* WorkoutPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF6A190E1985430800DA4E40 /* WorkoutPlayViewController.m */; };
 		FF6A19111985430800DA4E40 /* WorkoutPlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF6A190F1985430800DA4E40 /* WorkoutPlayViewController.xib */; };
-		FF7609831988FB9100939C93 /* GymneaWSClient.m in Sources */ = {isa = PBXBuildFile; fileRef = FF7609821988FB9100939C93 /* GymneaWSClient.m */; };
-		FF7609861988FBE700939C93 /* SignUpForm.m in Sources */ = {isa = PBXBuildFile; fileRef = FF7609851988FBE700939C93 /* SignUpForm.m */; };
 		FF76206B196ABA9100611B3B /* Avenir Next.ttc in Resources */ = {isa = PBXBuildFile; fileRef = FF76206A196ABA9100611B3B /* Avenir Next.ttc */; };
 		FF78E77E198647AF001396E3 /* WorkoutPlayExerciseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF78E77C198647AF001396E3 /* WorkoutPlayExerciseViewController.m */; };
 		FF78E77F198647AF001396E3 /* WorkoutPlayExerciseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF78E77D198647AF001396E3 /* WorkoutPlayExerciseViewController.xib */; };
@@ -90,6 +92,14 @@
 		FF11F5C1196DF08200590C10 /* GEALabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GEALabel.m; path = Classes/Controller/Views/GEALabel.m; sourceTree = "<group>"; };
 		FF11F5C2196DF08200590C10 /* GEALabel+Gymnea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GEALabel+Gymnea.h"; path = "Classes/Controller/Views/GEALabel+Gymnea.h"; sourceTree = "<group>"; };
 		FF11F5C3196DF08200590C10 /* GEALabel+Gymnea.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "GEALabel+Gymnea.m"; path = "Classes/Controller/Views/GEALabel+Gymnea.m"; sourceTree = "<group>"; };
+		FF13B067198C26B600FB6461 /* GymneaWSClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GymneaWSClient.h; path = Classes/Controller/GymneaWSClient.h; sourceTree = "<group>"; };
+		FF13B068198C26B600FB6461 /* GymneaWSClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GymneaWSClient.m; path = Classes/Controller/GymneaWSClient.m; sourceTree = "<group>"; };
+		FF13B069198C26B600FB6461 /* SignUpForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SignUpForm.h; path = Classes/Controller/SignUpForm.h; sourceTree = "<group>"; };
+		FF13B06A198C26B600FB6461 /* SignUpForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SignUpForm.m; path = Classes/Controller/SignUpForm.m; sourceTree = "<group>"; };
+		FF13B06D198C26CE00FB6461 /* GEAAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GEAAuthentication.h; path = Classes/Controller/GEAAuthentication.h; sourceTree = "<group>"; };
+		FF13B06E198C26CE00FB6461 /* GEAAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GEAAuthentication.m; path = Classes/Controller/GEAAuthentication.m; sourceTree = "<group>"; };
+		FF13B06F198C26CE00FB6461 /* GEAAuthenticationKeychainStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GEAAuthenticationKeychainStore.h; path = Classes/Controller/GEAAuthenticationKeychainStore.h; sourceTree = "<group>"; };
+		FF13B070198C26CE00FB6461 /* GEAAuthenticationKeychainStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GEAAuthenticationKeychainStore.m; path = Classes/Controller/GEAAuthenticationKeychainStore.m; sourceTree = "<group>"; };
 		FF23A63D19825DDC00E62C5B /* WorkoutDayTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutDayTableViewCell.h; path = Classes/Controller/WorkoutDayTableViewCell.h; sourceTree = "<group>"; };
 		FF23A63E19825DDC00E62C5B /* WorkoutDayTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutDayTableViewCell.m; path = Classes/Controller/WorkoutDayTableViewCell.m; sourceTree = "<group>"; };
 		FF23A6421982964100E62C5B /* WorkoutDayTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkoutDayTableViewController.xib; path = Resources/Views/WorkoutDayTableViewController.xib; sourceTree = "<group>"; };
@@ -107,10 +117,6 @@
 		FF6A190D1985430800DA4E40 /* WorkoutPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutPlayViewController.h; path = Classes/Controller/WorkoutPlayViewController.h; sourceTree = "<group>"; };
 		FF6A190E1985430800DA4E40 /* WorkoutPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutPlayViewController.m; path = Classes/Controller/WorkoutPlayViewController.m; sourceTree = "<group>"; };
 		FF6A190F1985430800DA4E40 /* WorkoutPlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkoutPlayViewController.xib; path = Classes/Controller/WorkoutPlayViewController.xib; sourceTree = "<group>"; };
-		FF7609811988FB9100939C93 /* GymneaWSClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GymneaWSClient.h; sourceTree = "<group>"; };
-		FF7609821988FB9100939C93 /* GymneaWSClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GymneaWSClient.m; sourceTree = "<group>"; };
-		FF7609841988FBE700939C93 /* SignUpForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpForm.h; sourceTree = "<group>"; };
-		FF7609851988FBE700939C93 /* SignUpForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpForm.m; sourceTree = "<group>"; };
 		FF76206A196ABA9100611B3B /* Avenir Next.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Avenir Next.ttc"; path = "Resources/Fonts/Avenir Next.ttc"; sourceTree = "<group>"; };
 		FF78E77B198647AF001396E3 /* WorkoutPlayExerciseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutPlayExerciseViewController.h; path = Classes/Controller/WorkoutPlayExerciseViewController.h; sourceTree = "<group>"; };
 		FF78E77C198647AF001396E3 /* WorkoutPlayExerciseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutPlayExerciseViewController.m; path = Classes/Controller/WorkoutPlayExerciseViewController.m; sourceTree = "<group>"; };
@@ -216,6 +222,17 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
+		FF13B060198C209B00FB6461 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				FF13B06D198C26CE00FB6461 /* GEAAuthentication.h */,
+				FF13B06E198C26CE00FB6461 /* GEAAuthentication.m */,
+				FF13B06F198C26CE00FB6461 /* GEAAuthenticationKeychainStore.h */,
+				FF13B070198C26CE00FB6461 /* GEAAuthenticationKeychainStore.m */,
+			);
+			name = Authentication;
+			sourceTree = "<group>";
+		};
 		FF23A648198297C800E62C5B /* WorkoutDetails */ = {
 			isa = PBXGroup;
 			children = (
@@ -301,10 +318,10 @@
 		FF9110AF197B1C0600818E95 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				FF7609841988FBE700939C93 /* SignUpForm.h */,
-				FF7609851988FBE700939C93 /* SignUpForm.m */,
-				FF7609811988FB9100939C93 /* GymneaWSClient.h */,
-				FF7609821988FB9100939C93 /* GymneaWSClient.m */,
+				FF13B067198C26B600FB6461 /* GymneaWSClient.h */,
+				FF13B068198C26B600FB6461 /* GymneaWSClient.m */,
+				FF13B069198C26B600FB6461 /* SignUpForm.h */,
+				FF13B06A198C26B600FB6461 /* SignUpForm.m */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -372,6 +389,7 @@
 		FFA137821969F83D00DBEE68 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				FF13B060198C209B00FB6461 /* Authentication */,
 				FF9110AF197B1C0600818E95 /* Services */,
 				FF9110A8197B186900818E95 /* Model */,
 				FFA137831969F84900DBEE68 /* Controller */,
@@ -645,14 +663,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF13B06B198C26B600FB6461 /* GymneaWSClient.m in Sources */,
 				FFABFDDD196CA111004FC527 /* LogInViewController.m in Sources */,
 				FF816258198305B500443C13 /* ChooseWorkoutDayTableViewController.m in Sources */,
-				FF7609831988FB9100939C93 /* GymneaWSClient.m in Sources */,
-				FF7609861988FBE700939C93 /* SignUpForm.m in Sources */,
 				FF23A64D1982F48800E62C5B /* ChooseWorkoutDayViewController.m in Sources */,
 				FF8E69AA1987AD1E008C6BF9 /* GEATouchView.m in Sources */,
 				FF9110A4197B10BD00818E95 /* WorkoutDescriptionViewController.m in Sources */,
 				FFA1375D1969A58000DBEE68 /* gymnea.xcdatamodeld in Sources */,
+				FF13B071198C26CE00FB6461 /* GEAAuthentication.m in Sources */,
 				FFF5715219800CBD00BE457B /* WorkoutDayTableViewController.m in Sources */,
 				FF80E93F196B39D100D29986 /* InitialQuestionnaireViewController.m in Sources */,
 				FF9110AB197B187600818E95 /* Event.m in Sources */,
@@ -665,6 +683,7 @@
 				FFDDE707197D2A34009694D9 /* GenericWorkoutsViewController.m in Sources */,
 				FF9110A5197B10BD00818E95 /* WorkoutDetailViewController.m in Sources */,
 				FF11F5C5196DF08200590C10 /* GEALabel+Gymnea.m in Sources */,
+				FF13B06C198C26B600FB6461 /* SignUpForm.m in Sources */,
 				FF9110A6197B10BD00818E95 /* EventReviewViewController.m in Sources */,
 				FF11F5C4196DF08200590C10 /* GEALabel.m in Sources */,
 				FF78E78319867265001396E3 /* WorkoutPlayRestViewController.m in Sources */,
@@ -674,6 +693,7 @@
 				FFABFDCF196C4A03004FC527 /* InitialQuestionnaireGoalViewController.m in Sources */,
 				FF81625D1983222000443C13 /* ChooseWorkoutDayTableViewCell.m in Sources */,
 				FFABFDD6196C88C4004FC527 /* SignUpViewController.m in Sources */,
+				FF13B072198C26CE00FB6461 /* GEAAuthenticationKeychainStore.m in Sources */,
 				FFA137871969F9EA00DBEE68 /* InitialViewController.m in Sources */,
 				FF9110C1197BB4AD00818E95 /* GEAPopoverViewController.m in Sources */,
 				FF3F70A8196D54BE007AADF1 /* GEASideMenuController.m in Sources */,
