@@ -28,6 +28,10 @@
 		FF441EAA197067EC00865065 /* GEASideMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF441EA9197067EC00865065 /* GEASideMenuController.xib */; };
 		FF6A19101985430800DA4E40 /* WorkoutPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF6A190E1985430800DA4E40 /* WorkoutPlayViewController.m */; };
 		FF6A19111985430800DA4E40 /* WorkoutPlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF6A190F1985430800DA4E40 /* WorkoutPlayViewController.xib */; };
+		FF6BBFFE19901370001FC624 /* ExerciseDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF6BBFFD19901370001FC624 /* ExerciseDetailViewController.xib */; };
+		FF6BC002199014EE001FC624 /* ExerciseDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF6BC001199014EE001FC624 /* ExerciseDetailViewController.m */; };
+		FF6BC005199015DA001FC624 /* ExerciseDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF6BC004199015DA001FC624 /* ExerciseDescriptionViewController.m */; };
+		FF6BC007199018D2001FC624 /* ExerciseDescriptionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF6BC006199018D2001FC624 /* ExerciseDescriptionViewController.xib */; };
 		FF76206B196ABA9100611B3B /* Avenir Next.ttc in Resources */ = {isa = PBXBuildFile; fileRef = FF76206A196ABA9100611B3B /* Avenir Next.ttc */; };
 		FF78E77E198647AF001396E3 /* WorkoutPlayExerciseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF78E77C198647AF001396E3 /* WorkoutPlayExerciseViewController.m */; };
 		FF78E77F198647AF001396E3 /* WorkoutPlayExerciseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF78E77D198647AF001396E3 /* WorkoutPlayExerciseViewController.xib */; };
@@ -117,6 +121,12 @@
 		FF6A190D1985430800DA4E40 /* WorkoutPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutPlayViewController.h; path = Classes/Controller/WorkoutPlayViewController.h; sourceTree = "<group>"; };
 		FF6A190E1985430800DA4E40 /* WorkoutPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutPlayViewController.m; path = Classes/Controller/WorkoutPlayViewController.m; sourceTree = "<group>"; };
 		FF6A190F1985430800DA4E40 /* WorkoutPlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkoutPlayViewController.xib; path = Classes/Controller/WorkoutPlayViewController.xib; sourceTree = "<group>"; };
+		FF6BBFFD19901370001FC624 /* ExerciseDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ExerciseDetailViewController.xib; path = Resources/Views/ExerciseDetailViewController.xib; sourceTree = "<group>"; };
+		FF6BC000199014EE001FC624 /* ExerciseDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExerciseDetailViewController.h; path = Classes/Controller/ExerciseDetailViewController.h; sourceTree = "<group>"; };
+		FF6BC001199014EE001FC624 /* ExerciseDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExerciseDetailViewController.m; path = Classes/Controller/ExerciseDetailViewController.m; sourceTree = "<group>"; };
+		FF6BC003199015DA001FC624 /* ExerciseDescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExerciseDescriptionViewController.h; path = Classes/Controller/ExerciseDescriptionViewController.h; sourceTree = "<group>"; };
+		FF6BC004199015DA001FC624 /* ExerciseDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExerciseDescriptionViewController.m; path = Classes/Controller/ExerciseDescriptionViewController.m; sourceTree = "<group>"; };
+		FF6BC006199018D2001FC624 /* ExerciseDescriptionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ExerciseDescriptionViewController.xib; path = Resources/Views/ExerciseDescriptionViewController.xib; sourceTree = "<group>"; };
 		FF76206A196ABA9100611B3B /* Avenir Next.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Avenir Next.ttc"; path = "Resources/Fonts/Avenir Next.ttc"; sourceTree = "<group>"; };
 		FF78E77B198647AF001396E3 /* WorkoutPlayExerciseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutPlayExerciseViewController.h; path = Classes/Controller/WorkoutPlayExerciseViewController.h; sourceTree = "<group>"; };
 		FF78E77C198647AF001396E3 /* WorkoutPlayExerciseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutPlayExerciseViewController.m; path = Classes/Controller/WorkoutPlayExerciseViewController.m; sourceTree = "<group>"; };
@@ -277,6 +287,26 @@
 			name = Containers;
 			sourceTree = "<group>";
 		};
+		FF6BBFFC199012B5001FC624 /* ExerciseDetails */ = {
+			isa = PBXGroup;
+			children = (
+				FF6BC006199018D2001FC624 /* ExerciseDescriptionViewController.xib */,
+				FF6BBFFD19901370001FC624 /* ExerciseDetailViewController.xib */,
+			);
+			name = ExerciseDetails;
+			sourceTree = "<group>";
+		};
+		FF6BBFFF199013C0001FC624 /* ExerciseDetails */ = {
+			isa = PBXGroup;
+			children = (
+				FF6BC003199015DA001FC624 /* ExerciseDescriptionViewController.h */,
+				FF6BC004199015DA001FC624 /* ExerciseDescriptionViewController.m */,
+				FF6BC000199014EE001FC624 /* ExerciseDetailViewController.h */,
+				FF6BC001199014EE001FC624 /* ExerciseDetailViewController.m */,
+			);
+			name = ExerciseDetails;
+			sourceTree = "<group>";
+		};
 		FF9110A7197B10F700818E95 /* WorkoutDetails */ = {
 			isa = PBXGroup;
 			children = (
@@ -403,6 +433,7 @@
 		FFA137831969F84900DBEE68 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				FF6BBFFF199013C0001FC624 /* ExerciseDetails */,
 				FF23A6491982F3C600E62C5B /* WorkoutPlay */,
 				FFDDE703197D29FB009694D9 /* Workouts */,
 				FF9110A7197B10F700818E95 /* WorkoutDetails */,
@@ -439,6 +470,7 @@
 		FFA137881969FA1100DBEE68 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FF6BBFFC199012B5001FC624 /* ExerciseDetails */,
 				FF23A648198297C800E62C5B /* WorkoutDetails */,
 				FF23A6451982968200E62C5B /* GenericWorkoutsViewController.xib */,
 				FF9110BB197BB1B500818E95 /* EventReviewViewController.xib */,
@@ -608,8 +640,10 @@
 				FF23A6471982968200E62C5B /* GenericWorkoutsViewController.xib in Resources */,
 				FF6A19111985430800DA4E40 /* WorkoutPlayViewController.xib in Resources */,
 				FF8162541982F5C800443C13 /* ChooseWorkoutDayViewController.xib in Resources */,
+				FF6BC007199018D2001FC624 /* ExerciseDescriptionViewController.xib in Resources */,
 				FF9110BE197BB1B500818E95 /* EventReviewViewController.xib in Resources */,
 				FF78E77F198647AF001396E3 /* WorkoutPlayExerciseViewController.xib in Resources */,
+				FF6BBFFE19901370001FC624 /* ExerciseDetailViewController.xib in Resources */,
 				FF0DC1B9196CA1CC006E1817 /* LogInViewController.xib in Resources */,
 				FF441EAA197067EC00865065 /* GEASideMenuController.xib in Resources */,
 				FF81625E1983222000443C13 /* ChooseWorkoutDayTableViewCell.xib in Resources */,
@@ -665,6 +699,7 @@
 			files = (
 				FF13B06B198C26B600FB6461 /* GymneaWSClient.m in Sources */,
 				FFABFDDD196CA111004FC527 /* LogInViewController.m in Sources */,
+				FF6BC002199014EE001FC624 /* ExerciseDetailViewController.m in Sources */,
 				FF816258198305B500443C13 /* ChooseWorkoutDayTableViewController.m in Sources */,
 				FF23A64D1982F48800E62C5B /* ChooseWorkoutDayViewController.m in Sources */,
 				FF8E69AA1987AD1E008C6BF9 /* GEATouchView.m in Sources */,
@@ -697,6 +732,7 @@
 				FFA137871969F9EA00DBEE68 /* InitialViewController.m in Sources */,
 				FF9110C1197BB4AD00818E95 /* GEAPopoverViewController.m in Sources */,
 				FF3F70A8196D54BE007AADF1 /* GEASideMenuController.m in Sources */,
+				FF6BC005199015DA001FC624 /* ExerciseDescriptionViewController.m in Sources */,
 				FF78E77E198647AF001396E3 /* WorkoutPlayExerciseViewController.m in Sources */,
 				FF9110B5197B1DF200818E95 /* EventReview.m in Sources */,
 			);

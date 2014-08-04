@@ -12,6 +12,7 @@
 #import "GEALabel+Gymnea.h"
 #import "GenericWorkoutsViewController.h"
 #import "GEAScrollableTabBarController.h"
+#import "ExerciseDetailViewController.h"
 
 @interface StartViewController ()
 
@@ -24,7 +25,7 @@
     self = [super initWithNibName:@"StartViewController" bundle:nil];
     if (self)
     {
-        
+
     }
     return self;
 }
@@ -116,7 +117,7 @@
     
 
 
-    UIViewController *favorites3ViewController = [[UIViewController alloc] init];
+    ExerciseDetailViewController *favorites3ViewController = [[ExerciseDetailViewController alloc] initWithEventId:1];
     [favorites3ViewController.view setFrame:CGRectMake(0,0,320,690)];
     CGRect frame3 = favorites3ViewController.navigationController.toolbar.frame;
     frame3.origin.y = 20;
@@ -128,7 +129,7 @@
     UINavigationController *favorites3Controller = [[UINavigationController alloc] initWithRootViewController:favorites3ViewController];
     [favorites3Controller.interactivePopGestureRecognizer setEnabled:NO];
     // Add the screen title
-    favorites3ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Exercises" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+    //favorites3ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Exercises" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
     
     
