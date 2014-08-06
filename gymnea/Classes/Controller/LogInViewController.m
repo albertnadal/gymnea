@@ -82,7 +82,7 @@
         GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
         [gymneaWSClient signInForUsername:[self.usernameTextField text] /*@"albert@gymnia.com"*/
                               andPassword:[self.passwordTextField text] /*@"albert"*/
-                      withCompletionBlock:^(GymneaSignInWSClientRequestResponse success, NSDictionary *responseData) {
+                      withCompletionBlock:^(GymneaSignInWSClientRequestResponse success, NSDictionary *responseData, UserInfo *userInfo) {
 
                       [MBProgressHUD hideHUDForView:self.view animated:YES];
 

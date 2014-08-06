@@ -10,6 +10,7 @@
 #import "GEASideMenuController.h"
 #import "InitialViewController.h"
 #import "GEALabel+Gymnea.h"
+#import "GymneaWSClient.h"
 #import "GenericWorkoutsViewController.h"
 #import "GEAScrollableTabBarController.h"
 #import "ExerciseDetailViewController.h"
@@ -192,8 +193,32 @@
     favorites6ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Pictures" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
 
+     /*
+     signUpWithForm:self.signUpForm
+               withCompletionBlock:^(GymneaSignUpWSClientRequestResponse success, NSDictionary *responseData, UserInfo *userInfo) {
+                   
+                   [MBProgressHUD hideHUDForView:self.view animated:YES];
+                   
+                   //                   NSLog(@"SIGN IN RESPONSE: %@", responseData);
+                   
+                   if([[[responseData objectForKey:@"success"] lowercaseString] isEqual: @"false"]) {
+                       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[responseData objectForKey:@"errorMsg"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                       [alert show];
+                   } else if([[[responseData objectForKey:@"success"] lowercaseString] isEqual: @"true"]){
+                       StartViewController *startViewController = [[StartViewController alloc] init];
+                       [self.navigationController pushViewController:startViewController animated:NO];
+                   } else {
+                       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"An unexpected error occurred. Check your Internet connection and retry again." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                       [alert show];
+                   }
+                   
+               }];*/
 
 
+
+
+    // Now we make a fake request to update the session id
+    [[GymneaWSClient sharedInstance] requestSessionId];
 
 
 

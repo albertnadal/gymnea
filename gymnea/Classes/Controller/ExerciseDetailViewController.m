@@ -12,6 +12,7 @@
 #import "AppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
 //#import "VegasAPIClient.h"
+#import "GymneaWSClient.h"
 #import "Event.h"
 #import "EventDetail.h"
 #import "GEALabel+Gymnea.h"
@@ -141,6 +142,13 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 - (IBAction)playExercise:(id)sender
 {
     // Implement
+    GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
+    [gymneaWSClient requestUserInfoWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, UserInfo *userInfo) {
+        NSLog(@"userInfo loaded");
+        if(userInfo != nil) {
+            NSLog(@"NAME: %@", userInfo.firstName);
+        }
+    }];
 }
 
 - (void)loadBanner

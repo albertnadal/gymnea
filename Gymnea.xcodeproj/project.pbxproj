@@ -71,6 +71,7 @@
 		FFABFDDD196CA111004FC527 /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFABFDDB196CA111004FC527 /* LogInViewController.m */; };
 		FFADD41C198851A4009F14F3 /* clock_tic.wav in Resources */ = {isa = PBXBuildFile; fileRef = FFADD41B198851A4009F14F3 /* clock_tic.wav */; };
 		FFDDE707197D2A34009694D9 /* GenericWorkoutsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFDDE705197D2A34009694D9 /* GenericWorkoutsViewController.m */; };
+		FFF0843219926C1C009C50F8 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF0843119926C1C009C50F8 /* UserInfo.m */; };
 		FFF5715219800CBD00BE457B /* WorkoutDayTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF5715019800CBD00BE457B /* WorkoutDayTableViewController.m */; };
 		FFF779471985340C0073E0BE /* NextExerciseCountdownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF779451985340C0073E0BE /* NextExerciseCountdownViewController.m */; };
 		FFF779481985340C0073E0BE /* NextExerciseCountdownViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFF779461985340C0073E0BE /* NextExerciseCountdownViewController.xib */; };
@@ -192,6 +193,8 @@
 		FFADD41B198851A4009F14F3 /* clock_tic.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = clock_tic.wav; sourceTree = "<group>"; };
 		FFDDE704197D2A34009694D9 /* GenericWorkoutsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericWorkoutsViewController.h; path = Classes/Controller/GenericWorkoutsViewController.h; sourceTree = "<group>"; };
 		FFDDE705197D2A34009694D9 /* GenericWorkoutsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenericWorkoutsViewController.m; path = Classes/Controller/GenericWorkoutsViewController.m; sourceTree = "<group>"; };
+		FFF0843019926C1C009C50F8 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserInfo.h; path = Classes/Model/UserInfo.h; sourceTree = "<group>"; };
+		FFF0843119926C1C009C50F8 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserInfo.m; path = Classes/Model/UserInfo.m; sourceTree = "<group>"; };
 		FFF5714F19800CBD00BE457B /* WorkoutDayTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutDayTableViewController.h; path = Classes/Controller/WorkoutDayTableViewController.h; sourceTree = "<group>"; };
 		FFF5715019800CBD00BE457B /* WorkoutDayTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutDayTableViewController.m; path = Classes/Controller/WorkoutDayTableViewController.m; sourceTree = "<group>"; };
 		FFF779441985340C0073E0BE /* NextExerciseCountdownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NextExerciseCountdownViewController.h; path = Classes/Controller/NextExerciseCountdownViewController.h; sourceTree = "<group>"; };
@@ -335,6 +338,8 @@
 		FF9110A8197B186900818E95 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				FFF0843019926C1C009C50F8 /* UserInfo.h */,
+				FFF0843119926C1C009C50F8 /* UserInfo.m */,
 				FF9110A9197B187600818E95 /* Event.h */,
 				FF9110AA197B187600818E95 /* Event.m */,
 				FF9110B3197B1DF200818E95 /* EventReview.h */,
@@ -710,6 +715,7 @@
 				FF80E93F196B39D100D29986 /* InitialQuestionnaireViewController.m in Sources */,
 				FF9110AB197B187600818E95 /* Event.m in Sources */,
 				FF8E69A91987AD1E008C6BF9 /* GEAScrollableTabBarController.m in Sources */,
+				FFF0843219926C1C009C50F8 /* UserInfo.m in Sources */,
 				FF9110B8197B1ED400818E95 /* EventDetail.m in Sources */,
 				FF03958A196D528200EA1CF6 /* StartViewController.m in Sources */,
 				FF2521ED1987E78000D9E9B1 /* GenericWorkoutCollectionViewCell.m in Sources */,

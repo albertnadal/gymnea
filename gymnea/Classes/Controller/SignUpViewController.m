@@ -896,7 +896,7 @@
 
     GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
     [gymneaWSClient signUpWithForm:self.signUpForm
-               withCompletionBlock:^(GymneaSignUpWSClientRequestResponse success, NSDictionary *responseData) {
+               withCompletionBlock:^(GymneaSignUpWSClientRequestResponse success, NSDictionary *responseData, UserInfo *userInfo) {
 
                    [MBProgressHUD hideHUDForView:self.view animated:YES];
 

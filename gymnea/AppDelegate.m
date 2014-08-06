@@ -32,7 +32,7 @@
     // Check if auto-login
 
     // Uncomment the following line for removing all data in the keychain. YOU MUST USE THIS CALL WHEN LOG OUT!
-    //[GEAAuthenticationKeychainStore clearAllData];
+    [GEAAuthenticationKeychainStore clearAllData];
 
     GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
     GEAAuthentication *authentication = [keychainStore authenticationForIdentifier:@"gymnea"];

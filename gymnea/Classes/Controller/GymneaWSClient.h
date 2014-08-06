@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SignUpForm.h"
+#import "UserInfo.h"
 
 typedef enum _GymneaWSClientRequestStatus
 {
@@ -27,10 +28,16 @@ typedef enum _GymneaSignUpWSClientRequestResponse
     GymneaSignUpWSClientRequestError = 0
 } GymneaSignUpWSClientRequestResponse;
 
-typedef void(^signInCompletionBlock)(GymneaSignInWSClientRequestResponse success, NSDictionary *responseData);
-typedef void(^signUpCompletionBlock)(GymneaSignUpWSClientRequestResponse success, NSDictionary *responseData);
+typedef void(^signInCompletionBlock)(GymneaSignInWSClientRequestResponse success, NSDictionary *responseData, UserInfo *userInfo);
+typedef void(^signUpCompletionBlock)(GymneaSignUpWSClientRequestResponse success, NSDictionary *responseData, UserInfo *userInfo);
+typedef void(^userInfoCompletionBlock)(GymneaWSClientRequestStatus success, NSDictionary *responseData, UserInfo *userInfo);
 
 @interface GymneaWSClient : NSObject<NSURLSessionDelegate>
+{
+    NSString *sessionId;
+}
+
+@property (nonatomic, retain) NSString *sessionId;
 
 + (GymneaWSClient *)sharedInstance;
 
@@ -40,5 +47,9 @@ typedef void(^signUpCompletionBlock)(GymneaSignUpWSClientRequestResponse success
 
 - (void)signUpWithForm:(SignUpForm *)signInForm
       withCompletionBlock:(signUpCompletionBlock)completionBlock;
+
+- (void)requestSessionId;
+
+- (void)requestUserInfoWithCompletionBlock:(userInfoCompletionBlock)completionBlock;
 
 @end
