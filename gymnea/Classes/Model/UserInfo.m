@@ -11,14 +11,14 @@
 
 @implementation UserInfo
 
-@synthesize firstName;
-@synthesize lastName;
-@synthesize email;
-@synthesize gender;
-@synthesize heightCentimeters;
-@synthesize heightIsMetric;
-@synthesize weightKilograms;
-@synthesize weightIsMetric;
-@synthesize birthDate;
+@dynamic firstName;
+@dynamic lastName;
+@dynamic email;
+@dynamic gender;
+@dynamic heightCentimeters;
+@dynamic heightIsMetric;
+@dynamic weightKilograms;
+@dynamic weightIsMetric;
+@dynamic birthDate;
 
 @end

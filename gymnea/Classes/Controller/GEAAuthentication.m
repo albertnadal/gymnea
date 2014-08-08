@@ -11,6 +11,7 @@
 @implementation GEAAuthentication
 
 - (id)initWithAuthBaseURL:(NSString *)baseUrl
+                userEmail:(NSString *)userEmail
            clientInfoHash:(NSString *)clientInfoHash
                 clientKey:(NSString *)clientKey
 {
@@ -19,6 +20,7 @@
     if (self) {
 
         self.baseUrl = baseUrl;
+        self.userEmail = userEmail;
         self.clientInfoHash = clientInfoHash;
         self.clientKey = clientKey;
     }
@@ -29,6 +31,7 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder {
 
   [aCoder encodeObject:_baseUrl forKey:@"baseUrl"];
+  [aCoder encodeObject:_userEmail forKey:@"userEmail"];
   [aCoder encodeObject:_clientInfoHash  forKey:@"clientInfoHash"];
   [aCoder encodeObject:_clientKey forKey:@"clientKey"];
 }
@@ -39,6 +42,7 @@
   if (self) {
 
     self.baseUrl = [aDecoder decodeObjectForKey:@"baseUrl"];
+    self.userEmail = [aDecoder decodeObjectForKey:@"userEmail"];
     self.clientInfoHash = [aDecoder decodeObjectForKey:@"clientInfoHash"];
     self.clientKey = [aDecoder decodeObjectForKey:@"clientKey"];
   }
@@ -49,8 +53,9 @@
 
 - (NSString *)description {
 
-  return [NSString stringWithFormat:@"baseUrl=%@ clientInfoHash=%@ clientKey=%@",
+  return [NSString stringWithFormat:@"baseUrl=%@ userEmail=%@ clientInfoHash=%@ clientKey=%@",
           self.baseUrl,
+          self.userEmail,
           self.clientInfoHash,
           self.clientKey];
 }

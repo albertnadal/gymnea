@@ -529,7 +529,7 @@
     else if(pickerView == self.heightPickerView)
     {
         if(component == 2) {
-            
+
             if(row == 0) {
                 self.heightIsMetricUnits = NO;
             } else {

@@ -11,11 +11,13 @@
 @interface GEAAuthentication : NSObject <NSCoding>
 
 @property (nonatomic, strong) NSString *baseUrl;
+@property (nonatomic, strong) NSString *userEmail;
 @property (nonatomic, strong) NSString *clientInfoHash;
 @property (nonatomic, strong) NSString *clientKey;
 @property (nonatomic, strong) NSDictionary *additionalParameters;
 
 - (id)initWithAuthBaseURL:(NSString *)baseUrl
+                userEmail:(NSString *)userEmail
            clientInfoHash:(NSString *)clientInfoHash
                 clientKey:(NSString *)clientKey;
 

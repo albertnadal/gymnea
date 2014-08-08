@@ -217,17 +217,16 @@
 
 
 
-    // Now we make a fake request to update the session id
-    [[GymneaWSClient sharedInstance] requestSessionId];
+    // Now we ask fot the session id
+    [[GymneaWSClient sharedInstance] requestSessionIdWithCompletionBlock:^(GymneaWSClientRequestStatus success) {
 
+        // Side menu
+        GEASideMenuController *sideMenuController = [[GEASideMenuController alloc] init];
+        sideMenuController.viewControllers = @[favoritesController, favorites2Controller, favorites3Controller, favorites4Controller, favorites5Controller, favorites6Controller];
 
+        [[[UIApplication sharedApplication] keyWindow] setRootViewController:sideMenuController];
 
-    // Side menu
-    GEASideMenuController *sideMenuController = [[GEASideMenuController alloc] init];
-    sideMenuController.viewControllers = @[favoritesController, favorites2Controller, favorites3Controller, favorites4Controller, favorites5Controller, favorites6Controller];
-
-    [[[UIApplication sharedApplication] keyWindow] setRootViewController:sideMenuController];
-    //[self.navigationController pushViewController:sideMenuController animated:NO];
+    }];
 }
 
 - (void)didReceiveMemoryWarning

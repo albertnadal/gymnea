@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 
 
-@interface UserInfo : NSObject//NSManagedObject
+@interface UserInfo : NSManagedObject
 
 @property (nonatomic, retain) NSString * firstName;
 @property (nonatomic, retain) NSString * lastName;

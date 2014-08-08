@@ -7,6 +7,7 @@
 //
 
 #import "GEASideMenuController.h"
+#import "GymneaWSClient.h"
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
 
@@ -167,6 +168,9 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
 @property (nonatomic, strong) UIView *mainViewContainer;
 @property (nonatomic, strong) UIView *tapCaptureView;
 @property (nonatomic, retain) IBOutlet UIView *userInformationView;
+@property (nonatomic, retain) IBOutlet UILabel *userNameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *userInfoLabel;
+
 
 - (void)changeChildViewController:(UIViewController *)childViewController withViewController:(UIViewController *)viewController;
 - (void)setupChildViewControllersForSideViewVisibility:(BOOL)hidden;
@@ -244,14 +248,62 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
       self.selectedIndex = 0;
     }
   }
-  
+
   // Create the pan gesture recognizer to handle swipe to show/hide menu
   UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
   [self.mainViewContainer addGestureRecognizer:panGestureRecognizer];
-  
+
   // Create the tap gesture recognizer
   UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
   [self.tapCaptureView addGestureRecognizer:tapGestureRecognizer];
+
+
+
+    // Download the user information or get it from the DB
+    [[GymneaWSClient sharedInstance] requestUserInfoWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, UserInfo *userInfo) {
+
+        if(success == GymneaWSClientRequestSuccess) {
+
+            // Calculate the user age from his birthdate
+            NSDate *today = [[NSDate alloc] init];
+            NSCalendar *sysCalendar = [NSCalendar currentCalendar];
+            unsigned int unitFlags = NSYearCalendarUnit;
+            NSDate *differentialDate = [[NSDate alloc] initWithTimeInterval:[[userInfo birthDate] timeIntervalSinceNow] sinceDate:today];
+            NSDateComponents *userAgeComponents = [sysCalendar components:unitFlags fromDate:today  toDate:differentialDate  options:0];
+
+            // Calculate the user height (cm <-> ft/in)
+            float centimeters = [userInfo heightCentimeters];
+            NSString *heightString = nil;
+
+            if([userInfo heightIsMetric]) {
+                heightString = [NSString stringWithFormat:@"%.0fcm", centimeters];
+            } else {
+                float inches = (centimeters * 0.39370078740157477f);
+                int feet = (int)(inches / 12);
+                inches = fmodf(inches, 12);
+                heightString = [NSString stringWithFormat:@"%d' %.2f\"", feet, inches];
+            }
+
+            // Calculate the user weight
+            float kilograms = [userInfo weightKilograms];
+            NSString *weightString = nil;
+            
+            if([userInfo weightIsMetric]) {
+                weightString = [NSString stringWithFormat:@"%.1fkg", kilograms];
+            } else {
+                weightString = [NSString stringWithFormat:@"%.1flbs", (kilograms * 2.20462262f)];
+            }
+
+            [self.userInfoLabel setText:[NSString stringWithFormat:@"%@ - %d - %@ - %@", [userInfo.gender capitalizedString], abs([userAgeComponents year]), heightString, weightString]];
+            [self.userNameLabel setText:[NSString stringWithFormat:@"%@ %@", userInfo.firstName, userInfo.lastName]];
+
+        } else {
+            [self.userNameLabel setText:@"-"];
+            [self.userInfoLabel setText:@"-"];
+
+        }
+
+    }];
 }
 
 #pragma mark - Getters and setters

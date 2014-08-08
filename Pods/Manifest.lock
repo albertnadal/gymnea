@@ -4,6 +4,7 @@ PODS:
   - ISO8601DateFormatterValueTransformer (0.6.0):
     - RKValueTransformers (~> 1.1.0)
   - MBProgressHUD (0.8)
+  - Reachability (3.1.1)
   - RestKit (0.23.2):
     - RestKit/Core
   - RestKit/Core (0.23.2):
@@ -30,6 +31,7 @@ PODS:
 DEPENDENCIES:
   - CHTCollectionViewWaterfallLayout (~> 0.7)
   - MBProgressHUD (~> 0.8)
+  - Reachability (~> 3.1.1)
   - RestKit (~> 0.23.2)
 
 SPEC CHECKSUMS:
@@ -37,6 +39,7 @@ SPEC CHECKSUMS:
   CHTCollectionViewWaterfallLayout: 184d3b6d5456b48e93ac97e93e606bd8b68aedcc
   ISO8601DateFormatterValueTransformer: a705384ea6531255258e25b6480ba1180db703a0
   MBProgressHUD: c356980b0cd097f19acec959b49dca5eb8ec31be
+  Reachability: 8e9635e3cb4f98e7f825e51147f677ecc694d0e7
   RestKit: dd01867ddb4098e7cfd26125515a9b03b2accadf
   RKValueTransformers: b705e7b4651b9206b94600408462b74554bba969
   SOCKit: d8d0dd3688ae1026c12367570da8fa8e1a6980fb

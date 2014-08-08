@@ -8,12 +8,21 @@
 
 #import <Foundation/Foundation.h>
 #import "GymneaWSClient.h"
+#import "Reachability.h"
 #import "GEAAuthentication.h"
 #import "GEAAuthenticationKeychainStore.h"
 
 static const NSString *kWSDomain = @"athlete.gymnea.com";
 
 @interface GymneaWSClient ()
+{
+    BOOL internetIsReachable;
+    Reachability* reach;
+}
+
+@property (nonatomic, retain) NSString *sessionId;
+@property (nonatomic, retain) Reachability *reach;
+@property (nonatomic) BOOL internetIsReachable;
 
 typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *responseCookies);
 
@@ -27,6 +36,9 @@ typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDi
 @implementation GymneaWSClient
 
 @synthesize sessionId;
+@synthesize internetIsReachable;
+@synthesize reach;
+
 
 + (GymneaWSClient *)sharedInstance
 {
@@ -38,6 +50,33 @@ typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDi
     });
 
     return _instance;
+}
+
+- (id)init
+{
+    if(self = [super init])
+    {
+        self.internetIsReachable = TRUE;
+        self.reach = [Reachability reachabilityWithHostname:[NSString stringWithFormat:@"%@", kWSDomain]];
+
+        __weak GymneaWSClient *wsc = self;
+
+        reach.reachableBlock = ^(Reachability*reach)
+        {
+            wsc.internetIsReachable = TRUE;
+        };
+
+        reach.unreachableBlock = ^(Reachability*reach)
+        {
+            wsc.internetIsReachable = FALSE;
+        };
+
+        [reach startNotifier];
+
+        return self;
+    }
+
+    return nil;
 }
 
 - (void)signInForUsername:(NSString *)username
@@ -62,6 +101,7 @@ typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDi
 
                   if([cookies objectForKey:@"uid"] != nil) {
                       GEAAuthentication *authentication = [[GEAAuthentication alloc] initWithAuthBaseURL:[NSString stringWithFormat:@"%@", kWSDomain]
+                                                                                               userEmail:username
                                                                                           clientInfoHash:[cookies objectForKey:@"uid"]
                                                                                                clientKey:[cookies objectForKey:@"ukey"]];
 
@@ -69,27 +109,11 @@ typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDi
                       [keychainStore setAuthentication:authentication forIdentifier:@"gymnea"];
                   }
 
-                  NSDictionary *userInfoDict = [responseData objectForKey:@"userInfo"];
-
-                  userInfo = [[UserInfo alloc] init];
-                  [userInfo setFirstName:[userInfoDict objectForKey:@"firstname"]];
-                  [userInfo setLastName:[userInfoDict objectForKey:@"lastname"]];
-                  [userInfo setGender:[userInfoDict objectForKey:@"gender"]];
-                  [userInfo setEmail:[userInfoDict objectForKey:@"email"]];
-                  [userInfo setHeightCentimeters:[[userInfoDict objectForKey:@"centimeters"] floatValue]];
-                  [userInfo setHeightIsMetric:[[userInfoDict objectForKey:@"heightIsMetric"] boolValue]];
-                  [userInfo setWeightKilograms:[[userInfoDict objectForKey:@"kilograms"] floatValue]];
-                  [userInfo setWeightIsMetric:[[userInfoDict objectForKey:@"weightIsMetric"] boolValue]];
-
-                  NSCalendar *calendar = [NSCalendar currentCalendar];
-                  NSDateComponents *components = [[NSDateComponents alloc] init];
-                  [components setDay:[[userInfoDict objectForKey:@"day"] intValue]];
-                  [components setMonth:[[userInfoDict objectForKey:@"month"] intValue]];
-                  [components setYear:[[userInfoDict objectForKey:@"year"] intValue]];
-                  [userInfo setBirthDate:[calendar dateFromComponents:components]];
+                  // Insert or update the current UserInfo register in the DB
+                  userInfo = [UserInfo updateUserInfoWithEmail:username withDictionary:[responseData objectForKey:@"userInfo"]];
 
                   // Now we make a fake request to update the session id
-                  [self requestSessionId];
+                  [self requestSessionIdWithCompletionBlock:^(GymneaWSClientRequestStatus success) { /* Do nothing */ }];
               }
 
               dispatch_async(dispatch_get_main_queue(), ^{
@@ -132,6 +156,9 @@ typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDi
               if(success == GymneaWSClientRequestSuccess) {
                   signUpStatus = GymneaSignUpWSClientRequestSuccess;
                   userInfo = [[UserInfo alloc] init];
+
+                  // Now we make a fake request to update the session id
+                  [self requestSessionIdWithCompletionBlock:^(GymneaWSClientRequestStatus success) { /* Do nothing */ }];
               }
 
               dispatch_async(dispatch_get_main_queue(), ^{
@@ -142,82 +169,90 @@ typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDi
 
 }
 
-- (void)requestSessionId
+- (void)requestSessionIdWithCompletionBlock:(sessionIdCompletionBlock)completionBlock
 {
-    [self requestUserInfoWithCompletionBlock:nil];
+
+    if(self.internetIsReachable) {
+
+        NSString *requestPath = @"/api/user/get_user_info";
+
+        GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+        GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+
+        [self performAsyncRequest:requestPath
+                   withDictionary:nil
+               withAuthentication:auth
+              withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
+
+                  dispatch_async(dispatch_get_main_queue(), ^{
+                      if(completionBlock != nil) {
+                          completionBlock(success);
+                      }
+                  });
+
+              }];
+
+    } else {
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(completionBlock != nil) {
+                completionBlock(GymneaWSClientRequestError);
+            }
+        });
+
+    }
+
 }
 
 - (void)requestUserInfoWithCompletionBlock:(userInfoCompletionBlock)completionBlock
 {
-    NSString *requestPath = @"/api/user/get_user_info";
-
     GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
     GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
 
-    [self performAsyncRequest:requestPath
-               withDictionary:nil
-           withAuthentication:auth
-          withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
+    if(self.internetIsReachable) {
 
-              UserInfo *userInfo = nil;
+        // Retrieve data from web service API
 
-              if(success == GymneaWSClientRequestSuccess) {
+        NSString *requestPath = @"/api/user/get_user_info";
 
-                  userInfo = [[UserInfo alloc] init];
-                  NSDictionary *userInfoDict = [responseData objectForKey:@"userInfo"];
+        [self performAsyncRequest:requestPath
+                   withDictionary:nil
+               withAuthentication:auth
+              withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
 
-                  userInfo = [[UserInfo alloc] init];
-                  [userInfo setFirstName:[userInfoDict objectForKey:@"firstname"]];
-                  [userInfo setLastName:[userInfoDict objectForKey:@"lastname"]];
-                  [userInfo setGender:[userInfoDict objectForKey:@"gender"]];
-                  [userInfo setEmail:[userInfoDict objectForKey:@"email"]];
-                  [userInfo setHeightCentimeters:[[userInfoDict objectForKey:@"centimeters"] floatValue]];
-                  [userInfo setHeightIsMetric:[[userInfoDict objectForKey:@"heightIsMetric"] boolValue]];
-                  [userInfo setWeightKilograms:[[userInfoDict objectForKey:@"kilograms"] floatValue]];
-                  [userInfo setWeightIsMetric:[[userInfoDict objectForKey:@"weightIsMetric"] boolValue]];
+                  UserInfo *userInfo = nil;
 
-                  NSCalendar *calendar = [NSCalendar currentCalendar];
-                  NSDateComponents *components = [[NSDateComponents alloc] init];
-                  [components setDay:[[userInfoDict objectForKey:@"day"] intValue]];
-                  [components setMonth:[[userInfoDict objectForKey:@"month"] intValue]];
-                  [components setYear:[[userInfoDict objectForKey:@"year"] intValue]];
-                  [userInfo setBirthDate:[calendar dateFromComponents:components]];
-              }
-
-              dispatch_async(dispatch_get_main_queue(), ^{
-                  if(completionBlock != nil) {
-                      completionBlock(success, responseData, userInfo);
+                  if(success == GymneaWSClientRequestSuccess) {
+                      // Insert or update the current UserInfo register in the DB
+                      userInfo = [UserInfo updateUserInfoWithEmail:[auth userEmail] withDictionary:[responseData objectForKey:@"userInfo"]];
                   }
-              });
 
-          }];
+                  dispatch_async(dispatch_get_main_queue(), ^{
+                      if(completionBlock != nil) {
+                          completionBlock(success, responseData, userInfo);
+                      }
+
+                  });
+
+              }];
+
+    } else {
+
+        // Retrieve data from DB by using the email address as primary key
+
+        UserInfo *userInfo = [UserInfo getUserInfo:[auth userEmail]];
+
+        GymneaWSClientRequestStatus success = (userInfo == nil) ? GymneaWSClientRequestError : GymneaWSClientRequestSuccess;
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(completionBlock != nil) {
+                completionBlock(success, nil, userInfo);
+            }
+        });
+
+    }
 }
 
-/*
-- (void)retrieveBook:(int)identifier
- withCompletionBlock:(bookDetailsCompletionBlock)completionBlock
-{
-    NSString *requestPath = [NSString stringWithFormat:@"/api/v10/items/%d", identifier];
-
-    [self performAsyncRequest:requestPath
-          withCompletionBlock:^(CatalogWSClientRequestError success, NSDictionary *responseData)
-     {
-         // BookDetails object mapping with the received JSON data
-         int bookId = [[responseData objectForKey:@"id"] intValue];
-         NSString *bookImage = (NSString *)[responseData objectForKey:@"image"];
-         NSString *bookTitle = (NSString *)[responseData objectForKey:@"title"];
-         NSString *bookAuthor = (NSString *)[responseData objectForKey:@"author"];
-         double bookPrice = [[responseData objectForKey:@"price"] doubleValue];
-
-         BookDetails *book = [[BookDetails alloc] initWithId:bookId image:bookImage title:bookTitle author:bookAuthor price:bookPrice];
-
-         dispatch_async(dispatch_get_main_queue(), ^{
-             completionBlock(success, book);
-         });
-
-     }];
-}
-*/
 - (void)performAsyncRequest:(NSString *)path
              withDictionary:(NSDictionary *)values
          withAuthentication:(GEAAuthentication *)auth
@@ -284,7 +319,7 @@ typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDi
 
 
     NSLog(@"REQUEST: %@", [request allHTTPHeaderFields]);
-
+    
     NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request
                                                     completionHandler:^(NSData *responseData, NSURLResponse *urlResponse, NSError *error) {
 
@@ -334,6 +369,112 @@ typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDi
 }
 
 /*
+- (void)performSyncRequest:(NSString *)path
+             withDictionary:(NSDictionary *)values
+         withAuthentication:(GEAAuthentication *)auth {
+    
+    NSString *requestUrl = [NSString stringWithFormat:@"https://%@%@", kWSDomain, path];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:requestUrl]];
+    [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+    [request setHTTPMethod:@"POST"];
+    [request addValue:@"athlete.gymnea.com" forHTTPHeaderField:@"Host"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setHTTPShouldHandleCookies:YES];
+
+    if(auth != nil) {
+        NSLog(@"uid: %@", auth.clientInfoHash);
+        NSLog(@"ukey: %@", auth.clientKey);
+        NSLog(@"session id: %@", [[GymneaWSClient sharedInstance] sessionId]);
+        
+        NSDictionary *SessionIDCookieProperties = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                   @".gymnea.com", NSHTTPCookieDomain,
+                                                   @"/", NSHTTPCookiePath,
+                                                   @"gym_gymnea", NSHTTPCookieName,
+                                                   [[GymneaWSClient sharedInstance] sessionId], NSHTTPCookieValue,
+                                                   nil];
+        
+        NSHTTPCookie *SessionIDPackagedCookie = [NSHTTPCookie cookieWithProperties:SessionIDCookieProperties];
+        
+        NSDictionary *UIDCookieProperties = [NSDictionary dictionaryWithObjectsAndKeys:
+                                             @".gymnea.com", NSHTTPCookieDomain,
+                                             @"/", NSHTTPCookiePath,
+                                             @"uid", NSHTTPCookieName,
+                                             auth.clientInfoHash, NSHTTPCookieValue,
+                                             nil];
+        
+        NSHTTPCookie *UIDPackagedCookie = [NSHTTPCookie cookieWithProperties:UIDCookieProperties];
+        
+        NSDictionary *UKEYCookieProperties = [NSDictionary dictionaryWithObjectsAndKeys:
+                                              @".gymnea.com", NSHTTPCookieDomain,
+                                              @"/", NSHTTPCookiePath,
+                                              @"ukey", NSHTTPCookieName,
+                                              auth.clientKey, NSHTTPCookieValue,
+                                              nil];
+        
+        NSHTTPCookie *UKEYPackagedCookie = [NSHTTPCookie cookieWithProperties:UKEYCookieProperties];
+        
+        NSMutableArray *cookiesArray = [[NSMutableArray alloc] initWithObjects:UIDPackagedCookie, UKEYPackagedCookie, nil];
+        if(SessionIDPackagedCookie != nil) {
+            [cookiesArray addObject:SessionIDPackagedCookie];
+        }
+        
+        NSDictionary *cookies = [NSHTTPCookie requestHeaderFieldsWithCookies:cookiesArray];
+        [request setAllHTTPHeaderFields:cookies];
+    }
+    
+    NSError *error;
+    if(values != nil) {
+        NSData *postData = [NSJSONSerialization dataWithJSONObject:values options:0 error:&error];
+        [request setHTTPBody:postData];
+    }
+
+    NSURLResponse * urlResponse = nil;
+
+    NSData * responseData = [NSURLConnection sendSynchronousRequest:request
+                                                  returningResponse:&urlResponse
+                                                              error:&error];
+
+    NSLog(@"REQUEST: %@", [request allHTTPHeaderFields]);
+
+    GymneaWSClientRequestStatus success = GymneaWSClientRequestError;
+    NSHTTPURLResponse *response = (NSHTTPURLResponse*)urlResponse;
+
+    NSLog(@"HTTP RESPONSE: %@", response);
+
+    NSInteger responseCode = response.statusCode;
+    NSDictionary *results = nil;
+    if(error == nil && ((responseCode/100)==2))
+    {
+        if(responseData != nil)
+        {
+            results = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error];
+            NSLog(@"JSON RESULTS: %@", results);
+            if(results != nil) {
+                success = GymneaWSClientRequestSuccess;
+            }
+        }
+    }
+
+    NSArray *cookiesArray =[[NSArray alloc]init];
+    cookiesArray = [NSHTTPCookie
+                    cookiesWithResponseHeaderFields:[response allHeaderFields]
+                    forURL:[NSURL URLWithString:@""]];
+    
+    NSMutableDictionary *cookies = [[NSMutableDictionary alloc] init];
+    for(NSHTTPCookie *cookie in cookiesArray) {
+        [cookies setObject:[cookie valueForKey:@"value"] forKey:[cookie valueForKey:@"name"]];
+    }
+    
+    NSLog(@"Cookies: %@", cookies);
+    
+    if([cookies objectForKey:@"gym_gymnea"] != nil) {
+        // Update the session_id value and save in the GymneaWSClient singleton instance
+        [[GymneaWSClient sharedInstance] setSessionId:[cookies objectForKey:@"gym_gymnea"]];
+    }
+
+}
+
 - (NSURLRequest *)connection: (NSURLConnection *)connection
              willSendRequest: (NSURLRequest *)request
             redirectResponse: (NSURLResponse *)redirectResponse;
