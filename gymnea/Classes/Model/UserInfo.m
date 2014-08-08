@@ -19,6 +19,7 @@
 @dynamic heightIsMetric;
 @dynamic weightKilograms;
 @dynamic weightIsMetric;
+@dynamic picture;
 @dynamic birthDate;
 
 @end

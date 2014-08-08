@@ -1,12 +1,13 @@
 //
-//  CatalogWebServiceClient.h
-//  GoldenGekkoExercice
+//  GymneaWSClient.h
+//  Gymnea
 //
-//  Created by Albert Nadal Garriga on 17/01/13.
-//  Copyright (c) 2013 Albert Nadal Garriga. All rights reserved.
+//  Created by Albert Nadal Garriga on 08/08/14.
+//  Copyright (c) 2014 Albert Nadal Garriga. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "SignUpForm.h"
 #import "UserInfo+Management.h"
 
@@ -31,6 +32,7 @@ typedef enum _GymneaSignUpWSClientRequestResponse
 typedef void(^signInCompletionBlock)(GymneaSignInWSClientRequestResponse success, NSDictionary *responseData, UserInfo *userInfo);
 typedef void(^signUpCompletionBlock)(GymneaSignUpWSClientRequestResponse success, NSDictionary *responseData, UserInfo *userInfo);
 typedef void(^userInfoCompletionBlock)(GymneaWSClientRequestStatus success, NSDictionary *responseData, UserInfo *userInfo);
+typedef void(^userImageCompletionBlock)(GymneaWSClientRequestStatus success, UIImage *userImage);
 typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
 
 @interface GymneaWSClient : NSObject<NSURLConnectionDelegate, NSURLSessionDelegate>
@@ -50,5 +52,7 @@ typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
 - (void)requestSessionIdWithCompletionBlock:(sessionIdCompletionBlock)completionBlock;
 
 - (void)requestUserInfoWithCompletionBlock:(userInfoCompletionBlock)completionBlock;
+
+- (void)requestUserImageWithCompletionBlock:(userImageCompletionBlock)completionBlock;
 
 @end

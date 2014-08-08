@@ -170,6 +170,7 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
 @property (nonatomic, retain) IBOutlet UIView *userInformationView;
 @property (nonatomic, retain) IBOutlet UILabel *userNameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *userInfoLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *userPicture;
 
 
 - (void)changeChildViewController:(UIViewController *)childViewController withViewController:(UIViewController *)viewController;
@@ -257,10 +258,25 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
   UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
   [self.tapCaptureView addGestureRecognizer:tapGestureRecognizer];
 
+    // Make the user picture full rounded
+    UIBezierPath *userPictureViewShadowPath = [UIBezierPath bezierPathWithRect:self.userPicture.bounds];
+    self.userPicture.layer.shadowPath = userPictureViewShadowPath.CGPath;
+    self.userPicture.layer.rasterizationScale = 2;
+    self.userPicture.layer.cornerRadius = self.userPicture.frame.size.width / 2.0f;;
+    self.userPicture.layer.masksToBounds = YES;
 
+    //Download the user avatar picture
+    [[GymneaWSClient sharedInstance] requestUserImageWithCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *userImage) {
+
+        if(success == GymneaWSClientRequestSuccess) {
+            [self.userPicture setImage:userImage];
+        }
+
+    }];
 
     // Download the user information or get it from the DB
     [[GymneaWSClient sharedInstance] requestUserInfoWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, UserInfo *userInfo) {
+
 
         if(success == GymneaWSClientRequestSuccess) {
 

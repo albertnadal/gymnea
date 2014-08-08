@@ -23,6 +23,7 @@ static NSString * const kEntityName = @"UserInfo";
                 heightIsMetric:(BOOL)heightIsMetric
                weightKilograms:(float)weightKilograms
                 weightIsMetric:(BOOL)weightIsMetric
+                       picture:(NSData*)picture
                      birthDate:(NSDate*)birthDate
 {
   UserInfo *newUserInfo = (UserInfo *) [NSEntityDescription insertNewObjectForEntityForName:kEntityName inManagedObjectContext:defaultManagedObjectContext()];
@@ -35,6 +36,7 @@ static NSString * const kEntityName = @"UserInfo";
                     heightIsMetric:heightIsMetric
                    weightKilograms:weightKilograms
                     weightIsMetric:weightIsMetric
+                           picture:(NSData*)picture
                          birthDate:birthDate];
 
   commitDefaultMOC();
@@ -57,6 +59,7 @@ static NSString * const kEntityName = @"UserInfo";
                heightIsMetric:[[userInfoDict objectForKey:@"heightIsMetric"] boolValue]
               weightKilograms:[[userInfoDict objectForKey:@"kilograms"] floatValue]
                weightIsMetric:[[userInfoDict objectForKey:@"weightIsMetric"] boolValue]
+                      picture:[userInfoDict objectForKey:@"picture"]
                     birthDate:[calendar dateFromComponents:components]];
 
     commitDefaultMOC();
@@ -93,9 +96,12 @@ static NSString * const kEntityName = @"UserInfo";
                                 heightIsMetric:[[userInfoDict objectForKey:@"heightIsMetric"] boolValue]
                                weightKilograms:[[userInfoDict objectForKey:@"kilograms"] floatValue]
                                 weightIsMetric:[[userInfoDict objectForKey:@"weightIsMetric"] boolValue]
+                                       picture:[userInfoDict objectForKey:@"picture"]
                                      birthDate:[calendar dateFromComponents:components]];
 
     }
+
+    NSLog(@"NOM: %@", userInfo.firstName);
 
     return userInfo;
 }
@@ -213,6 +219,7 @@ static NSString * const kEntityName = @"UserInfo";
              heightIsMetric:(BOOL)heightIsMetric
             weightKilograms:(float)weightKilograms
              weightIsMetric:(BOOL)weightIsMetric
+                    picture:(NSData*)picture
                   birthDate:(NSDate*)birthDate
 {
   self.firstName = firstName;
@@ -223,6 +230,7 @@ static NSString * const kEntityName = @"UserInfo";
   self.heightIsMetric = heightIsMetric;
   self.weightKilograms = weightKilograms;
   self.weightIsMetric = weightIsMetric;
+  self.picture = picture;
   self.birthDate = birthDate;
 }
 

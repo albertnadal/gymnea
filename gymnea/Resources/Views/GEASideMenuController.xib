@@ -9,6 +9,7 @@
                 <outlet property="userInfoLabel" destination="Iyz-w9-sTT" id="e3S-kb-xzO"/>
                 <outlet property="userInformationView" destination="8Bl-Q1-h3A" id="H2L-kr-xOT"/>
                 <outlet property="userNameLabel" destination="zcC-By-8zH" id="GIC-qY-Ppy"/>
+                <outlet property="userPicture" destination="5Fe-6V-sxG" id="DaW-kp-yRb"/>
                 <outlet property="view" destination="iN0-l3-epB" id="oKo-Ly-0tJ"/>
             </connections>
         </placeholder>
@@ -26,14 +27,14 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Albert Nadal Garriga" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" id="zcC-By-8zH" userLabel="userName">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" id="zcC-By-8zH" userLabel="userName">
                             <rect key="frame" x="80" y="29" width="240" height="24"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="18"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Male - 32 - 178cm - 85kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="Iyz-w9-sTT" userLabel="userInfo">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="Iyz-w9-sTT" userLabel="userInfo">
                             <rect key="frame" x="80" y="61" width="240" height="16"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="13"/>
@@ -89,7 +90,7 @@
         <image name="fitbit-connector-icon" width="23" height="23"/>
         <image name="health-connector-icon" width="23" height="23"/>
         <image name="sidebar-settings-icon" width="34" height="32"/>
-        <image name="test-avatar" width="50" height="50"/>
+        <image name="test-avatar" width="265" height="265"/>
         <image name="withings-connector-icon" width="23" height="23"/>
     </resources>
 </document>

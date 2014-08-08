@@ -20,6 +20,7 @@
                 heightIsMetric:(BOOL)heightIsMetric
                weightKilograms:(float)weightKilograms
                 weightIsMetric:(BOOL)weightIsMetric
+                       picture:(NSData*)picture
                      birthDate:(NSDate*)birthDate;
 
 - (void)updateWithFirstName:(NSString*)firstName
@@ -30,6 +31,7 @@
              heightIsMetric:(BOOL)heightIsMetric
             weightKilograms:(float)weightKilograms
              weightIsMetric:(BOOL)weightIsMetric
+                    picture:(NSData*)picture
                   birthDate:(NSDate*)birthDate;
 
 - (void)updateWithDictionary:(NSDictionary *)userInfoDict;

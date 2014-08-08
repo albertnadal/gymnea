@@ -20,6 +20,7 @@
 @property (nonatomic) BOOL heightIsMetric;
 @property (nonatomic) float weightKilograms;
 @property (nonatomic) BOOL weightIsMetric;
+@property (nonatomic, retain) NSData * picture;
 @property (nonatomic, retain) NSDate * birthDate;
 
 @end

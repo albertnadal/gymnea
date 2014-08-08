@@ -14,37 +14,12 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-ISO8601DateFormatterValueTransformer.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-MBProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-RKValueTransformers.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-Reachability.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>Pods-RestKit.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>Pods-SOCKit.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>Pods-TransitionKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -57,52 +32,27 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>229219A766184402AB92E4ED</key>
+		<key>007D0A6C169A411A99590BF3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2BBCFB0BC2A5413BB7FBCBB9</key>
+		<key>7D47A9A2AED74477B912FC01</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4A86672843604A0AA37AD9D0</key>
+		<key>8E7754ED5172495AAA60EF96</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>527C584599284CC9A96DFD2F</key>
+		<key>C0488F1CE1AD416683F863F0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7A136B7B614E4F3EAB2A8376</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>7F8C4335EA484683B9F85D68</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>8B4A8EECD6964800B847BE79</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>918D6BDC0EC149A989DFC8A8</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>AD7408562B874217A6C5321F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C7840978468E4D76A5365A55</key>
+		<key>F2C5CDEF962B4079B2B5926B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
