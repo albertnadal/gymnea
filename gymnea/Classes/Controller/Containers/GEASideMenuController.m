@@ -265,14 +265,6 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
     self.userPicture.layer.cornerRadius = self.userPicture.frame.size.width / 2.0f;;
     self.userPicture.layer.masksToBounds = YES;
 
-    //Download the user avatar picture
-    [[GymneaWSClient sharedInstance] requestUserImageWithCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *userImage) {
-
-        if(success == GymneaWSClientRequestSuccess) {
-            [self.userPicture setImage:userImage];
-        }
-
-    }];
 
     // Download the user information or get it from the DB
     [[GymneaWSClient sharedInstance] requestUserInfoWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, UserInfo *userInfo) {
@@ -318,6 +310,15 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
             [self.userInfoLabel setText:@"-"];
 
         }
+
+        //Download the user avatar picture
+        [[GymneaWSClient sharedInstance] requestUserImageWithCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *userImage) {
+            
+            if(success == GymneaWSClientRequestSuccess) {
+                [self.userPicture setImage:userImage];
+            }
+            
+        }];
 
     }];
 }

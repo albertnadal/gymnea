@@ -7,6 +7,7 @@
 //
 
 #import "UserInfo.h"
+#import <UIKit/UIKit.h>
 
 /** Management methods for Event entity */
 
@@ -39,6 +40,8 @@
 - (void)updateModelInDB;
 
 + (UserInfo*)updateUserInfoWithEmail:(NSString *)email withDictionary:(NSDictionary*)userInfoDict;
+
++ (UserInfo*)updateUserPictureWithEmail:(NSString *)email withImage:(UIImage *)image;
 
 /** Creates a new, featured, event with the information got from the featuredList api method */
 //+ (UserInfo*) featuredEvent:(NSDictionary*) featuredEventDictionary;

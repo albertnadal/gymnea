@@ -6,16 +6,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gymnea/UserInfo+Management.m"
-            timestampString = "429220429.187218"
+            timestampString = "429317043.986916"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
-            landmarkName = "+updateUserInfoWithEmail:withDictionary:"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
+            landmarkName = "+getUserInfo:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,44 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gymnea/UserInfo+Management.m"
-            timestampString = "429220438.021453"
+            timestampString = "429316797.837659"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
-            landmarkName = "+updateUserInfoWithEmail:withDictionary:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "gymnea/UserInfo+Management.m"
-            timestampString = "429220439.404626"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
-            landmarkName = "+updateUserInfoWithEmail:withDictionary:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "gymnea/UserInfo+Management.m"
-            timestampString = "429220440.540506"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
-            landmarkName = "+updateUserInfoWithEmail:withDictionary:"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "+userInfoWithEmail:firstName:lastName:gender:heightCentimeters:heightIsMetric:weightKilograms:weightIsMetric:picture:birthDate:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

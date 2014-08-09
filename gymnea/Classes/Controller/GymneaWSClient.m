@@ -284,9 +284,7 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
 
                        if(success == GymneaWSClientRequestSuccess) {
                            // Update the user picture in the DB by using the UserInfo model
-                           UserInfo *userInfo = [UserInfo getUserInfo:[auth userEmail]];
-                           userInfo.picture = UIImagePNGRepresentation(image);
-                           [userInfo updateModelInDB];
+                           [UserInfo updateUserPictureWithEmail:[auth userEmail] withImage:image];
                        }
 
                        dispatch_async(dispatch_get_main_queue(), ^{

@@ -101,7 +101,19 @@ static NSString * const kEntityName = @"UserInfo";
 
     }
 
-    NSLog(@"NOM: %@", userInfo.firstName);
+    return userInfo;
+}
+
++ (UserInfo*)updateUserPictureWithEmail:(NSString *)email withImage:(UIImage *)image
+{
+    UserInfo *userInfo = [UserInfo getUserInfo:email];
+    
+    if(userInfo != nil) {
+        // Update register
+        [userInfo setPicture:UIImagePNGRepresentation(image)];
+
+        commitDefaultMOC();
+    }
 
     return userInfo;
 }

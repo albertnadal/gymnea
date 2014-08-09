@@ -12,6 +12,7 @@
 #import "GEALabel+Gymnea.h"
 #import "GymneaWSClient.h"
 #import "GenericWorkoutsViewController.h"
+#import "ExercisesViewController.h"
 #import "GEAScrollableTabBarController.h"
 #import "ExerciseDetailViewController.h"
 
@@ -57,10 +58,6 @@
     //[workoutsViewController.view setFrame:CGRectMake(0,0,320,690)];
     [workoutsViewController setTitle:@"Generic"];
 
-/*    UIViewController *viewController = [[UIViewController alloc] init];
-    [viewController.view setFrame:CGRectMake(0,0,320,690)];
-    [viewController.view setBackgroundColor:[UIColor redColor]];
-    [viewController setTitle:@"Test"];*/
     
     UIViewController *customWorkoutsViewController = [[UIViewController alloc] init];
     [customWorkoutsViewController.view setFrame:CGRectMake(0,0,320,690)];
@@ -117,7 +114,34 @@
     
     
 
+    
+    
+    
+    ExercisesViewController *exercisesViewController = [[ExercisesViewController alloc] init];
+    [exercisesViewController.view setFrame:CGRectMake(0,0,320,690)];
+    [exercisesViewController.view setBackgroundColor:[UIColor whiteColor]];
+    [exercisesViewController setTitle:@"Directory"];
+    
+    UIViewController *savedExercisesViewController = [[UIViewController alloc] init];
+    [savedExercisesViewController.view setFrame:CGRectMake(0,0,320,690)];
+    [savedExercisesViewController.view setBackgroundColor:[UIColor whiteColor]];
+    [savedExercisesViewController setTitle:@"Saved"];
+    
+    GEAScrollableTabBarController *exercisesScrollableTabBarController = [[GEAScrollableTabBarController alloc] init];
+    [exercisesScrollableTabBarController.view setFrame:CGRectMake(0,0,320,690)];
+    [exercisesScrollableTabBarController setViewControllers:@[exercisesViewController, savedExercisesViewController]];
+    
+    UITabBarItem *exercisesTabBarItem = [[UITabBarItem alloc] initWithTitle:@"Exercises" image:[UIImage imageNamed:@"sidebar-exercises-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-workouts-icon"]];
+    [exercisesScrollableTabBarController setTabBarItem:exercisesTabBarItem];
+    UINavigationController *exercisesController = [[UINavigationController alloc] initWithRootViewController:exercisesScrollableTabBarController];
+    [exercisesController.interactivePopGestureRecognizer setEnabled:NO];
+    exercisesController.navigationBar.tintColor = [UIColor colorWithRed:7.0/255.0 green:154.0/255.0 blue:204.0/255.0 alpha:1.0];
+    // Add the screen title
+    exercisesScrollableTabBarController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Exercises" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
+
+
+/*
     ExerciseDetailViewController *favorites3ViewController = [[ExerciseDetailViewController alloc] initWithEventId:1];
     [favorites3ViewController.view setFrame:CGRectMake(0,0,320,690)];
     CGRect frame3 = favorites3ViewController.navigationController.toolbar.frame;
@@ -131,7 +155,7 @@
     [favorites3Controller.interactivePopGestureRecognizer setEnabled:NO];
     // Add the screen title
     //favorites3ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Exercises" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
-
+*/
     
     
     
@@ -222,7 +246,7 @@
 
         // Side menu
         GEASideMenuController *sideMenuController = [[GEASideMenuController alloc] init];
-        sideMenuController.viewControllers = @[favoritesController, favorites2Controller, favorites3Controller, favorites4Controller, favorites5Controller, favorites6Controller];
+        sideMenuController.viewControllers = @[favoritesController, favorites2Controller, exercisesController, favorites4Controller, favorites5Controller, favorites6Controller];
 
         [[[UIApplication sharedApplication] keyWindow] setRootViewController:sideMenuController];
 

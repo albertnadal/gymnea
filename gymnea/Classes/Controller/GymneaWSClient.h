@@ -47,7 +47,7 @@ typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
       withCompletionBlock:(signInCompletionBlock)completionBlock;
 
 - (void)signUpWithForm:(SignUpForm *)signInForm
-      withCompletionBlock:(signUpCompletionBlock)completionBlock;
+   withCompletionBlock:(signUpCompletionBlock)completionBlock;
 
 - (void)requestSessionIdWithCompletionBlock:(sessionIdCompletionBlock)completionBlock;
 
