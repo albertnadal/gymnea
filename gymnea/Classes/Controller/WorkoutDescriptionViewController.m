@@ -8,7 +8,7 @@
 
 #import "WorkoutDescriptionViewController.h"
 #import "GEALabel+Gymnea.h"
-#import "Event.h"
+#import "Exercise.h"
 
 // Paddings and margins
 static float const kGEASpaceBetweenLabels = 10.0f;
@@ -26,13 +26,13 @@ static const float kGEAiPhoneNavigationBarHeight = 44.0f;
 @property (nonatomic, weak) IBOutlet UIView *separator;
 @property (nonatomic, weak) IBOutlet UILabel *description;
 @property (nonatomic, weak) IBOutlet UIScrollView *scroll;
-@property (nonatomic, strong) Event *event;
+@property (nonatomic, strong) Exercise *event;
 
 @end
 
 @implementation WorkoutDescriptionViewController
 
-- (id)initWithEvent:(Event *)event {
+- (id)initWithEvent:(Exercise *)event {
   self = [super initWithNibName:@"WorkoutDescriptionViewController" bundle:nil];
   if (!self) {
     return nil;
@@ -51,9 +51,10 @@ static const float kGEAiPhoneNavigationBarHeight = 44.0f;
   // Add the screen title
   self.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Workout guide" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
+/*
   [self.eventTitle setText:self.event.title];
   [self.eventTitle sizeToFit];
-  
+*/
   CGRect eventTitleFrame = self.eventTitle.frame;
   CGFloat baseYPosition = eventTitleFrame.origin.y + eventTitleFrame.size.height + kGEASpaceBetweenLabels;
   
@@ -71,10 +72,10 @@ static const float kGEAiPhoneNavigationBarHeight = 44.0f;
   self.separator.frame = separatorFrame;
   
   baseYPosition+=kGEASeparatorMargin;
-  
+/*
   [self.description setText:self.event.eventDescription];
   [self.description sizeToFit];
-  
+*/
   CGRect descriptionFrame = self.description.frame;
   descriptionFrame.origin.y = baseYPosition;
   self.description.frame = descriptionFrame;

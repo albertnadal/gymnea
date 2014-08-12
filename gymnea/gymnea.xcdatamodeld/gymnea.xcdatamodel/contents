@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6172.15" systemVersion="13E28" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Exercise" representedClassName="Exercise" syncable="YES">
+        <attribute name="equipmentId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="exerciseId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="levelId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="muscleId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="photoMedium" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="photoSmall" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="saved" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="typeId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+    </entity>
     <entity name="UserInfo" representedClassName="UserInfo" syncable="YES">
         <attribute name="birthDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
@@ -14,5 +25,6 @@
     </entity>
     <elements>
         <element name="UserInfo" positionX="-63" positionY="-18" width="128" height="195"/>
+        <element name="Exercise" positionX="-63" positionY="54" width="128" height="180"/>
     </elements>
 </model>

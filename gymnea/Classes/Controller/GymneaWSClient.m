@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AppDelegate.h"
 #import "AFNetworking.h"
 #import "GymneaWSClient.h"
 #import "Reachability.h"
@@ -239,6 +240,9 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
                       }
 
                       userInfo = [UserInfo updateUserInfoWithEmail:[auth userEmail] withDictionary:userInfoMutableData];
+
+                      AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+                      [appDelegate saveContext];
                   }
 
                   dispatch_async(dispatch_get_main_queue(), ^{
@@ -285,6 +289,9 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
                        if(success == GymneaWSClientRequestSuccess) {
                            // Update the user picture in the DB by using the UserInfo model
                            [UserInfo updateUserPictureWithEmail:[auth userEmail] withImage:image];
+
+                           AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+                           [appDelegate saveContext];
                        }
 
                        dispatch_async(dispatch_get_main_queue(), ^{
@@ -313,6 +320,162 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
 
     }
 
+}
+
+- (void)requestImageForExercise:(int)exerciseId withSize:(GymneaExerciseImageSize)size withCompletionBlock:(userImageCompletionBlock)completionBlock
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+
+    UIImage *image = nil;
+    BOOL imageInDB = FALSE;
+
+    // First try to retrieve the picture from the DB
+    Exercise *exercise = [Exercise getExerciseInfo:exerciseId];
+
+    if(exercise != nil) {
+
+        if((size == ExerciseImageSizeSmall) && (exercise.photoSmall != nil)) {
+            image = [UIImage imageWithData:exercise.photoSmall];
+        } else if((size == ExerciseImageSizeMedium) && (exercise.photoMedium != nil)) {
+            image = [UIImage imageWithData:exercise.photoMedium];
+        }
+
+        if(image != nil) {
+            imageInDB = TRUE;
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if(completionBlock != nil) {
+                    completionBlock(GymneaWSClientRequestSuccess, image);
+                }
+            });
+
+            return;
+        }
+    }
+
+    if((self.internetIsReachable) && (!imageInDB)) {
+
+        // Retrieve data from web service API
+
+        NSString *requestPath = nil;
+        if(size == ExerciseImageSizeSmall) {
+            requestPath = [NSString stringWithFormat:@"/photo_exercise/small/male/1/%d", exerciseId];
+        } else if(size == ExerciseImageSizeMedium) {
+            requestPath = [NSString stringWithFormat:@"/photo_exercise/medium/male/1/%d", exerciseId];
+        }
+
+        [self performImageAsyncRequest:requestPath
+                        withDictionary:nil
+                    withAuthentication:auth
+                   withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *image) {
+                       
+                       if(success == GymneaWSClientRequestSuccess) {
+                           // Update the exercise picture in the DB by using the UserInfo model
+                           //exercise
+                           if(size == ExerciseImageSizeSmall) {
+                               [exercise updateWithPhotoSmall:UIImagePNGRepresentation(image)];
+                           } else if(size == ExerciseImageSizeMedium) {
+                               [exercise updateWithPhotoMedium:UIImagePNGRepresentation(image)];
+                           }
+
+                           AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+                           [appDelegate saveContext];
+                       }
+                       
+                       dispatch_async(dispatch_get_main_queue(), ^{
+                           if(completionBlock != nil) {
+                               completionBlock(success, image);
+                           }
+                           
+                       });
+                       
+                   }];
+        
+    } else if(!imageInDB) {
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(completionBlock != nil) {
+                completionBlock(GymneaWSClientRequestSuccess, [UIImage imageNamed:@"exercise-default-thumbnail"]);
+            }
+
+        });
+
+    }
+}
+
+- (void)requestExercisesWithCompletionBlock:(exercisesCompletionBlock)completionBlock
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+
+    if(self.internetIsReachable) {
+
+        // Retrieve data from web service API
+
+        NSString *requestPath = @"/api/exercises/get_exercises";
+
+        [self performAsyncRequest:requestPath
+                   withDictionary:nil
+               withAuthentication:auth
+              withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
+
+                  NSMutableArray *exercisesArray = nil;
+                  Exercise *exerciseInfo = nil;
+
+                  if(success == GymneaWSClientRequestSuccess) {
+                      // Insert or update the current Exercise register in the DB
+                      exercisesArray = [[NSMutableArray alloc] init];
+
+                      for (NSDictionary *exerciseDict in (NSArray *)responseData) {
+                          Exercise *exerciseFromDB = [Exercise getExerciseInfo:[[exerciseDict objectForKey:@"id"] intValue]];
+
+                          if(exerciseFromDB != nil) {
+
+                              // Keep current exercise pictures in the DB
+                              [exerciseFromDB setExerciseId:[[exerciseDict objectForKey:@"id"] intValue]];
+                              [exerciseFromDB setName:[exerciseDict objectForKey:@"n"]];
+                              [exerciseFromDB setSaved:[[exerciseDict objectForKey:@"s"] boolValue]];
+                              [exerciseFromDB setEquipmentId:[[exerciseDict objectForKey:@"e"] intValue]];
+                              [exerciseFromDB setMuscleId:[[exerciseDict objectForKey:@"m"] intValue]];
+                              [exerciseFromDB setTypeId:[[exerciseDict objectForKey:@"t"] intValue]];
+                              [exerciseFromDB setLevelId:[[exerciseDict objectForKey:@"l"] intValue]];
+
+                              [exerciseFromDB updateModelInDB];
+                              [exercisesArray addObject:exerciseFromDB];
+                          } else {
+
+                              exerciseInfo = [Exercise updateExerciseWithId:[[exerciseDict objectForKey:@"id"] intValue] withDictionary:exerciseDict];
+                              [exercisesArray addObject:exerciseInfo];
+                          }
+
+                      }
+
+                      AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+                      [appDelegate saveContext];
+                  }
+
+                  dispatch_async(dispatch_get_main_queue(), ^{
+                      if(completionBlock != nil) {
+                          completionBlock(success, exercisesArray);
+                      }
+
+                  });
+
+              }];
+
+    } else {
+
+        NSArray *exercisesList = [Exercise getExercises];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(completionBlock != nil) {
+                completionBlock(GymneaWSClientRequestSuccess, exercisesList);
+            }
+
+        });
+
+    }
 }
 
 - (void)performImageAsyncRequest:(NSString *)path
@@ -491,7 +654,7 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
                                                             [[GymneaWSClient sharedInstance] setSessionId:[cookies objectForKey:@"gym_gymnea"]];
                                                         }
 
-                                                        completionBlock(success, results, cookies);
+                                                        completionBlock(success, (NSDictionary *)results, cookies);
 
                                                     }];
 

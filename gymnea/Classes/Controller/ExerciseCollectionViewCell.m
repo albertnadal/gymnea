@@ -10,9 +10,13 @@
 
 @implementation ExerciseCollectionViewCell
 
+/*
+@synthesize thumbnail;
+@synthesize exerciseTitle;
+
 - (void)awakeFromNib
 {
     // Initialization code
-}
+}*/
 
 @end

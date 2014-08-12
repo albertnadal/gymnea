@@ -10,12 +10,20 @@
 #import "ExerciseDetailViewController.h"
 #import "CHTCollectionViewWaterfallLayout.h"
 #import "ExerciseCollectionViewCell.h"
+#import "MBProgressHUD.h"
+#import "GymneaWSClient.h"
+#import "Exercise.h"
 
 
 @interface ExercisesViewController ()<UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout>
 {
     UICollectionView *_collectionView;
+    NSArray *exercisesList;
+    BOOL needRefreshData;
 }
+
+@property (nonatomic) BOOL needRefreshData;
+@property (nonatomic, copy) NSArray *exercisesList;
 
 - (void)showExerciseDetails:(int)exerciseId;
 
@@ -23,12 +31,17 @@
 
 @implementation ExercisesViewController
 
+@synthesize needRefreshData;
+@synthesize exercisesList;
+
 - (id)init
 {
     self = [super initWithNibName:@"ExercisesViewController" bundle:nil];
     if (self)
     {
-        
+        self.needRefreshData = TRUE;
+        self.exercisesList = nil;
+        _collectionView = nil;
     }
     return self;
 }
@@ -59,32 +72,77 @@
                                                                             target:nil
                                                                             action:nil];
 
-    CHTCollectionViewWaterfallLayout *layout = [[CHTCollectionViewWaterfallLayout alloc] init];
-    [layout setSectionInset:UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f)];
+    if(self.needRefreshData) {
 
-    _collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:layout];
-    [_collectionView setDataSource:self];
-    [_collectionView setDelegate:self];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
+        GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
+        [gymneaWSClient requestExercisesWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSArray *exercises) {
 
-    [_collectionView registerNib:[UINib nibWithNibName:@"ExerciseCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"exerciseCellIdentifier"];
-    [_collectionView setBackgroundColor:[UIColor clearColor]];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
 
-    [self.view addSubview:_collectionView];
-    [self.view sendSubviewToBack:_collectionView];
+            if(success == GymneaWSClientRequestSuccess) {
+
+                self.exercisesList = exercises;
+
+                if(_collectionView == nil) {
+                    CHTCollectionViewWaterfallLayout *layout = [[CHTCollectionViewWaterfallLayout alloc] init];
+                    [layout setSectionInset:UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f)];
+
+                    _collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:layout];
+                    [_collectionView setDataSource:self];
+                    [_collectionView setDelegate:self];
+                    
+                    [_collectionView registerNib:[UINib nibWithNibName:@"ExerciseCollectionViewCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"exerciseCellIdentifier"];
+                    [_collectionView setBackgroundColor:[UIColor clearColor]];
+
+                    [self.view addSubview:_collectionView];
+                    [self.view sendSubviewToBack:_collectionView];
+
+                    [_collectionView reloadData];
+                }
+
+                self.needRefreshData = FALSE;
+
+            }
+            else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"An unexpected error occurred. Check your Internet connection and retry again." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                [alert show];
+            }
+
+        }];
+
+    }
+
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 15;
+    if(self.exercisesList != nil) {
+        return [self.exercisesList count];
+    } else {
+        return 0;
+    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"exerciseCellIdentifier" forIndexPath:indexPath];
+    ExerciseCollectionViewCell *cell = (ExerciseCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"exerciseCellIdentifier" forIndexPath:indexPath];
 
-    if(cell == nil) {
-        cell = [[ExerciseCollectionViewCell alloc] init];
-    }
+    Exercise *exercise = (Exercise *)[self.exercisesList objectAtIndex:indexPath.row];
+
+    [[(ExerciseCollectionViewCell *)cell exerciseTitle] setText:exercise.name];
+    [[(ExerciseCollectionViewCell *)cell thumbnail] setImage:[UIImage imageNamed:@"exercise-default-thumbnail"]];
+
+    [[GymneaWSClient sharedInstance] requestImageForExercise:exercise.exerciseId
+                                                    withSize:ExerciseImageSizeMedium
+                                         withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *exerciseImage) {
+
+                                             if(success==GymneaWSClientRequestSuccess) {
+                                                 [[(ExerciseCollectionViewCell *)cell thumbnail] setImage:exerciseImage];
+                                             }
+
+                                         }];
 
     cell.layer.borderWidth = 0.5f;
     cell.layer.borderColor = [UIColor colorWithRed:80.0/255.0 green:80.0/255.0 blue:80.0/255.0 alpha:0.3].CGColor;

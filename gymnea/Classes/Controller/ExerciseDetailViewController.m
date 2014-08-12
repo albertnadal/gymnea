@@ -13,8 +13,7 @@
 #import <QuartzCore/QuartzCore.h>
 //#import "VegasAPIClient.h"
 #import "GymneaWSClient.h"
-#import "Event.h"
-#import "EventDetail.h"
+#import "ExerciseDetail.h"
 #import "GEALabel+Gymnea.h"
 #import "UIImageView+AFNetworking.h"
 
@@ -33,7 +32,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 {
     // Id and model of the event to show
     int eventId;
-    Event *eventDetail;
+    ExerciseDetail *eventDetail;
 
     // Popover
     GEAPopoverViewController *popover;
@@ -58,7 +57,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 @property (nonatomic, weak) IBOutlet UILabel *workoutDifficulty;
 @property (nonatomic, weak) IBOutlet UILabel *workoutMuscles;
 @property (nonatomic, strong) GEAPopoverViewController *popover;
-@property (nonatomic, strong) Event *eventDetail;
+@property (nonatomic, strong) ExerciseDetail *eventDetail;
 
 - (void)loadEventDetailData;
 - (void)loadBanner;
@@ -99,7 +98,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     // CNA test model and backend
 /*    [[VegasAPIClient sharedClient] getEvent:[NSString stringWithFormat:@"%d", self.eventId] success:^(Event *event)
     {*/
-        Event *event = [[Event alloc] init];
+        ExerciseDetail *event = [[ExerciseDetail alloc] init];
         [event setTitle:@"No Equipment At Home Workout"];
         [event setEventId:@"1"];
         [event setEventDescription:@"This workout routine provides a workout routine that can be done in the comfort of your own home without the usage of weight lifting or workout equipment other than your own bodyweight. The No Equipment at Home Workout can be performed for 3 to 5 days out of the week as long as you give your self a day or two worth of rest in between two days of working out. For this workout an individual will be performing bodyweight only exercises to improve muscular strength and endurance. You can burn more calories during the workout by turning it into a circuit and super-setting the exercises, performing one after another to keep your heart-rate up thus increasing your body's ability to burn more calories."];
@@ -284,14 +283,14 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 {
     CGRect segmentContainerFrame = self.segmentContainer.frame;
     CGFloat baseYPosition = segmentContainerFrame.origin.y + segmentContainerFrame.size.height + 1.0f;
-
+/*
     [self.workoutType setText:self.eventDetail.type];
 
     [self.workoutFrequency setText:[NSString stringWithFormat:@"%d days / week", self.eventDetail.daysAWeek]];
     [self.workoutDifficulty setText:self.eventDetail.difficulty];
     [self.workoutMuscles setText:self.eventDetail.muscles];
     [self.workoutMuscles sizeToFit];
-
+*/
     CGRect detailsViewFrame = self.detailsView.frame;
     detailsViewFrame.origin.y = baseYPosition;
     detailsViewFrame.size.height = CGRectGetMaxY(self.workoutMuscles.frame) + kGEASpaceBetweenLabels;

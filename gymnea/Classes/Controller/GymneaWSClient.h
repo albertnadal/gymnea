@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "SignUpForm.h"
+#import "Exercise+Management.h"
 #import "UserInfo+Management.h"
 
 typedef enum _GymneaWSClientRequestStatus
@@ -33,6 +34,7 @@ typedef void(^signInCompletionBlock)(GymneaSignInWSClientRequestResponse success
 typedef void(^signUpCompletionBlock)(GymneaSignUpWSClientRequestResponse success, NSDictionary *responseData, UserInfo *userInfo);
 typedef void(^userInfoCompletionBlock)(GymneaWSClientRequestStatus success, NSDictionary *responseData, UserInfo *userInfo);
 typedef void(^userImageCompletionBlock)(GymneaWSClientRequestStatus success, UIImage *userImage);
+typedef void(^exercisesCompletionBlock)(GymneaWSClientRequestStatus success, NSArray *exercises);
 typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
 
 @interface GymneaWSClient : NSObject<NSURLConnectionDelegate, NSURLSessionDelegate>
@@ -54,5 +56,9 @@ typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
 - (void)requestUserInfoWithCompletionBlock:(userInfoCompletionBlock)completionBlock;
 
 - (void)requestUserImageWithCompletionBlock:(userImageCompletionBlock)completionBlock;
+
+- (void)requestImageForExercise:(int)exerciseId withSize:(GymneaExerciseImageSize)size withCompletionBlock:(userImageCompletionBlock)completionBlock;
+
+- (void)requestExercisesWithCompletionBlock:(exercisesCompletionBlock)completionBlock;
 
 @end

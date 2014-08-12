@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 
 
-@interface Event : NSObject//NSManagedObject
+@interface ExerciseDetail : NSManagedObject
 
 @property (nonatomic) int16_t ageRestriction;
 @property (nonatomic, retain) NSString * eventDescription;

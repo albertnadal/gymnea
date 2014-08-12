@@ -48,6 +48,7 @@ BOOL commitDefaultMOC(void)
 		NSLog(@"Core Data Save Error: %@, %@", error, [error userInfo]);
 		return NO;
 	}
+
 	return YES;
 }
 

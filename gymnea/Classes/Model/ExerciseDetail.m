@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 Gymnea. All rights reserved.
 //
 
-#import "Event.h"
+#import "ExerciseDetail.h"
 
 
-@implementation Event
+@implementation ExerciseDetail
 
 @synthesize ageRestriction;
 @synthesize eventDescription;

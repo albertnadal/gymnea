@@ -17,6 +17,11 @@
 #import "ExerciseDetailViewController.h"
 
 @interface StartViewController ()
+{
+    
+}
+
+- (void)loadMainContainer;
 
 @end
 
@@ -35,8 +40,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
 
+    // Now we ask fot the session id
+    [[GymneaWSClient sharedInstance] requestSessionIdWithCompletionBlock:^(GymneaWSClientRequestStatus success) {
+
+        [self loadMainContainer];
+
+    }];
+}
+
+- (void)loadMainContainer
+{
     UIViewController *favoritesViewController = [[UIViewController alloc] init];
     [favoritesViewController.view setFrame:CGRectMake(0,0,320,690)];
     CGRect frame = favoritesViewController.navigationController.toolbar.frame;
@@ -50,39 +64,39 @@
     [favoritesController.interactivePopGestureRecognizer setEnabled:NO];
     // Add the screen title
     favoritesViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Dashboard" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
-
     
     
-
+    
+    
     GenericWorkoutsViewController *workoutsViewController = [[GenericWorkoutsViewController alloc] init];
     //[workoutsViewController.view setFrame:CGRectMake(0,0,320,690)];
     [workoutsViewController setTitle:@"Generic"];
-
+    
     
     UIViewController *customWorkoutsViewController = [[UIViewController alloc] init];
     [customWorkoutsViewController.view setFrame:CGRectMake(0,0,320,690)];
     [customWorkoutsViewController.view setBackgroundColor:[UIColor whiteColor]];
     [customWorkoutsViewController setTitle:@"Custom"];
-
+    
     UIViewController *savedWorkoutsViewController = [[UIViewController alloc] init];
     [savedWorkoutsViewController.view setFrame:CGRectMake(0,0,320,690)];
     [savedWorkoutsViewController.view setBackgroundColor:[UIColor whiteColor]];
     [savedWorkoutsViewController setTitle:@"Saved"];
-
+    
     UIViewController *assignedWorkoutsViewController = [[UIViewController alloc] init];
     [assignedWorkoutsViewController.view setFrame:CGRectMake(0,0,320,690)];
     [assignedWorkoutsViewController.view setBackgroundColor:[UIColor whiteColor]];
     [assignedWorkoutsViewController setTitle:@"Assigned"];
-
+    
     UIViewController *currentWorkoutViewController = [[UIViewController alloc] init];
     [currentWorkoutViewController.view setFrame:CGRectMake(0,0,320,690)];
     [currentWorkoutViewController.view setBackgroundColor:[UIColor whiteColor]];
     [currentWorkoutViewController setTitle:@"Current"];
-
+    
     GEAScrollableTabBarController *scrollableTabBarController = [[GEAScrollableTabBarController alloc] init];
     [scrollableTabBarController.view setFrame:CGRectMake(0,0,320,690)];
     [scrollableTabBarController setViewControllers:@[workoutsViewController, customWorkoutsViewController, savedWorkoutsViewController, assignedWorkoutsViewController, currentWorkoutViewController]];
-
+    
     UITabBarItem *favorites2TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Workouts" image:[UIImage imageNamed:@"sidebar-workouts-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-workouts-icon"]];
     [scrollableTabBarController setTabBarItem:favorites2TabBarItem];
     UINavigationController *favorites2Controller = [[UINavigationController alloc] initWithRootViewController:scrollableTabBarController];
@@ -90,30 +104,30 @@
     favorites2Controller.navigationBar.tintColor = [UIColor colorWithRed:7.0/255.0 green:154.0/255.0 blue:204.0/255.0 alpha:1.0];
     // Add the screen title
     scrollableTabBarController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Workouts" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
-
-
-
-
-/*
-    WorkoutsViewController *workoutsViewController = [[WorkoutsViewController alloc] init];
-    [workoutsViewController.view setFrame:CGRectMake(0,0,320,690)];
-    CGRect frame2 = workoutsViewController.navigationController.toolbar.frame;
-    frame2.origin.y = 20;
-    workoutsViewController.navigationController.toolbar.frame = frame2;
-    //workoutsViewController.edgesForExtendedLayout = UIRectEdgeNone;
-    [workoutsViewController.view setBackgroundColor:[UIColor whiteColor]];
-    UITabBarItem *favorites2TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Workouts" image:[UIImage imageNamed:@"sidebar-workouts-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-workouts-icon"]];
-    [workoutsViewController setTabBarItem:favorites2TabBarItem];
-    UINavigationController *favorites2Controller = [[UINavigationController alloc] initWithRootViewController:workoutsViewController];
-    [favorites2Controller.interactivePopGestureRecognizer setEnabled:NO];
-    favorites2Controller.navigationBar.tintColor = [UIColor colorWithRed:7.0/255.0 green:154.0/255.0 blue:204.0/255.0 alpha:1.0];
-    // Add the screen title
-    workoutsViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Workouts" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
-*/
     
     
     
-
+    
+    /*
+     WorkoutsViewController *workoutsViewController = [[WorkoutsViewController alloc] init];
+     [workoutsViewController.view setFrame:CGRectMake(0,0,320,690)];
+     CGRect frame2 = workoutsViewController.navigationController.toolbar.frame;
+     frame2.origin.y = 20;
+     workoutsViewController.navigationController.toolbar.frame = frame2;
+     //workoutsViewController.edgesForExtendedLayout = UIRectEdgeNone;
+     [workoutsViewController.view setBackgroundColor:[UIColor whiteColor]];
+     UITabBarItem *favorites2TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Workouts" image:[UIImage imageNamed:@"sidebar-workouts-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-workouts-icon"]];
+     [workoutsViewController setTabBarItem:favorites2TabBarItem];
+     UINavigationController *favorites2Controller = [[UINavigationController alloc] initWithRootViewController:workoutsViewController];
+     [favorites2Controller.interactivePopGestureRecognizer setEnabled:NO];
+     favorites2Controller.navigationBar.tintColor = [UIColor colorWithRed:7.0/255.0 green:154.0/255.0 blue:204.0/255.0 alpha:1.0];
+     // Add the screen title
+     workoutsViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Workouts" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+     */
+    
+    
+    
+    
     
     
     
@@ -138,24 +152,24 @@
     exercisesController.navigationBar.tintColor = [UIColor colorWithRed:7.0/255.0 green:154.0/255.0 blue:204.0/255.0 alpha:1.0];
     // Add the screen title
     exercisesScrollableTabBarController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Exercises" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
-
-
-
-/*
-    ExerciseDetailViewController *favorites3ViewController = [[ExerciseDetailViewController alloc] initWithEventId:1];
-    [favorites3ViewController.view setFrame:CGRectMake(0,0,320,690)];
-    CGRect frame3 = favorites3ViewController.navigationController.toolbar.frame;
-    frame3.origin.y = 20;
-    favorites3ViewController.navigationController.toolbar.frame = frame3;
-    favorites3ViewController.edgesForExtendedLayout = UIRectEdgeNone;
-    [favorites3ViewController.view setBackgroundColor:[UIColor whiteColor]];
-    UITabBarItem *favorites3TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Exercises" image:[UIImage imageNamed:@"sidebar-exercises-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-exercises-icon"]];
-    [favorites3ViewController setTabBarItem:favorites3TabBarItem];
-    UINavigationController *favorites3Controller = [[UINavigationController alloc] initWithRootViewController:favorites3ViewController];
-    [favorites3Controller.interactivePopGestureRecognizer setEnabled:NO];
-    // Add the screen title
-    //favorites3ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Exercises" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
-*/
+    
+    
+    
+    /*
+     ExerciseDetailViewController *favorites3ViewController = [[ExerciseDetailViewController alloc] initWithEventId:1];
+     [favorites3ViewController.view setFrame:CGRectMake(0,0,320,690)];
+     CGRect frame3 = favorites3ViewController.navigationController.toolbar.frame;
+     frame3.origin.y = 20;
+     favorites3ViewController.navigationController.toolbar.frame = frame3;
+     favorites3ViewController.edgesForExtendedLayout = UIRectEdgeNone;
+     [favorites3ViewController.view setBackgroundColor:[UIColor whiteColor]];
+     UITabBarItem *favorites3TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Exercises" image:[UIImage imageNamed:@"sidebar-exercises-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-exercises-icon"]];
+     [favorites3ViewController setTabBarItem:favorites3TabBarItem];
+     UINavigationController *favorites3Controller = [[UINavigationController alloc] initWithRootViewController:favorites3ViewController];
+     [favorites3Controller.interactivePopGestureRecognizer setEnabled:NO];
+     // Add the screen title
+     //favorites3ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Exercises" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+     */
     
     
     
@@ -175,13 +189,13 @@
     [favorites4Controller.interactivePopGestureRecognizer setEnabled:NO];
     // Add the screen title
     favorites4ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Classes" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
-
-
     
-
     
-
-
+    
+    
+    
+    
+    
     UIViewController *favorites5ViewController = [[UIViewController alloc] init];
     [favorites5ViewController.view setFrame:CGRectMake(0,0,320,690)];
     CGRect frame5 = favorites5ViewController.navigationController.toolbar.frame;
@@ -195,7 +209,7 @@
     [favorites5Controller.interactivePopGestureRecognizer setEnabled:NO];
     // Add the screen title
     favorites5ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Health / Logs" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
-
+    
     
     
     
@@ -215,42 +229,36 @@
     [favorites6Controller.interactivePopGestureRecognizer setEnabled:NO];
     // Add the screen title
     favorites6ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Pictures" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
-
-
-     /*
+    
+    
+    /*
      signUpWithForm:self.signUpForm
-               withCompletionBlock:^(GymneaSignUpWSClientRequestResponse success, NSDictionary *responseData, UserInfo *userInfo) {
-                   
-                   [MBProgressHUD hideHUDForView:self.view animated:YES];
-                   
-                   //                   NSLog(@"SIGN IN RESPONSE: %@", responseData);
-                   
-                   if([[[responseData objectForKey:@"success"] lowercaseString] isEqual: @"false"]) {
-                       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[responseData objectForKey:@"errorMsg"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-                       [alert show];
-                   } else if([[[responseData objectForKey:@"success"] lowercaseString] isEqual: @"true"]){
-                       StartViewController *startViewController = [[StartViewController alloc] init];
-                       [self.navigationController pushViewController:startViewController animated:NO];
-                   } else {
-                       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"An unexpected error occurred. Check your Internet connection and retry again." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-                       [alert show];
-                   }
-                   
-               }];*/
+     withCompletionBlock:^(GymneaSignUpWSClientRequestResponse success, NSDictionary *responseData, UserInfo *userInfo) {
+     
+     [MBProgressHUD hideHUDForView:self.view animated:YES];
+     
+     //                   NSLog(@"SIGN IN RESPONSE: %@", responseData);
+     
+     if([[[responseData objectForKey:@"success"] lowercaseString] isEqual: @"false"]) {
+     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[responseData objectForKey:@"errorMsg"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+     [alert show];
+     } else if([[[responseData objectForKey:@"success"] lowercaseString] isEqual: @"true"]){
+     StartViewController *startViewController = [[StartViewController alloc] init];
+     [self.navigationController pushViewController:startViewController animated:NO];
+     } else {
+     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"An unexpected error occurred. Check your Internet connection and retry again." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+     [alert show];
+     }
+     
+     }];*/
 
 
 
-
-    // Now we ask fot the session id
-    [[GymneaWSClient sharedInstance] requestSessionIdWithCompletionBlock:^(GymneaWSClientRequestStatus success) {
-
-        // Side menu
-        GEASideMenuController *sideMenuController = [[GEASideMenuController alloc] init];
-        sideMenuController.viewControllers = @[favoritesController, favorites2Controller, exercisesController, favorites4Controller, favorites5Controller, favorites6Controller];
-
-        [[[UIApplication sharedApplication] keyWindow] setRootViewController:sideMenuController];
-
-    }];
+    // Side menu
+    GEASideMenuController *sideMenuController = [[GEASideMenuController alloc] init];
+    sideMenuController.viewControllers = @[favoritesController, favorites2Controller, exercisesController, favorites4Controller, favorites5Controller, favorites6Controller];
+    
+    [[[UIApplication sharedApplication] keyWindow] setRootViewController:sideMenuController];
 }
 
 - (void)didReceiveMemoryWarning

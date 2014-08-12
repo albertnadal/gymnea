@@ -8,7 +8,7 @@
 
 #import "ExerciseDescriptionViewController.h"
 #import "GEALabel+Gymnea.h"
-#import "Event.h"
+#import "ExerciseDetail.h"
 
 // Paddings and margins
 static float const kGEASpaceBetweenLabels = 10.0f;
@@ -26,13 +26,13 @@ static const float kGEAiPhoneNavigationBarHeight = 44.0f;
 @property (nonatomic, weak) IBOutlet UIView *separator;
 @property (nonatomic, weak) IBOutlet UILabel *description;
 @property (nonatomic, weak) IBOutlet UIScrollView *scroll;
-@property (nonatomic, strong) Event *event;
+@property (nonatomic, strong) ExerciseDetail *event;
 
 @end
 
 @implementation ExerciseDescriptionViewController
 
-- (id)initWithEvent:(Event *)event {
+- (id)initWithEvent:(Exercise *)event {
   self = [super initWithNibName:@"ExerciseDescriptionViewController" bundle:nil];
   if (!self) {
     return nil;
