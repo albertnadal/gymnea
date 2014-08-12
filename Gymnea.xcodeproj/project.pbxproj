@@ -62,6 +62,7 @@
 		FF9110BD197BB1B500818E95 /* WorkoutDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF9110BA197BB1B500818E95 /* WorkoutDetailViewController.xib */; };
 		FF9110BE197BB1B500818E95 /* EventReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF9110BB197BB1B500818E95 /* EventReviewViewController.xib */; };
 		FF9110C1197BB4AD00818E95 /* GEAPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9110C0197BB4AD00818E95 /* GEAPopoverViewController.m */; };
+		FF929671199A2017008B7823 /* GEADefinitions.m in Sources */ = {isa = PBXBuildFile; fileRef = FF929670199A2017008B7823 /* GEADefinitions.m */; };
 		FFA137571969A58000DBEE68 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA137561969A58000DBEE68 /* main.m */; };
 		FFA1375A1969A58000DBEE68 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA137591969A58000DBEE68 /* AppDelegate.m */; };
 		FFA1375D1969A58000DBEE68 /* gymnea.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FFA1375B1969A58000DBEE68 /* gymnea.xcdatamodeld */; };
@@ -183,6 +184,8 @@
 		FF9110BB197BB1B500818E95 /* EventReviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EventReviewViewController.xib; path = Resources/Views/EventReviewViewController.xib; sourceTree = "<group>"; };
 		FF9110BF197BB4AD00818E95 /* GEAPopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GEAPopoverViewController.h; path = Classes/Controller/Views/GEAPopoverViewController.h; sourceTree = "<group>"; };
 		FF9110C0197BB4AD00818E95 /* GEAPopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GEAPopoverViewController.m; path = Classes/Controller/Views/GEAPopoverViewController.m; sourceTree = "<group>"; };
+		FF92966F199A2017008B7823 /* GEADefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GEADefinitions.h; path = Classes/Controller/GEADefinitions.h; sourceTree = "<group>"; };
+		FF929670199A2017008B7823 /* GEADefinitions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GEADefinitions.m; path = Classes/Controller/GEADefinitions.m; sourceTree = "<group>"; };
 		FFA137511969A58000DBEE68 /* gymnea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gymnea.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFA137551969A58000DBEE68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FFA137561969A58000DBEE68 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -406,6 +409,15 @@
 			name = Services;
 			sourceTree = "<group>";
 		};
+		FF92966E199A1FB3008B7823 /* Defines */ = {
+			isa = PBXGroup;
+			children = (
+				FF92966F199A2017008B7823 /* GEADefinitions.h */,
+				FF929670199A2017008B7823 /* GEADefinitions.m */,
+			);
+			name = Defines;
+			sourceTree = "<group>";
+		};
 		FFA137481969A58000DBEE68 = {
 			isa = PBXGroup;
 			children = (
@@ -483,6 +495,7 @@
 		FFA137831969F84900DBEE68 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				FF92966E199A1FB3008B7823 /* Defines */,
 				FF60FBB81996C34400DC2F14 /* Exercises */,
 				FF6BBFFF199013C0001FC624 /* ExerciseDetails */,
 				FF23A6491982F3C600E62C5B /* WorkoutPlay */,
@@ -781,6 +794,7 @@
 				FF11F5C4196DF08200590C10 /* GEALabel.m in Sources */,
 				FFE6B6261997BA5E00F105B8 /* Exercise+Management.m in Sources */,
 				FF78E78319867265001396E3 /* WorkoutPlayRestViewController.m in Sources */,
+				FF929671199A2017008B7823 /* GEADefinitions.m in Sources */,
 				FF23A64019825DDC00E62C5B /* WorkoutDayTableViewCell.m in Sources */,
 				FFF779471985340C0073E0BE /* NextExerciseCountdownViewController.m in Sources */,
 				FFA137571969A58000DBEE68 /* main.m in Sources */,

@@ -12,6 +12,7 @@
 #import "ExerciseCollectionViewCell.h"
 #import "MBProgressHUD.h"
 #import "GymneaWSClient.h"
+#import "GEADefinitions.h"
 #import "Exercise.h"
 
 
@@ -26,10 +27,12 @@
 @property (nonatomic, copy) NSArray *exercisesList;
 
 - (void)showExerciseDetails:(int)exerciseId;
+- (CGFloat)calculateHeightForString:(NSString *)text withFont:(UIFont *)font withWidth:(CGFloat)maxWidth;
 
 @end
 
 @implementation ExercisesViewController
+
 
 @synthesize needRefreshData;
 @synthesize exercisesList;
@@ -116,6 +119,20 @@
 
 }
 
+- (CGFloat)calculateHeightForString:(NSString *)text withFont:(UIFont *)font withWidth:(CGFloat)maxWidth
+{
+    NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:text
+                                                                         attributes:@{
+                                                                                      NSFontAttributeName: font
+                                                                                      }];
+
+    CGRect rect = [attributedText boundingRectWithSize:(CGSize){maxWidth, CGFLOAT_MAX}
+                                               options:NSStringDrawingUsesLineFragmentOrigin
+                                               context:nil];
+    CGSize size = rect.size;
+    return ceilf(size.height);
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     if(self.exercisesList != nil) {
@@ -132,7 +149,21 @@
     Exercise *exercise = (Exercise *)[self.exercisesList objectAtIndex:indexPath.row];
 
     [[(ExerciseCollectionViewCell *)cell exerciseTitle] setText:exercise.name];
+    CGRect titleFrame = [(ExerciseCollectionViewCell *)cell exerciseTitle].frame;
+    CGFloat titleHeight = [self calculateHeightForString:exercise.name withFont:[(ExerciseCollectionViewCell *)cell exerciseTitle].font withWidth:titleFrame.size.width];
+    titleFrame.size.height = titleHeight;
+    [[(ExerciseCollectionViewCell *)cell exerciseTitle] setFrame:titleFrame];
+
+    CGRect attributesViewFrame = [(ExerciseCollectionViewCell *)cell attributesView].frame;
+    attributesViewFrame.origin.y = CGRectGetMaxY(titleFrame) + 8.0f;
+    [[(ExerciseCollectionViewCell *)cell attributesView] setFrame:attributesViewFrame];
+
+    [[(ExerciseCollectionViewCell *)cell exerciseType] setText:[GEADefinitions retrieveTitleForExerciseType:exercise.typeId]];
+    [[(ExerciseCollectionViewCell *)cell exerciseMuscle] setText:[GEADefinitions retrieveTitleForMuscle:exercise.muscleId]];
+    [[(ExerciseCollectionViewCell *)cell exerciseEquipment] setText:[GEADefinitions retrieveTitleForEquipment:exercise.equipmentId]];
+    [[(ExerciseCollectionViewCell *)cell exerciseLevel] setText:[GEADefinitions retrieveTitleForExerciseLevel:exercise.levelId]];
     [[(ExerciseCollectionViewCell *)cell thumbnail] setImage:[UIImage imageNamed:@"exercise-default-thumbnail"]];
+    [(ExerciseCollectionViewCell *)cell setBackgroundColor:[GEADefinitions retrieveColorForExerciseType:exercise.typeId]];
 
     [[GymneaWSClient sharedInstance] requestImageForExercise:exercise.exerciseId
                                                     withSize:ExerciseImageSizeMedium
@@ -155,7 +186,12 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(145.0f, 222.0f + (arc4random() % 50));
+    Exercise *exercise = (Exercise *)[self.exercisesList objectAtIndex:indexPath.row];
+    UIFont *titleFont = [UIFont fontWithName:@"AvenirNext-DemiBold" size:11.0f];
+
+    CGFloat titleHeight = [self calculateHeightForString:exercise.name withFont:titleFont withWidth:133.0f];
+
+    return CGSizeMake(145.0f, 252.0f + titleHeight);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath

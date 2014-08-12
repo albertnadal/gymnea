@@ -12,6 +12,12 @@
 
 @property (nonatomic, strong) IBOutlet UIImageView *thumbnail;
 @property (nonatomic, strong) IBOutlet UILabel *exerciseTitle;
+@property (nonatomic, strong) IBOutlet UIView *attributesView;
+@property (nonatomic, strong) IBOutlet UILabel *exerciseType;
+@property (nonatomic, strong) IBOutlet UIView *separator;
+@property (nonatomic, strong) IBOutlet UILabel *exerciseMuscle;
+@property (nonatomic, strong) IBOutlet UILabel *exerciseEquipment;
+@property (nonatomic, strong) IBOutlet UILabel *exerciseLevel;
 
 
 @end
