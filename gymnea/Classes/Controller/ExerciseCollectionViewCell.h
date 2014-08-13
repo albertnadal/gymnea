@@ -10,14 +10,14 @@
 
 @interface ExerciseCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic, strong) IBOutlet UIImageView *thumbnail;
-@property (nonatomic, strong) IBOutlet UILabel *exerciseTitle;
-@property (nonatomic, strong) IBOutlet UIView *attributesView;
-@property (nonatomic, strong) IBOutlet UILabel *exerciseType;
-@property (nonatomic, strong) IBOutlet UIView *separator;
-@property (nonatomic, strong) IBOutlet UILabel *exerciseMuscle;
-@property (nonatomic, strong) IBOutlet UILabel *exerciseEquipment;
-@property (nonatomic, strong) IBOutlet UILabel *exerciseLevel;
+@property (nonatomic, weak) IBOutlet UIImageView *thumbnail;
+@property (nonatomic, weak) IBOutlet UILabel *exerciseTitle;
+@property (nonatomic, weak) IBOutlet UIView *attributesView;
+@property (nonatomic, weak) IBOutlet UILabel *exerciseType;
+@property (nonatomic, weak) IBOutlet UIView *separator;
+@property (nonatomic, weak) IBOutlet UILabel *exerciseMuscle;
+@property (nonatomic, weak) IBOutlet UILabel *exerciseEquipment;
+@property (nonatomic, weak) IBOutlet UILabel *exerciseLevel;
 
 
 @end

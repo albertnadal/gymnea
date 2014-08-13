@@ -421,7 +421,6 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
               withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
 
                   NSMutableArray *exercisesArray = nil;
-                  Exercise *exerciseInfo = nil;
 
                   if(success == GymneaWSClientRequestSuccess) {
                       // Insert or update the current Exercise register in the DB
@@ -433,19 +432,25 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
                           if(exerciseFromDB != nil) {
 
                               // Keep current exercise pictures in the DB
-                              [exerciseFromDB setExerciseId:[[exerciseDict objectForKey:@"id"] intValue]];
-                              [exerciseFromDB setName:[exerciseDict objectForKey:@"n"]];
-                              [exerciseFromDB setSaved:[[exerciseDict objectForKey:@"s"] boolValue]];
-                              [exerciseFromDB setEquipmentId:[[exerciseDict objectForKey:@"e"] intValue]];
-                              [exerciseFromDB setMuscleId:[[exerciseDict objectForKey:@"m"] intValue]];
-                              [exerciseFromDB setTypeId:[[exerciseDict objectForKey:@"t"] intValue]];
-                              [exerciseFromDB setLevelId:[[exerciseDict objectForKey:@"l"] intValue]];
+                              [exerciseFromDB updateWithExerciseId:[[exerciseDict objectForKey:@"id"] intValue]
+                                                              name:[exerciseDict objectForKey:@"n"]
+                                                           isSaved:[[exerciseDict objectForKey:@"s"] boolValue]
+                                                       equipmentId:[[exerciseDict objectForKey:@"e"] intValue]
+                                                          muscleId:[[exerciseDict objectForKey:@"m"] intValue]
+                                                            typeId:[[exerciseDict objectForKey:@"t"] intValue]
+                                                           levelId:[[exerciseDict objectForKey:@"l"] intValue]
+                                                       photoMedium:[exerciseFromDB photoMedium]
+                                                        photoSmall:[exerciseFromDB photoSmall]];
 
                               [exerciseFromDB updateModelInDB];
+
+                              AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+                              [appDelegate saveContext];
+
                               [exercisesArray addObject:exerciseFromDB];
                           } else {
 
-                              exerciseInfo = [Exercise updateExerciseWithId:[[exerciseDict objectForKey:@"id"] intValue] withDictionary:exerciseDict];
+                              Exercise *exerciseInfo = [Exercise updateExerciseWithId:[[exerciseDict objectForKey:@"id"] intValue] withDictionary:exerciseDict];
                               [exercisesArray addObject:exerciseInfo];
                           }
 

@@ -39,6 +39,8 @@
 		FF6BC005199015DA001FC624 /* ExerciseDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF6BC004199015DA001FC624 /* ExerciseDescriptionViewController.m */; };
 		FF6BC007199018D2001FC624 /* ExerciseDescriptionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF6BC006199018D2001FC624 /* ExerciseDescriptionViewController.xib */; };
 		FF76206B196ABA9100611B3B /* Avenir Next.ttc in Resources */ = {isa = PBXBuildFile; fileRef = FF76206A196ABA9100611B3B /* Avenir Next.ttc */; };
+		FF78CC5D199AC7C9004E0D23 /* ExerciseFilterCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = FF78CC5B199AC7C9004E0D23 /* ExerciseFilterCollectionReusableView.m */; };
+		FF78CC5E199AC7C9004E0D23 /* ExerciseFilterCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF78CC5C199AC7C9004E0D23 /* ExerciseFilterCollectionReusableView.xib */; };
 		FF78E77E198647AF001396E3 /* WorkoutPlayExerciseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF78E77C198647AF001396E3 /* WorkoutPlayExerciseViewController.m */; };
 		FF78E77F198647AF001396E3 /* WorkoutPlayExerciseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF78E77D198647AF001396E3 /* WorkoutPlayExerciseViewController.xib */; };
 		FF78E78319867265001396E3 /* WorkoutPlayRestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF78E78119867265001396E3 /* WorkoutPlayRestViewController.m */; };
@@ -147,6 +149,9 @@
 		FF6BC004199015DA001FC624 /* ExerciseDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExerciseDescriptionViewController.m; path = Classes/Controller/ExerciseDescriptionViewController.m; sourceTree = "<group>"; };
 		FF6BC006199018D2001FC624 /* ExerciseDescriptionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ExerciseDescriptionViewController.xib; path = Resources/Views/ExerciseDescriptionViewController.xib; sourceTree = "<group>"; };
 		FF76206A196ABA9100611B3B /* Avenir Next.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Avenir Next.ttc"; path = "Resources/Fonts/Avenir Next.ttc"; sourceTree = "<group>"; };
+		FF78CC5A199AC7C9004E0D23 /* ExerciseFilterCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExerciseFilterCollectionReusableView.h; path = Classes/Controller/ExerciseFilterCollectionReusableView.h; sourceTree = "<group>"; };
+		FF78CC5B199AC7C9004E0D23 /* ExerciseFilterCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExerciseFilterCollectionReusableView.m; path = Classes/Controller/ExerciseFilterCollectionReusableView.m; sourceTree = "<group>"; };
+		FF78CC5C199AC7C9004E0D23 /* ExerciseFilterCollectionReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ExerciseFilterCollectionReusableView.xib; path = Classes/Controller/ExerciseFilterCollectionReusableView.xib; sourceTree = "<group>"; };
 		FF78E77B198647AF001396E3 /* WorkoutPlayExerciseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutPlayExerciseViewController.h; path = Classes/Controller/WorkoutPlayExerciseViewController.h; sourceTree = "<group>"; };
 		FF78E77C198647AF001396E3 /* WorkoutPlayExerciseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutPlayExerciseViewController.m; path = Classes/Controller/WorkoutPlayExerciseViewController.m; sourceTree = "<group>"; };
 		FF78E77D198647AF001396E3 /* WorkoutPlayExerciseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkoutPlayExerciseViewController.xib; path = Classes/Controller/WorkoutPlayExerciseViewController.xib; sourceTree = "<group>"; };
@@ -320,6 +325,9 @@
 				FF60FBBC1996C3EA00DC2F14 /* ExerciseCollectionViewCell.h */,
 				FF60FBBD1996C3EA00DC2F14 /* ExerciseCollectionViewCell.m */,
 				FF60FBBE1996C3EA00DC2F14 /* ExerciseCollectionViewCell.xib */,
+				FF78CC5A199AC7C9004E0D23 /* ExerciseFilterCollectionReusableView.h */,
+				FF78CC5B199AC7C9004E0D23 /* ExerciseFilterCollectionReusableView.m */,
+				FF78CC5C199AC7C9004E0D23 /* ExerciseFilterCollectionReusableView.xib */,
 			);
 			name = Exercises;
 			sourceTree = "<group>";
@@ -710,6 +718,7 @@
 				FF6BC007199018D2001FC624 /* ExerciseDescriptionViewController.xib in Resources */,
 				FF9110BE197BB1B500818E95 /* EventReviewViewController.xib in Resources */,
 				FF78E77F198647AF001396E3 /* WorkoutPlayExerciseViewController.xib in Resources */,
+				FF78CC5E199AC7C9004E0D23 /* ExerciseFilterCollectionReusableView.xib in Resources */,
 				FF6BBFFE19901370001FC624 /* ExerciseDetailViewController.xib in Resources */,
 				FF0DC1B9196CA1CC006E1817 /* LogInViewController.xib in Resources */,
 				FF441EAA197067EC00865065 /* GEASideMenuController.xib in Resources */,
@@ -808,6 +817,7 @@
 				FF3F70A8196D54BE007AADF1 /* GEASideMenuController.m in Sources */,
 				FF6BC005199015DA001FC624 /* ExerciseDescriptionViewController.m in Sources */,
 				FF78E77E198647AF001396E3 /* WorkoutPlayExerciseViewController.m in Sources */,
+				FF78CC5D199AC7C9004E0D23 /* ExerciseFilterCollectionReusableView.m in Sources */,
 				FF9110B5197B1DF200818E95 /* EventReview.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
