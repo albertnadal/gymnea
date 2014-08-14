@@ -55,6 +55,39 @@
     [self.levelButton setTitle:name forState:UIControlStateNormal];
 }
 
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    [searchBar setShowsCancelButton:YES];
+
+    if([self.delegate respondsToSelector:@selector(searchExerciseWithTextDidBegin)]) {
+        [self.delegate searchExerciseWithTextDidBegin];
+    }
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [searchBar setShowsCancelButton:NO];
+
+    if([searchBar.text length] == 0) {
+        if([self.delegate respondsToSelector:@selector(searchExerciseWithText:)]) {
+            [self.delegate searchExerciseWithText:@""];
+        }
+    }
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    if([searchBar.text length] != 0) {
+        if([self.delegate respondsToSelector:@selector(searchExerciseWithText:)]) {
+            [self.delegate searchExerciseWithText:searchBar.text];
+        }
+    }
+
+    [searchBar resignFirstResponder];
+    [searchBar setShowsCancelButton:NO];
+}
+
 /*
 - (void)awakeFromNib
 {

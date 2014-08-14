@@ -7,6 +7,7 @@
 //
 
 #import "Exercise.h"
+#import "GEADefinitions.h"
 #import <UIKit/UIKit.h>
 
 typedef enum _GymneaExerciseImageSize
@@ -54,5 +55,11 @@ typedef enum _GymneaExerciseImageSize
 + (Exercise*)getExerciseInfo:(int)exerciseId;
 
 + (NSArray *)getExercises;
+
++ (NSArray *)getExercisesWithType:(GymneaExerciseType)exerciseTypeId
+                       withMuscle:(GymneaMuscleType)muscleId
+                    withEquipment:(GymneaEquipmentType)equipmentId
+                        withLevel:(GymneaExerciseLevel)levelId
+                         withName:(NSString *)searchText;
 
 @end

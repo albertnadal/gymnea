@@ -255,6 +255,63 @@ static NSString * const kEntityName = @"Exercise";
     return fetchManagedObjects(kEntityName, predicate, nil, defaultManagedObjectContext());
 }
 
++ (NSArray *)getExercisesWithType:(GymneaExerciseType)exerciseTypeId
+                       withMuscle:(GymneaMuscleType)muscleId
+                    withEquipment:(GymneaEquipmentType)equipmentId
+                        withLevel:(GymneaExerciseLevel)levelId
+                         withName:(NSString *)searchText
+{
+    NSMutableArray *queryStringArray = [[NSMutableArray alloc] init];
+
+    NSString *queryString = nil;
+
+    if(exerciseTypeId != GymneaExerciseAny) {
+        queryString = [NSString stringWithFormat:@"(typeId == %@)", [NSNumber numberWithInt:exerciseTypeId]];
+        [queryStringArray addObject:queryString];
+    }
+
+    if(muscleId != GymneaMuscleAny) {
+        queryString = [NSString stringWithFormat:@"(muscleId == %@)", [NSNumber numberWithInt:muscleId]];
+        [queryStringArray addObject:queryString];
+    }
+
+    if(equipmentId != GymneaEquipmentAny) {
+        queryString = [NSString stringWithFormat:@"(equipmentId == %@)", [NSNumber numberWithInt:equipmentId]];
+        [queryStringArray addObject:queryString];
+    }
+
+    if(levelId != GymneaExerciseLevelAny) {
+        queryString = [NSString stringWithFormat:@"(levelId == %@)", [NSNumber numberWithInt:levelId]];
+        [queryStringArray addObject:queryString];
+    }
+
+    if(![searchText isEqualToString:@""]) {
+        queryString = [NSString stringWithFormat:@"(name MATCHES[cd] '.*(%@).*')", searchText];
+        [queryStringArray addObject:queryString];
+    }
+
+    queryString = @"";
+    NSString *queryPredicateString = nil;
+
+    BOOL isFirstPredicate = TRUE;
+    for(queryPredicateString in queryStringArray)
+    {
+        if(isFirstPredicate) {
+            queryString = [queryString stringByAppendingString:queryPredicateString];
+            isFirstPredicate = FALSE;
+        } else {
+            queryString = [queryString stringByAppendingString:[NSString stringWithFormat:@" AND %@", queryPredicateString]];
+        }
+    }
+
+    if([queryString isEqualToString:@""]) {
+        return [Exercise getExercises];
+    } else {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:queryString];
+        return fetchManagedObjects(kEntityName, predicate, nil, defaultManagedObjectContext());
+    }
+}
+
 /*
 
 #pragma mark Delete methods

@@ -12,7 +12,7 @@
 
 @protocol ExerciseFilterCollectionReusableViewDelegate;
 
-@interface ExerciseFilterCollectionReusableView : UICollectionReusableView<ExercisesViewControllerDelegate>
+@interface ExerciseFilterCollectionReusableView : UICollectionReusableView<ExercisesViewControllerDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) id<ExerciseFilterCollectionReusableViewDelegate>delegate;
 @property (nonatomic, weak) IBOutlet UIView *containerTypeView;
@@ -23,6 +23,7 @@
 @property (nonatomic, weak) IBOutlet UIButton *muscleButton;
 @property (nonatomic, weak) IBOutlet UIButton *equipmentButton;
 @property (nonatomic, weak) IBOutlet UIButton *levelButton;
+@property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
 
 - (IBAction)showExerciseTypeSelector:(id)sender;
 - (IBAction)showMuscleSelector:(id)sender;
@@ -37,6 +38,8 @@
 - (void)showMuscleSelector;
 - (void)showEquipmentSelector;
 - (void)showExerciseLevelSelector;
+- (void)searchExerciseWithText:(NSString *)searchText;
+- (void)searchExerciseWithTextDidBegin;
 
 //- (void)willChangeOptionsInExerciseFilterCollectionReusableView:(ExerciseFilterCollectionReusableView *)reusableView withType:(GymneaExerciseType)typeId withMuscle:(GymneaMuscleType)muscleId withEquipment:(GymneaEquipmentType)equipmentId withLevel:(GymneaExerciseLevel)levelId;
 

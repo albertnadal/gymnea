@@ -28,6 +28,7 @@
     GymneaMuscleType muscleType;
     GymneaEquipmentType equipmentType;
     GymneaExerciseLevel exerciseLevel;
+    NSString *searchText;
     
     UIPickerView *exerciseTypePickerView;
     UIView *exerciseTypePickerToolbar;
@@ -54,6 +55,8 @@
 @property (nonatomic, retain) UIPickerView *exerciseLevelPickerView;
 @property (nonatomic, retain) UIView *exerciseLevelPickerToolbar;
 @property (nonatomic, retain) ExerciseFilterCollectionReusableView *headerView;
+@property (nonatomic, retain) NSString *searchText;
+@property (nonatomic, weak) IBOutlet UILabel *noExercisesFoundLabel;
 
 - (void)hideAllKeyboards;
 - (void)createExerciseTypePicker;
@@ -66,6 +69,7 @@
 - (void)showEquipmentSelector;
 - (void)showExerciseLevelSelector;
 - (void)selectionDone;
+- (void)searchExercisesWithFilters;
 
 @end
 
@@ -81,6 +85,7 @@
 @synthesize exerciseLevelPickerToolbar;
 @synthesize needRefreshData;
 @synthesize exercisesList;
+@synthesize searchText;
 
 - (id)init
 {
@@ -97,6 +102,7 @@
         muscleType = GymneaMuscleAny;
         equipmentType = GymneaEquipmentAny;
         exerciseLevel = GymneaExerciseLevelAny;
+        self.searchText = @"";
     }
     return self;
 }
@@ -296,6 +302,8 @@
 {
     [super viewDidLoad];
 
+    [self.noExercisesFoundLabel setHidden:YES];
+
     CGRect viewFrame = self.view.frame;
     viewFrame.size.height-=20.0f;
     self.view.frame = viewFrame;
@@ -313,8 +321,6 @@
         
         GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
         [gymneaWSClient requestExercisesWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSArray *exercises) {
-
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
 
             if(success == GymneaWSClientRequestSuccess) {
 
@@ -348,7 +354,17 @@
                     [_collectionView reloadData];
                 }
 
+                if(![exercises count]) {
+                    [self.noExercisesFoundLabel setHidden:NO];
+                }
+
                 self.needRefreshData = FALSE;
+
+                // Hide HUD after 0.3 seconds
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                });
 
             }
             else {
@@ -364,6 +380,8 @@
 
 -(void)selectionDone {
 
+    [self.noExercisesFoundLabel setHidden:YES];
+
     [self.exerciseTypePickerToolbar setHidden:YES];
     [self.exerciseTypePickerView setHidden:YES];
 
@@ -377,6 +395,69 @@
     [self.exerciseLevelPickerView setHidden:YES];
 
     [_disableCollectionView setHidden:YES];
+    [_collectionView setScrollEnabled:YES];
+
+    [self searchExercisesWithFilters];
+
+}
+
+- (void)searchExercisesWithFilters
+{
+    // Reload the exercises applying the filters
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
+    [gymneaWSClient requestLocalExercisesWithType:exerciseType
+                                       withMuscle:muscleType
+                                    withEquipment:equipmentType
+                                        withLevel:exerciseLevel
+                                         withName:searchText
+                              withCompletionBlock:^(GymneaWSClientRequestStatus success, NSArray *exercises) {
+                                  
+                                  if(success == GymneaWSClientRequestSuccess) {
+                                      
+                                      self.exercisesList = exercises;
+                                      
+                                      if(_collectionView != nil) {
+                                          [_collectionView reloadData];
+                                      }
+                                      
+                                  }
+                                  
+                                  // Hide HUD after 0.3 seconds
+                                  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                                      if(![exercises count]) {
+                                          [self.noExercisesFoundLabel setHidden:NO];
+                                      }
+                                      
+                                      [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                  });
+                                  
+                              }];
+
+}
+
+- (void)searchExerciseWithText:(NSString *)theSearchText
+{
+    [self.noExercisesFoundLabel setHidden:YES];
+
+    self.searchText = theSearchText;
+    [self searchExercisesWithFilters];
+
+    [_disableCollectionView setHidden:YES];
+    [_collectionView setScrollEnabled:YES];
+
+}
+
+- (void)searchExerciseWithTextDidBegin
+{
+    CGRect disableCollectionViewFrame = _disableCollectionView.frame;
+    disableCollectionViewFrame.origin.y = 40.0f;
+    _disableCollectionView.frame = disableCollectionViewFrame;
+
+    [_disableCollectionView setHidden:NO];
+    [_collectionView setScrollEnabled:NO];
+
 }
 
 - (void)hideAllKeyboards
@@ -386,7 +467,13 @@
 
 - (void)showExerciseTypeSelector
 {
+    CGRect disableCollectionViewFrame = _disableCollectionView.frame;
+    disableCollectionViewFrame.origin.y = 0.0f;
+    _disableCollectionView.frame = disableCollectionViewFrame;
+
     [_disableCollectionView setHidden:NO];
+    [_collectionView setScrollEnabled:NO];
+
 
     if(self.exerciseTypePickerView == nil) {
         [self createExerciseTypePicker];
@@ -409,7 +496,12 @@
 
 - (void)showMuscleSelector
 {
+    CGRect disableCollectionViewFrame = _disableCollectionView.frame;
+    disableCollectionViewFrame.origin.y = 0.0f;
+    _disableCollectionView.frame = disableCollectionViewFrame;
+
     [_disableCollectionView setHidden:NO];
+    [_collectionView setScrollEnabled:NO];
     
     if(self.musclePickerView == nil) {
         [self createMusclePicker];
@@ -432,7 +524,12 @@
 
 - (void)showEquipmentSelector
 {
+    CGRect disableCollectionViewFrame = _disableCollectionView.frame;
+    disableCollectionViewFrame.origin.y = 0.0f;
+    _disableCollectionView.frame = disableCollectionViewFrame;
+
     [_disableCollectionView setHidden:NO];
+    [_collectionView setScrollEnabled:NO];
     
     if(self.equipmentPickerView == nil) {
         [self createEquipmentPicker];
@@ -455,7 +552,12 @@
 
 - (void)showExerciseLevelSelector
 {
+    CGRect disableCollectionViewFrame = _disableCollectionView.frame;
+    disableCollectionViewFrame.origin.y = 0.0f;
+    _disableCollectionView.frame = disableCollectionViewFrame;
+
     [_disableCollectionView setHidden:NO];
+    [_collectionView setScrollEnabled:NO];
     
     if(self.exerciseLevelPickerView == nil) {
         [self createExerciseLevelPicker];

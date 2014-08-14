@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "GEADefinitions.h"
 #import "SignUpForm.h"
 #import "Exercise+Management.h"
 #import "UserInfo+Management.h"
@@ -57,8 +58,18 @@ typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
 
 - (void)requestUserImageWithCompletionBlock:(userImageCompletionBlock)completionBlock;
 
-- (void)requestImageForExercise:(int)exerciseId withSize:(GymneaExerciseImageSize)size withCompletionBlock:(userImageCompletionBlock)completionBlock;
+- (void)requestImageForExercise:(int)exerciseId
+                       withSize:(GymneaExerciseImageSize)size
+            withCompletionBlock:(userImageCompletionBlock)completionBlock;
 
 - (void)requestExercisesWithCompletionBlock:(exercisesCompletionBlock)completionBlock;
+
+- (void)requestLocalExercisesWithType:(GymneaExerciseType)exerciseTypeId
+                           withMuscle:(GymneaMuscleType)muscleId
+                        withEquipment:(GymneaEquipmentType)equipmentId
+                            withLevel:(GymneaExerciseLevel)levelId
+                             withName:(NSString *)searchText
+                  withCompletionBlock:(exercisesCompletionBlock)completionBlock;
+
 
 @end

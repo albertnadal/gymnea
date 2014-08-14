@@ -427,6 +427,7 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
                       exercisesArray = [[NSMutableArray alloc] init];
 
                       for (NSDictionary *exerciseDict in (NSArray *)responseData) {
+                          NSLog(@"getExerciseInfo: %d", [[exerciseDict objectForKey:@"id"] intValue]);
                           Exercise *exerciseFromDB = [Exercise getExerciseInfo:[[exerciseDict objectForKey:@"id"] intValue]];
 
                           if(exerciseFromDB != nil) {
@@ -481,6 +482,27 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
         });
 
     }
+}
+
+- (void)requestLocalExercisesWithType:(GymneaExerciseType)exerciseTypeId
+                           withMuscle:(GymneaMuscleType)muscleId
+                        withEquipment:(GymneaEquipmentType)equipmentId
+                            withLevel:(GymneaExerciseLevel)levelId
+                             withName:(NSString *)searchText
+                  withCompletionBlock:(exercisesCompletionBlock)completionBlock
+{
+    NSArray *exercisesList = [Exercise getExercisesWithType:exerciseTypeId
+                                                 withMuscle:muscleId
+                                              withEquipment:equipmentId
+                                                  withLevel:levelId
+                                                   withName:searchText];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(completionBlock != nil) {
+            completionBlock(GymneaWSClientRequestSuccess, exercisesList);
+        }
+        
+    });
 }
 
 - (void)performImageAsyncRequest:(NSString *)path

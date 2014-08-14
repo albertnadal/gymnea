@@ -16,6 +16,9 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="U6b-Vx-4bR" id="8Re-AL-fAe"/>
+                    </connections>
                 </searchBar>
                 <view clipsSubviews="YES" contentMode="scaleToFill" id="3cf-Yw-LaM" userLabel="containerTypeView">
                     <rect key="frame" x="10" y="49" width="68" height="62"/>
@@ -159,6 +162,7 @@
                 <outlet property="equipmentButton" destination="TLV-TY-Src" id="aoz-s5-GfH"/>
                 <outlet property="levelButton" destination="2zD-g5-LrB" id="end-J0-W7f"/>
                 <outlet property="muscleButton" destination="R4K-Ke-Bbx" id="iTH-Ga-4ih"/>
+                <outlet property="searchBar" destination="Oy9-Hp-7yI" id="yxS-yj-l5d"/>
                 <outlet property="typeButton" destination="4Q3-jj-1DW" id="yFx-RZ-FRA"/>
             </connections>
             <point key="canvasLocation" x="-12" y="174"/>
