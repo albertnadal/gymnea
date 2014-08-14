@@ -70,10 +70,12 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     [searchBar setShowsCancelButton:NO];
 
-    if([searchBar.text length] == 0) {
-        if([self.delegate respondsToSelector:@selector(searchExerciseWithText:)]) {
-            [self.delegate searchExerciseWithText:@""];
-        }
+    if([searchBar.text length]) {
+        [searchBar setText:@""];
+    }
+
+    if([self.delegate respondsToSelector:@selector(searchExerciseWithText:)]) {
+        [self.delegate searchExerciseWithText:@""];
     }
 }
 

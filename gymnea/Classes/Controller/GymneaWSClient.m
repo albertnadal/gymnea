@@ -65,7 +65,7 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
     if(self = [super init])
     {
         self.internetIsReachable = TRUE;
-        self.reach = [Reachability reachabilityWithHostname:[NSString stringWithFormat:@"%@", kWSDomain]];
+        self.reach = [Reachability reachabilityWithHostname:@"www.gymnea.com"];
 
         __weak GymneaWSClient *wsc = self;
 
@@ -443,10 +443,10 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
                                                        photoMedium:[exerciseFromDB photoMedium]
                                                         photoSmall:[exerciseFromDB photoSmall]];
 
-                              [exerciseFromDB updateModelInDB];
+                              //[exerciseFromDB updateModelInDB];
 
-                              AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
-                              [appDelegate saveContext];
+                              //AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+                              //[appDelegate saveContext];
 
                               [exercisesArray addObject:exerciseFromDB];
                           } else {
@@ -681,7 +681,12 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
                                                             [[GymneaWSClient sharedInstance] setSessionId:[cookies objectForKey:@"gym_gymnea"]];
                                                         }
 
-                                                        completionBlock(success, (NSDictionary *)results, cookies);
+                                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                                            if(completionBlock != nil) {
+                                                                completionBlock(success, (NSDictionary *)results, cookies);
+                                                            }
+                                                            
+                                                        });
 
                                                     }];
 
