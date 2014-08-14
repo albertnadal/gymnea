@@ -145,7 +145,7 @@
     [exercisesScrollableTabBarController.view setFrame:CGRectMake(0,0,320,690)];
     [exercisesScrollableTabBarController setViewControllers:@[exercisesViewController, savedExercisesViewController]];
     
-    UITabBarItem *exercisesTabBarItem = [[UITabBarItem alloc] initWithTitle:@"Exercises" image:[UIImage imageNamed:@"sidebar-exercises-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-workouts-icon"]];
+    UITabBarItem *exercisesTabBarItem = [[UITabBarItem alloc] initWithTitle:@"Exercises" image:[UIImage imageNamed:@"sidebar-exercises-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-exercises-icon"]];
     [exercisesScrollableTabBarController setTabBarItem:exercisesTabBarItem];
     UINavigationController *exercisesController = [[UINavigationController alloc] initWithRootViewController:exercisesScrollableTabBarController];
     [exercisesController.interactivePopGestureRecognizer setEnabled:NO];

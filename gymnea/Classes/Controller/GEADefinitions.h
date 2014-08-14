@@ -11,6 +11,7 @@
 
 typedef enum _GymneaMuscleType
 {
+    GymneaMuscleAny = 0,
     GymneaMuscleChest = 1,
     GymneaMuscleForearms = 2,
     GymneaMuscleLats = 3,
@@ -35,6 +36,7 @@ typedef enum _GymneaMuscleType
 
 typedef enum _GymneaExerciseType
 {
+    GymneaExerciseAny = 0,
     GymneaExerciseStrength = 1,
     GymneaExerciseCardio = 2,
     GymneaExerciseStretching = 3,
@@ -46,6 +48,7 @@ typedef enum _GymneaExerciseType
 
 typedef enum _GymneaEquipmentType
 {
+    GymneaEquipmentAny = 0,
     GymneaEquipmentDumbbell = 1,
     GymneaEquipmentBarbell = 2,
     GymneaEquipmentOther = 3,
@@ -64,6 +67,7 @@ typedef enum _GymneaEquipmentType
 
 typedef enum _GymneaExerciseLevel
 {
+    GymneaExerciseLevelAny = 0,
     GymneaExerciseEasy = 1,
     GymneaExerciseIntermediate = 2,
     GymneaExerciseExpert = 3,
@@ -131,5 +135,13 @@ extern NSString * const GEAExerciseColorRed;
 + (NSString *)retrieveTitleForEquipment:(GymneaEquipmentType)equipmentId;
 + (NSString *)retrieveTitleForExerciseLevel:(GymneaExerciseLevel)levelId;
 + (UIColor *)retrieveColorForExerciseType:(GymneaExerciseType)typeId;
++ (int)retrieveTotalExerciseTypes;
++ (NSDictionary *)retrieveExerciseTypesDictionary;
++ (int)retrieveTotalMuscles;
++ (NSDictionary *)retrieveMusclesDictionary;
++ (int)retrieveTotalEquipments;
++ (NSDictionary *)retrieveEquipmentsDictionary;
++ (int)retrieveTotalExerciseLevels;
++ (NSDictionary *)retrieveExerciseLevelsDictionary;
 
 @end

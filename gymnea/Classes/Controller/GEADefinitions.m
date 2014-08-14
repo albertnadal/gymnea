@@ -144,6 +144,9 @@ NSString * const GEAExerciseColorRed = @"#e63131";
 {
 
     switch (typeId) {
+        case GymneaExerciseAny:                     return @"Any";
+                                                    break;
+
         case GymneaExerciseStrength:                return GEAExerciseStrength;
                                                     break;
 
@@ -264,6 +267,91 @@ NSString * const GEAExerciseColorRed = @"#e63131";
     }
 
     return [UIColor whiteColor];
+}
+
++ (int)retrieveTotalExerciseTypes
+{
+    return 8; // including "Any" exercise type
+}
+
++ (NSDictionary *)retrieveExerciseTypesDictionary
+{
+    return @{ [NSNumber numberWithInt:GymneaExerciseAny] : @"Any",
+              [NSNumber numberWithInt:GymneaExerciseStrength] : GEAExerciseStrength,
+              [NSNumber numberWithInt:GymneaExerciseCardio] : GEAExerciseCardio,
+              [NSNumber numberWithInt:GymneaExerciseStretching] : GEAExerciseStretching,
+              [NSNumber numberWithInt:GymneaExercisePlyometrics] : GEAExercisePlyometrics,
+              [NSNumber numberWithInt:GymneaExerciseStrongman] : GEAExerciseStrongman,
+              [NSNumber numberWithInt:GymneaExerciseOlympicWeightlifting] : GEAExerciseOlympicWeightlifting,
+              [NSNumber numberWithInt:GymneaExercisePowerlifting] : GEAExercisePowerlifting };
+}
+
++ (int)retrieveTotalMuscles
+{
+    return 21; // including "Any" muscle
+}
+
++ (NSDictionary *)retrieveMusclesDictionary
+{
+    return @{ [NSNumber numberWithInt:GymneaMuscleAny] : @"Any",
+              [NSNumber numberWithInt:GymneaMuscleChest] : GEAMuscleChest,
+              [NSNumber numberWithInt:GymneaMuscleForearms] : GEAMuscleForearms,
+              [NSNumber numberWithInt:GymneaMuscleLats] : GEAMuscleLats,
+              [NSNumber numberWithInt:GymneaMuscleMiddleBack] : GEAMuscleMiddleBack,
+              [NSNumber numberWithInt:GymneaMuscleLowerBack] : GEAMuscleLowerBack,
+              [NSNumber numberWithInt:GymneaMuscleNeck] : GEAMuscleNeck,
+              [NSNumber numberWithInt:GymneaMuscleQuadriceps] : GEAMuscleQuadriceps,
+              [NSNumber numberWithInt:GymneaMuscleHamstrings] : GEAMuscleHamstrings,
+              [NSNumber numberWithInt:GymneaMuscleCalves] : GEAMuscleCalves,
+              [NSNumber numberWithInt:GymneaMuscleTriceps] : GEAMuscleTriceps,
+              [NSNumber numberWithInt:GymneaMuscleTraps] : GEAMuscleTraps,
+              [NSNumber numberWithInt:GymneaMuscleShoulders] : GEAMuscleShoulders,
+              [NSNumber numberWithInt:GymneaMuscleAbdominals] : GEAMuscleAbdominals,
+              [NSNumber numberWithInt:GymneaMuscleGlutes] : GEAMuscleGlutes,
+              [NSNumber numberWithInt:GymneaMuscleBiceps] : GEAMuscleBiceps,
+              [NSNumber numberWithInt:GymneaMuscleAdductors] : GEAMuscleAdductors,
+              [NSNumber numberWithInt:GymneaMuscleAbductors] : GEAMuscleAbductors,
+              [NSNumber numberWithInt:GymneaMuscleCardio] : GEAMuscleCardio,
+              [NSNumber numberWithInt:GymneaMuscleCervical] : GEAMuscleCervical,
+              [NSNumber numberWithInt:GymneaMuscleDorsal] : GEAMuscleDorsal };
+}
+
++ (int)retrieveTotalEquipments
+{
+    return 14; // including "Any" equipment
+}
+
++ (NSDictionary *)retrieveEquipmentsDictionary
+{
+
+    return @{ [NSNumber numberWithInt:GymneaEquipmentAny] : @"Any",
+              [NSNumber numberWithInt:GymneaEquipmentDumbbell] : GEAEquipmentDumbbell,
+              [NSNumber numberWithInt:GymneaEquipmentBarbell] : GEAEquipmentBarbell,
+              [NSNumber numberWithInt:GymneaEquipmentOther] : GEAEquipmentOther,
+              [NSNumber numberWithInt:GymneaEquipmentCable] : GEAEquipmentCable,
+              [NSNumber numberWithInt:GymneaEquipmentBodyOnly] : GEAEquipmentBodyOnly,
+              [NSNumber numberWithInt:GymneaEquipmentMachine] : GEAEquipmentMachine,
+              [NSNumber numberWithInt:GymneaEquipmentExerciseBall] : GEAEquipmentExerciseBall,
+              [NSNumber numberWithInt:GymneaEquipmentNone] : GEAEquipmentNone,
+              [NSNumber numberWithInt:GymneaEquipmentBands] : GEAEquipmentBands,
+              [NSNumber numberWithInt:GymneaEquipmentKettlebells] : GEAEquipmentKettlebells,
+              [NSNumber numberWithInt:GymneaEquipmentEZCurlBar] : GEAEquipmentEZCurlBar,
+              [NSNumber numberWithInt:GymneaEquipmentFoamRoll] : GEAEquipmentFoamRoll,
+              [NSNumber numberWithInt:GymneaEquipmentMedicineBall] : GEAEquipmentMedicineBall };
+}
+
++ (int)retrieveTotalExerciseLevels
+{
+    return 4; // including "Any" level
+}
+
++ (NSDictionary *)retrieveExerciseLevelsDictionary
+{
+    
+    return @{ [NSNumber numberWithInt:GymneaExerciseLevelAny] : @"Any",
+              [NSNumber numberWithInt:GymneaExerciseEasy] : GEAExerciseEasy,
+              [NSNumber numberWithInt:GymneaExerciseIntermediate] : GEAExerciseIntermediate,
+              [NSNumber numberWithInt:GymneaExerciseExpert] : GEAExerciseExpert };
 }
 
 + (UIColor *)colorWithHexColorString:(NSString*)hexString withAlpha:(float)alpha
