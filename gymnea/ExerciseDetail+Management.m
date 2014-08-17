@@ -117,6 +117,43 @@ static NSString * const kEntityName = @"ExerciseDetail";
 
   return exerciseInfo;
 }
+
+- (void)updateWithPhotoMaleSmallSecond:(NSData *)photoSmall
+{
+    self.photoMaleSmallSecond = photoSmall;
+
+    commitDefaultMOC();
+}
+
+- (void)updateWithPhotoMaleMediumSecond:(NSData *)photoMedium
+{
+    self.photoMaleMediumSecond = photoMedium;
+
+    commitDefaultMOC();
+}
+
+- (void)updateWithPhotoFemaleSmall:(NSData *)photoSmall withOrder:(GymneaExerciseImageOrder)order
+{
+    if(order == ExerciseImageFirst) {
+        self.photoFemaleSmallFirst = photoSmall;
+    } else if(order == ExerciseImageSecond) {
+        self.photoFemaleSmallSecond = photoSmall;
+    }
+
+    commitDefaultMOC();
+}
+
+- (void)updateWithPhotoFemaleMedium:(NSData *)photoMedium withOrder:(GymneaExerciseImageOrder)order
+{
+    if(order == ExerciseImageFirst) {
+        self.photoFemaleMediumFirst = photoMedium;
+    } else if(order == ExerciseImageSecond) {
+        self.photoFemaleMediumSecond = photoMedium;
+    }
+
+    commitDefaultMOC();
+}
+
 /*
 - (void)updateWithPhotoMedium:(NSData *)photoMedium
 {
@@ -148,8 +185,8 @@ static NSString * const kEntityName = @"ExerciseDetail";
     self.isSport = sport;
     self.force = theForce;
     self.exerciseDescription = theGuide;
-    self.photoFemaleMedium = thePhotoFemaleMedium;
-    self.photoFemaleSmall = thePhotoFemaleSmall;
+    self.photoFemaleMediumFirst = thePhotoFemaleMedium;
+    self.photoFemaleSmallFirst = thePhotoFemaleSmall;
     self.videoMale = theVideoMale;
     self.videoFemale = theVideoFemale;
 }

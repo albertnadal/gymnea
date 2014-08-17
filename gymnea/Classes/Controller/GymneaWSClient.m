@@ -322,7 +322,11 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
 
 }
 
-- (void)requestImageForExercise:(int)exerciseId withSize:(GymneaExerciseImageSize)size withCompletionBlock:(userImageCompletionBlock)completionBlock
+- (void)requestImageForExercise:(int)exerciseId
+                       withSize:(GymneaExerciseImageSize)size
+                     withGender:(GymneaExerciseImageGender)gender
+                      withOrder:(GymneaExerciseImageOrder)order
+            withCompletionBlock:(userImageCompletionBlock)completionBlock
 {
     GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
     GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
@@ -332,13 +336,42 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
 
     // First try to retrieve the picture from the DB
     Exercise *exercise = [Exercise getExerciseInfo:exerciseId];
+    ExerciseDetail *exerciseDetail = [ExerciseDetail getExerciseDetailInfo:exerciseId];
 
     if(exercise != nil) {
 
-        if((size == ExerciseImageSizeSmall) && (exercise.photoSmall != nil)) {
-            image = [UIImage imageWithData:exercise.photoSmall];
-        } else if((size == ExerciseImageSizeMedium) && (exercise.photoMedium != nil)) {
-            image = [UIImage imageWithData:exercise.photoMedium];
+        if((gender == ExerciseImageMale) && (order == ExerciseImageFirst)) {
+
+            if((size == ExerciseImageSizeSmall) && (exercise.photoSmall != nil)) {
+                image = [UIImage imageWithData:exercise.photoSmall];
+            } else if((size == ExerciseImageSizeMedium) && (exercise.photoMedium != nil)) {
+                image = [UIImage imageWithData:exercise.photoMedium];
+            }
+
+        } else if((gender == ExerciseImageMale) && (order == ExerciseImageSecond)) {
+
+            if((size == ExerciseImageSizeSmall) && (exerciseDetail.photoMaleSmallSecond != nil)) {
+                image = [UIImage imageWithData:exerciseDetail.photoMaleSmallSecond];
+            } else if((size == ExerciseImageSizeMedium) && (exerciseDetail.photoMaleMediumSecond != nil)) {
+                image = [UIImage imageWithData:exerciseDetail.photoMaleMediumSecond];
+            }
+
+        } else if((gender == ExerciseImageFemale) && (order == ExerciseImageFirst)) {
+
+            if((size == ExerciseImageSizeSmall) && (exerciseDetail.photoFemaleSmallFirst != nil)) {
+                image = [UIImage imageWithData:exerciseDetail.photoFemaleSmallFirst];
+            } else if((size == ExerciseImageSizeMedium) && (exerciseDetail.photoFemaleMediumFirst != nil)) {
+                image = [UIImage imageWithData:exerciseDetail.photoFemaleMediumFirst];
+            }
+
+        } else if((gender == ExerciseImageFemale) && (order == ExerciseImageSecond)) {
+            
+            if((size == ExerciseImageSizeSmall) && (exerciseDetail.photoFemaleSmallSecond != nil)) {
+                image = [UIImage imageWithData:exerciseDetail.photoFemaleSmallSecond];
+            } else if((size == ExerciseImageSizeMedium) && (exerciseDetail.photoFemaleMediumSecond != nil)) {
+                image = [UIImage imageWithData:exerciseDetail.photoFemaleMediumSecond];
+            }
+            
         }
 
         if(image != nil) {
@@ -358,45 +391,73 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
 
         // Retrieve data from web service API
 
+        NSString *genderUrlParam = @"";
+
+        if(gender == ExerciseImageMale) {
+            genderUrlParam = @"male";
+        } else if(gender == ExerciseImageFemale) {
+            genderUrlParam = @"female";
+        }
+
         NSString *requestPath = nil;
         if(size == ExerciseImageSizeSmall) {
-            requestPath = [NSString stringWithFormat:@"/photo_exercise/small/male/1/%d", exerciseId];
+            requestPath = [NSString stringWithFormat:@"/photo_exercise/small/%@/%d/%d", genderUrlParam, order, exerciseId];
         } else if(size == ExerciseImageSizeMedium) {
-            requestPath = [NSString stringWithFormat:@"/photo_exercise/medium/male/1/%d", exerciseId];
+            requestPath = [NSString stringWithFormat:@"/photo_exercise/medium/%@/%d/%d", genderUrlParam, order, exerciseId];
         }
 
         [self performImageAsyncRequest:requestPath
                         withDictionary:nil
                     withAuthentication:auth
                    withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *image) {
-                       
+
                        if(success == GymneaWSClientRequestSuccess) {
                            // Update the exercise picture in the DB by using the UserInfo model
-                           //exercise
-                           if(size == ExerciseImageSizeSmall) {
-                               [exercise updateWithPhotoSmall:UIImagePNGRepresentation(image)];
-                           } else if(size == ExerciseImageSizeMedium) {
-                               [exercise updateWithPhotoMedium:UIImagePNGRepresentation(image)];
+
+                           if((gender == ExerciseImageMale) && (order == ExerciseImageFirst)) {
+
+                               if(size == ExerciseImageSizeSmall) {
+                                   [exercise updateWithPhotoSmall:UIImagePNGRepresentation(image)];
+                               } else if(size == ExerciseImageSizeMedium) {
+                                   [exercise updateWithPhotoMedium:UIImagePNGRepresentation(image)];
+                               }
+
+                           } else if((gender == ExerciseImageMale) && (order == ExerciseImageSecond)) {
+                               
+                               if(size == ExerciseImageSizeSmall) {
+                                   [exerciseDetail updateWithPhotoMaleSmallSecond:UIImagePNGRepresentation(image)];
+                               } else if(size == ExerciseImageSizeMedium) {
+                                   [exerciseDetail updateWithPhotoMaleMediumSecond:UIImagePNGRepresentation(image)];
+                               }
+                               
+                           } else if(gender == ExerciseImageFemale) {
+
+                               if(size == ExerciseImageSizeSmall) {
+                                   [exerciseDetail updateWithPhotoFemaleSmall:UIImagePNGRepresentation(image) withOrder:order];
+                               } else if(size == ExerciseImageSizeMedium) {
+                                   [exerciseDetail updateWithPhotoFemaleMedium:UIImagePNGRepresentation(image) withOrder:order];
+                               }
+
                            }
 
                            AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
                            [appDelegate saveContext];
                        }
-                       
+
                        dispatch_async(dispatch_get_main_queue(), ^{
                            if(completionBlock != nil) {
                                completionBlock(success, image);
                            }
-                           
+
                        });
-                       
+
                    }];
         
     } else if(!imageInDB) {
 
         dispatch_async(dispatch_get_main_queue(), ^{
             if(completionBlock != nil) {
-                completionBlock(GymneaWSClientRequestSuccess, [UIImage imageNamed:@"exercise-default-thumbnail"]);
+                completionBlock(GymneaWSClientRequestSuccess, nil);
             }
 
         });
@@ -538,8 +599,8 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
                                                            isSport:[exerciseDetailsDict objectForKey:@"isSport"]
                                                              force:[exerciseDetailsDict objectForKey:@"force"]
                                                              guide:[exerciseDetailsDict objectForKey:@"guide"]
-                                                 photoFemaleMedium:[exerciseDetail photoFemaleMedium]
-                                                  photoFemaleSmall:[exerciseDetail photoFemaleSmall]
+                                                 photoFemaleMedium:[exerciseDetail photoFemaleMediumFirst]
+                                                  photoFemaleSmall:[exerciseDetail photoFemaleSmallFirst]
                                                          videoMale:[exerciseDetail videoMale]
                                                        videoFemale:[exerciseDetail videoFemale]];
 

@@ -36,6 +36,11 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
     // Popover
     GEAPopoverViewController *popover;
+
+    // Exercise tag photo index
+    NSArray *exercisePhotoGender;
+    NSArray *exercisePhotoOrder;
+    int photoIndex;
 }
 
 @property (nonatomic, retain) Exercise *exercise;
@@ -63,9 +68,15 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 @property (nonatomic, weak) IBOutlet UILabel *exerciseForce;
 @property (nonatomic, weak) IBOutlet UILabel *exerciseIsSport;
 @property (nonatomic, strong) GEAPopoverViewController *popover;
+@property (nonatomic, weak) IBOutlet UIButton *photo1;
+@property (nonatomic, weak) IBOutlet UIButton *photo2;
+@property (nonatomic, weak) IBOutlet UIButton *photo3;
+@property (nonatomic, weak) IBOutlet UIButton *photo4;
 
 - (void)loadExerciseDetailData;
 - (void)loadBanner;
+- (void)loadNextExercisePicture;
+- (void)loadExercisePictureWithGender:(GymneaExerciseImageGender)gender withOrder:(GymneaExerciseImageOrder)order;
 - (void)updateEventDetailData;
 - (void)updateBannerData;
 - (void)updateBasicInfoData;
@@ -94,6 +105,9 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         self.exercise = exercise_;
         self.exerciseDetail = nil;
         popover = nil;
+        photoIndex = 0;
+        exercisePhotoGender = @[ [NSNumber numberWithInteger:ExerciseImageMale], [NSNumber numberWithInteger:ExerciseImageMale], [NSNumber numberWithInteger:ExerciseImageFemale], [NSNumber numberWithInteger:ExerciseImageFemale] ];
+        exercisePhotoOrder = @[ [NSNumber numberWithInteger:ExerciseImageFirst], [NSNumber numberWithInteger:ExerciseImageSecond], [NSNumber numberWithInteger:ExerciseImageFirst], [NSNumber numberWithInteger:ExerciseImageSecond] ];
     }
 
     return self;
@@ -114,6 +128,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
             [self.buyContainer setHidden:NO];
 
             [self addActionsButton];
+            [self loadNextExercisePicture];
 
         } else {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -160,7 +175,13 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
     [[GymneaWSClient sharedInstance] requestImageForExercise:exercise.exerciseId
                                                     withSize:ExerciseImageSizeMedium
+                                                  withGender:ExerciseImageMale
+                                                   withOrder:ExerciseImageFirst
                                          withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *image) {
+
+                                             if(image == nil) {
+                                                 image = [UIImage imageNamed:@"exercise-default-thumbnail"];
+                                             }
 
                                              UIImage *imageCropped = [self imageByCropping:image toRect:CGRectMake(0, (image.size.height/2.0f) - (120.0f/2.0f), image.size.width, 120.0f)];
 
@@ -199,6 +220,61 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
                                          }];
 
         [self updateBannerData];
+
+}
+
+- (void)loadNextExercisePicture
+{
+    if(photoIndex >= [exercisePhotoGender count]) {
+        return;
+    }
+
+    GymneaExerciseImageGender imageGender = (GymneaExerciseImageGender)[(NSNumber *)[exercisePhotoGender objectAtIndex:photoIndex] intValue];
+    GymneaExerciseImageOrder imageOrder = (GymneaExerciseImageOrder)[(NSNumber *)[exercisePhotoOrder objectAtIndex:photoIndex] intValue];
+
+    [self loadExercisePictureWithGender:imageGender withOrder:imageOrder];
+}
+
+- (void)loadExercisePictureWithGender:(GymneaExerciseImageGender)gender withOrder:(GymneaExerciseImageOrder)order
+{
+
+    [[GymneaWSClient sharedInstance] requestImageForExercise:exercise.exerciseId
+                                                    withSize:ExerciseImageSizeMedium
+                                                  withGender:gender
+                                                   withOrder:order
+                                         withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *image) {
+
+                                             if((success == GymneaWSClientRequestSuccess) && (image != nil)) {
+
+                                                 UIButton *photoButton = nil;
+
+                                                 if([self.photo1 backgroundImageForState:UIControlStateNormal] == nil) {
+                                                     photoButton = self.photo1;
+
+                                                 } else if([self.photo2 backgroundImageForState:UIControlStateNormal] == nil) {
+                                                     photoButton = self.photo2;
+
+                                                 } else if([self.photo3 backgroundImageForState:UIControlStateNormal] == nil) {
+                                                     photoButton = self.photo3;
+
+                                                 } else if([self.photo4 backgroundImageForState:UIControlStateNormal] == nil) {
+                                                     photoButton = self.photo4;
+
+                                                 }
+
+                                                 if(photoButton != nil) {
+                                                     [photoButton setBackgroundImage:image forState:UIControlStateNormal];
+                                                     [photoButton setHidden:NO];
+
+                                                     photoButton.layer.cornerRadius = 2.0;
+                                                     UIBezierPath *photoButtonViewShadowPath = [UIBezierPath bezierPathWithRect:photoButton.bounds];
+                                                     photoButton.layer.shadowPath = photoButtonViewShadowPath.CGPath;
+                                                 }
+                                             }
+
+                                             photoIndex++;
+                                             [self loadNextExercisePicture];
+                                         }];
 
 }
 
@@ -358,13 +434,6 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     self.descriptionButton.layer.cornerRadius = 2.0;
     UIBezierPath *descriptionBackgroundViewShadowPath = [UIBezierPath bezierPathWithRect:self.descriptionButton.bounds];
     self.descriptionButton.layer.shadowPath = descriptionBackgroundViewShadowPath.CGPath;
-
-    // Add the back button
-/*    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    [fixedSpace setWidth:16.0];
-    NSArray* items = @[fixedSpace];
-    [self.navigationItem setLeftBarButtonItems:items animated:NO];
-    [self.navigationItem setLeftItemsSupplementBackButton:YES];*/
 
     [self.scroll setHidden:YES];
     [self.buyContainer setHidden:YES];

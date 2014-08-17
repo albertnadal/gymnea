@@ -667,9 +667,16 @@
 
         [[GymneaWSClient sharedInstance] requestImageForExercise:exercise.exerciseId
                                                         withSize:ExerciseImageSizeMedium
+                                                      withGender:ExerciseImageMale
+                                                       withOrder:ExerciseImageFirst
                                              withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *exerciseImage) {
 
                                                  if(success==GymneaWSClientRequestSuccess) {
+
+                                                     if(exerciseImage == nil) {
+                                                         exerciseImage = [UIImage imageNamed:@"exercise-default-thumbnail"];
+                                                     }
+
                                                      [[(ExerciseCollectionViewCell *)cell thumbnail] setImage:exerciseImage];
                                                  }
 

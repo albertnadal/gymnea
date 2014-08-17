@@ -62,6 +62,8 @@ typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
 
 - (void)requestImageForExercise:(int)exerciseId
                        withSize:(GymneaExerciseImageSize)size
+                     withGender:(GymneaExerciseImageGender)gender
+                      withOrder:(GymneaExerciseImageOrder)order
             withCompletionBlock:(userImageCompletionBlock)completionBlock;
 
 - (void)requestExercisesWithCompletionBlock:(exercisesCompletionBlock)completionBlock;

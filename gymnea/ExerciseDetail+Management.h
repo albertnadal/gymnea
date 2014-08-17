@@ -10,6 +10,12 @@
 #import "GEADefinitions.h"
 #import <UIKit/UIKit.h>
 
+typedef enum _GymneaExerciseImageOrder
+{
+    ExerciseImageFirst = 1,
+    ExerciseImageSecond = 2
+} GymneaExerciseImageOrder;
+
 @interface ExerciseDetail (Management)
 
 + (ExerciseDetail *)exerciseWithExerciseId:(int32_t)exerciseId
@@ -32,6 +38,13 @@
                  videoMale:(NSData *)theVideoMale
                  videoFemale:(NSData *)theVideoFemale;
 
+- (void)updateWithPhotoMaleSmallSecond:(NSData *)photoSmall;
+
+- (void)updateWithPhotoMaleMediumSecond:(NSData *)photoMedium;
+
+- (void)updateWithPhotoFemaleSmall:(NSData *)photoSmall withOrder:(GymneaExerciseImageOrder)order;
+
+- (void)updateWithPhotoFemaleMedium:(NSData *)photoMedium withOrder:(GymneaExerciseImageOrder)order;
 /*
 - (void)updateWithPhotoMedium:(NSData *)photoMedium;
 
@@ -39,7 +52,8 @@
 
 - (void)updateModelInDB;
 */
-+ (ExerciseDetail*)updateExerciseWithId:(int)exerciseId withDictionary:(NSDictionary*)exerciseDict;
++ (ExerciseDetail*)updateExerciseWithId:(int)exerciseId
+                         withDictionary:(NSDictionary*)exerciseDict;
 /*
 + (Exercise*)updateExerciseImageWithId:(int)exerciseId withSize:(GymneaExerciseImageSize)size withImage:(UIImage *)image;
 */

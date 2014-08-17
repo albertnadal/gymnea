@@ -16,6 +16,12 @@ typedef enum _GymneaExerciseImageSize
     ExerciseImageSizeMedium = 1
 } GymneaExerciseImageSize;
 
+typedef enum _GymneaExerciseImageGender
+{
+    ExerciseImageMale = 0,
+    ExerciseImageFemale = 1
+} GymneaExerciseImageGender;
+
 @interface Exercise (Management)
 
 + (Exercise *)exerciseWithExerciseId:(int32_t)exerciseId
@@ -48,7 +54,9 @@ typedef enum _GymneaExerciseImageSize
 
 + (Exercise*)updateExerciseWithId:(int)exerciseId withDictionary:(NSDictionary*)exerciseDict;
 
-+ (Exercise*)updateExerciseImageWithId:(int)exerciseId withSize:(GymneaExerciseImageSize)size withImage:(UIImage *)image;
++ (Exercise*)updateExerciseImageWithId:(int)exerciseId
+                              withSize:(GymneaExerciseImageSize)size
+                             withImage:(UIImage *)image;
 
 + (Exercise*)getExerciseInfo:(int)exerciseId;
 

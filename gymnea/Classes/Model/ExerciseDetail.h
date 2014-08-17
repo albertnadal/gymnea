@@ -17,38 +17,14 @@
 @property (nonatomic, retain) NSString *bodyZone;
 @property (nonatomic, retain) NSString *isSport;
 @property (nonatomic, retain) NSString *force;
-@property (nonatomic, retain) NSData *photoFemaleMedium;
-@property (nonatomic, retain) NSData *photoFemaleSmall;
+@property (nonatomic, retain) NSData *photoMaleMediumSecond;
+@property (nonatomic, retain) NSData *photoMaleSmallSecond;
+@property (nonatomic, retain) NSData *photoFemaleMediumFirst;
+@property (nonatomic, retain) NSData *photoFemaleSmallFirst;
+@property (nonatomic, retain) NSData *photoFemaleMediumSecond;
+@property (nonatomic, retain) NSData *photoFemaleSmallSecond;
 @property (nonatomic, retain) NSData *videoMale;
 @property (nonatomic, retain) NSData *videoFemale;
 
-/*
-@property (nonatomic, retain) NSString *eventId;
-@property (nonatomic) int16_t ageRestriction;
-@property (nonatomic, retain) NSString * eventDescription;
-@property (nonatomic) BOOL featured;
-@property (nonatomic, retain) NSString * imageBigUrl;
-@property (nonatomic, retain) NSString * imageHorizontalUrl;
-@property (nonatomic, retain) NSString * imageSquareUrl;
-@property (nonatomic, retain) NSString * imageVerticalUrl;
-//@property (nonatomic) NSTimeInterval lastUpdateDate;
-@property (nonatomic, retain) NSDate *lastUpdateDate;
-@property (nonatomic) float priceHighest;
-@property (nonatomic) float priceLowest;
-@property (nonatomic, retain) NSString * title;
-@property (nonatomic, retain) NSString * type;
-@property (nonatomic, retain) NSString * difficulty;
-@property (nonatomic, retain) NSString * muscles;
-@property (nonatomic) int32_t daysAWeek;
-@property (nonatomic) float rating;
-@property (nonatomic, retain) NSString * venueCity;
-@property (nonatomic) double venueCoordinateLatitude;
-@property (nonatomic) double venueCoordinateLongitude;
-@property (nonatomic, retain) NSString * venueCountry;
-@property (nonatomic) int32_t venueId;
-@property (nonatomic, retain) NSString * venueName;
-@property (nonatomic, retain) NSString * venueState;
-@property (nonatomic, retain) NSString * venueStreet;
-*/
 
 @end
