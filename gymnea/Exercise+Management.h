@@ -1,5 +1,5 @@
 //
-//  UserInfo+Management.h
+//  Exercise+Management.h
 //  Gymnea
 //
 //  Created by Albert Nadal Garriga on 08/07/13.
@@ -44,10 +44,8 @@ typedef enum _GymneaExerciseImageSize
 
 - (void)updateModelInDB;
 
-/*
+- (void)updateWithDictionary:(NSDictionary *)exerciseDict;
 
-- (void)updateWithDictionary:(NSDictionary *)userInfoDict;
-*/
 + (Exercise*)updateExerciseWithId:(int)exerciseId withDictionary:(NSDictionary*)exerciseDict;
 
 + (Exercise*)updateExerciseImageWithId:(int)exerciseId withSize:(GymneaExerciseImageSize)size withImage:(UIImage *)image;

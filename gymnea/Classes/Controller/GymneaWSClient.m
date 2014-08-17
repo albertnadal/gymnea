@@ -505,6 +505,76 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
     });
 }
 
+- (void)requestExerciseDetailWithExercise:(Exercise *)exercise
+                      withCompletionBlock:(exerciseDetailCompletionBlock)completionBlock
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+    
+    if(self.internetIsReachable) {
+
+        // Retrieve data from web service API
+        NSString *requestPath = [NSString stringWithFormat:@"/api/exercise/get_exercise/%d", [exercise exerciseId]];
+
+        [self performAsyncRequest:requestPath
+                   withDictionary:nil
+               withAuthentication:auth
+              withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
+
+                  ExerciseDetail *exerciseDetail = nil;
+
+                  if(success == GymneaWSClientRequestSuccess) {
+
+                          NSMutableDictionary *exerciseDetailsDict = [[NSMutableDictionary alloc] initWithDictionary:[responseData objectForKey:@"exerciseDetails"]];
+                          [exerciseDetailsDict setObject:[NSNumber numberWithInt:[exercise exerciseId]] forKey:@"id"];
+
+                          exerciseDetail = [ExerciseDetail getExerciseDetailInfo:[exercise exerciseId]];
+                          
+                          if(exerciseDetail != nil) {
+                              
+                              // Keep current exercise pictures in the DB
+                              [exerciseDetail updateWithExerciseId:[exercise exerciseId]
+                                                          bodyZone:[exerciseDetailsDict objectForKey:@"bodyZone"]
+                                                           isSport:[exerciseDetailsDict objectForKey:@"isSport"]
+                                                             force:[exerciseDetailsDict objectForKey:@"force"]
+                                                             guide:[exerciseDetailsDict objectForKey:@"guide"]
+                                                 photoFemaleMedium:[exerciseDetail photoFemaleMedium]
+                                                  photoFemaleSmall:[exerciseDetail photoFemaleSmall]
+                                                         videoMale:[exerciseDetail videoMale]
+                                                       videoFemale:[exerciseDetail videoFemale]];
+
+                          } else {
+                              exerciseDetail = [ExerciseDetail updateExerciseWithId:[exercise exerciseId] withDictionary:exerciseDetailsDict];
+                          }
+
+                          AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+                          [appDelegate saveContext];
+                      
+                  }
+                  
+                  dispatch_async(dispatch_get_main_queue(), ^{
+                      if(completionBlock != nil) {
+                          completionBlock(success, exerciseDetail);
+                      }
+                      
+                  });
+
+              }];
+    } else {
+
+        ExerciseDetail *exerciseDetail = [ExerciseDetail getExerciseDetailInfo:[exercise exerciseId]];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(completionBlock != nil) {
+                completionBlock(GymneaWSClientRequestSuccess, exerciseDetail);
+            }
+            
+        });
+
+    }
+
+}
+
 - (void)performImageAsyncRequest:(NSString *)path
                   withDictionary:(NSDictionary *)values
               withAuthentication:(GEAAuthentication *)auth

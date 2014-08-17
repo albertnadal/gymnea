@@ -79,6 +79,7 @@
 		FFABFDD9196C8920004FC527 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFABFDD8196C8920004FC527 /* SignUpViewController.xib */; };
 		FFABFDDD196CA111004FC527 /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFABFDDB196CA111004FC527 /* LogInViewController.m */; };
 		FFADD41C198851A4009F14F3 /* clock_tic.wav in Resources */ = {isa = PBXBuildFile; fileRef = FFADD41B198851A4009F14F3 /* clock_tic.wav */; };
+		FFCAB301199E44CF00A0036A /* ExerciseDetail+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = FFCAB300199E44CF00A0036A /* ExerciseDetail+Management.m */; };
 		FFDDE707197D2A34009694D9 /* GenericWorkoutsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFDDE705197D2A34009694D9 /* GenericWorkoutsViewController.m */; };
 		FFE6B6261997BA5E00F105B8 /* Exercise+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = FFE6B6251997BA5E00F105B8 /* Exercise+Management.m */; };
 		FFF0843219926C1C009C50F8 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF0843119926C1C009C50F8 /* UserInfo.m */; };
@@ -216,6 +217,8 @@
 		FFABFDDB196CA111004FC527 /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LogInViewController.m; path = Classes/Controller/LogInViewController.m; sourceTree = "<group>"; };
 		FFADD41619884E0E009F14F3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		FFADD41B198851A4009F14F3 /* clock_tic.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = clock_tic.wav; sourceTree = "<group>"; };
+		FFCAB2FF199E44CF00A0036A /* ExerciseDetail+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ExerciseDetail+Management.h"; sourceTree = "<group>"; };
+		FFCAB300199E44CF00A0036A /* ExerciseDetail+Management.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExerciseDetail+Management.m"; sourceTree = "<group>"; };
 		FFDDE704197D2A34009694D9 /* GenericWorkoutsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericWorkoutsViewController.h; path = Classes/Controller/GenericWorkoutsViewController.h; sourceTree = "<group>"; };
 		FFDDE705197D2A34009694D9 /* GenericWorkoutsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenericWorkoutsViewController.m; path = Classes/Controller/GenericWorkoutsViewController.m; sourceTree = "<group>"; };
 		FFE6B6241997BA5E00F105B8 /* Exercise+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Exercise+Management.h"; sourceTree = "<group>"; };
@@ -400,6 +403,8 @@
 				FF9110AA197B187600818E95 /* Exercise.m */,
 				FF9110B3197B1DF200818E95 /* EventReview.h */,
 				FF9110B4197B1DF200818E95 /* EventReview.m */,
+				FFCAB2FF199E44CF00A0036A /* ExerciseDetail+Management.h */,
+				FFCAB300199E44CF00A0036A /* ExerciseDetail+Management.m */,
 				FF9110B6197B1ED400818E95 /* ExerciseDetail.h */,
 				FF9110B7197B1ED400818E95 /* ExerciseDetail.m */,
 			);
@@ -811,6 +816,7 @@
 				FF60FBBF1996C3EA00DC2F14 /* ExerciseCollectionViewCell.m in Sources */,
 				FF81625D1983222000443C13 /* ChooseWorkoutDayTableViewCell.m in Sources */,
 				FFABFDD6196C88C4004FC527 /* SignUpViewController.m in Sources */,
+				FFCAB301199E44CF00A0036A /* ExerciseDetail+Management.m in Sources */,
 				FF13B072198C26CE00FB6461 /* GEAAuthenticationKeychainStore.m in Sources */,
 				FFA137871969F9EA00DBEE68 /* InitialViewController.m in Sources */,
 				FF9110C1197BB4AD00818E95 /* GEAPopoverViewController.m in Sources */,

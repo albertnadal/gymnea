@@ -106,7 +106,13 @@ static const CGFloat kVTSTabBarBackTapTresshold = 110.0f;
 - (void)viewDidLoad {
   [super viewDidLoad];
 
+
   self.edgesForExtendedLayout = UIRectEdgeNone;
+
+  self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                           style:UIBarButtonItemStylePlain
+                                                                          target:nil
+                                                                          action:nil];
 
   if (self.viewControllers) {
     [self createViewcontrollersSubviews];

@@ -130,6 +130,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 /*    [[VegasAPIClient sharedClient] getEvent:[NSString stringWithFormat:@"%d", self.eventId] success:^(Event *event)
     {*/
         ExerciseDetail *event = [[ExerciseDetail alloc] init];
+/*
         [event setTitle:@"No Equipment At Home Workout"];
         [event setEventId:@"1"];
         [event setEventDescription:@"This workout routine provides a workout routine that can be done in the comfort of your own home without the usage of weight lifting or workout equipment other than your own bodyweight. The No Equipment at Home Workout can be performed for 3 to 5 days out of the week as long as you give your self a day or two worth of rest in between two days of working out. For this workout an individual will be performing bodyweight only exercises to improve muscular strength and endurance. You can burn more calories during the workout by turning it into a circuit and super-setting the exercises, performing one after another to keep your heart-rate up thus increasing your body's ability to burn more calories."];
@@ -138,6 +139,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         [event setDaysAWeek:3];
         [event setDifficulty:@"Intermediate"];
         [event setType:@"General Fitness"];
+ */
         self.eventDetail = event;
 /*
 #warning Please, remove the following log before sending the app to production. This was made just for debug purposes.
@@ -145,6 +147,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         for (NSString *key in [attributes allKeys])
             NSLog(@"%@: %@", key, [event valueForKey:key]);
 */
+/*
         self.navigationItem.titleView = [[GEALabel alloc] initWithText:[event title] fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
         [self loadBanner];
@@ -155,6 +158,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         [self.buyContainer setHidden:NO];
 
         [self addActionsButton];
+*/
 /*
     } failure:^(NSError *error)
     {
@@ -235,7 +239,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 - (void)loadBanner
 {
-
+/*
     if([self.eventDetail.imageHorizontalUrl length])
     {
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.eventDetail.imageHorizontalUrl]];
@@ -277,10 +281,12 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
         [self updateBannerData];
     }
+*/
 }
 
 - (void)updateBasicInfoData
 {
+/*
     CGRect bannerContainerFrame = self.bannerContainer.frame;
     CGFloat baseYPosition = bannerContainerFrame.origin.y + bannerContainerFrame.size.height + 1.0f;
 
@@ -323,6 +329,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     basicInfoContainerFrame.origin.y = baseYPosition;
     basicInfoContainerFrame.size.height = descriptionButtonFrame.origin.y + descriptionButtonFrame.size.height;
     [self.basicInfoContainer setFrame:basicInfoContainerFrame];
+*/
 }
 
 - (void)updateDealData
@@ -364,6 +371,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 - (NSString *)stringFromFloat:(float)value
 {
+/*
     bool valueHasDecimals = (value - (int)value > 0.0f);
     NSString *valueString;
 
@@ -379,6 +387,8 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     }
 
     return valueString;
+*/
+    return nil;
 }
 
 - (void)updateWorkoutDaysData
@@ -460,6 +470,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 - (void)updateDetailsData
 {
+/*
     if(showingDetails)
     {
         [self.detailsView setHidden:NO];
@@ -484,6 +495,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         [self.detailsView removeFromSuperview];
         [self.detailsView setHidden:YES];
     }
+*/
 }
 
 - (void)updateScroll

@@ -11,6 +11,17 @@
 
 @implementation ExerciseDetail
 
+@dynamic exerciseId;
+@dynamic exerciseDescription;
+@dynamic bodyZone;
+@dynamic isSport;
+@dynamic force;
+@dynamic photoFemaleMedium;
+@dynamic photoFemaleSmall;
+@dynamic videoMale;
+@dynamic videoFemale;
+
+/*
 @synthesize ageRestriction;
 @synthesize eventDescription;
 @synthesize eventId;
@@ -38,5 +49,5 @@
 @synthesize venueName;
 @synthesize venueState;
 @synthesize venueStreet;
-
+*/
 @end

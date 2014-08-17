@@ -219,6 +219,13 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
 
     [super viewDidLoad];
 
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:nil
+                                                                            action:nil];
+
     // Create and configure the side menu view
     self.sideMenuView = [[GEASideMenuView alloc] initWithFrame:self.view.bounds];
     self.sideMenuView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;

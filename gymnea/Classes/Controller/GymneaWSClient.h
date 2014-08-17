@@ -11,6 +11,7 @@
 #import "GEADefinitions.h"
 #import "SignUpForm.h"
 #import "Exercise+Management.h"
+#import "ExerciseDetail+Management.h"
 #import "UserInfo+Management.h"
 
 typedef enum _GymneaWSClientRequestStatus
@@ -36,6 +37,7 @@ typedef void(^signUpCompletionBlock)(GymneaSignUpWSClientRequestResponse success
 typedef void(^userInfoCompletionBlock)(GymneaWSClientRequestStatus success, NSDictionary *responseData, UserInfo *userInfo);
 typedef void(^userImageCompletionBlock)(GymneaWSClientRequestStatus success, UIImage *userImage);
 typedef void(^exercisesCompletionBlock)(GymneaWSClientRequestStatus success, NSArray *exercises);
+typedef void(^exerciseDetailCompletionBlock)(GymneaWSClientRequestStatus success, ExerciseDetail *exercise);
 typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
 
 @interface GymneaWSClient : NSObject<NSURLConnectionDelegate, NSURLSessionDelegate>
@@ -71,5 +73,7 @@ typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
                              withName:(NSString *)searchText
                   withCompletionBlock:(exercisesCompletionBlock)completionBlock;
 
+- (void)requestExerciseDetailWithExercise:(Exercise *)exercise
+                      withCompletionBlock:(exerciseDetailCompletionBlock)completionBlock;
 
 @end

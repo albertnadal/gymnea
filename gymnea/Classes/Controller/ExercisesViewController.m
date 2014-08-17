@@ -62,7 +62,7 @@
 - (void)createExerciseTypePicker;
 - (void)createMusclePicker;
 - (void)createEquipmentPicker;
-- (void)showExerciseDetails:(int)exerciseId;
+- (void)showExerciseDetailsAtIndexPath:(NSIndexPath*)indexPath;
 - (CGFloat)calculateHeightForString:(NSString *)text withFont:(UIFont *)font withWidth:(CGFloat)maxWidth;
 - (void)showExerciseTypeSelector;
 - (void)showMuscleSelector;
@@ -287,9 +287,11 @@
     [self.view addSubview:self.exerciseTypePickerToolbar];
 }
 
-- (void)showExerciseDetails:(int)exerciseId
+- (void)showExerciseDetailsAtIndexPath:(NSIndexPath*)indexPath
 {
-    ExerciseDetailViewController *viewController = [[ExerciseDetailViewController alloc] initWithEventId:1];
+    Exercise *exercise = (Exercise *)[self.exercisesList objectAtIndex:indexPath.row];
+
+    ExerciseDetailViewController *viewController = [[ExerciseDetailViewController alloc] initWithExercise:exercise];
     [viewController.view setFrame:CGRectMake(0,0,320,690)];
     CGRect viewControllerFrame = viewController.navigationController.toolbar.frame;
     viewControllerFrame.origin.y = 20;
@@ -302,18 +304,19 @@
 {
     [super viewDidLoad];
 
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:nil
+                                                                            action:nil];
+
     [self.noExercisesFoundLabel setHidden:YES];
 
     CGRect viewFrame = self.view.frame;
     viewFrame.size.height-=20.0f;
     self.view.frame = viewFrame;
 
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:nil
-                                                                            action:nil];
 
     if(self.needRefreshData) {
 
@@ -694,7 +697,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self showExerciseDetails:1];
+    [self showExerciseDetailsAtIndexPath:indexPath];
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component

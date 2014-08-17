@@ -1,5 +1,5 @@
 //
-//  UserInfo+Management.m
+//  Exercise+Management.m
 //  Gymnea
 //
 //  Created by Albert Nadal Garriga on 08/07/13.

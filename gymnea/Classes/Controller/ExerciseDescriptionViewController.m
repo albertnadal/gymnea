@@ -20,26 +20,35 @@ static const float kGEAiPhoneStatusBarHeight = 20.0f;
 static const float kGEAiPhoneNavigationBarHeight = 44.0f;
 
 @interface ExerciseDescriptionViewController ()
+{
+    NSString *exerciseName;
+    NSString *exerciseDescription;
+}
 
+@property (nonatomic, retain) NSString *exerciseName;
+@property (nonatomic, retain) NSString *exerciseDescription;
 @property (nonatomic, weak) IBOutlet UILabel *eventTitle;
 @property (nonatomic, weak) IBOutlet UILabel *eventAuthor;
 @property (nonatomic, weak) IBOutlet UIView *separator;
 @property (nonatomic, weak) IBOutlet UILabel *description;
 @property (nonatomic, weak) IBOutlet UIScrollView *scroll;
-@property (nonatomic, strong) ExerciseDetail *event;
 
 @end
 
 @implementation ExerciseDescriptionViewController
 
-- (id)initWithEvent:(Exercise *)event {
+@synthesize exerciseName;
+@synthesize exerciseDescription;
+
+- (id)initWithName:(NSString *)name withDescription:(NSString *)description {
   self = [super initWithNibName:@"ExerciseDescriptionViewController" bundle:nil];
   if (!self) {
-    return nil;
+      return nil;
   }
-  
-  self.event = event;
-  
+
+  self.exerciseName = name;
+  self.exerciseDescription = description;
+
   return self;
 }
 
@@ -51,14 +60,14 @@ static const float kGEAiPhoneNavigationBarHeight = 44.0f;
   // Add the screen title
   self.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Exercise guide" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
-  [self.eventTitle setText:self.event.title];
+  [self.eventTitle setText:self.exerciseName];
   [self.eventTitle sizeToFit];
   
   CGRect eventTitleFrame = self.eventTitle.frame;
   CGFloat baseYPosition = eventTitleFrame.origin.y + eventTitleFrame.size.height + kGEASpaceBetweenLabels;
   
 #warning Please show the company name when we have this info in the model
-  [self.eventAuthor setText:[NSString stringWithFormat:@"by %@", @"Gerry McCambridge"/*self.event.company*/]];
+  [self.eventAuthor setText:[NSString stringWithFormat:@"by %@", @"Gymnea"/*self.event.company*/]];
   [self.eventAuthor sizeToFit];
   
   CGRect eventAuthorFrame = self.eventAuthor.frame;
@@ -72,7 +81,7 @@ static const float kGEAiPhoneNavigationBarHeight = 44.0f;
   
   baseYPosition+=kGEASeparatorMargin;
   
-  [self.description setText:self.event.eventDescription];
+  [self.description setText:self.exerciseDescription];
   [self.description sizeToFit];
   
   CGRect descriptionFrame = self.description.frame;

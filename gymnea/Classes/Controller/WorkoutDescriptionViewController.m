@@ -59,7 +59,7 @@ static const float kGEAiPhoneNavigationBarHeight = 44.0f;
   CGFloat baseYPosition = eventTitleFrame.origin.y + eventTitleFrame.size.height + kGEASpaceBetweenLabels;
   
 #warning Please show the company name when we have this info in the model
-  [self.eventAuthor setText:[NSString stringWithFormat:@"by %@", @"Gerry McCambridge"/*self.event.company*/]];
+  [self.eventAuthor setText:[NSString stringWithFormat:@"by %@", @"Gymnea"/*self.event.company*/]];
   [self.eventAuthor sizeToFit];
   
   CGRect eventAuthorFrame = self.eventAuthor.frame;
