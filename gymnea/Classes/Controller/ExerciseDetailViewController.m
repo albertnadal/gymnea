@@ -17,6 +17,7 @@
 #import "ExerciseDetail.h"
 #import "GEALabel+Gymnea.h"
 #import "UIImageView+AFNetworking.h"
+#import "URBMediaFocusViewController.h"
 
 static float const kGEASpaceBetweenLabels = 15.0f;
 static float const kGEAContainerPadding = 7.0f;
@@ -29,7 +30,7 @@ static CGFloat const kGEABannerOffsetFactor = 0.45f;
 static float const kGEABannerTransitionCrossDissolveDuration = 0.3f;
 static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeholder";
 
-@interface ExerciseDetailViewController () <GEAPopoverViewControllerDelegate, UIScrollViewDelegate>
+@interface ExerciseDetailViewController () <URBMediaFocusViewControllerDelegate, GEAPopoverViewControllerDelegate, UIScrollViewDelegate>
 {
     Exercise *exercise;
     ExerciseDetail *exerciseDetail;
@@ -72,6 +73,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 @property (nonatomic, weak) IBOutlet UIButton *photo2;
 @property (nonatomic, weak) IBOutlet UIButton *photo3;
 @property (nonatomic, weak) IBOutlet UIButton *photo4;
+@property (nonatomic, strong) URBMediaFocusViewController *mediaFocusController;
 
 - (void)loadExerciseDetailData;
 - (void)loadBanner;
@@ -91,6 +93,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 - (void)updateBannerSizeAndPosition:(CGFloat)offset;
 - (void)moveBannerWithVerticalOffset:(CGFloat)offset;
 - (UIImage*)imageByCropping:(UIImage *)imageToCrop toRect:(CGRect)rect;
+- (IBAction)showExerciseImage:(id)sender;
 
 @end
 
@@ -426,7 +429,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
                                                                             action:nil];
 
     self.navigationItem.titleView = [[GEALabel alloc] initWithText:[self.exercise name] fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
-    
+
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
     self.descriptionButton.layer.borderWidth = 1.0f;
@@ -442,6 +445,17 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         [self loadExerciseDetailData];
     });
 
+    self.mediaFocusController = [[URBMediaFocusViewController alloc] init];
+    self.mediaFocusController.delegate = self;
+    self.mediaFocusController.shouldDismissOnImageTap = YES;
+}
+
+- (IBAction)showExerciseImage:(id)sender
+{
+    if([sender isKindOfClass:[UIButton class]])
+    {
+        [self.mediaFocusController showImage:[(UIButton *)sender backgroundImageForState:UIControlStateNormal] fromView:self.view];
+    }
 }
 
 - (void)addActionsButton

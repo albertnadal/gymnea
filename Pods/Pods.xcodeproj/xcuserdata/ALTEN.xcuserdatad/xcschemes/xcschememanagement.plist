@@ -24,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-URBMediaFocusViewController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,27 +37,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>007D0A6C169A411A99590BF3</key>
+		<key>17A49F6EE7364CC894702B4C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7D47A9A2AED74477B912FC01</key>
+		<key>1887930449C04736B2C1BF54</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8E7754ED5172495AAA60EF96</key>
+		<key>5D6F39055BAB459CA99120D2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C0488F1CE1AD416683F863F0</key>
+		<key>87482506CAB740A69701E070</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F2C5CDEF962B4079B2B5926B</key>
+		<key>BBFEB783564746218A9EEAFE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D5866EE109D447E78D9F6F39</key>
 		<dict>
 			<key>primary</key>
 			<true/>
