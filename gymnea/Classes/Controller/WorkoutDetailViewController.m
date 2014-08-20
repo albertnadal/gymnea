@@ -340,7 +340,6 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     CGRect dealContainerFrame = self.dealContainer.frame;
     dealContainerFrame.origin.y = baseYPosition;
     dealContainerFrame.origin.x = kGEAHorizontalMargin;
-#warning please, set the deal height for enabling deals inside the event detail screen
     dealContainerFrame.size.height = 0.0f; //150.0f;
     [self.dealContainer setFrame:dealContainerFrame];
 

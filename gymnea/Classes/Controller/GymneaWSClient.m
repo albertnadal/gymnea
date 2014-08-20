@@ -28,6 +28,7 @@ static const NSString *kWSDomain = @"athlete.gymnea.com";
 
 typedef void(^responseCompletionBlock)(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *responseCookies);
 typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success, UIImage *image);
+typedef void(^responseVideoCompletionBlock)(GymneaWSClientRequestStatus success, NSData *video);
 
 - (void) performAsyncRequest:(NSString *)path
               withDictionary:(NSDictionary *)values
@@ -38,6 +39,11 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
                   withDictionary:(NSDictionary *)values
               withAuthentication:(GEAAuthentication *)auth
              withCompletionBlock:(responseImageCompletionBlock)completionBlock;
+
+- (void)performVideoAsyncRequest:(NSString *)path
+                  withDictionary:(NSDictionary *)values
+              withAuthentication:(GEAAuthentication *)auth
+             withCompletionBlock:(responseVideoCompletionBlock)completionBlock;
 
 @end
 
@@ -602,7 +608,8 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
                                                  photoFemaleMedium:[exerciseDetail photoFemaleMediumFirst]
                                                   photoFemaleSmall:[exerciseDetail photoFemaleSmallFirst]
                                                          videoMale:[exerciseDetail videoMale]
-                                                       videoFemale:[exerciseDetail videoFemale]];
+                                                       videoFemale:[exerciseDetail videoFemale]
+                                                         videoLoop:[exerciseDetail videoLoop]];
 
                           } else {
                               exerciseDetail = [ExerciseDetail updateExerciseWithId:[exercise exerciseId] withDictionary:exerciseDetailsDict];
@@ -633,6 +640,163 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
         });
 
     }
+
+}
+
+- (void)requestExerciseVideoLoopWithExercise:(Exercise *)exercise
+                         withCompletionBlock:(exerciseVideoLoopCompletionBlock)completionBlock
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+
+    ExerciseDetail *exerciseDetail = [ExerciseDetail getExerciseDetailInfo:exercise.exerciseId];
+
+    if(self.internetIsReachable) {
+
+        // Retrieve data from web service API
+        
+        NSString *requestPath = [NSString stringWithFormat:@"/video_loop/%d", exercise.exerciseId];
+        [self performVideoAsyncRequest:requestPath
+                        withDictionary:nil
+                    withAuthentication:auth
+                   withCompletionBlock:^(GymneaWSClientRequestStatus success, NSData *video) {
+
+                       if(success == GymneaWSClientRequestSuccess) {
+                           // Update the exercise loop video in the DB by using the ExerciseDetail model
+                           if(exerciseDetail) {
+                               [exerciseDetail updateWithVideoLoop:video];
+                           }
+
+                           AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+                           [appDelegate saveContext];
+                       }
+                       
+                       dispatch_async(dispatch_get_main_queue(), ^{
+                           if(completionBlock != nil) {
+                               completionBlock(success, video);
+                           }
+                           
+                       });
+
+        }];
+
+    } else {
+        
+        // Retrieve data from DB
+        GymneaWSClientRequestStatus success = ((exerciseDetail == nil) || (exerciseDetail.videoLoop == nil)) ? GymneaWSClientRequestError : GymneaWSClientRequestSuccess;
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(completionBlock != nil) {
+                completionBlock(success, exerciseDetail.videoLoop);
+            }
+        });
+        
+    }
+}
+
+- (void)performVideoAsyncRequest:(NSString *)path
+                  withDictionary:(NSDictionary *)values
+              withAuthentication:(GEAAuthentication *)auth
+             withCompletionBlock:(responseVideoCompletionBlock)completionBlock
+{
+    
+    NSString *requestUrl = [NSString stringWithFormat:@"https://%@%@", kWSDomain, path];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:requestUrl]];
+    [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+    [request setHTTPMethod:@"POST"];
+    [request addValue:@"athlete.gymnea.com" forHTTPHeaderField:@"Host"];
+    [request addValue:@"video/mp4" forHTTPHeaderField:@"Accept"];
+    [request setHTTPShouldHandleCookies:YES];
+    
+    if(auth != nil) {
+        NSLog(@"uid: %@", auth.clientInfoHash);
+        NSLog(@"ukey: %@", auth.clientKey);
+        NSLog(@"session id: %@", [[GymneaWSClient sharedInstance] sessionId]);
+        
+        NSDictionary *SessionIDCookieProperties = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                   @".gymnea.com", NSHTTPCookieDomain,
+                                                   @"/", NSHTTPCookiePath,
+                                                   @"gym_gymnea", NSHTTPCookieName,
+                                                   [[GymneaWSClient sharedInstance] sessionId], NSHTTPCookieValue,
+                                                   nil];
+        
+        NSHTTPCookie *SessionIDPackagedCookie = [NSHTTPCookie cookieWithProperties:SessionIDCookieProperties];
+        
+        NSDictionary *UIDCookieProperties = [NSDictionary dictionaryWithObjectsAndKeys:
+                                             @".gymnea.com", NSHTTPCookieDomain,
+                                             @"/", NSHTTPCookiePath,
+                                             @"uid", NSHTTPCookieName,
+                                             auth.clientInfoHash, NSHTTPCookieValue,
+                                             nil];
+        
+        NSHTTPCookie *UIDPackagedCookie = [NSHTTPCookie cookieWithProperties:UIDCookieProperties];
+        
+        NSDictionary *UKEYCookieProperties = [NSDictionary dictionaryWithObjectsAndKeys:
+                                              @".gymnea.com", NSHTTPCookieDomain,
+                                              @"/", NSHTTPCookiePath,
+                                              @"ukey", NSHTTPCookieName,
+                                              auth.clientKey, NSHTTPCookieValue,
+                                              nil];
+        
+        NSHTTPCookie *UKEYPackagedCookie = [NSHTTPCookie cookieWithProperties:UKEYCookieProperties];
+        
+        NSMutableArray *cookiesArray = [[NSMutableArray alloc] initWithObjects:UIDPackagedCookie, UKEYPackagedCookie, nil];
+        if(SessionIDPackagedCookie != nil) {
+            [cookiesArray addObject:SessionIDPackagedCookie];
+        }
+        
+        NSDictionary *cookies = [NSHTTPCookie requestHeaderFieldsWithCookies:cookiesArray];
+        [request setAllHTTPHeaderFields:cookies];
+    }
+    
+    NSError *error;
+    if(values != nil) {
+        NSData *postData = [NSJSONSerialization dataWithJSONObject:values options:0 error:&error];
+        [request setHTTPBody:postData];
+    }
+    
+    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:Nil];
+    
+    
+    NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request
+                                                       completionHandler:^(NSData *responseData, NSURLResponse *urlResponse, NSError *error) {
+                                                           
+                                                           GymneaWSClientRequestStatus success = GymneaWSClientRequestError;
+                                                           NSHTTPURLResponse *response = (NSHTTPURLResponse*)urlResponse;
+                                                           
+                                                           NSInteger responseCode = response.statusCode;
+
+                                                           if(error == nil && ((responseCode/100)==2) && (responseData != nil)) {
+                                                               success = GymneaWSClientRequestSuccess;
+                                                           }
+
+                                                           NSArray *cookiesArray =[[NSArray alloc]init];
+                                                           cookiesArray = [NSHTTPCookie
+                                                                           cookiesWithResponseHeaderFields:[response allHeaderFields]
+                                                                           forURL:[NSURL URLWithString:@""]];
+
+                                                           NSMutableDictionary *cookies = [[NSMutableDictionary alloc] init];
+                                                           for(NSHTTPCookie *cookie in cookiesArray) {
+                                                               [cookies setObject:[cookie valueForKey:@"value"] forKey:[cookie valueForKey:@"name"]];
+                                                           }
+
+                                                           if([cookies objectForKey:@"gym_gymnea"] != nil) {
+                                                               // Update the session_id value and save in the GymneaWSClient singleton instance
+                                                               [[GymneaWSClient sharedInstance] setSessionId:[cookies objectForKey:@"gym_gymnea"]];
+                                                           }
+
+                                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                                               if(completionBlock != nil) {
+                                                                   completionBlock(success, responseData);
+                                                               }
+
+                                                           });
+
+                                                       }];
+
+    [sessionDataTask resume];
 
 }
 

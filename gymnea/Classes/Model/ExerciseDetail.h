@@ -25,6 +25,6 @@
 @property (nonatomic, retain) NSData *photoFemaleSmallSecond;
 @property (nonatomic, retain) NSData *videoMale;
 @property (nonatomic, retain) NSData *videoFemale;
-
+@property (nonatomic, retain) NSData *videoLoop;
 
 @end

@@ -24,6 +24,7 @@ static NSString * const kEntityName = @"ExerciseDetail";
                           photoFemaleSmall:(NSData *)thePhotoFemaleSmall
                                  videoMale:(NSData *)theVideoMale
                                videoFemale:(NSData *)theVideoFemale
+                                 videoLoop:(NSData *)theVideoLoop
 {
     ExerciseDetail *newExercise = (ExerciseDetail *) [NSEntityDescription insertNewObjectForEntityForName:kEntityName inManagedObjectContext:defaultManagedObjectContext()];
 
@@ -35,7 +36,8 @@ static NSString * const kEntityName = @"ExerciseDetail";
                     photoFemaleMedium:thePhotoFemaleMedium
                      photoFemaleSmall:thePhotoFemaleSmall
                             videoMale:theVideoMale
-                          videoFemale:theVideoFemale];
+                          videoFemale:theVideoFemale
+                            videoLoop:theVideoLoop];
 
     commitDefaultMOC();
     return newExercise;
@@ -51,7 +53,8 @@ static NSString * const kEntityName = @"ExerciseDetail";
                 photoFemaleMedium:[exerciseDict objectForKey:@"photoFemaleMedium"]
               photoFemaleSmall:[exerciseDict objectForKey:@"photoFemaleSmall"]
                      videoMale:[exerciseDict objectForKey:@"videoMale"]
-                   videoFemale:[exerciseDict objectForKey:@"videoFemale"]];
+                   videoFemale:[exerciseDict objectForKey:@"videoFemale"]
+                     videoLoop:[exerciseDict objectForKey:@"videoLoop"]];
 
     commitDefaultMOC();
 }
@@ -81,7 +84,8 @@ static NSString * const kEntityName = @"ExerciseDetail";
                                         photoFemaleMedium:[exerciseDict objectForKey:@"photoFemaleMedium"]
                                          photoFemaleSmall:[exerciseDict objectForKey:@"photoFemaleSmall"]
                                                 videoMale:[exerciseDict objectForKey:@"videoMale"]
-                                              videoFemale:[exerciseDict objectForKey:@"videoFemale"]];
+                                              videoFemale:[exerciseDict objectForKey:@"videoFemale"]
+                                                videoLoop:[exerciseDict objectForKey:@"videoLoop"]];
     }
 
     return exercise;
@@ -116,6 +120,13 @@ static NSString * const kEntityName = @"ExerciseDetail";
   ExerciseDetail *exerciseInfo = (ExerciseDetail*) fetchManagedObject(kEntityName, predicate, nil, defaultManagedObjectContext());
 
   return exerciseInfo;
+}
+
+- (void)updateWithVideoLoop:(NSData *)video
+{
+    self.videoLoop = video;
+    
+    commitDefaultMOC();
 }
 
 - (void)updateWithPhotoMaleSmallSecond:(NSData *)photoSmall
@@ -179,6 +190,7 @@ static NSString * const kEntityName = @"ExerciseDetail";
             photoFemaleSmall:(NSData *)thePhotoFemaleSmall
                    videoMale:(NSData *)theVideoMale
                  videoFemale:(NSData *)theVideoFemale
+                   videoLoop:(NSData *)theVideoLoop
 {
     self.exerciseId = exerciseId;
     self.bodyZone = theBodyZone;
@@ -189,6 +201,7 @@ static NSString * const kEntityName = @"ExerciseDetail";
     self.photoFemaleSmallFirst = thePhotoFemaleSmall;
     self.videoMale = theVideoMale;
     self.videoFemale = theVideoFemale;
+    self.videoLoop = theVideoLoop;
 }
 /*
 + (NSArray *)getExercises

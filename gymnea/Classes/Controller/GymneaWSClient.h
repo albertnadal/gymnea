@@ -38,6 +38,7 @@ typedef void(^userInfoCompletionBlock)(GymneaWSClientRequestStatus success, NSDi
 typedef void(^userImageCompletionBlock)(GymneaWSClientRequestStatus success, UIImage *userImage);
 typedef void(^exercisesCompletionBlock)(GymneaWSClientRequestStatus success, NSArray *exercises);
 typedef void(^exerciseDetailCompletionBlock)(GymneaWSClientRequestStatus success, ExerciseDetail *exercise);
+typedef void(^exerciseVideoLoopCompletionBlock)(GymneaWSClientRequestStatus success, NSData *video);
 typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
 
 @interface GymneaWSClient : NSObject<NSURLConnectionDelegate, NSURLSessionDelegate>
@@ -77,5 +78,8 @@ typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
 
 - (void)requestExerciseDetailWithExercise:(Exercise *)exercise
                       withCompletionBlock:(exerciseDetailCompletionBlock)completionBlock;
+
+- (void)requestExerciseVideoLoopWithExercise:(Exercise *)exercise
+                         withCompletionBlock:(exerciseVideoLoopCompletionBlock)completionBlock;
 
 @end

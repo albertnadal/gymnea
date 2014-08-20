@@ -18,6 +18,7 @@
 #import "GEALabel+Gymnea.h"
 #import "UIImageView+AFNetworking.h"
 #import "URBMediaFocusViewController.h"
+#import "ExercisePlayViewController.h"
 
 static float const kGEASpaceBetweenLabels = 15.0f;
 static float const kGEAContainerPadding = 7.0f;
@@ -30,7 +31,7 @@ static CGFloat const kGEABannerOffsetFactor = 0.45f;
 static float const kGEABannerTransitionCrossDissolveDuration = 0.3f;
 static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeholder";
 
-@interface ExerciseDetailViewController () <URBMediaFocusViewControllerDelegate, GEAPopoverViewControllerDelegate, UIScrollViewDelegate>
+@interface ExerciseDetailViewController () <ExercisePlayViewControllerDelegate, URBMediaFocusViewControllerDelegate, GEAPopoverViewControllerDelegate, UIScrollViewDelegate, UIAlertViewDelegate>
 {
     Exercise *exercise;
     ExerciseDetail *exerciseDetail;
@@ -74,6 +75,8 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 @property (nonatomic, weak) IBOutlet UIButton *photo3;
 @property (nonatomic, weak) IBOutlet UIButton *photo4;
 @property (nonatomic, strong) URBMediaFocusViewController *mediaFocusController;
+@property (nonatomic, weak) IBOutlet UIButton *playExerciseButton;
+@property (nonatomic, retain) MBProgressHUD *loadExerciseHud;
 
 - (void)loadExerciseDetailData;
 - (void)loadBanner;
@@ -94,6 +97,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 - (void)moveBannerWithVerticalOffset:(CGFloat)offset;
 - (UIImage*)imageByCropping:(UIImage *)imageToCrop toRect:(CGRect)rect;
 - (IBAction)showExerciseImage:(id)sender;
+- (void)downloadExercise;
 
 @end
 
@@ -135,7 +139,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
         } else {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                            message:@"Unable to reach the network when retrieving exercise information."
+                                                            message:@"Unable to reach the network when retrieving the exercise information."
                                                            delegate:nil
                                                   cancelButtonTitle:@"Ok"
                                                   otherButtonTitles:nil];
@@ -145,24 +149,94 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
         // Hide HUD after 0.3 seconds
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-            
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+            [self.loadExerciseHud hide:YES];
         });
 
     }];
 
 }
 
+- (void)downloadExercise
+{
+    //Just download the video loop of the exercise is needed to complete all the missing exercise attributes
+
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"Downloading";
+
+    [[GymneaWSClient sharedInstance] requestExerciseVideoLoopWithExercise:self.exercise
+                                                      withCompletionBlock:^(GymneaWSClientRequestStatus success, NSData *video) {
+
+                                                          if((success == GymneaWSClientRequestSuccess) && (video != nil)) {
+                                                              self.exerciseDetail.videoLoop = video;
+                                                              [self.playExerciseButton setTitle:@"Play Exercise" forState:UIControlStateNormal];
+
+                                                          } else {
+                                                              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                                                              message:@"Unable to reach the network when retrieving the exercise information."
+                                                                                                             delegate:nil
+                                                                                                    cancelButtonTitle:@"Ok"
+                                                                                                    otherButtonTitles:nil];
+                                                              [alert setTag:1];
+                                                              [alert show];
+
+                                                          }
+
+                                                          // Hide HUD after 0.3 seconds
+                                                          dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+
+                                                              [hud hide:YES];
+                                                          });
+
+                                                      }];
+
+}
+
+- (void)exerciseFinished:(ExercisePlayViewController *)exercisePlay
+{
+    [self.navigationController popToViewController:self animated:NO];
+    self.navigationController.navigationBar.hidden = FALSE;
+}
+
+- (void)userDidSelectFinishExercise:(ExercisePlayViewController *)exercisePlay
+{
+    [self.navigationController popToViewController:self animated:NO];
+    self.navigationController.navigationBar.hidden = FALSE;
+}
+
 - (IBAction)playExercise:(id)sender
 {
-    // Implement
-    GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
-    [gymneaWSClient requestUserInfoWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, UserInfo *userInfo) {
-        NSLog(@"userInfo loaded");
-        if(userInfo != nil) {
-            NSLog(@"NAME: %@", userInfo.firstName);
+
+    if(self.exerciseDetail.videoLoop == nil) {
+
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download is needed"
+                                                        message:@"First of all is necessary to download the exercise to your device. This will let you to play this exercise anywhere without access to Internet."
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"Download", nil];
+
+        [alert setTag:2];
+        [alert show];
+
+    } else {
+
+        ExercisePlayViewController *epvc = [[ExercisePlayViewController alloc] initWithExercise:self.exercise withDetails:self.exerciseDetail withDelegate:self];
+        [self.navigationController pushViewController:epvc animated:NO];
+
+    }
+
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if([alertView tag] == 2)
+    {
+        if(buttonIndex == 1)
+        {
+            // Download exercise
+            [self downloadExercise];
         }
-    }];
+    }
 }
 
 - (UIImage*)imageByCropping:(UIImage *)imageToCrop toRect:(CGRect)rect
@@ -283,6 +357,10 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 - (void)updateBasicInfoData
 {
+    if(self.exerciseDetail.videoLoop == nil) {
+        [self.playExerciseButton setTitle:@"Play Exercise (need download)" forState:UIControlStateNormal];
+    }
+
     CGRect bannerContainerFrame = self.bannerContainer.frame;
     CGFloat baseYPosition = bannerContainerFrame.origin.y + bannerContainerFrame.size.height + 1.0f;
 
@@ -316,7 +394,6 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     CGRect dealContainerFrame = self.dealContainer.frame;
     dealContainerFrame.origin.y = baseYPosition;
     dealContainerFrame.origin.x = kGEAHorizontalMargin;
-#warning please, set the deal height for enabling deals inside the event detail screen
     dealContainerFrame.size.height = 0.0f; //150.0f;
     [self.dealContainer setFrame:dealContainerFrame];
 
@@ -430,7 +507,8 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
     self.navigationItem.titleView = [[GEALabel alloc] initWithText:[self.exercise name] fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.loadExerciseHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.loadExerciseHud.labelText = @"Loading exercise";
 
     self.descriptionButton.layer.borderWidth = 1.0f;
     self.descriptionButton.layer.borderColor = [UIColor colorWithRed:111.0/255.0 green:190.0/255.0 blue:226.0/255.0 alpha:1.0].CGColor;
@@ -617,7 +695,8 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 - (NSInteger)numberOfRowsInPopoverViewController:(GEAPopoverViewController *)popover
 {
-    return 2;
+    if(self.exerciseDetail.videoLoop == nil)    return 2;
+    else                                        return 1;
 }
 
 - (UIImage *)iconImageInPopoverViewController:(GEAPopoverViewController *)popover atRowIndex:(NSInteger)index
@@ -654,7 +733,8 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     {
         case 0: break;
 
-        case 1: break;
+        case 1: [self downloadExercise];
+                break;
     }
 }
 

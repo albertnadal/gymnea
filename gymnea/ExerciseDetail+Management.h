@@ -26,7 +26,8 @@ typedef enum _GymneaExerciseImageOrder
                          photoFemaleMedium:(NSData *)thePhotoFemaleMedium
                           photoFemaleSmall:(NSData *)thePhotoFemaleSmall
                                  videoMale:(NSData *)theVideoMale
-                               videoFemale:(NSData *)theVideoFemale;
+                               videoFemale:(NSData *)theVideoFemale
+                                 videoLoop:(NSData *)theVideoLoop;
 
 - (void)updateWithExerciseId:(int32_t)exerciseId
                     bodyZone:(NSString *)theBodyZone
@@ -36,7 +37,9 @@ typedef enum _GymneaExerciseImageOrder
            photoFemaleMedium:(NSData *)thePhotoFemaleMedium
             photoFemaleSmall:(NSData *)thePhotoFemaleSmall
                  videoMale:(NSData *)theVideoMale
-                 videoFemale:(NSData *)theVideoFemale;
+                 videoFemale:(NSData *)theVideoFemale
+                   videoLoop:(NSData *)theVideoLoop;
+
 
 - (void)updateWithPhotoMaleSmallSecond:(NSData *)photoSmall;
 
@@ -45,6 +48,9 @@ typedef enum _GymneaExerciseImageOrder
 - (void)updateWithPhotoFemaleSmall:(NSData *)photoSmall withOrder:(GymneaExerciseImageOrder)order;
 
 - (void)updateWithPhotoFemaleMedium:(NSData *)photoMedium withOrder:(GymneaExerciseImageOrder)order;
+
+- (void)updateWithVideoLoop:(NSData *)video;
+
 /*
 - (void)updateWithPhotoMedium:(NSData *)photoMedium;
 

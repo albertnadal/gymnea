@@ -24,5 +24,6 @@
 @dynamic photoFemaleSmallSecond;
 @dynamic videoMale;
 @dynamic videoFemale;
+@dynamic videoLoop;
 
 @end
