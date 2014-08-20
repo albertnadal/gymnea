@@ -69,12 +69,21 @@ typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
 
 - (void)requestExercisesWithCompletionBlock:(exercisesCompletionBlock)completionBlock;
 
+- (void)requestSavedExercisesWithCompletionBlock:(exercisesCompletionBlock)completionBlock;
+
 - (void)requestLocalExercisesWithType:(GymneaExerciseType)exerciseTypeId
                            withMuscle:(GymneaMuscleType)muscleId
                         withEquipment:(GymneaEquipmentType)equipmentId
                             withLevel:(GymneaExerciseLevel)levelId
                              withName:(NSString *)searchText
                   withCompletionBlock:(exercisesCompletionBlock)completionBlock;
+
+- (void)requestLocalSavedExercisesWithType:(GymneaExerciseType)exerciseTypeId
+                                withMuscle:(GymneaMuscleType)muscleId
+                             withEquipment:(GymneaEquipmentType)equipmentId
+                                 withLevel:(GymneaExerciseLevel)levelId
+                                  withName:(NSString *)searchText
+                       withCompletionBlock:(exercisesCompletionBlock)completionBlock;
 
 - (void)requestExerciseDetailWithExercise:(Exercise *)exercise
                       withCompletionBlock:(exerciseDetailCompletionBlock)completionBlock;

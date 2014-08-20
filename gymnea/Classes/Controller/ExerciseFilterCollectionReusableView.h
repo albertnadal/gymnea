@@ -10,6 +10,7 @@
 #import "GEADefinitions.h"
 #import "ExercisesViewController.h"
 
+@protocol ExercisesViewControllerDelegate;
 @protocol ExerciseFilterCollectionReusableViewDelegate;
 
 @interface ExerciseFilterCollectionReusableView : UICollectionReusableView<ExercisesViewControllerDelegate, UISearchBarDelegate>

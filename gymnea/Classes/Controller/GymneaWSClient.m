@@ -551,6 +551,81 @@ typedef void(^responseVideoCompletionBlock)(GymneaWSClientRequestStatus success,
     }
 }
 
+- (void)requestSavedExercisesWithCompletionBlock:(exercisesCompletionBlock)completionBlock
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+    
+    if(self.internetIsReachable) {
+        
+        // Retrieve data from web service API
+        
+        NSString *requestPath = @"/api/saved_exercises/get_exercises";
+        
+        [self performAsyncRequest:requestPath
+                   withDictionary:nil
+               withAuthentication:auth
+              withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
+
+                  NSMutableArray *exercisesArray = nil;
+                  
+                  if(success == GymneaWSClientRequestSuccess) {
+                      // Insert or update the current Exercise register in the DB
+                      exercisesArray = [[NSMutableArray alloc] init];
+
+                      for (NSDictionary *exerciseDict in (NSArray *)responseData) {
+                          NSLog(@"getExerciseInfo: %d", [[exerciseDict objectForKey:@"id"] intValue]);
+                          Exercise *exerciseFromDB = [Exercise getExerciseInfo:[[exerciseDict objectForKey:@"id"] intValue]];
+                          
+                          if(exerciseFromDB != nil) {
+                              
+                              // Keep current exercise pictures in the DB
+                              [exerciseFromDB updateWithExerciseId:[[exerciseDict objectForKey:@"id"] intValue]
+                                                              name:[exerciseDict objectForKey:@"n"]
+                                                           isSaved:[[exerciseDict objectForKey:@"s"] boolValue]
+                                                       equipmentId:[[exerciseDict objectForKey:@"e"] intValue]
+                                                          muscleId:[[exerciseDict objectForKey:@"m"] intValue]
+                                                            typeId:[[exerciseDict objectForKey:@"t"] intValue]
+                                                           levelId:[[exerciseDict objectForKey:@"l"] intValue]
+                                                       photoMedium:[exerciseFromDB photoMedium]
+                                                        photoSmall:[exerciseFromDB photoSmall]];
+
+                              [exercisesArray addObject:exerciseFromDB];
+                          } else {
+                              
+                              Exercise *exerciseInfo = [Exercise updateExerciseWithId:[[exerciseDict objectForKey:@"id"] intValue] withDictionary:exerciseDict];
+                              [exercisesArray addObject:exerciseInfo];
+                          }
+                          
+                      }
+                      
+                      AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+                      [appDelegate saveContext];
+                  }
+                  
+                  dispatch_async(dispatch_get_main_queue(), ^{
+                      if(completionBlock != nil) {
+                          completionBlock(success, exercisesArray);
+                      }
+                      
+                  });
+                  
+              }];
+        
+    } else {
+        
+        NSArray *exercisesList = [Exercise getSavedExercises];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(completionBlock != nil) {
+                completionBlock(GymneaWSClientRequestSuccess, exercisesList);
+            }
+            
+        });
+        
+    }
+}
+
 - (void)requestLocalExercisesWithType:(GymneaExerciseType)exerciseTypeId
                            withMuscle:(GymneaMuscleType)muscleId
                         withEquipment:(GymneaEquipmentType)equipmentId
@@ -563,6 +638,27 @@ typedef void(^responseVideoCompletionBlock)(GymneaWSClientRequestStatus success,
                                               withEquipment:equipmentId
                                                   withLevel:levelId
                                                    withName:searchText];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(completionBlock != nil) {
+            completionBlock(GymneaWSClientRequestSuccess, exercisesList);
+        }
+        
+    });
+}
+
+- (void)requestLocalSavedExercisesWithType:(GymneaExerciseType)exerciseTypeId
+                                withMuscle:(GymneaMuscleType)muscleId
+                             withEquipment:(GymneaEquipmentType)equipmentId
+                                 withLevel:(GymneaExerciseLevel)levelId
+                                  withName:(NSString *)searchText
+                       withCompletionBlock:(exercisesCompletionBlock)completionBlock
+{
+    NSArray *exercisesList = [Exercise getSavedExercisesWithType:exerciseTypeId
+                                                      withMuscle:muscleId
+                                                   withEquipment:equipmentId
+                                                       withLevel:levelId
+                                                        withName:searchText];
 
     dispatch_async(dispatch_get_main_queue(), ^{
         if(completionBlock != nil) {

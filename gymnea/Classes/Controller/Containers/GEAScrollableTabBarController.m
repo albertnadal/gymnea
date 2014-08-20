@@ -237,8 +237,7 @@ static const CGFloat kVTSTabBarBackTapTresshold = 110.0f;
     NSUInteger index = [self.viewControllers indexOfObject:childViewController];
     childViewController.view.frame = CGRectMake(index * CGRectGetWidth(self.view.bounds), 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.contentScrollView.bounds));
     [self.contentScrollView addSubview:childViewController.view];
-    
-    
+
     if ([childViewController respondsToSelector:@selector(endAppearanceTransition)]) {
       [childViewController endAppearanceTransition];
     }

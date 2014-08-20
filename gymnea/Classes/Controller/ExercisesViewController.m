@@ -7,63 +7,15 @@
 //
 
 #import "ExercisesViewController.h"
-#import "ExerciseDetailViewController.h"
-#import "CHTCollectionViewWaterfallLayout.h"
 #import "ExerciseCollectionViewCell.h"
-#import "ExerciseFilterCollectionReusableView.h"
-#import "MBProgressHUD.h"
-#import "GymneaWSClient.h"
-#import "GEADefinitions.h"
-#import "Exercise.h"
 
+@interface ExercisesViewController ()
 
-@interface ExercisesViewController ()<UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, ExerciseFilterCollectionReusableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
-{
-    UICollectionView *_collectionView;
-    UIView *_disableCollectionView;
-    NSArray *exercisesList;
-    BOOL needRefreshData;
-
-    GymneaExerciseType exerciseType;
-    GymneaMuscleType muscleType;
-    GymneaEquipmentType equipmentType;
-    GymneaExerciseLevel exerciseLevel;
-    NSString *searchText;
-    
-    UIPickerView *exerciseTypePickerView;
-    UIView *exerciseTypePickerToolbar;
-
-    UIPickerView *musclePickerView;
-    UIView *musclePickerToolbar;
-
-    UIPickerView *equipmentPickerView;
-    UIView *equipmentPickerToolbar;
-
-    UIPickerView *exerciseLevelPickerView;
-    UIView *exerciseLevelPickerToolbar;
-
-}
-
-@property (nonatomic) BOOL needRefreshData;
-@property (nonatomic, copy) NSArray *exercisesList;
-@property (nonatomic, retain) UIPickerView *exerciseTypePickerView;
-@property (nonatomic, retain) UIView *exerciseTypePickerToolbar;
-@property (nonatomic, retain) UIPickerView *musclePickerView;
-@property (nonatomic, retain) UIView *musclePickerToolbar;
-@property (nonatomic, retain) UIPickerView *equipmentPickerView;
-@property (nonatomic, retain) UIView *equipmentPickerToolbar;
-@property (nonatomic, retain) UIPickerView *exerciseLevelPickerView;
-@property (nonatomic, retain) UIView *exerciseLevelPickerToolbar;
-@property (nonatomic, retain) ExerciseFilterCollectionReusableView *headerView;
-@property (nonatomic, retain) NSString *searchText;
-@property (nonatomic, weak) IBOutlet UILabel *noExercisesFoundLabel;
 
 - (void)hideAllKeyboards;
 - (void)createExerciseTypePicker;
 - (void)createMusclePicker;
 - (void)createEquipmentPicker;
-- (void)showExerciseDetailsAtIndexPath:(NSIndexPath*)indexPath;
-- (CGFloat)calculateHeightForString:(NSString *)text withFont:(UIFont *)font withWidth:(CGFloat)maxWidth;
 - (void)showExerciseTypeSelector;
 - (void)showMuscleSelector;
 - (void)showEquipmentSelector;
@@ -303,82 +255,90 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:nil
                                                                             action:nil];
+    
+    [self loadInitialDataAndViews];
+}
 
+- (void)loadInitialDataAndViews
+{
     [self.noExercisesFoundLabel setHidden:YES];
-
+    
     CGRect viewFrame = self.view.frame;
     viewFrame.size.height-=20.0f;
     self.view.frame = viewFrame;
-
-
+    
+    
     if(self.needRefreshData) {
-
+        
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
         GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
         [gymneaWSClient requestExercisesWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSArray *exercises) {
-
+            
             if(success == GymneaWSClientRequestSuccess) {
-
+                
                 self.exercisesList = exercises;
-
+                
                 if(_collectionView == nil) {
                     CHTCollectionViewWaterfallLayout *layout = [[CHTCollectionViewWaterfallLayout alloc] init];
                     [layout setSectionInset:UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f)];
                     [layout setHeaderHeight:126.0f];
-
-                    _collectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:layout];
+                    
+                    CGRect collectionViewFrame = self.view.frame;
+                    collectionViewFrame.origin.x = 0;
+                    
+                    _collectionView = [[UICollectionView alloc] initWithFrame:collectionViewFrame collectionViewLayout:layout];
                     [_collectionView setDataSource:self];
                     [_collectionView setDelegate:self];
-
+                    
                     [_collectionView registerNib:[UINib nibWithNibName:@"ExerciseCollectionViewCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"exerciseCellIdentifier"];
                     [_collectionView setBackgroundColor:[UIColor clearColor]];
-
+                    
                     [_collectionView registerClass:[ExerciseFilterCollectionReusableView class] forSupplementaryViewOfKind:CHTCollectionElementKindSectionHeader withReuseIdentifier:@"exerciseFilterHeaderView"];
                     [_collectionView registerNib:[UINib nibWithNibName:@"ExerciseFilterCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:CHTCollectionElementKindSectionHeader withReuseIdentifier:@"exerciseFilterHeaderView"];
-
+                    
                     _disableCollectionView = [[UIView alloc] initWithFrame:self.view.frame];
                     [_disableCollectionView setBackgroundColor:[UIColor whiteColor]];
                     [_disableCollectionView setAlpha:0.3];
                     [_disableCollectionView setHidden:YES];
-
+                    
                     [self.view addSubview:_disableCollectionView];
                     [self.view sendSubviewToBack:_disableCollectionView];
                     [self.view addSubview:_collectionView];
                     [self.view sendSubviewToBack:_collectionView];
-
+                    
                     [_collectionView reloadData];
                 }
-
+                
                 if(![exercises count]) {
                     [self.noExercisesFoundLabel setHidden:NO];
                 }
-
+                
                 self.needRefreshData = FALSE;
-
+                
                 // Hide HUD after 0.3 seconds
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-
+                    
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                 });
-
+                
             }
             else {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"An unexpected error occurred. Check your Internet connection and retry again." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
                 [alert show];
             }
-
+            
         }];
-
+        
     }
-
+    
 }
 
 -(void)selectionDone {

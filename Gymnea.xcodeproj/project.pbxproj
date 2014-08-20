@@ -52,6 +52,7 @@
 		FF816259198305B500443C13 /* ChooseWorkoutDayTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF816257198305B500443C13 /* ChooseWorkoutDayTableViewController.xib */; };
 		FF81625D1983222000443C13 /* ChooseWorkoutDayTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FF81625B1983222000443C13 /* ChooseWorkoutDayTableViewCell.m */; };
 		FF81625E1983222000443C13 /* ChooseWorkoutDayTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF81625C1983222000443C13 /* ChooseWorkoutDayTableViewCell.xib */; };
+		FF892BC819A503C6003910E7 /* ExercisesSavedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF892BC619A503C6003910E7 /* ExercisesSavedViewController.m */; };
 		FF8A911119A3AC1D000F3CDF /* ExercisePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF8A910F19A3AC1D000F3CDF /* ExercisePlayViewController.m */; };
 		FF8A911219A3AC1D000F3CDF /* ExercisePlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF8A911019A3AC1D000F3CDF /* ExercisePlayViewController.xib */; };
 		FF8E69A91987AD1E008C6BF9 /* GEAScrollableTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF8E69A61987AD1E008C6BF9 /* GEAScrollableTabBarController.m */; };
@@ -171,6 +172,8 @@
 		FF81625A1983221F00443C13 /* ChooseWorkoutDayTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChooseWorkoutDayTableViewCell.h; path = Classes/Controller/ChooseWorkoutDayTableViewCell.h; sourceTree = "<group>"; };
 		FF81625B1983222000443C13 /* ChooseWorkoutDayTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChooseWorkoutDayTableViewCell.m; path = Classes/Controller/ChooseWorkoutDayTableViewCell.m; sourceTree = "<group>"; };
 		FF81625C1983222000443C13 /* ChooseWorkoutDayTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChooseWorkoutDayTableViewCell.xib; path = Classes/Controller/ChooseWorkoutDayTableViewCell.xib; sourceTree = "<group>"; };
+		FF892BC619A503C6003910E7 /* ExercisesSavedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExercisesSavedViewController.m; path = Classes/Controller/ExercisesSavedViewController.m; sourceTree = "<group>"; };
+		FF892BC719A503C6003910E7 /* ExercisesSavedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExercisesSavedViewController.h; path = Classes/Controller/ExercisesSavedViewController.h; sourceTree = "<group>"; };
 		FF8A910E19A3AC1D000F3CDF /* ExercisePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExercisePlayViewController.h; path = Classes/Controller/ExercisePlayViewController.h; sourceTree = "<group>"; };
 		FF8A910F19A3AC1D000F3CDF /* ExercisePlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExercisePlayViewController.m; path = Classes/Controller/ExercisePlayViewController.m; sourceTree = "<group>"; };
 		FF8A911019A3AC1D000F3CDF /* ExercisePlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ExercisePlayViewController.xib; path = Classes/Controller/ExercisePlayViewController.xib; sourceTree = "<group>"; };
@@ -328,6 +331,8 @@
 		FF60FBB81996C34400DC2F14 /* Exercises */ = {
 			isa = PBXGroup;
 			children = (
+				FF892BC719A503C6003910E7 /* ExercisesSavedViewController.h */,
+				FF892BC619A503C6003910E7 /* ExercisesSavedViewController.m */,
 				FF60FBB91996C3B200DC2F14 /* ExercisesViewController.h */,
 				FF60FBBA1996C3B200DC2F14 /* ExercisesViewController.m */,
 				FF60FBBC1996C3EA00DC2F14 /* ExerciseCollectionViewCell.h */,
@@ -828,6 +833,7 @@
 				FFABFDD6196C88C4004FC527 /* SignUpViewController.m in Sources */,
 				FFCAB301199E44CF00A0036A /* ExerciseDetail+Management.m in Sources */,
 				FF13B072198C26CE00FB6461 /* GEAAuthenticationKeychainStore.m in Sources */,
+				FF892BC819A503C6003910E7 /* ExercisesSavedViewController.m in Sources */,
 				FFA137871969F9EA00DBEE68 /* InitialViewController.m in Sources */,
 				FF9110C1197BB4AD00818E95 /* GEAPopoverViewController.m in Sources */,
 				FF3F70A8196D54BE007AADF1 /* GEASideMenuController.m in Sources */,

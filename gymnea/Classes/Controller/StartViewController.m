@@ -13,6 +13,7 @@
 #import "GymneaWSClient.h"
 #import "GenericWorkoutsViewController.h"
 #import "ExercisesViewController.h"
+#import "ExercisesSavedViewController.h"
 #import "GEAScrollableTabBarController.h"
 #import "ExerciseDetailViewController.h"
 
@@ -143,7 +144,7 @@
     [exercisesViewController.view setBackgroundColor:[UIColor whiteColor]];
     [exercisesViewController setTitle:@"Directory"];
     
-    UIViewController *savedExercisesViewController = [[UIViewController alloc] init];
+    ExercisesSavedViewController *savedExercisesViewController = [[ExercisesSavedViewController alloc] init];
     [savedExercisesViewController.view setFrame:CGRectMake(0,0,320,690)];
     [savedExercisesViewController.view setBackgroundColor:[UIColor whiteColor]];
     [savedExercisesViewController setTitle:@"Saved"];
