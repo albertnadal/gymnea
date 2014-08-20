@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ExercisePlayViewController">
             <connections>
+                <outlet property="timeCounterLabel" destination="cLg-4a-62S" id="Wzf-oy-FSJ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -20,17 +21,10 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.69803921570000005" green="0.69803921570000005" blue="0.69803921570000005" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="10 reps" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" id="cLg-4a-62S" userLabel="countdownPanel">
-                    <rect key="frame" x="12" y="248" width="295" height="68"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" id="cLg-4a-62S" userLabel="timeCounter">
+                    <rect key="frame" x="12" y="285" width="295" height="68"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="48"/>
-                    <color key="textColor" red="0.31372549020000001" green="0.31372549020000001" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Set 1/4" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" id="eDv-ov-a33" userLabel="countdownPanel">
-                    <rect key="frame" x="12" y="324" width="295" height="38"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="32"/>
                     <color key="textColor" red="0.31372549020000001" green="0.31372549020000001" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>

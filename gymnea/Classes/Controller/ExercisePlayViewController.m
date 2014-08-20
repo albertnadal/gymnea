@@ -14,14 +14,20 @@
 {
     Exercise *exercise;
     ExerciseDetail *exerciseDetails;
+    IBOutlet UILabel *timeCounterLabel;
+    int counterSeconds;
+    BOOL counterActive;
 }
 
 @property (strong, nonatomic) MPMoviePlayerController *videoPlayer;
 @property (nonatomic, retain) Exercise *exercise;
 @property (nonatomic, retain) ExerciseDetail *exerciseDetails;
 @property (nonatomic, retain) NSURL *videoFileURL;
+@property (nonatomic, retain) IBOutlet UILabel *timeCounterLabel;
+@property (nonatomic, retain) NSTimer *timeCounter;
 
 - (IBAction)showOptionsMenu:(id)sender;
+- (void)updateTimer:(id)sender;
 
 @end
 
@@ -29,6 +35,7 @@
 
 @synthesize exercise;
 @synthesize exerciseDetails;
+@synthesize timeCounterLabel;
 
 - (id)initWithExercise:(Exercise *)exercise_ withDetails:(ExerciseDetail *)details_ withDelegate:(id<ExercisePlayViewControllerDelegate>)delegate_
 {
@@ -38,6 +45,9 @@
         self.exercise = exercise_;
         self.exerciseDetails = details_;
         self.videoFileURL = nil;
+        self.timeCounter = nil;
+        counterSeconds = 0;
+        counterActive = TRUE;
     }
 
     return self;
@@ -48,6 +58,8 @@
     [super viewDidLoad];
 
     self.navigationController.navigationBar.hidden = TRUE;
+
+    [self.timeCounterLabel setText:[NSString stringWithFormat:@"%d\"", counterSeconds]];
 
     GEALabel *titleModal = [[GEALabel alloc] initWithText:[self.exercise name] fontSize:21.0f frame:CGRectMake(10.0f,20.0f,[[UIScreen mainScreen] bounds].size.width - 20.0f,44.0f)];
     [self.view addSubview:titleModal];
@@ -74,6 +86,23 @@
 
     [self.view addSubview:_videoPlayer.view];
     [_videoPlayer setFullscreen:NO animated:NO];
+
+    self.timeCounter = [NSTimer scheduledTimerWithTimeInterval:1.0f
+                                                        target:self
+                                                      selector:@selector(updateTimer:)
+                                                      userInfo:nil
+                                                       repeats:YES];
+
+}
+
+- (void)updateTimer:(id)sender
+{
+    if((!self.timeCounter) || (!counterActive))
+        return;
+
+    [self.timeCounterLabel setText:[NSString stringWithFormat:@"%d\"", counterSeconds]];
+
+    counterSeconds++;
 }
 
 - (void)videoReplay:(NSNotification*)notification {
@@ -83,6 +112,7 @@
 
 - (IBAction)showOptionsMenu:(id)sender
 {
+    counterActive = FALSE;
     [_videoPlayer pause];
 
     UIActionSheet *popupOptions = [[UIActionSheet alloc] initWithTitle:@"Don't stop now!" delegate:self cancelButtonTitle:@"Resume" destructiveButtonTitle:@"End Exercise" otherButtonTitles: nil];
@@ -94,6 +124,9 @@
 {
     if([self.delegate respondsToSelector:@selector(exerciseFinished:)])
     {
+        [self.timeCounter invalidate];
+        self.timeCounter = nil;
+
         // Delete the temporal file used to play the video
         NSError *error = nil;
         [[NSFileManager defaultManager] removeItemAtURL:self.videoFileURL error:&error];
@@ -110,6 +143,9 @@
 
         if([self.delegate respondsToSelector:@selector(userDidSelectFinishExercise:)]) {
 
+            [self.timeCounter invalidate];
+            self.timeCounter = nil;
+
             // Delete the temporal file used to play the video
             NSError *error = nil;
             [[NSFileManager defaultManager] removeItemAtURL:self.videoFileURL error:&error];
@@ -118,6 +154,7 @@
         }
 
     } else if (buttonIndex == 1) {
+        counterActive = TRUE;
         [_videoPlayer play];
     }
 }
