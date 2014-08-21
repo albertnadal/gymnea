@@ -12,25 +12,24 @@
 @implementation ExercisesSavedViewController
 
 
-- (void)loadInitialDataAndViews
+- (void)reloadData
 {
-    [self.noExercisesFoundLabel setText:@"No exercises saved found"];
-    [self.noExercisesFoundLabel setHidden:YES];
-    
-    CGRect viewFrame = self.view.frame;
-    viewFrame.size.height-=20.0f;
-    self.view.frame = viewFrame;
-    
-    
-    if(self.needRefreshData) {
+
+    if((self.needRefreshData) && (!self.loadingData)) {
         
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        
+        self.loadingData = TRUE;
+
+        self.loadExercisesHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.loadExercisesHud.labelText = @"Loading saved exercises";
+
+        [self.noExercisesFoundLabel setText:@"No saved exercises found"];
+
         GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
         [gymneaWSClient requestSavedExercisesWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSArray *exercises) {
             
             if(success == GymneaWSClientRequestSuccess) {
-                
+                self.needRefreshData = FALSE;
+
                 self.exercisesList = exercises;
                 
                 if(_collectionView == nil) {
@@ -74,13 +73,18 @@
                 // Hide HUD after 0.3 seconds
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                     
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    [self.loadExercisesHud hide:YES];
+                    self.loadingData = FALSE;
                 });
                 
             }
             else {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"An unexpected error occurred. Check your Internet connection and retry again." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
                 [alert show];
+
+                [self.loadExercisesHud hide:YES];
+                self.loadingData = FALSE;
+                self.needRefreshData = TRUE;
             }
             
         }];
@@ -92,8 +96,9 @@
 - (void)searchExercisesWithFilters
 {
     // Reload the exercises applying the filters
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
+    self.loadExercisesHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.loadExercisesHud.labelText = @"Searching";
+
     GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
     [gymneaWSClient requestLocalSavedExercisesWithType:exerciseType
                                             withMuscle:muscleType
@@ -118,7 +123,7 @@
                                           [self.noExercisesFoundLabel setHidden:NO];
                                       }
                                       
-                                      [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                      [self.loadExercisesHud hide:YES];
                                   });
                                   
                               }];

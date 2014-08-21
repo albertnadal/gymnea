@@ -15,4 +15,6 @@
 
 @property (nonatomic, copy) NSArray *viewControllers;
 
+- (void)reloadData;
+
 @end

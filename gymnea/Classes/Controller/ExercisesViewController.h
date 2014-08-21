@@ -25,7 +25,8 @@
     UIView *_disableCollectionView;
     NSArray *exercisesList;
     BOOL needRefreshData;
-    
+    BOOL loadingData;
+
     GymneaExerciseType exerciseType;
     GymneaMuscleType muscleType;
     GymneaEquipmentType equipmentType;
@@ -48,6 +49,7 @@
 
 @property (nonatomic, retain) ExerciseFilterCollectionReusableView *headerView;
 @property (nonatomic) BOOL needRefreshData;
+@property (nonatomic) BOOL loadingData;
 @property (nonatomic, copy) NSArray *exercisesList;
 @property (nonatomic, retain) UIPickerView *exerciseTypePickerView;
 @property (nonatomic, retain) UIView *exerciseTypePickerToolbar;
@@ -60,8 +62,9 @@
 @property (nonatomic, retain) NSString *searchText;
 @property (nonatomic, weak) IBOutlet UILabel *noExercisesFoundLabel;
 @property (weak, nonatomic) id<ExercisesViewControllerDelegate>filterDelegate;
+@property (nonatomic, retain) MBProgressHUD *loadExercisesHud;
 
-- (void)loadInitialDataAndViews;
+- (void)reloadData;
 - (void)showExerciseDetailsAtIndexPath:(NSIndexPath*)indexPath;
 - (CGFloat)calculateHeightForString:(NSString *)text withFont:(UIFont *)font withWidth:(CGFloat)maxWidth;
 

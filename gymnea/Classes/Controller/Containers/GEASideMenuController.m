@@ -7,6 +7,7 @@
 //
 
 #import "GEASideMenuController.h"
+#import "GEAScrollableTabBarController.h"
 #import "GymneaWSClient.h"
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
@@ -459,6 +460,14 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
   }
 
   if (viewController) {
+
+      if([viewController isKindOfClass:[UINavigationController class]]) {
+          UIViewController *containedViewController = [[(UINavigationController *)viewController viewControllers] objectAtIndex:0];
+          if(([containedViewController isKindOfClass:[GEAScrollableTabBarController class]]) && ([containedViewController respondsToSelector:@selector(reloadData)])) {
+              [(GEAScrollableTabBarController *)containedViewController reloadData];
+          }
+      }
+
     if (childViewController) {
       [childViewController.view removeFromSuperview];
       [self.mainViewContainer addSubview:viewController.view];
@@ -515,6 +524,7 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
 
       [self.mainViewContainer bringSubviewToFront:self.tapCaptureView];
   }
+
 }
 
 - (void)didTouchOpenCloseButton:(UIBarButtonItem *)openCloseButton {

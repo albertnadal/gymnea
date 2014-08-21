@@ -7,6 +7,7 @@
 //
 
 #import "GEAScrollableTabBarController.h"
+#import "ExercisesViewController.h"
 #import "GEALabel+Gymnea.h"
 #import "GEATouchView.h"
 
@@ -16,7 +17,7 @@ static const CGFloat kVTSTabBarBackTapTresshold = 110.0f;
 
 @interface GEAScrollableTabBarController () <UIScrollViewDelegate>
 
-@property (nonatomic, weak) UIViewController *selectedViewController;
+//@property (nonatomic, weak) UIViewController *selectedViewController;
 @property (nonatomic) NSUInteger selectedIndex;
 
 @property (nonatomic, strong) UIScrollView *tabBarScrollView;
@@ -130,6 +131,19 @@ static const CGFloat kVTSTabBarBackTapTresshold = 110.0f;
   self.contentScrollView.contentSize = CGSizeMake(self.contentScrollView.contentSize.width, CGRectGetHeight(self.contentScrollView.frame));
 }
 
+- (void)reloadData
+{
+    // Calculate the current index
+    CGFloat pageWidth = self.view.frame.size.width;
+    int currentIndex = floor((self.contentScrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+
+    UIViewController *selectedViewController = [self.viewControllers objectAtIndex:currentIndex];
+
+    if([selectedViewController respondsToSelector:@selector(reloadData)]) {
+        [(ExercisesViewController *)selectedViewController reloadData];
+    }
+}
+
 #pragma mark - Getters and setters
 
 - (void)setViewControllers:(NSArray *)viewControllers {
@@ -169,11 +183,15 @@ static const CGFloat kVTSTabBarBackTapTresshold = 110.0f;
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
   self.tabBarScrollView.userInteractionEnabled = YES;
   self.contentScrollView.userInteractionEnabled = YES;
+
+  [self reloadData];
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
   self.tabBarScrollView.userInteractionEnabled = YES;
   self.contentScrollView.userInteractionEnabled = YES;
+
+  [self reloadData];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {

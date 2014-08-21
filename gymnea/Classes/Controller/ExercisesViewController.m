@@ -36,6 +36,7 @@
 @synthesize exerciseLevelPickerView;
 @synthesize exerciseLevelPickerToolbar;
 @synthesize needRefreshData;
+@synthesize loadingData;
 @synthesize exercisesList;
 @synthesize searchText;
 
@@ -45,6 +46,7 @@
     if (self)
     {
         self.needRefreshData = TRUE;
+        self.loadingData = FALSE;
         self.exercisesList = nil;
         _collectionView = nil;
         _disableCollectionView = nil;
@@ -263,28 +265,25 @@
                                                                             target:nil
                                                                             action:nil];
     self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-
-    [self loadInitialDataAndViews];
+    [self.noExercisesFoundLabel setHidden:YES];
 }
 
-- (void)loadInitialDataAndViews
+- (void)reloadData
 {
-    [self.noExercisesFoundLabel setHidden:YES];
     
-    CGRect viewFrame = self.view.frame;
-    viewFrame.size.height-=20.0f;
-    self.view.frame = viewFrame;
-    
-    
-    if(self.needRefreshData) {
-        
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        
+    if((self.needRefreshData) && (!self.loadingData)) {
+
+        self.loadingData = TRUE;
+
+        self.loadExercisesHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.loadExercisesHud.labelText = @"Loading exercises";
+
         GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
         [gymneaWSClient requestExercisesWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSArray *exercises) {
             
             if(success == GymneaWSClientRequestSuccess) {
-                
+                self.needRefreshData = FALSE;
+
                 self.exercisesList = exercises;
                 
                 if(_collectionView == nil) {
@@ -322,19 +321,24 @@
                 if(![exercises count]) {
                     [self.noExercisesFoundLabel setHidden:NO];
                 }
-                
+
                 self.needRefreshData = FALSE;
-                
+
                 // Hide HUD after 0.3 seconds
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                     
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    [self.loadExercisesHud hide:YES];
+                    self.loadingData = FALSE;
                 });
                 
             }
             else {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"An unexpected error occurred. Check your Internet connection and retry again." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
                 [alert show];
+
+                [self.loadExercisesHud hide:YES];
+                self.loadingData = FALSE;
+                self.needRefreshData = TRUE;
             }
             
         }];
@@ -369,7 +373,8 @@
 - (void)searchExercisesWithFilters
 {
     // Reload the exercises applying the filters
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.loadExercisesHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.loadExercisesHud.labelText = @"Searching";
     
     GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
     [gymneaWSClient requestLocalExercisesWithType:exerciseType
@@ -395,7 +400,7 @@
                                           [self.noExercisesFoundLabel setHidden:NO];
                                       }
                                       
-                                      [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                      [self.loadExercisesHud hide:YES];
                                   });
                                   
                               }];
