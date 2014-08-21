@@ -10,13 +10,12 @@
 #import "GEAPopoverViewController.h"
 
 // Sizes
-static const float kGEAPopoverContentWidth = 188.0f; //148.0f;
+static const float kGEAPopoverContentWidth = 188.0f;
 static const float kGEAPopoverContentRowHeight = 44.0f;
 static const float kGEAPopoverContentSeparatorHeight = 2.0f;
 static const float kGEAPopoverMaxContentHeight = 350.0f;
 static const float kGEAPopoverTailWidth = 23.0f;
 static const float kGEAPopoverTailHeight = 13.0f;
-static const float kGEAPopoverTableCellHeight = 17.0f;
 static const float kGEAPopoverIconWidth = 20.0f;
 static const float kGEAPopoverIconHeight = 20.0f;
 static const float kGEAPopoverTextWidth = 140.0f;
@@ -57,7 +56,6 @@ static NSString * const kReuseIdentifierLast = @"GEAPopoverLastCellID";
 @property (retain, nonatomic) UIView *contentContainer;
 @property (retain, nonatomic) UIView *darkContainer;
 @property (retain, nonatomic) UIImageView *tailImage;
-//@property (retain, nonatomic) UIImageView *contentContainerBackground;
 @property (atomic) GEAAlignment contentAlignment;
 @property (atomic) float tailCenterX;
 @property (atomic) float totalRows;
@@ -158,16 +156,6 @@ static NSString * const kReuseIdentifierLast = @"GEAPopoverLastCellID";
         [v addSubview:self.contentContainer];
     }
 
-/*
-    self.contentContainerBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,kGEAPopoverContentWidth,kGEAPopoverMaxContentHeight)];
-    [self.contentContainerBackground setContentMode:UIViewContentModeScaleToFill];
-
-    UIImage *contentContainerBackgroundImage = [[UIImage imageNamed:@"img_popover_bg.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(kGEAPopoverContentVerticalMargin, kGEAPopoverContentVerticalMargin, kGEAPopoverContentVerticalMargin, kGEAPopoverContentVerticalMargin)];
-    [self.contentContainerBackground setAutoresizesSubviews:YES];
-    [self.contentContainerBackground setImage:contentContainerBackgroundImage];
-    [self.contentContainer addSubview:self.contentContainerBackground];
-    [self.contentContainer setAutoresizesSubviews:YES];
-*/
     //self.contentContainer.layer.masksToBounds = YES;
     self.contentContainer.layer.cornerRadius = kGEAPopoverContentCornerRadius;
 
@@ -256,7 +244,6 @@ static NSString * const kReuseIdentifierLast = @"GEAPopoverLastCellID";
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -287,7 +274,7 @@ static NSString * const kReuseIdentifierLast = @"GEAPopoverLastCellID";
     // Set the tableView height
     int tableViewHeight = 0;
     if(self.totalRows>1)    tableViewHeight = ((self.totalRows-1)*kGEAPopoverContentRowHeight) + (kGEAPopoverContentRowHeight-kGEAPopoverContentVerticalMargin);
-    else                    tableViewHeight = (self.totalRows-1)*kGEAPopoverContentRowHeight;
+    else                    tableViewHeight = self.totalRows * kGEAPopoverContentRowHeight;
 
     self.tableView.frame = CGRectMake(0, kGEAPopoverContentVerticalMargin, kGEAPopoverContentWidth, tableViewHeight);
 
@@ -296,11 +283,6 @@ static NSString * const kReuseIdentifierLast = @"GEAPopoverLastCellID";
     contentContainerFrame.size.height = kGEAPopoverContentVerticalMargin + tableViewHeight + kGEAPopoverContentVerticalMargin;
     self.contentContainer.frame = contentContainerFrame;
 
-/*
-    CGRect contentContainerBackgroundFrame = self.contentContainerBackground.frame;
-    contentContainerBackgroundFrame.size.height = contentContainerFrame.size.height;
-    self.contentContainerBackground.frame = contentContainerBackgroundFrame;
-*/
     return self.totalRows;
 }
 

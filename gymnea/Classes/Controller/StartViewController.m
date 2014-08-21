@@ -140,12 +140,12 @@
     
     
     ExercisesViewController *exercisesViewController = [[ExercisesViewController alloc] init];
-    [exercisesViewController.view setFrame:CGRectMake(0,0,320,690)];
+    //[exercisesViewController.view setFrame:CGRectMake(0,0,320,690)];
     [exercisesViewController.view setBackgroundColor:[UIColor whiteColor]];
     [exercisesViewController setTitle:@"Directory"];
     
     ExercisesSavedViewController *savedExercisesViewController = [[ExercisesSavedViewController alloc] init];
-    [savedExercisesViewController.view setFrame:CGRectMake(0,0,320,690)];
+    //[savedExercisesViewController.view setFrame:CGRectMake(0,0,320,690)];
     [savedExercisesViewController.view setBackgroundColor:[UIColor whiteColor]];
     [savedExercisesViewController setTitle:@"Saved"];
     

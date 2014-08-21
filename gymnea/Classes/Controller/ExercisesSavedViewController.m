@@ -42,6 +42,7 @@
                     collectionViewFrame.origin.x = 0;
                     
                     _collectionView = [[UICollectionView alloc] initWithFrame:collectionViewFrame collectionViewLayout:layout];
+                    _collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
                     [_collectionView setDataSource:self];
                     [_collectionView setDelegate:self];
                     
@@ -60,7 +61,7 @@
                     [self.view sendSubviewToBack:_disableCollectionView];
                     [self.view addSubview:_collectionView];
                     [self.view sendSubviewToBack:_collectionView];
-                    
+
                     [_collectionView reloadData];
                 }
                 

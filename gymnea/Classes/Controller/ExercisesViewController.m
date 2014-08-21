@@ -262,7 +262,8 @@
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:nil
                                                                             action:nil];
-    
+    self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+
     [self loadInitialDataAndViews];
 }
 
@@ -295,6 +296,7 @@
                     collectionViewFrame.origin.x = 0;
                     
                     _collectionView = [[UICollectionView alloc] initWithFrame:collectionViewFrame collectionViewLayout:layout];
+                    _collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
                     [_collectionView setDataSource:self];
                     [_collectionView setDelegate:self];
                     
@@ -308,7 +310,7 @@
                     [_disableCollectionView setBackgroundColor:[UIColor whiteColor]];
                     [_disableCollectionView setAlpha:0.3];
                     [_disableCollectionView setHidden:YES];
-                    
+
                     [self.view addSubview:_disableCollectionView];
                     [self.view sendSubviewToBack:_disableCollectionView];
                     [self.view addSubview:_collectionView];
