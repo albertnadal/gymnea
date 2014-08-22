@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Workout.h"
 
 @interface WorkoutDetailViewController : UIViewController
 
-- (id)initWithEventId:(int)eventId_;
+- (id)initWithWorkout:(Workout *)workout_;
 
 @end

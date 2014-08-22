@@ -8,10 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@class Exercise;
-
 @interface WorkoutDescriptionViewController : UIViewController
 
-- (id)initWithEvent:(Exercise *)event;
+- (id)initWithName:(NSString *)exerciseName withDescription:(NSString *)exerciseDescription;
 
 @end

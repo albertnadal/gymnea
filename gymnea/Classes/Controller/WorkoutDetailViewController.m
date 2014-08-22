@@ -14,13 +14,14 @@
 #import "AppDelegate.h"
 #import "EventReview.h"
 #import <QuartzCore/QuartzCore.h>
-//#import "VegasAPIClient.h"
+#import "GymneaWSClient.h"
 #import "Exercise.h"
 #import "ExerciseDetail.h"
 #import "GEALabel+Gymnea.h"
 #import "UIImageView+AFNetworking.h"
 #import "ChooseWorkoutDayViewController.h"
 #import "WorkoutPlayViewController.h"
+#import "MBProgressHUD.h"
 
 #define DETAILS_SEGMENT_INDEX 0
 #define WORKOUT_DAYS_SEGMENT_INDEX 1
@@ -38,11 +39,9 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 @interface WorkoutDetailViewController () <GEAPopoverViewControllerDelegate, UIScrollViewDelegate, ChooseWorkoutDayViewControllerDelegate>
 {
-    // Id and model of the event to show
-    int eventId;
-    ExerciseDetail *eventDetail;
-    NSArray *eventReviews;
-
+    Workout *workout;
+    WorkoutDetail *workoutDetail;
+    
     // Popover
     GEAPopoverViewController *popover;
 
@@ -79,13 +78,16 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 @property (nonatomic, weak) IBOutlet UILabel *workoutMuscles;
 @property (nonatomic, strong) GEAPopoverViewController *popover;
 @property (nonatomic) bool showingDetails;
-@property (nonatomic, strong) ExerciseDetail *eventDetail;
+@property (nonatomic, strong) Workout *workout;
+@property (nonatomic, strong) WorkoutDetail *workoutDetail;
 @property (nonatomic, strong) NSArray *eventReviews;
+@property (nonatomic, retain) MBProgressHUD *loadWorkoutHud;
 
-- (void)loadEventDetailData;
+
+- (void)loadWorkoutDetailData;
 - (void)loadEventReviewsData;
 - (void)loadBanner;
-- (void)updateEventDetailData;
+- (void)updateWorkoutDetailData;
 - (void)updateBannerData;
 - (void)updateBasicInfoData;
 - (void)updateDealData;
@@ -98,6 +100,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 - (IBAction)showDescription:(id)sender;
 - (IBAction)startWorkout:(id)sender;
 - (void)addActionsButton;
+- (UIImage*)imageByCropping:(UIImage *)imageToCrop toRect:(CGRect)rect;
 - (void)stretchBannerWithVerticalOffset:(CGFloat)offset;
 - (void)updateBannerSizeAndPosition:(CGFloat)offset;
 - (void)moveBannerWithVerticalOffset:(CGFloat)offset;
@@ -107,71 +110,59 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 @implementation WorkoutDetailViewController
 
-@synthesize eventId, eventDetail, showingDetails, popover, eventReviews, reviewsView, detailsView, workoutDaysTableViewController;
+@synthesize workout, workoutDetail, showingDetails, popover, eventReviews, reviewsView, detailsView, workoutDaysTableViewController;
 
-- (id)initWithEventId:(int)eventId_
+- (id)initWithWorkout:(Workout *)workout_;
 {
     if(self = [super initWithNibName:@"WorkoutDetailViewController" bundle:nil])
     {
-        self.eventId = eventId_;
         showingDetails = true; // Showing 'Details' (default) or 'Reviews'
         popover = nil;
         eventReviews = nil;
         reviewsView = nil;
         workoutDaysTableViewController = nil;
+
+        self.workout = workout_;
+        self.workoutDetail = nil;
+        popover = nil;
+
     }
 
     return self;
 }
 
-- (void)loadEventDetailData
+- (void)loadWorkoutDetailData
 {
-    // CNA test model and backend
-/*    [[VegasAPIClient sharedClient] getEvent:[NSString stringWithFormat:@"%d", self.eventId] success:^(Event *event)
-    {*/
-        ExerciseDetail *event = [[ExerciseDetail alloc] init];
-/*
-        [event setTitle:@"No Equipment At Home Workout"];
-        [event setEventId:@"1"];
-        [event setEventDescription:@"This workout routine provides a workout routine that can be done in the comfort of your own home without the usage of weight lifting or workout equipment other than your own bodyweight. The No Equipment at Home Workout can be performed for 3 to 5 days out of the week as long as you give your self a day or two worth of rest in between two days of working out. For this workout an individual will be performing bodyweight only exercises to improve muscular strength and endurance. You can burn more calories during the workout by turning it into a circuit and super-setting the exercises, performing one after another to keep your heart-rate up thus increasing your body's ability to burn more calories."];
-        [event setImageHorizontalUrl:@"http://www.lafruitera.com/19834.jpg"];
-        [event setMuscles:@"Chest, Triceps, Abdominals, Shoulders, Traps, Quadriceps, Hamstrings, Calves, Biceps, Forearms, Lower Back, Middle Back, Lats"];
-        [event setDaysAWeek:3];
-        [event setDifficulty:@"Intermediate"];
-        [event setType:@"General Fitness"];
- */
-        self.eventDetail = event;
-/*
-#warning Please, remove the following log before sending the app to production. This was made just for debug purposes.
-        NSDictionary *attributes = [[event entity] attributesByName];
-        for (NSString *key in [attributes allKeys])
-            NSLog(@"%@: %@", key, [event valueForKey:key]);
-*/
-/*
-        self.navigationItem.titleView = [[GEALabel alloc] initWithText:[event title] fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
-
-        [self loadBanner];
-        [self loadEventReviewsData];        // Download event reviews
-        [self updateEventDetailData];       // Updates the UI from model
-
-        [self.scroll setHidden:NO];
-        [self.buyContainer setHidden:NO];
-
-        [self addActionsButton];
-*/
-/*
-    } failure:^(NSError *error)
-    {
-#warning The following error message must be reviewed
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:@"Unable to reach the network."
-                                                       delegate:nil
-                                              cancelButtonTitle:@"Ok"
-                                              otherButtonTitles:nil];
-        [alert setTag:1];
-        [alert show];
+    [[GymneaWSClient sharedInstance] requestWorkoutDetailWithWorkout:self.workout withCompletionBlock:^(GymneaWSClientRequestStatus success, WorkoutDetail *theWorkout) {
+        if(success == GymneaWSClientRequestSuccess)
+        {
+            self.workoutDetail = theWorkout;
+            
+            [self loadBanner];
+            [self updateWorkoutDetailData];
+            
+            [self.scroll setHidden:NO];
+            [self.buyContainer setHidden:NO];
+            
+            [self addActionsButton];
+            
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:@"Unable to reach the network when retrieving the workout information."
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Ok"
+                                                  otherButtonTitles:nil];
+            [alert setTag:1];
+            [alert show];
+        }
+        
+        // Hide HUD after 0.3 seconds
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            
+            [self.loadWorkoutHud hide:YES];
+        });
+        
     }];
-*/
 }
 
 - (IBAction)startWorkout:(id)sender
@@ -237,60 +228,71 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     self.eventReviews = [NSArray arrayWithArray:eventReviewsTemp];
 }
 
+- (UIImage*)imageByCropping:(UIImage *)imageToCrop toRect:(CGRect)rect
+{
+    CGImageRef imageRef = CGImageCreateWithImageInRect([imageToCrop CGImage], rect);
+    UIImage *cropped = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);
+    return cropped;
+}
+
 - (void)loadBanner
 {
-/*
-    if([self.eventDetail.imageHorizontalUrl length])
-    {
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.eventDetail.imageHorizontalUrl]];
+    [[GymneaWSClient sharedInstance] requestImageForWorkout:workout.workoutId
+                                                   withSize:WorkoutImageSizeMedium
+                                        withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *image) {
 
-        __weak UIImageView *weakImageView = self.banner;
+                                            if(image == nil) {
+                                                image = [UIImage imageNamed:@"exercise-default-thumbnail"];
+                                            }
+                                            
+                                            UIImage *imageCropped = [self imageByCropping:image toRect:CGRectMake(0, (image.size.height/2.0f) - (120.0f/2.0f), image.size.width, 120.0f)];
+                                            
+                                            if(success==GymneaWSClientRequestSuccess) {
+                                                // First of all is necessary to rescale the image if the image width is diferent from the device screen width.
+                                                if(imageCropped.size.width != [[UIScreen mainScreen] bounds].size.width)
+                                                {
+                                                    
+                                                    CGFloat bannerWidth = [[UIScreen mainScreen] bounds].size.width;
+                                                    CGFloat bannerHeight = floor((([[UIScreen mainScreen] bounds].size.width * imageCropped.size.height) / imageCropped.size.width) + 0.5f);
+                                                    CGSize newBannerSize = CGSizeMake(bannerWidth, bannerHeight);
+                                                    
+                                                    UIGraphicsBeginImageContext(newBannerSize);
+                                                    [imageCropped drawInRect:CGRectMake(0, 0, newBannerSize.width, newBannerSize.height)];
+                                                    
+                                                    // Cross dissolve effect
+                                                    [UIView transitionWithView:self.view
+                                                                      duration:kGEABannerTransitionCrossDissolveDuration
+                                                                       options:UIViewAnimationOptionTransitionCrossDissolve
+                                                                    animations:^{
+                                                                        [self.banner setImage:UIGraphicsGetImageFromCurrentImageContext()];
+                                                                    } completion:nil];
+                                                    
+                                                    UIGraphicsEndImageContext();
+                                                }
+                                                else
+                                                {
+                                                    [self.banner setImage:imageCropped];
+                                                }
+                                                
+                                                [self updateBannerData];
+                                                [self updateWorkoutDetailData];       // Updates the UI from model
 
-        [weakImageView setImageWithURLRequest:request placeholderImage: [UIImage imageNamed:kGEAEventDetailImagePlaceholder] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-            // First of all is necessary to rescale the image if the image width is diferent from the device screen width.
-            if(image.size.width != [[UIScreen mainScreen] bounds].size.width)
-            {
-                CGFloat bannerWidth = [[UIScreen mainScreen] bounds].size.width;
-                CGFloat bannerHeight = floor((([[UIScreen mainScreen] bounds].size.width * image.size.height) / image.size.width) + 0.5f);
-                CGSize newBannerSize = CGSizeMake(bannerWidth, bannerHeight);
-                
-                UIGraphicsBeginImageContext(newBannerSize);
-                [image drawInRect:CGRectMake(0, 0, newBannerSize.width, newBannerSize.height)];
-                
-                // Cross dissolve effect
-                [UIView transitionWithView:self.view
-                                  duration:kGEABannerTransitionCrossDissolveDuration
-                                   options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{
-                                    [self.banner setImage:UIGraphicsGetImageFromCurrentImageContext()];
-                                } completion:nil];
-                
-                UIGraphicsEndImageContext();
-            }
-            else
-            {
-                [self.banner setImage:image];
-            }
-            
-            [self updateBannerData];
-            [self updateEventDetailData];       // Updates the UI from model
+                                            }
 
-        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+    }];
 
-        }];
+    [self updateBannerData];
 
-        [self updateBannerData];
-    }
-*/
 }
 
 - (void)updateBasicInfoData
 {
-/*
+
     CGRect bannerContainerFrame = self.bannerContainer.frame;
     CGFloat baseYPosition = bannerContainerFrame.origin.y + bannerContainerFrame.size.height + 1.0f;
 
-    [self.eventTitle setText:self.eventDetail.title];
+    [self.eventTitle setText:self.workout.name];
     [self.eventTitle sizeToFit];
 
     CGRect eventTitleFrame = self.eventTitle.frame;
@@ -323,13 +325,13 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     descriptionFrame.origin.y = descriptionButtonFrame.origin.y + kGEADescriptionButtonMargin;
     [self.description setFrame:descriptionFrame];
 
-    [self.description setText:self.eventDetail.eventDescription];
+    [self.description setText:self.workoutDetail.workoutDescription];
 
     CGRect basicInfoContainerFrame = self.basicInfoContainer.frame;
     basicInfoContainerFrame.origin.y = baseYPosition;
     basicInfoContainerFrame.size.height = descriptionButtonFrame.origin.y + descriptionButtonFrame.size.height;
     [self.basicInfoContainer setFrame:basicInfoContainerFrame];
-*/
+
 }
 
 - (void)updateDealData
@@ -469,18 +471,18 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 - (void)updateDetailsData
 {
-/*
+
     if(showingDetails)
     {
         [self.detailsView setHidden:NO];
         CGRect segmentContainerFrame = self.segmentContainer.frame;
         CGFloat baseYPosition = segmentContainerFrame.origin.y + segmentContainerFrame.size.height + 1.0f;
 
-        [self.workoutType setText:self.eventDetail.type];
+        [self.workoutType setText:[GEADefinitions retrieveTitleForWorkoutType:self.workout.typeId]];
 
-        [self.workoutFrequency setText:[NSString stringWithFormat:@"%d days / week", self.eventDetail.daysAWeek]];
-        [self.workoutDifficulty setText:self.eventDetail.difficulty];
-//        [self.workoutMuscles setText:self.eventDetail.muscles];
+        [self.workoutFrequency setText:[NSString stringWithFormat:@"%d days / week", self.workout.frequency]];
+        [self.workoutDifficulty setText:[GEADefinitions retrieveTitleForWorkoutLevel:self.workout.levelId]];
+        [self.workoutMuscles setText:self.workoutDetail.muscles];
         [self.workoutMuscles sizeToFit];
 
         CGRect detailsViewFrame = self.detailsView.frame;
@@ -494,7 +496,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         [self.detailsView removeFromSuperview];
         [self.detailsView setHidden:YES];
     }
-*/
+
 }
 
 - (void)updateScroll
@@ -520,18 +522,18 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     {
         // If banner image is available to show
         [self.bannerContainer setHidden:NO];
-
+        
         // Adjust banner height
         int bannerHeight = self.banner.image.size.height;
         CGRect bannerFrame = self.banner.frame;
         bannerFrame.size.height = bannerHeight;
         [self.banner setFrame:bannerFrame];
-
+        
         // Adjust banner shadow position
         CGRect bannerBottomShadowFrame = self.bannerBottomShadow.frame;
         bannerBottomShadowFrame.origin.y = bannerHeight - bannerBottomShadowFrame.size.height + 1.0f;
         [self.bannerBottomShadow setFrame:bannerBottomShadowFrame];
-
+        
         // Adjust banner container height
         CGRect bannerContainerFrame = self.bannerContainer.frame;
         bannerContainerFrame.size.height = bannerHeight;
@@ -539,14 +541,13 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     }
 }
 
-- (void)updateEventDetailData
+- (void)updateWorkoutDetailData
 {
     [self updateBannerData];
     [self updateBasicInfoData];
     [self updateDealData];
     [self updateSegmentControl];
     [self updateDetailsData];
-    //[self updateReviewsData];
     [self updateWorkoutDaysData];
     [self updateScroll];
 }
@@ -554,29 +555,31 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:nil
                                                                             action:nil];
-
+    
+    self.navigationItem.titleView = [[GEALabel alloc] initWithText:[self.workout name] fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+    
+    self.loadWorkoutHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.loadWorkoutHud.labelText = @"Loading workout";
+    
     self.descriptionButton.layer.borderWidth = 1.0f;
     self.descriptionButton.layer.borderColor = [UIColor colorWithRed:111.0/255.0 green:190.0/255.0 blue:226.0/255.0 alpha:1.0].CGColor;
     self.descriptionButton.layer.cornerRadius = 2.0;
     UIBezierPath *descriptionBackgroundViewShadowPath = [UIBezierPath bezierPathWithRect:self.descriptionButton.bounds];
     self.descriptionButton.layer.shadowPath = descriptionBackgroundViewShadowPath.CGPath;
-
-    // Add the back button
-/*    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    [fixedSpace setWidth:16.0];
-    NSArray* items = @[fixedSpace];
-    [self.navigationItem setLeftBarButtonItems:items animated:NO];
-    [self.navigationItem setLeftItemsSupplementBackButton:YES];*/
-
+    
     [self.scroll setHidden:YES];
     [self.buyContainer setHidden:YES];
-
-    [self loadEventDetailData];         // Download event details from web service
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [self loadWorkoutDetailData];
+    });
 
 }
 
@@ -614,13 +617,13 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
                                             break;
     }
 
-    [self updateEventDetailData];
+    [self updateWorkoutDetailData];
 }
 
 - (IBAction)showDescription:(id)sender
 {
-//    WorkoutDescriptionViewController *edvc = [[WorkoutDescriptionViewController alloc] initWithEvent:self.eventDetail];
-//    [self.navigationController pushViewController:edvc animated:YES];
+    WorkoutDescriptionViewController *edvc = [[WorkoutDescriptionViewController alloc] initWithName:self.workout.name withDescription:self.workoutDetail.workoutDescription];
+    [self.navigationController pushViewController:edvc animated:YES];
 }
 
 /*

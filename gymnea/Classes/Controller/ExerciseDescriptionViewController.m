@@ -8,7 +8,6 @@
 
 #import "ExerciseDescriptionViewController.h"
 #import "GEALabel+Gymnea.h"
-#import "ExerciseDetail.h"
 
 // Paddings and margins
 static float const kGEASpaceBetweenLabels = 10.0f;

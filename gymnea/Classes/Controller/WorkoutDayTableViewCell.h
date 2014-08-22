@@ -10,5 +10,6 @@
 
 @interface WorkoutDayTableViewCell : UITableViewCell
 
+@property (nonatomic, weak) IBOutlet UIImageView *thumbnail;
 
 @end

@@ -246,7 +246,8 @@
     Exercise *exercise = (Exercise *)[self.exercisesList objectAtIndex:indexPath.row];
 
     ExerciseDetailViewController *viewController = [[ExerciseDetailViewController alloc] initWithExercise:exercise];
-    [viewController.view setFrame:CGRectMake(0,0,320,690)];
+    viewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    viewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     CGRect viewControllerFrame = viewController.navigationController.toolbar.frame;
     viewControllerFrame.origin.y = 20;
     viewController.navigationController.toolbar.frame = viewControllerFrame;
@@ -295,6 +296,7 @@
                     collectionViewFrame.origin.x = 0;
                     
                     _collectionView = [[UICollectionView alloc] initWithFrame:collectionViewFrame collectionViewLayout:layout];
+                    [_collectionView setHidden:YES];
                     _collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
                     [_collectionView setDataSource:self];
                     [_collectionView setDelegate:self];
@@ -329,6 +331,15 @@
                     
                     [self.loadExercisesHud hide:YES];
                     self.loadingData = FALSE;
+                    
+                    [_collectionView setAlpha:0.0f];
+                    [_collectionView setHidden:NO];
+                    
+                    [UIView beginAnimations:@"fade in" context:nil];
+                    [UIView setAnimationDuration:0.3];
+                    _collectionView.alpha = 1.0;
+                    [UIView commitAnimations];
+
                 });
                 
             }
@@ -373,6 +384,8 @@
 - (void)searchExercisesWithFilters
 {
     // Reload the exercises applying the filters
+    [_collectionView setHidden:YES];
+
     self.loadExercisesHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.loadExercisesHud.labelText = @"Searching";
     
@@ -401,6 +414,15 @@
                                       }
                                       
                                       [self.loadExercisesHud hide:YES];
+
+                                      [_collectionView setAlpha:0.0f];
+                                      [_collectionView setHidden:NO];
+                                      
+                                      [UIView beginAnimations:@"fade in" context:nil];
+                                      [UIView setAnimationDuration:0.3];
+                                      _collectionView.alpha = 1.0;
+                                      [UIView commitAnimations];
+
                                   });
                                   
                               }];

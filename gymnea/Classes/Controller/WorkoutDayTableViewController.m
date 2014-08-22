@@ -108,12 +108,16 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GEAWorkoutDay"];
+    WorkoutDayTableViewCell *cell = (WorkoutDayTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"GEAWorkoutDay"];
 
     if(cell == nil)
     {
         cell = [[WorkoutDayTableViewCell alloc] init];
     }
+
+    cell.thumbnail.layer.cornerRadius = 2.0;
+    UIBezierPath *thumbnailShadowPath = [UIBezierPath bezierPathWithRect:cell.thumbnail.bounds];
+    cell.thumbnail.layer.shadowPath = thumbnailShadowPath.CGPath;
 
     return cell;
 }

@@ -86,6 +86,8 @@
 		FFC9892919A6745B00E2C592 /* Workout+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = FFC9892819A6745B00E2C592 /* Workout+Management.m */; };
 		FFC9892D19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFC9892A19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.xib */; };
 		FFC9892E19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = FFC9892B19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.m */; };
+		FFC9893119A76C2700E2C592 /* WorkoutDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = FFC9893019A76C2700E2C592 /* WorkoutDetail.m */; };
+		FFC9893419A77BDD00E2C592 /* WorkoutDetail+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = FFC9893319A77BDD00E2C592 /* WorkoutDetail+Management.m */; };
 		FFCAB301199E44CF00A0036A /* ExerciseDetail+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = FFCAB300199E44CF00A0036A /* ExerciseDetail+Management.m */; };
 		FFDDE707197D2A34009694D9 /* GenericWorkoutsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFDDE705197D2A34009694D9 /* GenericWorkoutsViewController.m */; };
 		FFE6B6261997BA5E00F105B8 /* Exercise+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = FFE6B6251997BA5E00F105B8 /* Exercise+Management.m */; };
@@ -236,6 +238,10 @@
 		FFC9892A19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkoutFilterCollectionReusableView.xib; path = Classes/Controller/WorkoutFilterCollectionReusableView.xib; sourceTree = "<group>"; };
 		FFC9892B19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutFilterCollectionReusableView.m; path = Classes/Controller/WorkoutFilterCollectionReusableView.m; sourceTree = "<group>"; };
 		FFC9892C19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutFilterCollectionReusableView.h; path = Classes/Controller/WorkoutFilterCollectionReusableView.h; sourceTree = "<group>"; };
+		FFC9892F19A76C2700E2C592 /* WorkoutDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutDetail.h; path = Classes/Model/WorkoutDetail.h; sourceTree = "<group>"; };
+		FFC9893019A76C2700E2C592 /* WorkoutDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutDetail.m; path = Classes/Model/WorkoutDetail.m; sourceTree = "<group>"; };
+		FFC9893219A77BDD00E2C592 /* WorkoutDetail+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WorkoutDetail+Management.h"; sourceTree = "<group>"; };
+		FFC9893319A77BDD00E2C592 /* WorkoutDetail+Management.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WorkoutDetail+Management.m"; sourceTree = "<group>"; };
 		FFCAB2FF199E44CF00A0036A /* ExerciseDetail+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ExerciseDetail+Management.h"; sourceTree = "<group>"; };
 		FFCAB300199E44CF00A0036A /* ExerciseDetail+Management.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExerciseDetail+Management.m"; sourceTree = "<group>"; };
 		FFDDE704197D2A34009694D9 /* GenericWorkoutsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericWorkoutsViewController.h; path = Classes/Controller/GenericWorkoutsViewController.h; sourceTree = "<group>"; };
@@ -435,6 +441,10 @@
 				FFC9892819A6745B00E2C592 /* Workout+Management.m */,
 				FFC9892419A6719600E2C592 /* Workout.h */,
 				FFC9892519A6719600E2C592 /* Workout.m */,
+				FFC9893219A77BDD00E2C592 /* WorkoutDetail+Management.h */,
+				FFC9893319A77BDD00E2C592 /* WorkoutDetail+Management.m */,
+				FFC9892F19A76C2700E2C592 /* WorkoutDetail.h */,
+				FFC9893019A76C2700E2C592 /* WorkoutDetail.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -830,6 +840,7 @@
 				FFF0843219926C1C009C50F8 /* UserInfo.m in Sources */,
 				FF9110B8197B1ED400818E95 /* ExerciseDetail.m in Sources */,
 				FF03958A196D528200EA1CF6 /* StartViewController.m in Sources */,
+				FFC9893119A76C2700E2C592 /* WorkoutDetail.m in Sources */,
 				FFC9892919A6745B00E2C592 /* Workout+Management.m in Sources */,
 				FF2521ED1987E78000D9E9B1 /* GenericWorkoutCollectionViewCell.m in Sources */,
 				FF8A911119A3AC1D000F3CDF /* ExercisePlayViewController.m in Sources */,
@@ -851,6 +862,7 @@
 				FFABFDCF196C4A03004FC527 /* InitialQuestionnaireGoalViewController.m in Sources */,
 				FF60FBBF1996C3EA00DC2F14 /* ExerciseCollectionViewCell.m in Sources */,
 				FF81625D1983222000443C13 /* ChooseWorkoutDayTableViewCell.m in Sources */,
+				FFC9893419A77BDD00E2C592 /* WorkoutDetail+Management.m in Sources */,
 				FFABFDD6196C88C4004FC527 /* SignUpViewController.m in Sources */,
 				FFCAB301199E44CF00A0036A /* ExerciseDetail+Management.m in Sources */,
 				FF13B072198C26CE00FB6461 /* GEAAuthenticationKeychainStore.m in Sources */,

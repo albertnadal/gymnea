@@ -13,6 +13,7 @@
 #import "Exercise+Management.h"
 #import "ExerciseDetail+Management.h"
 #import "Workout+Management.h"
+#import "WorkoutDetail+Management.h"
 #import "UserInfo+Management.h"
 
 typedef enum _GymneaWSClientRequestStatus
@@ -39,6 +40,7 @@ typedef void(^userInfoCompletionBlock)(GymneaWSClientRequestStatus success, NSDi
 typedef void(^userImageCompletionBlock)(GymneaWSClientRequestStatus success, UIImage *userImage);
 typedef void(^exercisesCompletionBlock)(GymneaWSClientRequestStatus success, NSArray *exercises);
 typedef void(^exerciseDetailCompletionBlock)(GymneaWSClientRequestStatus success, ExerciseDetail *exercise);
+typedef void(^workoutDetailCompletionBlock)(GymneaWSClientRequestStatus success, WorkoutDetail *workout);
 typedef void(^exerciseVideoLoopCompletionBlock)(GymneaWSClientRequestStatus success, NSData *video);
 typedef void(^workoutsCompletionBlock)(GymneaWSClientRequestStatus success, NSArray *workouts);
 typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
@@ -104,5 +106,8 @@ typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
 - (void)requestImageForWorkout:(int)workoutId
                       withSize:(GymneaWorkoutImageSize)size
            withCompletionBlock:(userImageCompletionBlock)completionBlock;
+
+- (void)requestWorkoutDetailWithWorkout:(Workout *)workout
+                    withCompletionBlock:(workoutDetailCompletionBlock)completionBlock;
 
 @end

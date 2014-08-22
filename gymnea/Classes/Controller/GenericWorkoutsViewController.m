@@ -8,6 +8,7 @@
 
 #import "GenericWorkoutsViewController.h"
 #import "GenericWorkoutCollectionViewCell.h"
+#import "WorkoutDetailViewController.h"
 
 @interface GenericWorkoutsViewController ()
 
@@ -194,17 +195,16 @@
 
 - (void)showWorkoutDetailsAtIndexPath:(NSIndexPath*)indexPath
 {
-/*
-    Exercise *exercise = (Exercise *)[self.workoutsList objectAtIndex:indexPath.row];
+    Workout *workout = (Workout *)[self.workoutsList objectAtIndex:indexPath.row];
     
-    ExerciseDetailViewController *viewController = [[ExerciseDetailViewController alloc] initWithExercise:exercise];
-    [viewController.view setFrame:CGRectMake(0,0,320,690)];
+    WorkoutDetailViewController *viewController = [[WorkoutDetailViewController alloc] initWithWorkout:workout];
+    viewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    viewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     CGRect viewControllerFrame = viewController.navigationController.toolbar.frame;
     viewControllerFrame.origin.y = 20;
     viewController.navigationController.toolbar.frame = viewControllerFrame;
     viewController.edgesForExtendedLayout = UIRectEdgeNone;
     [self.navigationController pushViewController:viewController animated:YES];
-*/
 }
 
 - (void)viewDidLoad
@@ -227,7 +227,7 @@
     if((self.needRefreshData) && (!self.loadingData)) {
         
         self.loadingData = TRUE;
-        
+
         self.loadWorkoutsHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.loadWorkoutsHud.labelText = @"Loading workouts";
         
@@ -248,6 +248,7 @@
                     collectionViewFrame.origin.x = 0;
                     
                     _collectionView = [[UICollectionView alloc] initWithFrame:collectionViewFrame collectionViewLayout:layout];
+                    [_collectionView setHidden:YES];
                     _collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
                     [_collectionView setDataSource:self];
                     [_collectionView setDelegate:self];
@@ -282,6 +283,17 @@
                     
                     [self.loadWorkoutsHud hide:YES];
                     self.loadingData = FALSE;
+
+                    [self.loadWorkoutsHud hide:YES];
+                    
+                    [_collectionView setAlpha:0.0f];
+                    [_collectionView setHidden:NO];
+                    
+                    [UIView beginAnimations:@"fade in" context:nil];
+                    [UIView setAnimationDuration:0.3];
+                    _collectionView.alpha = 1.0;
+                    [UIView commitAnimations];
+
                 });
                 
             }
@@ -323,6 +335,9 @@
 - (void)searchWorkoutsWithFilters
 {
     // Reload the exercises applying the filters
+
+    [_collectionView setHidden:YES];
+
     self.loadWorkoutsHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.loadWorkoutsHud.labelText = @"Searching";
 
@@ -350,6 +365,14 @@
                                       }
                                       
                                       [self.loadWorkoutsHud hide:YES];
+
+                                      [_collectionView setAlpha:0.0f];
+                                      [_collectionView setHidden:NO];
+
+                                      [UIView beginAnimations:@"fade in" context:nil];
+                                      [UIView setAnimationDuration:0.3];
+                                      _collectionView.alpha = 1.0;
+                                      [UIView commitAnimations];
                                   });
                                   
                               }];
