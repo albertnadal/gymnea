@@ -82,6 +82,10 @@
 		FFABFDD9196C8920004FC527 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFABFDD8196C8920004FC527 /* SignUpViewController.xib */; };
 		FFABFDDD196CA111004FC527 /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFABFDDB196CA111004FC527 /* LogInViewController.m */; };
 		FFADD41C198851A4009F14F3 /* clock_tic.wav in Resources */ = {isa = PBXBuildFile; fileRef = FFADD41B198851A4009F14F3 /* clock_tic.wav */; };
+		FFC9892619A6719600E2C592 /* Workout.m in Sources */ = {isa = PBXBuildFile; fileRef = FFC9892519A6719600E2C592 /* Workout.m */; };
+		FFC9892919A6745B00E2C592 /* Workout+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = FFC9892819A6745B00E2C592 /* Workout+Management.m */; };
+		FFC9892D19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFC9892A19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.xib */; };
+		FFC9892E19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = FFC9892B19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.m */; };
 		FFCAB301199E44CF00A0036A /* ExerciseDetail+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = FFCAB300199E44CF00A0036A /* ExerciseDetail+Management.m */; };
 		FFDDE707197D2A34009694D9 /* GenericWorkoutsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFDDE705197D2A34009694D9 /* GenericWorkoutsViewController.m */; };
 		FFE6B6261997BA5E00F105B8 /* Exercise+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = FFE6B6251997BA5E00F105B8 /* Exercise+Management.m */; };
@@ -225,6 +229,13 @@
 		FFABFDDB196CA111004FC527 /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LogInViewController.m; path = Classes/Controller/LogInViewController.m; sourceTree = "<group>"; };
 		FFADD41619884E0E009F14F3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		FFADD41B198851A4009F14F3 /* clock_tic.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = clock_tic.wav; sourceTree = "<group>"; };
+		FFC9892419A6719600E2C592 /* Workout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Workout.h; path = Classes/Model/Workout.h; sourceTree = "<group>"; };
+		FFC9892519A6719600E2C592 /* Workout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Workout.m; path = Classes/Model/Workout.m; sourceTree = "<group>"; };
+		FFC9892719A6745B00E2C592 /* Workout+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Workout+Management.h"; sourceTree = "<group>"; };
+		FFC9892819A6745B00E2C592 /* Workout+Management.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Workout+Management.m"; sourceTree = "<group>"; };
+		FFC9892A19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkoutFilterCollectionReusableView.xib; path = Classes/Controller/WorkoutFilterCollectionReusableView.xib; sourceTree = "<group>"; };
+		FFC9892B19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutFilterCollectionReusableView.m; path = Classes/Controller/WorkoutFilterCollectionReusableView.m; sourceTree = "<group>"; };
+		FFC9892C19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutFilterCollectionReusableView.h; path = Classes/Controller/WorkoutFilterCollectionReusableView.h; sourceTree = "<group>"; };
 		FFCAB2FF199E44CF00A0036A /* ExerciseDetail+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ExerciseDetail+Management.h"; sourceTree = "<group>"; };
 		FFCAB300199E44CF00A0036A /* ExerciseDetail+Management.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExerciseDetail+Management.m"; sourceTree = "<group>"; };
 		FFDDE704197D2A34009694D9 /* GenericWorkoutsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericWorkoutsViewController.h; path = Classes/Controller/GenericWorkoutsViewController.h; sourceTree = "<group>"; };
@@ -420,6 +431,10 @@
 				FFCAB300199E44CF00A0036A /* ExerciseDetail+Management.m */,
 				FF9110B6197B1ED400818E95 /* ExerciseDetail.h */,
 				FF9110B7197B1ED400818E95 /* ExerciseDetail.m */,
+				FFC9892719A6745B00E2C592 /* Workout+Management.h */,
+				FFC9892819A6745B00E2C592 /* Workout+Management.m */,
+				FFC9892419A6719600E2C592 /* Workout.h */,
+				FFC9892519A6719600E2C592 /* Workout.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -563,7 +578,6 @@
 				FF60FBC11996C76C00DC2F14 /* Exercises */,
 				FF6BBFFC199012B5001FC624 /* ExerciseDetails */,
 				FF23A648198297C800E62C5B /* WorkoutDetails */,
-				FF23A6451982968200E62C5B /* GenericWorkoutsViewController.xib */,
 				FF9110BB197BB1B500818E95 /* EventReviewViewController.xib */,
 				FFA1378D196A02D200DBEE68 /* InitialViewController.xib */,
 				FF80E941196B3A3600D29986 /* InitialQuestionnaireViewController.xib */,
@@ -614,9 +628,13 @@
 			children = (
 				FFDDE704197D2A34009694D9 /* GenericWorkoutsViewController.h */,
 				FFDDE705197D2A34009694D9 /* GenericWorkoutsViewController.m */,
+				FF23A6451982968200E62C5B /* GenericWorkoutsViewController.xib */,
 				FF2521EA1987E78000D9E9B1 /* GenericWorkoutCollectionViewCell.h */,
 				FF2521EB1987E78000D9E9B1 /* GenericWorkoutCollectionViewCell.m */,
 				FF2521EC1987E78000D9E9B1 /* GenericWorkoutCollectionViewCell.xib */,
+				FFC9892A19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.xib */,
+				FFC9892B19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.m */,
+				FFC9892C19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.h */,
 			);
 			name = Workouts;
 			sourceTree = "<group>";
@@ -741,6 +759,7 @@
 				FF6BBFFE19901370001FC624 /* ExerciseDetailViewController.xib in Resources */,
 				FF0DC1B9196CA1CC006E1817 /* LogInViewController.xib in Resources */,
 				FF441EAA197067EC00865065 /* GEASideMenuController.xib in Resources */,
+				FFC9892D19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.xib in Resources */,
 				FF81625E1983222000443C13 /* ChooseWorkoutDayTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -811,6 +830,7 @@
 				FFF0843219926C1C009C50F8 /* UserInfo.m in Sources */,
 				FF9110B8197B1ED400818E95 /* ExerciseDetail.m in Sources */,
 				FF03958A196D528200EA1CF6 /* StartViewController.m in Sources */,
+				FFC9892919A6745B00E2C592 /* Workout+Management.m in Sources */,
 				FF2521ED1987E78000D9E9B1 /* GenericWorkoutCollectionViewCell.m in Sources */,
 				FF8A911119A3AC1D000F3CDF /* ExercisePlayViewController.m in Sources */,
 				FF6A19101985430800DA4E40 /* WorkoutPlayViewController.m in Sources */,
@@ -818,6 +838,7 @@
 				FFDDE707197D2A34009694D9 /* GenericWorkoutsViewController.m in Sources */,
 				FF9110A5197B10BD00818E95 /* WorkoutDetailViewController.m in Sources */,
 				FF11F5C5196DF08200590C10 /* GEALabel+Gymnea.m in Sources */,
+				FFC9892E19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.m in Sources */,
 				FF13B06C198C26B600FB6461 /* SignUpForm.m in Sources */,
 				FF9110A6197B10BD00818E95 /* EventReviewViewController.m in Sources */,
 				FF11F5C4196DF08200590C10 /* GEALabel.m in Sources */,
@@ -839,6 +860,7 @@
 				FF3F70A8196D54BE007AADF1 /* GEASideMenuController.m in Sources */,
 				FF6BC005199015DA001FC624 /* ExerciseDescriptionViewController.m in Sources */,
 				FF78E77E198647AF001396E3 /* WorkoutPlayExerciseViewController.m in Sources */,
+				FFC9892619A6719600E2C592 /* Workout.m in Sources */,
 				FF78CC5D199AC7C9004E0D23 /* ExerciseFilterCollectionReusableView.m in Sources */,
 				FF9110B5197B1DF200818E95 /* EventReview.m in Sources */,
 			);

@@ -10,9 +10,5 @@
 
 @implementation GenericWorkoutCollectionViewCell
 
-- (void)awakeFromNib
-{
-    // Initialization code
-}
 
 @end

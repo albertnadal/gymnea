@@ -10,4 +10,12 @@
 
 @interface GenericWorkoutCollectionViewCell : UICollectionViewCell
 
+@property (nonatomic, weak) IBOutlet UIImageView *thumbnail;
+@property (nonatomic, weak) IBOutlet UILabel *workoutTitle;
+@property (nonatomic, weak) IBOutlet UIView *attributesView;
+@property (nonatomic, weak) IBOutlet UILabel *workoutType;
+@property (nonatomic, weak) IBOutlet UIView *separator;
+@property (nonatomic, weak) IBOutlet UILabel *workoutFrequency;;
+@property (nonatomic, weak) IBOutlet UILabel *workoutLevel;
+
 @end

@@ -12,6 +12,7 @@
 #import "SignUpForm.h"
 #import "Exercise+Management.h"
 #import "ExerciseDetail+Management.h"
+#import "Workout+Management.h"
 #import "UserInfo+Management.h"
 
 typedef enum _GymneaWSClientRequestStatus
@@ -39,6 +40,7 @@ typedef void(^userImageCompletionBlock)(GymneaWSClientRequestStatus success, UII
 typedef void(^exercisesCompletionBlock)(GymneaWSClientRequestStatus success, NSArray *exercises);
 typedef void(^exerciseDetailCompletionBlock)(GymneaWSClientRequestStatus success, ExerciseDetail *exercise);
 typedef void(^exerciseVideoLoopCompletionBlock)(GymneaWSClientRequestStatus success, NSData *video);
+typedef void(^workoutsCompletionBlock)(GymneaWSClientRequestStatus success, NSArray *workouts);
 typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
 
 @interface GymneaWSClient : NSObject<NSURLConnectionDelegate, NSURLSessionDelegate>
@@ -90,5 +92,17 @@ typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
 
 - (void)requestExerciseVideoLoopWithExercise:(Exercise *)exercise
                          withCompletionBlock:(exerciseVideoLoopCompletionBlock)completionBlock;
+
+- (void)requestWorkoutsWithCompletionBlock:(workoutsCompletionBlock)completionBlock;
+
+- (void)requestLocalWorkoutsWithType:(GymneaWorkoutType)workoutTypeId
+                       withFrequency:(int)frequence
+                           withLevel:(GymneaWorkoutLevel)levelId
+                            withName:(NSString *)searchText
+                 withCompletionBlock:(exercisesCompletionBlock)completionBlock;
+
+- (void)requestImageForWorkout:(int)workoutId
+                      withSize:(GymneaWorkoutImageSize)size
+           withCompletionBlock:(userImageCompletionBlock)completionBlock;
 
 @end

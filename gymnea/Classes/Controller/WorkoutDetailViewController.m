@@ -619,8 +619,8 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 - (IBAction)showDescription:(id)sender
 {
-    WorkoutDescriptionViewController *edvc = [[WorkoutDescriptionViewController alloc] initWithEvent:self.eventDetail];
-    [self.navigationController pushViewController:edvc animated:YES];
+//    WorkoutDescriptionViewController *edvc = [[WorkoutDescriptionViewController alloc] initWithEvent:self.eventDetail];
+//    [self.navigationController pushViewController:edvc animated:YES];
 }
 
 /*

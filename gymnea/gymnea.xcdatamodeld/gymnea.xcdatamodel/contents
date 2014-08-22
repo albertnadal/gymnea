@@ -39,9 +39,20 @@
         <attribute name="weightIsMetric" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="weightKilograms" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
     </entity>
+    <entity name="Workout" representedClassName="Workout" syncable="YES">
+        <attribute name="frequency" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="levelId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="photoMedium" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="photoSmall" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="saved" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="typeId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="workoutId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+    </entity>
     <elements>
         <element name="Exercise" positionX="0" positionY="0" width="128" height="180"/>
         <element name="ExerciseDetail" positionX="0" positionY="0" width="128" height="255"/>
         <element name="UserInfo" positionX="0" positionY="0" width="128" height="195"/>
+        <element name="Workout" positionX="0" positionY="108" width="128" height="165"/>
     </elements>
 </model>

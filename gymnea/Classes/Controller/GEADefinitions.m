@@ -63,6 +63,15 @@ NSString * const GEAExerciseColorLightBlue = @"#14b9e8";
 NSString * const GEAExerciseColorGreen = @"#6fae26";
 NSString * const GEAExerciseColorRed = @"#e63131";
 
+NSString * const GEAWorkoutBulking = @"Bulking";
+NSString * const GEAWorkoutCutting = @"Cutting";
+NSString * const GEAWorkoutGeneralFitness = @"General Fitness";
+NSString * const GEAWorkoutSportSpecific = @"Sport Specific";
+
+NSString * const GEAWorkoutEasy = @"Easy";
+NSString * const GEAWorkoutIntermediate = @"Intermediate";
+NSString * const GEAWorkoutExpert = @"Expert";
+
 @interface GEADefinitions()
 
 + (UIColor *)colorWithHexColorString:(NSString*)inColorString withAlpha:(float)alpha;
@@ -269,6 +278,71 @@ NSString * const GEAExerciseColorRed = @"#e63131";
     return [UIColor whiteColor];
 }
 
++ (NSString *)retrieveTitleForWorkoutType:(GymneaWorkoutType)typeId
+{
+    switch (typeId) {
+        case GymneaWorkoutAny:                      return @"Any";
+            break;
+            
+        case GymneaWorkoutBulking:                  return GEAWorkoutBulking;
+            break;
+            
+        case GymneaWorkoutCutting:                  return GEAWorkoutCutting;
+            break;
+            
+        case GymneaWorkoutGeneralFitness:           return GEAWorkoutGeneralFitness;
+            break;
+            
+        case GymneaWorkoutSportSpecific:            return GEAWorkoutSportSpecific;
+            break;
+
+        default:                                    break;
+    }
+    
+    return @"";
+}
+
++ (NSString *)retrieveTitleForWorkoutLevel:(GymneaWorkoutLevel)levelId
+{
+    switch (levelId) {
+            
+        case GymneaWorkoutEasy:            return GEAWorkoutEasy;
+            break;
+            
+        case GymneaWorkoutIntermediate:    return GEAWorkoutIntermediate;
+            break;
+            
+        case GymneaWorkoutExpert:          return GEAWorkoutExpert;
+            break;
+            
+        default:                            break;
+    }
+    
+    return @"";
+}
+
++ (UIColor *)retrieveColorForWorkoutType:(GymneaWorkoutType)typeId
+{
+    switch (typeId) {
+            
+        case GymneaWorkoutBulking:                  return [GEADefinitions colorWithHexColorString:GEAExerciseColorYellow withAlpha:0.2];
+            break;
+            
+        case GymneaWorkoutCutting:                  return [GEADefinitions colorWithHexColorString:GEAExerciseColorRed withAlpha:0.2];
+            break;
+            
+        case GymneaWorkoutGeneralFitness:           return [GEADefinitions colorWithHexColorString:GEAExerciseColorLightBlue withAlpha:0.2];
+            break;
+            
+        case GymneaWorkoutSportSpecific:            return [GEADefinitions colorWithHexColorString:GEAExerciseColorOrange withAlpha:0.2];
+            break;
+            
+        default:                                    break;
+    }
+    
+    return [UIColor whiteColor];
+}
+
 + (int)retrieveTotalExerciseTypes
 {
     return 8; // including "Any" exercise type
@@ -347,11 +421,37 @@ NSString * const GEAExerciseColorRed = @"#e63131";
 
 + (NSDictionary *)retrieveExerciseLevelsDictionary
 {
-    
     return @{ [NSNumber numberWithInt:GymneaExerciseLevelAny] : @"Any",
               [NSNumber numberWithInt:GymneaExerciseEasy] : GEAExerciseEasy,
               [NSNumber numberWithInt:GymneaExerciseIntermediate] : GEAExerciseIntermediate,
               [NSNumber numberWithInt:GymneaExerciseExpert] : GEAExerciseExpert };
+}
+
++ (int)retrieveTotalWorkoutTypes
+{
+    return 5; // including "Any" workout type
+}
+
++ (NSDictionary *)retrieveWorkoutTypesDictionary
+{
+    return @{ [NSNumber numberWithInt:GymneaWorkoutAny] : @"Any",
+              [NSNumber numberWithInt:GymneaWorkoutBulking] : GEAWorkoutBulking,
+              [NSNumber numberWithInt:GymneaWorkoutCutting] : GEAWorkoutCutting,
+              [NSNumber numberWithInt:GymneaWorkoutGeneralFitness] : GEAWorkoutGeneralFitness,
+              [NSNumber numberWithInt:GymneaWorkoutSportSpecific] : GEAWorkoutSportSpecific };
+}
+
++ (int)retrieveTotalWorkoutLevels
+{
+    return 4; // including "Any" level
+}
+
++ (NSDictionary *)retrieveWorkoutLevelsDictionary
+{
+    return @{ [NSNumber numberWithInt:GymneaWorkoutLevelAny] : @"Any",
+              [NSNumber numberWithInt:GymneaWorkoutEasy] : GEAWorkoutEasy,
+              [NSNumber numberWithInt:GymneaWorkoutIntermediate] : GEAWorkoutIntermediate,
+              [NSNumber numberWithInt:GymneaWorkoutExpert] : GEAWorkoutExpert };
 }
 
 + (UIColor *)colorWithHexColorString:(NSString*)hexString withAlpha:(float)alpha

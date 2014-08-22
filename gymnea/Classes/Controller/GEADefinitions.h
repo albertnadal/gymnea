@@ -73,6 +73,23 @@ typedef enum _GymneaExerciseLevel
     GymneaExerciseExpert = 3,
 } GymneaExerciseLevel;
 
+typedef enum _GymneaWorkoutType
+{
+    GymneaWorkoutAny = 0,
+    GymneaWorkoutBulking = 1,
+    GymneaWorkoutCutting = 2,
+    GymneaWorkoutGeneralFitness = 3,
+    GymneaWorkoutSportSpecific = 4
+} GymneaWorkoutType;
+
+typedef enum _GymneaWorkoutLevel
+{
+    GymneaWorkoutLevelAny = 0,
+    GymneaWorkoutEasy = 1,
+    GymneaWorkoutIntermediate = 2,
+    GymneaWorkoutExpert = 3,
+} GymneaWorkoutLevel;
+
 extern NSString * const GEAMuscleChest;
 extern NSString * const GEAMuscleForearms;
 extern NSString * const GEAMuscleLats;
@@ -128,6 +145,15 @@ extern NSString * const GEAExerciseColorLightBlue;
 extern NSString * const GEAExerciseColorGreen;
 extern NSString * const GEAExerciseColorRed;
 
+extern NSString * const GEAWorkoutBulking;
+extern NSString * const GEAWorkoutCutting;
+extern NSString * const GEAWorkoutGeneralFitness;
+extern NSString * const GEAWorkoutSportSpecific;
+
+extern NSString * const GEAWorkoutEasy;
+extern NSString * const GEAWorkoutIntermediate;
+extern NSString * const GEAWorkoutExpert;
+
 @interface GEADefinitions : NSObject
 
 + (NSString *)retrieveTitleForMuscle:(GymneaMuscleType)muscleId;
@@ -135,6 +161,9 @@ extern NSString * const GEAExerciseColorRed;
 + (NSString *)retrieveTitleForEquipment:(GymneaEquipmentType)equipmentId;
 + (NSString *)retrieveTitleForExerciseLevel:(GymneaExerciseLevel)levelId;
 + (UIColor *)retrieveColorForExerciseType:(GymneaExerciseType)typeId;
++ (NSString *)retrieveTitleForWorkoutType:(GymneaWorkoutType)typeId;
++ (NSString *)retrieveTitleForWorkoutLevel:(GymneaWorkoutLevel)levelId;
++ (UIColor *)retrieveColorForWorkoutType:(GymneaWorkoutType)typeId;
 + (int)retrieveTotalExerciseTypes;
 + (NSDictionary *)retrieveExerciseTypesDictionary;
 + (int)retrieveTotalMuscles;
@@ -143,5 +172,9 @@ extern NSString * const GEAExerciseColorRed;
 + (NSDictionary *)retrieveEquipmentsDictionary;
 + (int)retrieveTotalExerciseLevels;
 + (NSDictionary *)retrieveExerciseLevelsDictionary;
++ (int)retrieveTotalWorkoutTypes;
++ (NSDictionary *)retrieveWorkoutTypesDictionary;
++ (int)retrieveTotalWorkoutLevels;
++ (NSDictionary *)retrieveWorkoutLevelsDictionary;
 
 @end

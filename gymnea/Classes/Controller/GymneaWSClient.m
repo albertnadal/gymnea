@@ -790,6 +790,183 @@ typedef void(^responseVideoCompletionBlock)(GymneaWSClientRequestStatus success,
     }
 }
 
+- (void)requestWorkoutsWithCompletionBlock:(workoutsCompletionBlock)completionBlock
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+    
+    if(self.internetIsReachable) {
+        
+        // Retrieve data from web service API
+        
+        NSString *requestPath = @"/api/workouts_directory/get_workouts";
+        
+        [self performAsyncRequest:requestPath
+                   withDictionary:nil
+               withAuthentication:auth
+              withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
+                  
+                  NSMutableArray *workoutsArray = nil;
+                  
+                  if(success == GymneaWSClientRequestSuccess) {
+                      // Insert or update the current Workout register in the DB
+                      workoutsArray = [[NSMutableArray alloc] init];
+                      
+                      for (NSDictionary *workoutDict in (NSArray *)responseData) {
+                          NSLog(@"getWorkoutInfo: %d", [[workoutDict objectForKey:@"id"] intValue]);
+                          Workout *workoutFromDB = [Workout getWorkoutInfo:[[workoutDict objectForKey:@"id"] intValue]];
+                          
+                          if(workoutFromDB != nil) {
+                              
+                              // Keep current workout pictures in the DB
+                              [workoutFromDB updateWithWorkoutId:[[workoutDict objectForKey:@"id"] intValue]
+                                                            name:[workoutDict objectForKey:@"n"]
+                                                         isSaved:[[workoutDict objectForKey:@"s"] boolValue]
+                                                       frequency:[[workoutDict objectForKey:@"f"] intValue]
+                                                          typeId:[[workoutDict objectForKey:@"t"] intValue]
+                                                         levelId:[[workoutDict objectForKey:@"l"] intValue]
+                                                     photoMedium:[workoutFromDB photoMedium]
+                                                      photoSmall:[workoutFromDB photoSmall]];
+
+                              [workoutsArray addObject:workoutFromDB];
+                          } else {
+                              
+                              Workout *workoutInfo = [Workout updateWorkoutWithId:[[workoutDict objectForKey:@"id"] intValue] withDictionary:workoutDict];
+                              [workoutsArray addObject:workoutInfo];
+                          }
+                          
+                      }
+                      
+                      AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+                      [appDelegate saveContext];
+                  }
+                  
+                  dispatch_async(dispatch_get_main_queue(), ^{
+                      if(completionBlock != nil) {
+                          completionBlock(success, workoutsArray);
+                      }
+                      
+                  });
+                  
+              }];
+        
+    } else {
+        
+        NSArray *workoutsList = [Workout getWorkouts];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(completionBlock != nil) {
+                completionBlock(GymneaWSClientRequestSuccess, workoutsList);
+            }
+            
+        });
+        
+    }
+}
+
+- (void)requestLocalWorkoutsWithType:(GymneaWorkoutType)workoutTypeId
+                       withFrequency:(int)frequence
+                           withLevel:(GymneaWorkoutLevel)levelId
+                            withName:(NSString *)searchText
+                 withCompletionBlock:(exercisesCompletionBlock)completionBlock
+{
+    NSArray *workoutsList = [Workout getWorkoutsWithType:workoutTypeId
+                                           withFrequency:frequence
+                                               withLevel:levelId
+                                                withName:searchText];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(completionBlock != nil) {
+            completionBlock(GymneaWSClientRequestSuccess, workoutsList);
+        }
+
+    });
+}
+
+- (void)requestImageForWorkout:(int)workoutId
+                      withSize:(GymneaWorkoutImageSize)size
+           withCompletionBlock:(userImageCompletionBlock)completionBlock
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+    
+    UIImage *image = nil;
+    BOOL imageInDB = FALSE;
+    
+    // First try to retrieve the picture from the DB
+    Workout *workout = [Workout getWorkoutInfo:workoutId];
+
+    if(workout != nil) {
+
+        if((size == WorkoutImageSizeSmall) && (workout.photoSmall != nil)) {
+            image = [UIImage imageWithData:workout.photoSmall];
+        } else if((size == WorkoutImageSizeMedium) && (workout.photoMedium != nil)) {
+            image = [UIImage imageWithData:workout.photoMedium];
+        }
+
+        if(image != nil) {
+            imageInDB = TRUE;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if(completionBlock != nil) {
+                    completionBlock(GymneaWSClientRequestSuccess, image);
+                }
+            });
+            
+            return;
+        }
+    }
+    
+    if((self.internetIsReachable) && (!imageInDB)) {
+        
+        // Retrieve data from web service API
+
+        NSString *requestPath = nil;
+        if(size == WorkoutImageSizeSmall) {
+            requestPath = [NSString stringWithFormat:@"/photo_workout/small/%d", workoutId];
+        } else if(size == WorkoutImageSizeMedium) {
+            requestPath = [NSString stringWithFormat:@"/photo_workout/medium/%d", workoutId];
+        }
+
+        [self performImageAsyncRequest:requestPath
+                        withDictionary:nil
+                    withAuthentication:auth
+                   withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *image) {
+                       
+                       if(success == GymneaWSClientRequestSuccess) {
+                           // Update the exercise picture in the DB by using the UserInfo model
+                           
+                           if(size == ExerciseImageSizeSmall) {
+                               [workout updateWithPhotoSmall:UIImagePNGRepresentation(image)];
+                           } else if(size == ExerciseImageSizeMedium) {
+                               [workout updateWithPhotoMedium:UIImagePNGRepresentation(image)];
+                           }
+
+                           AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+                           [appDelegate saveContext];
+                       }
+
+                       dispatch_async(dispatch_get_main_queue(), ^{
+                           if(completionBlock != nil) {
+                               completionBlock(success, image);
+                           }
+                           
+                       });
+                       
+                   }];
+        
+    } else if(!imageInDB) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(completionBlock != nil) {
+                completionBlock(GymneaWSClientRequestSuccess, nil);
+            }
+            
+        });
+        
+    }
+}
+
 - (void)performVideoAsyncRequest:(NSString *)path
                   withDictionary:(NSDictionary *)values
               withAuthentication:(GEAAuthentication *)auth
