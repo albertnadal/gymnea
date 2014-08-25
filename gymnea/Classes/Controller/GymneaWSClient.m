@@ -1003,7 +1003,10 @@ typedef void(^responseVideoCompletionBlock)(GymneaWSClientRequestStatus success,
                       } else {
                           workoutDetail = [WorkoutDetail updateWorkoutWithId:[workout workoutId] withDictionary:workoutDetailsDict];
                       }
-                      
+
+                      // Update the workout days for this workout
+                      [workoutDetail updateWithWorkoutDaysDict:[workoutDetailsDict objectForKey:@"workoutDays"]];
+
                       AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
                       [appDelegate saveContext];
                       

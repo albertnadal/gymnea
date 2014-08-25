@@ -14,6 +14,7 @@
 #import "ExerciseDetail+Management.h"
 #import "Workout+Management.h"
 #import "WorkoutDetail+Management.h"
+#import "WorkoutDayExercise+Management.h";
 #import "UserInfo+Management.h"
 
 typedef enum _GymneaWSClientRequestStatus

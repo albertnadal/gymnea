@@ -78,7 +78,7 @@
     
     GenericWorkoutsViewController *workoutsViewController = [[GenericWorkoutsViewController alloc] init];
     [workoutsViewController.view setBackgroundColor:[UIColor whiteColor]];
-    [workoutsViewController setTitle:@"Generic"];
+    [workoutsViewController setTitle:@"Directory"];
 /*
     UIViewController *customWorkoutsViewController = [[UIViewController alloc] init];
     [customWorkoutsViewController.view setFrame:CGRectMake(0,0,320,690)];

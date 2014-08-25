@@ -15,5 +15,6 @@
 @property (nonatomic) int32_t workoutId;
 @property (nonatomic, retain) NSString *workoutDescription;
 @property (nonatomic, retain) NSString *muscles;
+@property (nonatomic, retain) NSSet *workoutDays;
 
 @end

@@ -497,6 +497,11 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
       [UIView setAnimationDelegate:self];
       [UIView setAnimationDuration:kGEAOpenCloseAnimationDuration];
 
+      [self.mainViewContainer setClipsToBounds:YES];
+      self.mainViewContainer.layer.cornerRadius = 0;
+      UIBezierPath *mainViewContainerShadowPath = [UIBezierPath bezierPathWithRect:self.mainViewContainer.bounds];
+      self.mainViewContainer.layer.shadowPath = mainViewContainerShadowPath.CGPath;
+
       CGAffineTransform zooming = CGAffineTransformMakeScale(1.0, 1.0);
       self.mainViewContainer.transform = zooming;
       [UIView commitAnimations];
@@ -548,6 +553,11 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
         xOffset = kGEAMainViewContainerOffset + xOffsetAdjustment;
       }
 
+        [self.mainViewContainer setClipsToBounds:YES];
+        self.mainViewContainer.layer.cornerRadius = (xOffset * 20) / [[UIScreen mainScreen] bounds].size.width;
+        UIBezierPath *mainViewContainerShadowPath = [UIBezierPath bezierPathWithRect:self.mainViewContainer.bounds];
+        self.mainViewContainer.layer.shadowPath = mainViewContainerShadowPath.CGPath;
+
         [UIView beginAnimations:@"mainViewControllerZooming" context:NULL];
         [UIView setAnimationDelegate:self];
         [UIView setAnimationDuration:0.000001f];
@@ -565,6 +575,12 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
       break;
     case UIGestureRecognizerStateEnded: {
       CGFloat xOffset = [panGesture translationInView:self.view].x + (self.sideMenuHidden ? 0 : kGEAMainViewContainerOffset);
+
+        [self.mainViewContainer setClipsToBounds:YES];
+        self.mainViewContainer.layer.cornerRadius = (xOffset * 20) / [[UIScreen mainScreen] bounds].size.width;
+        UIBezierPath *mainViewContainerShadowPath = [UIBezierPath bezierPathWithRect:self.mainViewContainer.bounds];
+        self.mainViewContainer.layer.shadowPath = mainViewContainerShadowPath.CGPath;
+
       CGFloat xVelocity = [panGesture velocityInView:self.view].x;
       if (ABS(xVelocity) >= kGEAVelocityTresshold) {
         if (xVelocity > 0) {

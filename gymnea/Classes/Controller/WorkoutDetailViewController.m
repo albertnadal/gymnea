@@ -1,5 +1,5 @@
 //
-//  EventDetailViewController.m
+//  WorkoutDetailViewController.m
 //  Gymnea
 //
 //  Created by Albert Nadal Garriga on 09/04/13.
@@ -21,6 +21,7 @@
 #import "UIImageView+AFNetworking.h"
 #import "ChooseWorkoutDayViewController.h"
 #import "WorkoutPlayViewController.h"
+#import "ExerciseDetailViewController.h"
 #import "MBProgressHUD.h"
 
 #define DETAILS_SEGMENT_INDEX 0
@@ -37,7 +38,7 @@ static CGFloat const kGEABannerOffsetFactor = 0.45f;
 static float const kGEABannerTransitionCrossDissolveDuration = 0.3f;
 static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeholder";
 
-@interface WorkoutDetailViewController () <GEAPopoverViewControllerDelegate, UIScrollViewDelegate, ChooseWorkoutDayViewControllerDelegate>
+@interface WorkoutDetailViewController () <GEAPopoverViewControllerDelegate, UIScrollViewDelegate, ChooseWorkoutDayViewControllerDelegate, WorkoutDayTableViewControllerDelegate>
 {
     Workout *workout;
     WorkoutDetail *workoutDetail;
@@ -145,7 +146,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
             [self.buyContainer setHidden:NO];
             
             [self addActionsButton];
-            
+
         } else {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                             message:@"Unable to reach the network when retrieving the workout information."
@@ -404,11 +405,10 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
         CGRect segmentContainerFrame = self.segmentContainer.frame;
         CGFloat baseYPosition = segmentContainerFrame.origin.y + segmentContainerFrame.size.height + kGEASpaceBetweenLabels;
-        
+
         if(!self.workoutDaysTableViewController)
         {
-            self.workoutDaysTableViewController = [[WorkoutDayTableViewController alloc] initWithWorkoutDays:[self.eventReviews objectAtIndex:0]];
-//            [self.workoutDaysTableViewController set
+            self.workoutDaysTableViewController = [[WorkoutDayTableViewController alloc] initWithWorkoutDays:self.workoutDetail.workoutDays withDelegate:self];
 
             CGRect workoutDaysFrame = self.workoutDaysTableViewController.view.frame;
             workoutDaysFrame.origin.x = 0.0f;
@@ -822,6 +822,20 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 {
     WorkoutPlayViewController *workoutPlayViewController = [[WorkoutPlayViewController alloc] init];
     [self.navigationController pushViewController:workoutPlayViewController animated:NO];
+}
+
+- (void)willSelectExerciseInWorkoutDayTableViewController:(WorkoutDayTableViewController *)workoutDayTableViewController withExerciseId:(int)exerciseId
+{
+    Exercise *exercise = [Exercise getExerciseInfo:exerciseId];
+    
+    ExerciseDetailViewController *viewController = [[ExerciseDetailViewController alloc] initWithExercise:exercise];
+    viewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    viewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    CGRect viewControllerFrame = viewController.navigationController.toolbar.frame;
+    viewControllerFrame.origin.y = 20;
+    viewController.navigationController.toolbar.frame = viewControllerFrame;
+    viewController.edgesForExtendedLayout = UIRectEdgeNone;
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 @end

@@ -11,5 +11,8 @@
 @interface WorkoutDayTableViewCell : UITableViewCell
 
 @property (nonatomic, weak) IBOutlet UIImageView *thumbnail;
+@property (nonatomic, weak) IBOutlet UILabel *titleLabel;
+@property (nonatomic, weak) IBOutlet UILabel *setsAndRepsLabel;
+@property (nonatomic, weak) IBOutlet UILabel *restTimeLabel;
 
 @end

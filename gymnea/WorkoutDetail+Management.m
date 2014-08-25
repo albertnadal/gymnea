@@ -7,6 +7,7 @@
 //
 
 #import "WorkoutDetail+Management.h"
+#import "WorkoutDay+Management.h"
 #import "ModelUtil.h"
 
 static NSString * const kEntityName = @"WorkoutDetail";
@@ -67,50 +68,7 @@ static NSString * const kEntityName = @"WorkoutDetail";
 
   return workoutInfo;
 }
-/*
-- (void)updateWithVideoLoop:(NSData *)video
-{
-    self.videoLoop = video;
-    
-    commitDefaultMOC();
-}
 
-- (void)updateWithPhotoMaleSmallSecond:(NSData *)photoSmall
-{
-    self.photoMaleSmallSecond = photoSmall;
-
-    commitDefaultMOC();
-}
-
-- (void)updateWithPhotoMaleMediumSecond:(NSData *)photoMedium
-{
-    self.photoMaleMediumSecond = photoMedium;
-
-    commitDefaultMOC();
-}
-
-- (void)updateWithPhotoFemaleSmall:(NSData *)photoSmall withOrder:(GymneaExerciseImageOrder)order
-{
-    if(order == ExerciseImageFirst) {
-        self.photoFemaleSmallFirst = photoSmall;
-    } else if(order == ExerciseImageSecond) {
-        self.photoFemaleSmallSecond = photoSmall;
-    }
-
-    commitDefaultMOC();
-}
-
-- (void)updateWithPhotoFemaleMedium:(NSData *)photoMedium withOrder:(GymneaExerciseImageOrder)order
-{
-    if(order == ExerciseImageFirst) {
-        self.photoFemaleMediumFirst = photoMedium;
-    } else if(order == ExerciseImageSecond) {
-        self.photoFemaleMediumSecond = photoMedium;
-    }
-
-    commitDefaultMOC();
-}
-*/
 - (void)updateWithWorkoutId:(int32_t)workoutId
             withDescription:(NSString *)theDescription
                 withMuscles:(NSString *)theMuscles
@@ -118,6 +76,41 @@ static NSString * const kEntityName = @"WorkoutDetail";
     self.workoutId = workoutId;
     self.workoutDescription = theDescription;
     self.muscles = theMuscles;
+}
+
+- (void)updateWithWorkoutDaysDict:(NSDictionary*)workoutDaysDict
+{
+    // If this workout already have workout days, so is necessary to update them.
+/*    if(self.workoutDays != nil) {
+        for(WorkoutDay* workoutDay in self.workoutDays) {
+            [WorkoutDay deleteWorkoutDayWithId:workoutDay.workoutDayId];
+        }
+    }*/
+
+    // Add all workout days
+    NSMutableSet *workoutDaysList = [[NSMutableSet alloc] init];
+
+    for (id workoutDayIdNumber in workoutDaysDict) {
+        NSDictionary *workoutDayDict = [workoutDaysDict objectForKey:(NSNumber *)workoutDayIdNumber];
+
+        // Create a workout day for this workout
+        int workoutDayId = [workoutDayIdNumber intValue];
+        WorkoutDay *workoutDay = [WorkoutDay workoutDayWithWorkoutDayId:workoutDayId
+                                                              dayNumber:[[workoutDayDict objectForKey:@"dayNumber"] intValue]
+                                                                    day:[workoutDayDict objectForKey:@"day"]
+                                                                  title:[workoutDayDict objectForKey:@"title"]
+                                                                workout:self];
+
+        // Add the workout day exercises to the workout day
+        [workoutDay updateWithWorkoutDayExercisesDict:[workoutDayDict objectForKey:@"exercises"]];
+
+        // Add the workout day to the workout days list
+        [workoutDaysList addObject:workoutDay];
+    }
+
+    self.workoutDays = [[NSSet alloc] initWithSet:workoutDaysList];
+
+    commitDefaultMOC();
 }
 
 @end

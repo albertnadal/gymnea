@@ -49,16 +49,38 @@
         <attribute name="typeId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="workoutId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
     </entity>
+    <entity name="WorkoutDay" representedClassName="WorkoutDay" syncable="YES">
+        <attribute name="dayName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dayNumber" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="workoutDayId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="workout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutDetail" syncable="YES"/>
+        <relationship name="workoutDayExercises" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WorkoutDayExercise" inverseName="workoutDay" inverseEntity="WorkoutDayExercise" syncable="YES"/>
+    </entity>
+    <entity name="WorkoutDayExercise" representedClassName="WorkoutDayExercise" syncable="YES">
+        <attribute name="exerciseId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="muscle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="reps" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sets" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="workoutDayId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="workoutDay" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutDay" inverseName="workoutDayExercises" inverseEntity="WorkoutDay" syncable="YES"/>
+    </entity>
     <entity name="WorkoutDetail" representedClassName="WorkoutDetail" syncable="YES">
         <attribute name="muscles" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="workoutDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="workoutId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="workoutDays" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WorkoutDay" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Exercise" positionX="0" positionY="0" width="128" height="180"/>
-        <element name="ExerciseDetail" positionX="0" positionY="0" width="128" height="255"/>
-        <element name="UserInfo" positionX="0" positionY="0" width="128" height="195"/>
-        <element name="Workout" positionX="0" positionY="108" width="128" height="165"/>
-        <element name="WorkoutDetail" positionX="9" positionY="126" width="128" height="90"/>
+        <element name="Exercise" positionX="-101" positionY="225" width="128" height="180"/>
+        <element name="ExerciseDetail" positionX="-252" positionY="222" width="128" height="255"/>
+        <element name="UserInfo" positionX="-254" positionY="3" width="128" height="195"/>
+        <element name="Workout" positionX="52" positionY="-0" width="128" height="163"/>
+        <element name="WorkoutDay" positionX="241" positionY="62" width="128" height="133"/>
+        <element name="WorkoutDayExercise" positionX="52" positionY="225" width="128" height="178"/>
+        <element name="WorkoutDetail" positionX="-101" positionY="-0" width="128" height="103"/>
     </elements>
 </model>

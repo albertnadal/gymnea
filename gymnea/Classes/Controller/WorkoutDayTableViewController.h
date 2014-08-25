@@ -7,11 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "EventReview.h"
+
+@protocol WorkoutDayTableViewControllerDelegate;
 
 @interface WorkoutDayTableViewController : UITableViewController
 
+@property (weak, nonatomic) id<WorkoutDayTableViewControllerDelegate>delegate;
+
 - (CGFloat)getHeight;
-- (id)initWithWorkoutDays:(EventReview *)workout_days_;
+- (id)initWithWorkoutDays:(NSSet *)workout_days_ withDelegate:(id<WorkoutDayTableViewControllerDelegate>)delegate_;
 
 @end
+
+@protocol WorkoutDayTableViewControllerDelegate <NSObject>
+
+- (void)willSelectExerciseInWorkoutDayTableViewController:(WorkoutDayTableViewController *)workoutDayTableViewController withExerciseId:(int)exerciseId;
+
+@end
+

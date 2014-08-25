@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-
 @interface Workout : NSManagedObject
 
 @property (nonatomic) int32_t workoutId;

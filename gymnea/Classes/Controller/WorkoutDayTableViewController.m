@@ -8,14 +8,18 @@
 
 #import "WorkoutDayTableViewController.h"
 #import "WorkoutDayTableViewCell.h"
+#import "WorkoutDay+Management.h"
+#import "WorkoutDayExercise+Management.h"
+#import "Exercise+Management.h"
+#import "GymneaWSClient.h"
 
 @interface WorkoutDayTableViewController ()
 {
     // Id and model of the review to show
-    EventReview *workoutDays;
+    NSArray *workoutDays;
 }
 
-@property (nonatomic, strong) EventReview *workoutDays;
+@property (nonatomic, strong) NSArray *workoutDays;
 
 @end
 
@@ -24,11 +28,16 @@
 
 @synthesize workoutDays;
 
-- (id)initWithWorkoutDays:(EventReview *)workout_days_
+- (id)initWithWorkoutDays:(NSSet *)workout_days_ withDelegate:(id<WorkoutDayTableViewControllerDelegate>)delegate_
 {
     if(self = [super initWithNibName:@"WorkoutDayTableViewController" bundle:nil])
     {
-        self.workoutDays = workout_days_;
+        self.delegate = delegate_;
+
+        // Sort workout days by day number {0..7}
+        NSMutableSet *workoutDaysMutableSet = [[NSMutableSet alloc] initWithSet:workout_days_];
+        NSSortDescriptor *dayNumberDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dayNumber" ascending:YES];
+        self.workoutDays = [workoutDaysMutableSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:dayNumberDescriptor]];
     }
 
     return self;
@@ -44,7 +53,11 @@
 
 - (CGFloat)getHeight
 {
-    CGFloat totalHeight = (2 * 5 * 70.0f) + (2 * 46.0f) + (2 * 18.0f);
+    int totalExercises = 0;
+    for(WorkoutDay* workoutDay in self.workoutDays) {
+        totalExercises += [workoutDay.workoutDayExercises count];
+    }
+    CGFloat totalHeight = (totalExercises * 70.0f) + ([self.workoutDays count] * 46.0f) + ([self.workoutDays count] * 18.0f);
 
     return totalHeight;
 }
@@ -59,12 +72,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return [self.workoutDays count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return [[(WorkoutDay *)[self.workoutDays objectAtIndex:section] workoutDayExercises] count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -84,21 +97,23 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    WorkoutDay *workoutDay = (WorkoutDay *)[self.workoutDays objectAtIndex:section];
+
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0,0,[[UIScreen mainScreen] bounds].size.width, 46.0f)];
-    UIImageView *calendarIcon = [[UIImageView alloc] initWithFrame:CGRectMake(8, 8, 30, 30)];
+    UIImageView *calendarIcon = [[UIImageView alloc] initWithFrame:CGRectMake(8, 11, 24, 24)];
     [calendarIcon setImage:[UIImage imageNamed:@"calendar-empty-icon"]];
     [headerView addSubview:calendarIcon];
 
     UILabel *dayTitle = [[UILabel alloc] init];
     [dayTitle setFont:[UIFont fontWithName:@"AvenirNext-Medium" size:16.0]];
-    [dayTitle setText:@"Monday"];
+    [dayTitle setText:workoutDay.dayName];
     [dayTitle sizeToFit];
     [dayTitle setFrame:CGRectMake(CGRectGetMaxX(calendarIcon.frame) + 6.0f, calendarIcon.frame.origin.y, dayTitle.frame.size.width, calendarIcon.frame.size.height)];
     [headerView addSubview:dayTitle];
 
     UILabel *workoutDayTitle = [[UILabel alloc] init];
     [workoutDayTitle setFont:[UIFont fontWithName:@"AvenirNext-Regular" size:16.0]];
-    [workoutDayTitle setText:@"Chest and Back"];
+    [workoutDayTitle setText:workoutDay.title];
     [workoutDayTitle sizeToFit];
     [workoutDayTitle setFrame:CGRectMake(CGRectGetMaxX(dayTitle.frame) + 6.0f, calendarIcon.frame.origin.y, [[UIScreen mainScreen] bounds].size.width - CGRectGetMaxX(dayTitle.frame), calendarIcon.frame.size.height)];
     [headerView addSubview:workoutDayTitle];
@@ -110,10 +125,33 @@
 {
     WorkoutDayTableViewCell *cell = (WorkoutDayTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"GEAWorkoutDay"];
 
-    if(cell == nil)
-    {
-        cell = [[WorkoutDayTableViewCell alloc] init];
-    }
+
+    WorkoutDay *workoutDay = [self.workoutDays objectAtIndex:indexPath.section];
+    NSMutableSet *workoutDayExercisesMutableSet = [[NSMutableSet alloc] initWithSet:workoutDay.workoutDayExercises];
+    NSSortDescriptor *exerciseOrderDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"order" ascending:YES];
+    NSArray *workoutDayExercises = [workoutDayExercisesMutableSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:exerciseOrderDescriptor]];
+    WorkoutDayExercise *workoutDayExercise = [workoutDayExercises objectAtIndex:indexPath.row];
+
+    [[(WorkoutDayTableViewCell *)cell titleLabel] setText:workoutDayExercise.name];
+    [[(WorkoutDayTableViewCell *)cell setsAndRepsLabel] setText:[NSString stringWithFormat:@"%d Sets of %@ Reps.", workoutDayExercise.sets, workoutDayExercise.reps]];
+    [[(WorkoutDayTableViewCell *)cell restTimeLabel] setText:[NSString stringWithFormat:@"Rest: %d sec.", workoutDayExercise.time]];
+
+    [[GymneaWSClient sharedInstance] requestImageForExercise:workoutDayExercise.exerciseId
+                                                    withSize:ExerciseImageSizeMedium
+                                                  withGender:ExerciseImageMale
+                                                   withOrder:ExerciseImageFirst
+                                         withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *exerciseImage) {
+
+                                             if(success==GymneaWSClientRequestSuccess) {
+
+                                                 if(exerciseImage == nil) {
+                                                     exerciseImage = [UIImage imageNamed:@"exercise-default-thumbnail"];
+                                                 }
+
+                                                 [[(WorkoutDayTableViewCell *)cell thumbnail] setImage:exerciseImage];
+                                             }
+
+                                         }];
 
     cell.thumbnail.layer.cornerRadius = 2.0;
     UIBezierPath *thumbnailShadowPath = [UIBezierPath bezierPathWithRect:cell.thumbnail.bounds];
@@ -127,50 +165,20 @@
     return NO;
 }
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Table view delegate
-
-// In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here, for example:
-    // Create the next view controller.
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:<#@"Nib name"#> bundle:nil];
-    
-    // Pass the selected object to the new view controller.
-    
-    // Push the view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    if([self.delegate respondsToSelector:@selector(willSelectExerciseInWorkoutDayTableViewController:withExerciseId:)]) {
+
+        WorkoutDay *workoutDay = [self.workoutDays objectAtIndex:indexPath.section];
+        NSMutableSet *workoutDayExercisesMutableSet = [[NSMutableSet alloc] initWithSet:workoutDay.workoutDayExercises];
+        NSSortDescriptor *exerciseOrderDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"order" ascending:YES];
+        NSArray *workoutDayExercises = [workoutDayExercisesMutableSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:exerciseOrderDescriptor]];
+        WorkoutDayExercise *workoutDayExercise = [workoutDayExercises objectAtIndex:indexPath.row];
+
+        [self.delegate willSelectExerciseInWorkoutDayTableViewController:self withExerciseId:workoutDayExercise.exerciseId];
+    }
+
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-*/
 
 @end

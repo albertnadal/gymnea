@@ -55,6 +55,9 @@
 		FF892BC819A503C6003910E7 /* ExercisesSavedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF892BC619A503C6003910E7 /* ExercisesSavedViewController.m */; };
 		FF8A911119A3AC1D000F3CDF /* ExercisePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF8A910F19A3AC1D000F3CDF /* ExercisePlayViewController.m */; };
 		FF8A911219A3AC1D000F3CDF /* ExercisePlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF8A911019A3AC1D000F3CDF /* ExercisePlayViewController.xib */; };
+		FF8E5C7119AA038A00DCA9E6 /* WorkoutDayExercise.m in Sources */ = {isa = PBXBuildFile; fileRef = FF8E5C7019AA038A00DCA9E6 /* WorkoutDayExercise.m */; };
+		FF8E5C7419AA606700DCA9E6 /* WorkoutDayExercise+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = FF8E5C7319AA606700DCA9E6 /* WorkoutDayExercise+Management.m */; };
+		FF8E5C7719AA709000DCA9E6 /* WorkoutDay+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = FF8E5C7619AA709000DCA9E6 /* WorkoutDay+Management.m */; };
 		FF8E69A91987AD1E008C6BF9 /* GEAScrollableTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF8E69A61987AD1E008C6BF9 /* GEAScrollableTabBarController.m */; };
 		FF8E69AA1987AD1E008C6BF9 /* GEATouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = FF8E69A81987AD1E008C6BF9 /* GEATouchView.m */; };
 		FF9110A4197B10BD00818E95 /* WorkoutDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF91109F197B10BD00818E95 /* WorkoutDescriptionViewController.m */; };
@@ -88,6 +91,7 @@
 		FFC9892E19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = FFC9892B19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.m */; };
 		FFC9893119A76C2700E2C592 /* WorkoutDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = FFC9893019A76C2700E2C592 /* WorkoutDetail.m */; };
 		FFC9893419A77BDD00E2C592 /* WorkoutDetail+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = FFC9893319A77BDD00E2C592 /* WorkoutDetail+Management.m */; };
+		FFC9893719A9FA3B00E2C592 /* WorkoutDay.m in Sources */ = {isa = PBXBuildFile; fileRef = FFC9893619A9FA3B00E2C592 /* WorkoutDay.m */; };
 		FFCAB301199E44CF00A0036A /* ExerciseDetail+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = FFCAB300199E44CF00A0036A /* ExerciseDetail+Management.m */; };
 		FFDDE707197D2A34009694D9 /* GenericWorkoutsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFDDE705197D2A34009694D9 /* GenericWorkoutsViewController.m */; };
 		FFE6B6261997BA5E00F105B8 /* Exercise+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = FFE6B6251997BA5E00F105B8 /* Exercise+Management.m */; };
@@ -183,6 +187,12 @@
 		FF8A910E19A3AC1D000F3CDF /* ExercisePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExercisePlayViewController.h; path = Classes/Controller/ExercisePlayViewController.h; sourceTree = "<group>"; };
 		FF8A910F19A3AC1D000F3CDF /* ExercisePlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExercisePlayViewController.m; path = Classes/Controller/ExercisePlayViewController.m; sourceTree = "<group>"; };
 		FF8A911019A3AC1D000F3CDF /* ExercisePlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ExercisePlayViewController.xib; path = Classes/Controller/ExercisePlayViewController.xib; sourceTree = "<group>"; };
+		FF8E5C6F19AA038A00DCA9E6 /* WorkoutDayExercise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutDayExercise.h; path = Classes/Model/WorkoutDayExercise.h; sourceTree = "<group>"; };
+		FF8E5C7019AA038A00DCA9E6 /* WorkoutDayExercise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutDayExercise.m; path = Classes/Model/WorkoutDayExercise.m; sourceTree = "<group>"; };
+		FF8E5C7219AA606700DCA9E6 /* WorkoutDayExercise+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WorkoutDayExercise+Management.h"; sourceTree = "<group>"; };
+		FF8E5C7319AA606700DCA9E6 /* WorkoutDayExercise+Management.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WorkoutDayExercise+Management.m"; sourceTree = "<group>"; };
+		FF8E5C7519AA709000DCA9E6 /* WorkoutDay+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WorkoutDay+Management.h"; sourceTree = "<group>"; };
+		FF8E5C7619AA709000DCA9E6 /* WorkoutDay+Management.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WorkoutDay+Management.m"; sourceTree = "<group>"; };
 		FF8E69A51987AD1E008C6BF9 /* GEAScrollableTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GEAScrollableTabBarController.h; path = Classes/Controller/Containers/GEAScrollableTabBarController.h; sourceTree = "<group>"; };
 		FF8E69A61987AD1E008C6BF9 /* GEAScrollableTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GEAScrollableTabBarController.m; path = Classes/Controller/Containers/GEAScrollableTabBarController.m; sourceTree = "<group>"; };
 		FF8E69A71987AD1E008C6BF9 /* GEATouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GEATouchView.h; path = Classes/Controller/Containers/GEATouchView.h; sourceTree = "<group>"; };
@@ -242,6 +252,8 @@
 		FFC9893019A76C2700E2C592 /* WorkoutDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutDetail.m; path = Classes/Model/WorkoutDetail.m; sourceTree = "<group>"; };
 		FFC9893219A77BDD00E2C592 /* WorkoutDetail+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WorkoutDetail+Management.h"; sourceTree = "<group>"; };
 		FFC9893319A77BDD00E2C592 /* WorkoutDetail+Management.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WorkoutDetail+Management.m"; sourceTree = "<group>"; };
+		FFC9893519A9FA3B00E2C592 /* WorkoutDay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutDay.h; path = Classes/Model/WorkoutDay.h; sourceTree = "<group>"; };
+		FFC9893619A9FA3B00E2C592 /* WorkoutDay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutDay.m; path = Classes/Model/WorkoutDay.m; sourceTree = "<group>"; };
 		FFCAB2FF199E44CF00A0036A /* ExerciseDetail+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ExerciseDetail+Management.h"; sourceTree = "<group>"; };
 		FFCAB300199E44CF00A0036A /* ExerciseDetail+Management.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExerciseDetail+Management.m"; sourceTree = "<group>"; };
 		FFDDE704197D2A34009694D9 /* GenericWorkoutsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericWorkoutsViewController.h; path = Classes/Controller/GenericWorkoutsViewController.h; sourceTree = "<group>"; };
@@ -441,6 +453,14 @@
 				FFC9892819A6745B00E2C592 /* Workout+Management.m */,
 				FFC9892419A6719600E2C592 /* Workout.h */,
 				FFC9892519A6719600E2C592 /* Workout.m */,
+				FF8E5C7519AA709000DCA9E6 /* WorkoutDay+Management.h */,
+				FF8E5C7619AA709000DCA9E6 /* WorkoutDay+Management.m */,
+				FFC9893519A9FA3B00E2C592 /* WorkoutDay.h */,
+				FFC9893619A9FA3B00E2C592 /* WorkoutDay.m */,
+				FF8E5C7219AA606700DCA9E6 /* WorkoutDayExercise+Management.h */,
+				FF8E5C7319AA606700DCA9E6 /* WorkoutDayExercise+Management.m */,
+				FF8E5C6F19AA038A00DCA9E6 /* WorkoutDayExercise.h */,
+				FF8E5C7019AA038A00DCA9E6 /* WorkoutDayExercise.m */,
 				FFC9893219A77BDD00E2C592 /* WorkoutDetail+Management.h */,
 				FFC9893319A77BDD00E2C592 /* WorkoutDetail+Management.m */,
 				FFC9892F19A76C2700E2C592 /* WorkoutDetail.h */,
@@ -821,6 +841,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF8E5C7419AA606700DCA9E6 /* WorkoutDayExercise+Management.m in Sources */,
 				FF13B06B198C26B600FB6461 /* GymneaWSClient.m in Sources */,
 				FFABFDDD196CA111004FC527 /* LogInViewController.m in Sources */,
 				FF6BC002199014EE001FC624 /* ExerciseDetailViewController.m in Sources */,
@@ -835,6 +856,7 @@
 				FF13B071198C26CE00FB6461 /* GEAAuthentication.m in Sources */,
 				FFF5715219800CBD00BE457B /* WorkoutDayTableViewController.m in Sources */,
 				FF80E93F196B39D100D29986 /* InitialQuestionnaireViewController.m in Sources */,
+				FF8E5C7719AA709000DCA9E6 /* WorkoutDay+Management.m in Sources */,
 				FF9110AB197B187600818E95 /* Exercise.m in Sources */,
 				FF8E69A91987AD1E008C6BF9 /* GEAScrollableTabBarController.m in Sources */,
 				FFF0843219926C1C009C50F8 /* UserInfo.m in Sources */,
@@ -856,6 +878,7 @@
 				FFE6B6261997BA5E00F105B8 /* Exercise+Management.m in Sources */,
 				FF78E78319867265001396E3 /* WorkoutPlayRestViewController.m in Sources */,
 				FF929671199A2017008B7823 /* GEADefinitions.m in Sources */,
+				FFC9893719A9FA3B00E2C592 /* WorkoutDay.m in Sources */,
 				FF23A64019825DDC00E62C5B /* WorkoutDayTableViewCell.m in Sources */,
 				FFF779471985340C0073E0BE /* NextExerciseCountdownViewController.m in Sources */,
 				FFA137571969A58000DBEE68 /* main.m in Sources */,
@@ -868,6 +891,7 @@
 				FF13B072198C26CE00FB6461 /* GEAAuthenticationKeychainStore.m in Sources */,
 				FF892BC819A503C6003910E7 /* ExercisesSavedViewController.m in Sources */,
 				FFA137871969F9EA00DBEE68 /* InitialViewController.m in Sources */,
+				FF8E5C7119AA038A00DCA9E6 /* WorkoutDayExercise.m in Sources */,
 				FF9110C1197BB4AD00818E95 /* GEAPopoverViewController.m in Sources */,
 				FF3F70A8196D54BE007AADF1 /* GEASideMenuController.m in Sources */,
 				FF6BC005199015DA001FC624 /* ExerciseDescriptionViewController.m in Sources */,

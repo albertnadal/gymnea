@@ -14,5 +14,6 @@
 @dynamic workoutId;
 @dynamic workoutDescription;
 @dynamic muscles;
+@dynamic workoutDays;
 
 @end

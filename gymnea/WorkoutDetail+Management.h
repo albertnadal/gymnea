@@ -20,17 +20,8 @@
             withDescription:(NSString *)theDescription
                 withMuscles:(NSString *)theMuscles;
 
-/*
-- (void)updateWithPhotoMaleSmallSecond:(NSData *)photoSmall;
+- (void)updateWithWorkoutDaysDict:(NSDictionary*)workoutDaysDict;
 
-- (void)updateWithPhotoMaleMediumSecond:(NSData *)photoMedium;
-
-- (void)updateWithPhotoFemaleSmall:(NSData *)photoSmall withOrder:(GymneaExerciseImageOrder)order;
-
-- (void)updateWithPhotoFemaleMedium:(NSData *)photoMedium withOrder:(GymneaExerciseImageOrder)order;
-
-- (void)updateWithVideoLoop:(NSData *)video;
-*/
 + (WorkoutDetail*)updateWorkoutWithId:(int)workoutId
                        withDictionary:(NSDictionary*)workoutDict;
 

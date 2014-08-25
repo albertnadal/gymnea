@@ -51,28 +51,11 @@ typedef enum _GymneaExerciseImageOrder
 
 - (void)updateWithVideoLoop:(NSData *)video;
 
-/*
-- (void)updateWithPhotoMedium:(NSData *)photoMedium;
-
-- (void)updateWithPhotoSmall:(NSData *)photoSmall;
-
-- (void)updateModelInDB;
-*/
 + (ExerciseDetail*)updateExerciseWithId:(int)exerciseId
                          withDictionary:(NSDictionary*)exerciseDict;
-/*
-+ (Exercise*)updateExerciseImageWithId:(int)exerciseId withSize:(GymneaExerciseImageSize)size withImage:(UIImage *)image;
-*/
+
 - (void)updateWithDictionary:(NSDictionary *)exerciseDict;
 
 + (ExerciseDetail*)getExerciseDetailInfo:(int)exerciseId;
-/*
-+ (NSArray *)getExercises;
 
-+ (NSArray *)getExercisesWithType:(GymneaExerciseType)exerciseTypeId
-                       withMuscle:(GymneaMuscleType)muscleId
-                    withEquipment:(GymneaEquipmentType)equipmentId
-                        withLevel:(GymneaExerciseLevel)levelId
-                         withName:(NSString *)searchText;
-*/
 @end
