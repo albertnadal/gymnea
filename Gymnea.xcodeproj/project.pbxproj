@@ -62,13 +62,10 @@
 		FF8E69AA1987AD1E008C6BF9 /* GEATouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = FF8E69A81987AD1E008C6BF9 /* GEATouchView.m */; };
 		FF9110A4197B10BD00818E95 /* WorkoutDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF91109F197B10BD00818E95 /* WorkoutDescriptionViewController.m */; };
 		FF9110A5197B10BD00818E95 /* WorkoutDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9110A1197B10BD00818E95 /* WorkoutDetailViewController.m */; };
-		FF9110A6197B10BD00818E95 /* EventReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9110A3197B10BD00818E95 /* EventReviewViewController.m */; };
 		FF9110AB197B187600818E95 /* Exercise.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9110AA197B187600818E95 /* Exercise.m */; };
-		FF9110B5197B1DF200818E95 /* EventReview.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9110B4197B1DF200818E95 /* EventReview.m */; };
 		FF9110B8197B1ED400818E95 /* ExerciseDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9110B7197B1ED400818E95 /* ExerciseDetail.m */; };
 		FF9110BC197BB1B500818E95 /* WorkoutDescriptionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF9110B9197BB1B500818E95 /* WorkoutDescriptionViewController.xib */; };
 		FF9110BD197BB1B500818E95 /* WorkoutDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF9110BA197BB1B500818E95 /* WorkoutDetailViewController.xib */; };
-		FF9110BE197BB1B500818E95 /* EventReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF9110BB197BB1B500818E95 /* EventReviewViewController.xib */; };
 		FF9110C1197BB4AD00818E95 /* GEAPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9110C0197BB4AD00818E95 /* GEAPopoverViewController.m */; };
 		FF929671199A2017008B7823 /* GEADefinitions.m in Sources */ = {isa = PBXBuildFile; fileRef = FF929670199A2017008B7823 /* GEADefinitions.m */; };
 		FFA137571969A58000DBEE68 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA137561969A58000DBEE68 /* main.m */; };
@@ -201,17 +198,12 @@
 		FF91109F197B10BD00818E95 /* WorkoutDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutDescriptionViewController.m; path = Classes/Controller/WorkoutDescriptionViewController.m; sourceTree = "<group>"; };
 		FF9110A0197B10BD00818E95 /* WorkoutDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutDetailViewController.h; path = Classes/Controller/WorkoutDetailViewController.h; sourceTree = "<group>"; };
 		FF9110A1197B10BD00818E95 /* WorkoutDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutDetailViewController.m; path = Classes/Controller/WorkoutDetailViewController.m; sourceTree = "<group>"; };
-		FF9110A2197B10BD00818E95 /* EventReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventReviewViewController.h; path = Classes/Controller/EventReviewViewController.h; sourceTree = "<group>"; };
-		FF9110A3197B10BD00818E95 /* EventReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventReviewViewController.m; path = Classes/Controller/EventReviewViewController.m; sourceTree = "<group>"; };
 		FF9110A9197B187600818E95 /* Exercise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Exercise.h; path = Classes/Model/Exercise.h; sourceTree = "<group>"; };
 		FF9110AA197B187600818E95 /* Exercise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Exercise.m; path = Classes/Model/Exercise.m; sourceTree = "<group>"; };
-		FF9110B3197B1DF200818E95 /* EventReview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventReview.h; path = Classes/Model/EventReview.h; sourceTree = "<group>"; };
-		FF9110B4197B1DF200818E95 /* EventReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventReview.m; path = Classes/Model/EventReview.m; sourceTree = "<group>"; };
 		FF9110B6197B1ED400818E95 /* ExerciseDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExerciseDetail.h; path = Classes/Model/ExerciseDetail.h; sourceTree = "<group>"; };
 		FF9110B7197B1ED400818E95 /* ExerciseDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExerciseDetail.m; path = Classes/Model/ExerciseDetail.m; sourceTree = "<group>"; };
 		FF9110B9197BB1B500818E95 /* WorkoutDescriptionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkoutDescriptionViewController.xib; path = Resources/Views/WorkoutDescriptionViewController.xib; sourceTree = "<group>"; };
 		FF9110BA197BB1B500818E95 /* WorkoutDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkoutDetailViewController.xib; path = Resources/Views/WorkoutDetailViewController.xib; sourceTree = "<group>"; };
-		FF9110BB197BB1B500818E95 /* EventReviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EventReviewViewController.xib; path = Resources/Views/EventReviewViewController.xib; sourceTree = "<group>"; };
 		FF9110BF197BB4AD00818E95 /* GEAPopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GEAPopoverViewController.h; path = Classes/Controller/Views/GEAPopoverViewController.h; sourceTree = "<group>"; };
 		FF9110C0197BB4AD00818E95 /* GEAPopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GEAPopoverViewController.m; path = Classes/Controller/Views/GEAPopoverViewController.m; sourceTree = "<group>"; };
 		FF92966F199A2017008B7823 /* GEADefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GEADefinitions.h; path = Classes/Controller/GEADefinitions.h; sourceTree = "<group>"; };
@@ -412,8 +404,6 @@
 				FF91109F197B10BD00818E95 /* WorkoutDescriptionViewController.m */,
 				FF9110A0197B10BD00818E95 /* WorkoutDetailViewController.h */,
 				FF9110A1197B10BD00818E95 /* WorkoutDetailViewController.m */,
-				FF9110A2197B10BD00818E95 /* EventReviewViewController.h */,
-				FF9110A3197B10BD00818E95 /* EventReviewViewController.m */,
 				FFF5714F19800CBD00BE457B /* WorkoutDayTableViewController.h */,
 				FFF5715019800CBD00BE457B /* WorkoutDayTableViewController.m */,
 				FF23A63D19825DDC00E62C5B /* WorkoutDayTableViewCell.h */,
@@ -443,8 +433,6 @@
 				FFE6B6251997BA5E00F105B8 /* Exercise+Management.m */,
 				FF9110A9197B187600818E95 /* Exercise.h */,
 				FF9110AA197B187600818E95 /* Exercise.m */,
-				FF9110B3197B1DF200818E95 /* EventReview.h */,
-				FF9110B4197B1DF200818E95 /* EventReview.m */,
 				FFCAB2FF199E44CF00A0036A /* ExerciseDetail+Management.h */,
 				FFCAB300199E44CF00A0036A /* ExerciseDetail+Management.m */,
 				FF9110B6197B1ED400818E95 /* ExerciseDetail.h */,
@@ -608,7 +596,6 @@
 				FF60FBC11996C76C00DC2F14 /* Exercises */,
 				FF6BBFFC199012B5001FC624 /* ExerciseDetails */,
 				FF23A648198297C800E62C5B /* WorkoutDetails */,
-				FF9110BB197BB1B500818E95 /* EventReviewViewController.xib */,
 				FFA1378D196A02D200DBEE68 /* InitialViewController.xib */,
 				FF80E941196B3A3600D29986 /* InitialQuestionnaireViewController.xib */,
 				FFABFDD1196C4A48004FC527 /* InitialQuestionnaireGoalViewController.xib */,
@@ -783,7 +770,6 @@
 				FF6A19111985430800DA4E40 /* WorkoutPlayViewController.xib in Resources */,
 				FF8162541982F5C800443C13 /* ChooseWorkoutDayViewController.xib in Resources */,
 				FF6BC007199018D2001FC624 /* ExerciseDescriptionViewController.xib in Resources */,
-				FF9110BE197BB1B500818E95 /* EventReviewViewController.xib in Resources */,
 				FF78E77F198647AF001396E3 /* WorkoutPlayExerciseViewController.xib in Resources */,
 				FF78CC5E199AC7C9004E0D23 /* ExerciseFilterCollectionReusableView.xib in Resources */,
 				FF6BBFFE19901370001FC624 /* ExerciseDetailViewController.xib in Resources */,
@@ -873,7 +859,6 @@
 				FF11F5C5196DF08200590C10 /* GEALabel+Gymnea.m in Sources */,
 				FFC9892E19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.m in Sources */,
 				FF13B06C198C26B600FB6461 /* SignUpForm.m in Sources */,
-				FF9110A6197B10BD00818E95 /* EventReviewViewController.m in Sources */,
 				FF11F5C4196DF08200590C10 /* GEALabel.m in Sources */,
 				FFE6B6261997BA5E00F105B8 /* Exercise+Management.m in Sources */,
 				FF78E78319867265001396E3 /* WorkoutPlayRestViewController.m in Sources */,
@@ -898,7 +883,6 @@
 				FF78E77E198647AF001396E3 /* WorkoutPlayExerciseViewController.m in Sources */,
 				FFC9892619A6719600E2C592 /* Workout.m in Sources */,
 				FF78CC5D199AC7C9004E0D23 /* ExerciseFilterCollectionReusableView.m in Sources */,
-				FF9110B5197B1DF200818E95 /* EventReview.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

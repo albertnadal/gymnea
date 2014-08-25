@@ -19,6 +19,7 @@
                 <outlet property="detailsView" destination="45" id="60"/>
                 <outlet property="eventTitle" destination="24" id="73"/>
                 <outlet property="overallRating" destination="25" id="75"/>
+                <outlet property="playWorkoutButton" destination="43" id="cvp-sh-B9x"/>
                 <outlet property="ratingImage" destination="26" id="74"/>
                 <outlet property="scoreBackgroundView" destination="86" id="87"/>
                 <outlet property="scroll" destination="62" id="63"/>

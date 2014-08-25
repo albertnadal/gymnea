@@ -616,11 +616,11 @@
     }
     else if(pickerView == self.frequencyPickerView)
     {
-        workoutFrequency = row;
+        workoutFrequency = (int)row;
 
         NSString *weekFrequency = @"Any";
         if(row) {
-            weekFrequency = [NSString stringWithFormat:@"%d days / week", row];
+            weekFrequency = [NSString stringWithFormat:@"%d days / week", (int)row];
         }
 
         if([self.filterDelegate respondsToSelector:@selector(workoutFrequencyNameSelected:)])
@@ -676,7 +676,7 @@
     {
         NSString *weekFrequency = @"Any";
         if(row) {
-            weekFrequency = [NSString stringWithFormat:@"%d days / week", row];
+            weekFrequency = [NSString stringWithFormat:@"%d days / week", (int)row];
         }
 
         return weekFrequency;

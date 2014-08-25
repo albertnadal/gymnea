@@ -162,7 +162,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     //Just download the video loop of the exercise is needed to complete all the missing exercise attributes
 
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = @"Downloading";
+    hud.labelText = @"Downloading exercise";
 
     [[GymneaWSClient sharedInstance] requestExerciseVideoLoopWithExercise:self.exercise
                                                       withCompletionBlock:^(GymneaWSClientRequestStatus success, NSData *video) {
@@ -717,7 +717,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 {
     switch(index)
     {
-        case 0: return @"Save exercise";
+        case 0: return @"Add to favorites";
             break;
             
         case 1: return @"Download";

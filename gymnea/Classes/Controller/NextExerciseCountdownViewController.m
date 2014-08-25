@@ -52,7 +52,7 @@
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)pewPewURL, &_countdownSound);
 
     if([self.delegate respondsToSelector:@selector(numberOfSecondsToCoundown:)])
-        countdownSeconds = [self.delegate numberOfSecondsToCoundown:self];
+        countdownSeconds = (int)[self.delegate numberOfSecondsToCoundown:self];
 
     [self.countdownLabel setText:[NSString stringWithFormat:@"%d", countdownSeconds]];
 

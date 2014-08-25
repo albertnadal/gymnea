@@ -8,11 +8,9 @@
 
 #import "WorkoutDetailViewController.h"
 #import "GEAPopoverViewController.h"
-#import "EventReviewViewController.h"
 #import "WorkoutDescriptionViewController.h"
 #import "WorkoutDayTableViewController.h"
 #import "AppDelegate.h"
-#import "EventReview.h"
 #import <QuartzCore/QuartzCore.h>
 #import "GymneaWSClient.h"
 #import "Exercise.h"
@@ -38,7 +36,7 @@ static CGFloat const kGEABannerOffsetFactor = 0.45f;
 static float const kGEABannerTransitionCrossDissolveDuration = 0.3f;
 static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeholder";
 
-@interface WorkoutDetailViewController () <GEAPopoverViewControllerDelegate, UIScrollViewDelegate, ChooseWorkoutDayViewControllerDelegate, WorkoutDayTableViewControllerDelegate>
+@interface WorkoutDetailViewController () <GEAPopoverViewControllerDelegate, UIScrollViewDelegate, ChooseWorkoutDayViewControllerDelegate, WorkoutDayTableViewControllerDelegate, UIAlertViewDelegate>
 {
     Workout *workout;
     WorkoutDetail *workoutDetail;
@@ -52,6 +50,9 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
     // State flags
     bool showingDetails;
+
+    // Exercise download queue
+    NSMutableArray *exerciseIdDownloadQueue;
 }
 
 @property (atomic) int eventId;
@@ -81,12 +82,12 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 @property (nonatomic) bool showingDetails;
 @property (nonatomic, strong) Workout *workout;
 @property (nonatomic, strong) WorkoutDetail *workoutDetail;
-@property (nonatomic, strong) NSArray *eventReviews;
 @property (nonatomic, retain) MBProgressHUD *loadWorkoutHud;
+@property (nonatomic, weak) IBOutlet UIButton *playWorkoutButton;
+@property (nonatomic, retain) NSMutableArray *exerciseIdDownloadQueue;
 
 
 - (void)loadWorkoutDetailData;
-- (void)loadEventReviewsData;
 - (void)loadBanner;
 - (void)updateWorkoutDetailData;
 - (void)updateBannerData;
@@ -94,7 +95,6 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 - (void)updateDealData;
 - (void)updateSegmentControl;
 - (void)updateDetailsData;
-- (void)updateReviewsData;
 - (void)updateWorkoutDaysData;
 - (void)updateScroll;
 - (IBAction)showSelectedSegment:(id)sender;
@@ -106,12 +106,16 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 - (void)updateBannerSizeAndPosition:(CGFloat)offset;
 - (void)moveBannerWithVerticalOffset:(CGFloat)offset;
 - (NSString *)stringFromFloat:(float)value;
+- (BOOL)workoutIsDownload;
+- (void)downloadWorkout;
+- (void)downloadNextExerciseFromQueue;
+- (void)showErrorMessageAndCancelDownload;
 
 @end
 
 @implementation WorkoutDetailViewController
 
-@synthesize workout, workoutDetail, showingDetails, popover, eventReviews, reviewsView, detailsView, workoutDaysTableViewController;
+@synthesize workout, workoutDetail, showingDetails, popover, reviewsView, detailsView, workoutDaysTableViewController, exerciseIdDownloadQueue;
 
 - (id)initWithWorkout:(Workout *)workout_;
 {
@@ -119,14 +123,13 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     {
         showingDetails = true; // Showing 'Details' (default) or 'Reviews'
         popover = nil;
-        eventReviews = nil;
         reviewsView = nil;
         workoutDaysTableViewController = nil;
 
         self.workout = workout_;
         self.workoutDetail = nil;
         popover = nil;
-
+        self.exerciseIdDownloadQueue = nil;
     }
 
     return self;
@@ -168,65 +171,36 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 - (IBAction)startWorkout:(id)sender
 {
-    ChooseWorkoutDayViewController *chooseWorkoutDayViewController = [[ChooseWorkoutDayViewController alloc] initWithDelegate:self];
-    [self presentViewController:chooseWorkoutDayViewController animated:YES completion:nil];
+    if(![self workoutIsDownload]) {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download is needed"
+                                                        message:@"First of all is necessary to download the workout to your device. This will let you to play this workout anywhere without access to Internet."
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"Download", nil];
+        
+        [alert setTag:2];
+        [alert show];
+        
+    } else {
+        
+        ChooseWorkoutDayViewController *chooseWorkoutDayViewController = [[ChooseWorkoutDayViewController alloc] initWithDelegate:self];
+        [self presentViewController:chooseWorkoutDayViewController animated:YES completion:nil];
+
+    }
+
 }
 
-- (void)loadEventReviewsData
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSMutableArray *eventReviewsTemp = [[NSMutableArray alloc] init];
-
-    EventReview *eventReview1 = [[EventReview alloc] init];
-    [eventReview1 setOrder:1];
-    [eventReview1 setTitle:[NSString stringWithFormat:@"%d. The best course to golf in the US", 1]];
-    [eventReview1 setRating:3];
-    [eventReview1 setAuthor:@"John Smith"];
-
-    NSDateComponents *comps = [[NSDateComponents alloc] init];
-    [comps setDay:22];
-    [comps setMonth:12];
-    [comps setYear:2012];
-    [eventReview1 setDate:[[NSCalendar currentCalendar] dateFromComponents:comps]];
-    [eventReview1 setText:@"Lorem ipsum dolor sit amet consectetur proin gravida nibh vel velit auctor aliquet, aenean!"];
-
-    [eventReviewsTemp addObject:eventReview1];
-
-
-    EventReview *eventReview2 = [[EventReview alloc] init];
-    [eventReview2 setOrder:2];
-    [eventReview2 setTitle:[NSString stringWithFormat:@"%d. Good but it could improve", 2]];
-    [eventReview2 setRating:3];
-    [eventReview2 setAuthor:@"Mark Edwards"];
-    
-    comps = [[NSDateComponents alloc] init];
-    [comps setDay:20];
-    [comps setMonth:12];
-    [comps setYear:2012];
-    [eventReview2 setDate:[[NSCalendar currentCalendar] dateFromComponents:comps]];
-    [eventReview2 setText:@"Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit."];
-    
-    [eventReviewsTemp addObject:eventReview2];
-
-
-
-    EventReview *eventReview3 = [[EventReview alloc] init];
-    [eventReview3 setOrder:3];
-    [eventReview3 setTitle:[NSString stringWithFormat:@"%d. Good but it could improve", 3]];
-    [eventReview3 setRating:3];
-    [eventReview3 setAuthor:@"Mark Edwards"];
-    
-    comps = [[NSDateComponents alloc] init];
-    [comps setDay:20];
-    [comps setMonth:12];
-    [comps setYear:2012];
-    [eventReview3 setDate:[[NSCalendar currentCalendar] dateFromComponents:comps]];
-    [eventReview3 setText:@"Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit."];
-    
-    [eventReviewsTemp addObject:eventReview3];
-
-
-
-    self.eventReviews = [NSArray arrayWithArray:eventReviewsTemp];
+    if([alertView tag] == 2)
+    {
+        if(buttonIndex == 1)
+        {
+            // Download workout
+            [self downloadWorkout];
+        }
+    }
 }
 
 - (UIImage*)imageByCropping:(UIImage *)imageToCrop toRect:(CGRect)rect
@@ -287,8 +261,133 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 }
 
+- (BOOL)workoutIsDownload
+{
+    if(self.workoutDetail == nil) return FALSE;
+
+    for(WorkoutDay *workoutDay in self.workoutDetail.workoutDays)
+    {
+        for(WorkoutDayExercise *workoutDayExercise in workoutDay.workoutDayExercises)
+        {
+            ExerciseDetail *exerciseDetail = [ExerciseDetail getExerciseDetailInfo:workoutDayExercise.exerciseId];
+            if((exerciseDetail == nil) || (exerciseDetail.videoLoop == nil))
+            {
+                return FALSE;
+            }
+        }
+    }
+    
+
+    return TRUE;
+}
+
+- (void)showErrorMessageAndCancelDownload
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                    message:@"Unable to reach the network when retrieving the exercises information."
+                                                   delegate:nil
+                                          cancelButtonTitle:@"Ok"
+                                          otherButtonTitles:nil];
+    [alert setTag:1];
+    [alert show];
+    
+    [self.exerciseIdDownloadQueue removeAllObjects];
+    self.exerciseIdDownloadQueue = nil;
+    
+    // Hide HUD after 0.3 seconds
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        
+        [self.loadWorkoutHud hide:YES];
+    });
+}
+
+- (void)downloadNextExerciseFromQueue
+{
+    if(self.exerciseIdDownloadQueue == nil) return;
+
+    if([self.exerciseIdDownloadQueue count])
+    {
+        int exerciseId = [(NSNumber *)[self.exerciseIdDownloadQueue objectAtIndex:0] intValue];
+        Exercise *exerciseToDownload = [Exercise getExerciseInfo:exerciseId];
+        [self.exerciseIdDownloadQueue removeObjectAtIndex:0];
+
+        // Download exercise details
+        [[GymneaWSClient sharedInstance] requestExerciseDetailWithExercise:exerciseToDownload
+                                                       withCompletionBlock:^(GymneaWSClientRequestStatus success, ExerciseDetail *exerciseDetail) {
+            if(success == GymneaWSClientRequestSuccess) {
+
+                // Download exercise video loop
+                [[GymneaWSClient sharedInstance] requestExerciseVideoLoopWithExercise:exerciseToDownload
+                                                                  withCompletionBlock:^(GymneaWSClientRequestStatus success, NSData *video) {
+                                                                      
+                                                                      if((success == GymneaWSClientRequestSuccess) && (video != nil)) {
+                                                                          exerciseDetail.videoLoop = video;
+
+                                                                          // Flush model changes to db
+                                                                          AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+                                                                          [appDelegate saveContext];
+
+                                                                          [self downloadNextExerciseFromQueue];
+
+                                                                      } else {
+
+                                                                          [self showErrorMessageAndCancelDownload];
+
+                                                                      }
+                                                                      
+                                                                  }];
+                
+            } else {
+
+                [self showErrorMessageAndCancelDownload];
+
+            }
+
+        }];
+    } else {
+
+        self.exerciseIdDownloadQueue = nil;
+        [self.playWorkoutButton setTitle:@"Start Workout" forState:UIControlStateNormal];
+
+        // Hide HUD after 0.3 seconds
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            
+            [self.loadWorkoutHud hide:YES];
+        });
+
+    }
+}
+
+- (void)downloadWorkout
+{
+    //Just download the video loop of all the exercises to complete all the missing exercise attributes
+    
+    self.loadWorkoutHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.loadWorkoutHud.labelText = @"Downloading workout";
+
+    self.exerciseIdDownloadQueue = [[NSMutableArray alloc] init];
+
+    for(WorkoutDay *workoutDay in self.workoutDetail.workoutDays)
+    {
+        for(WorkoutDayExercise *workoutDayExercise in workoutDay.workoutDayExercises)
+        {
+            ExerciseDetail *exerciseDetail = [ExerciseDetail getExerciseDetailInfo:workoutDayExercise.exerciseId];
+            if((exerciseDetail == nil) || (exerciseDetail.videoLoop == nil))
+            {
+                [self.exerciseIdDownloadQueue addObject:[NSNumber numberWithInteger:workoutDayExercise.exerciseId]];
+            }
+        }
+    }
+
+    [self downloadNextExerciseFromQueue];
+
+}
+
 - (void)updateBasicInfoData
 {
+    if(![self workoutIsDownload]) {
+        [self.playWorkoutButton setTitle:@"Start Workout (need download)" forState:UIControlStateNormal];
+    }
 
     CGRect bannerContainerFrame = self.bannerContainer.frame;
     CGFloat baseYPosition = bannerContainerFrame.origin.y + bannerContainerFrame.size.height + 1.0f;
@@ -421,51 +520,6 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
         [self.scroll addSubview:self.workoutDaysTableViewController.view];
         [self.workoutDaysTableViewController.view setHidden:NO];
-    }
-}
-
-- (void)updateReviewsData
-{
-    if(showingDetails)
-    {
-        [self.reviewsView removeFromSuperview];
-        [self.reviewsView setHidden:YES];
-    }
-    else
-    {
-        CGRect segmentContainerFrame = self.segmentContainer.frame;
-        CGFloat baseYPosition = segmentContainerFrame.origin.y + segmentContainerFrame.size.height + kGEASpaceBetweenLabels;
-        CGFloat y = 0;
-
-        if(!self.reviewsView)
-        {
-            self.reviewsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)];
-
-            for(EventReview *review in self.eventReviews)
-            {
-                EventReviewViewController *ervc = [[EventReviewViewController alloc] initWithEventReview:review];
-                [ervc viewDidLoad];
-                [ervc.view setFrame:CGRectMake(0, y, [[UIScreen mainScreen] bounds].size.width, [ervc getHeight])];
-                [self.reviewsView addSubview:ervc.view];
-                y+=[ervc getHeight];
-            }
-
-            if(y)
-            {
-                y+=kGEASpaceBetweenLabels;
-                UIImageView *yelp = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"yelp.png"]];
-                [yelp setFrame:CGRectMake(([[UIScreen mainScreen] bounds].size.width/2.0f) - (44.0f/2.0f), y, 44.0f, 24.0f)];
-                [self.reviewsView addSubview:yelp];
-                y+=(yelp.frame.size.height + kGEASpaceBetweenLabels);
-            }
-        }
-
-        if(!y)  y = self.reviewsView.frame.size.height;
-
-        [self.reviewsView setFrame:CGRectMake(0, baseYPosition, [[UIScreen mainScreen] bounds].size.width, y)];
-
-        [self.scroll addSubview:self.reviewsView];
-        [self.reviewsView setHidden:NO];
     }
 }
 
@@ -603,7 +657,6 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     reviewsView = nil;
     workoutDaysTableViewController = nil;
     popover = nil;
-    eventReviews = nil;
 }
 
 - (IBAction)showSelectedSegment:(UISegmentedControl *)sender
@@ -789,7 +842,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         case 0: return @"Set as current";
             break;
             
-        case 1: return @"Save workout";
+        case 1: return @"Add to favorites";
             break;
             
         case 2: return @"Download";

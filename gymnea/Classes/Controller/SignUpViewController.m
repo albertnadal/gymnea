@@ -115,9 +115,9 @@
         NSCalendar* calendar = [NSCalendar currentCalendar];
         NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:currentDate]; // Get necessary date components
 
-        self.month = [components month];
-        self.day = [components day];
-        self.year = [components year];
+        self.month = (int)[components month];
+        self.day = (int)[components day];
+        self.year = (int)[components year];
 
         self.ageSelected = NO;
         self.weightSelected = NO;
@@ -466,17 +466,17 @@
     {
         if(component == 1) {
             //MONTH
-            self.month = row + 1; // 1 => January...12 => December
+            self.month = (int)row + 1; // 1 => January...12 => December
             [pickerView reloadComponent:0];
         } else if(component == 2) {
             //YEAR
             NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
             NSDateComponents *components = [gregorian components:NSYearCalendarUnit fromDate:[NSDate date]];
-            self.year = [components year] - row;
+            self.year = (int)[components year] - (int)row;
         }
 
         //DAY
-        self.day = [pickerView selectedRowInComponent:0] + 1;
+        self.day = (int)[pickerView selectedRowInComponent:0] + 1;
 
         NSDateFormatter *df = [[NSDateFormatter alloc] init];
         [df setDateFormat:@"yyyy-MM-dd"];
@@ -490,7 +490,7 @@
         NSDate *differentialDate = [[NSDate alloc] initWithTimeInterval:todaysDiff sinceDate:today];
         NSDateComponents *breakdownInfo = [sysCalendar components:unitFlags fromDate:today  toDate:differentialDate  options:0];
 
-        [self.ageButton setTitle:[NSString stringWithFormat:@"%d years", abs([breakdownInfo year])] forState:UIControlStateNormal];
+        [self.ageButton setTitle:[NSString stringWithFormat:@"%d years", abs((int)[breakdownInfo year])] forState:UIControlStateNormal];
         [self.ageButton setBackgroundColor:[UIColor whiteColor]];
 
         //    NSLog(@"DATE: %d-%d-%d", self.day, self.month, self.year);
@@ -541,14 +541,14 @@
         }
 
         if(self.heightIsMetricUnits) {
-            self.heightCentimeters = (([pickerView selectedRowInComponent:0] + 1) * 100) + ([pickerView selectedRowInComponent:1]);
-            [self.heightButton setTitle:[NSString stringWithFormat:@"%dm %dcm", [pickerView selectedRowInComponent:0] + 1, [pickerView selectedRowInComponent:1]] forState:UIControlStateNormal];
+            self.heightCentimeters = (((int)[pickerView selectedRowInComponent:0] + 1) * 100) + ((int)[pickerView selectedRowInComponent:1]);
+            [self.heightButton setTitle:[NSString stringWithFormat:@"%dm %dcm", (int)[pickerView selectedRowInComponent:0] + 1, (int)[pickerView selectedRowInComponent:1]] forState:UIControlStateNormal];
 //            NSLog(@"HEIGHT CENTIMETERS: %d", self.heightCentimeters);
 
         } else {
             self.heightFoot = [pickerView selectedRowInComponent:0] + 1.0f;
-            self.heightInches = [pickerView selectedRowInComponent:1];
-            [self.heightButton setTitle:[NSString stringWithFormat:@"%d' %d\"", [pickerView selectedRowInComponent:0] + 1, [pickerView selectedRowInComponent:1]] forState:UIControlStateNormal];
+            self.heightInches = (int)[pickerView selectedRowInComponent:1];
+            [self.heightButton setTitle:[NSString stringWithFormat:@"%d' %d\"", (int)[pickerView selectedRowInComponent:0] + 1, (int)[pickerView selectedRowInComponent:1]] forState:UIControlStateNormal];
 //            NSLog(@"HEIGHT FT/IN: %d ft %d in", self.heightFoot, self.heightInches);
 
         }
@@ -671,11 +671,11 @@
     if(pickerView == self.birthdatePickerView)
     {
         if(component == 0) {
-            return [NSString stringWithFormat:@"%d", row + 1];
+            return [NSString stringWithFormat:@"%d", (int)row + 1];
 
         } else if(component == 1) {
             //MONTH
-            NSString * dateString = [NSString stringWithFormat: @"%d", row + 1];
+            NSString * dateString = [NSString stringWithFormat: @"%d", (int)row + 1];
 
             NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateFormat:@"MM"];
@@ -688,23 +688,23 @@
             //YEAR
             NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
             NSDateComponents *components = [gregorian components:NSYearCalendarUnit fromDate:[NSDate date]];
-            return [NSString stringWithFormat:@"%d", [components year] - row];
+            return [NSString stringWithFormat:@"%d", (int)[components year] - (int)row];
         }
     }
     else if(pickerView == self.weightPickerView)
     {
         if(component == 0) {
             if(self.weightIsMetricUnits) {
-                return [NSString stringWithFormat:@"%d", row + 30];
+                return [NSString stringWithFormat:@"%d", (int)row + 30];
             } else {
-                return [NSString stringWithFormat:@"%d", row + 30];
+                return [NSString stringWithFormat:@"%d", (int)row + 30];
             }
 
         } else if(component == 1) {
             if(self.weightIsMetricUnits) {
-                return [NSString stringWithFormat:@"%d", row];
+                return [NSString stringWithFormat:@"%d", (int)row];
             } else {
-                return [NSString stringWithFormat:@"%d", row];
+                return [NSString stringWithFormat:@"%d", (int)row];
             }
 
         } else if(component == 2) {
@@ -727,16 +727,16 @@
     {
         if(component == 0) {
             if(self.heightIsMetricUnits) {
-                return [NSString stringWithFormat:@"%d m", row + 1];
+                return [NSString stringWithFormat:@"%d m", (int)row + 1];
             } else {
-                return [NSString stringWithFormat:@"%d '", row + 1];
+                return [NSString stringWithFormat:@"%d '", (int)row + 1];
             }
             
         } else if(component == 1) {
             if(self.heightIsMetricUnits) {
-                return [NSString stringWithFormat:@"%d cm", row];
+                return [NSString stringWithFormat:@"%d cm", (int)row];
             } else {
-                return [NSString stringWithFormat:@"%d \"", row];
+                return [NSString stringWithFormat:@"%d \"", (int)row];
             }
             
         } else if(component == 2) {

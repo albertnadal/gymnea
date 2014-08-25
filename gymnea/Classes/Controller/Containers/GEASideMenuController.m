@@ -310,7 +310,7 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
                 weightString = [NSString stringWithFormat:@"%.1flbs", (kilograms * 2.20462262f)];
             }
 
-            [self.userInfoLabel setText:[NSString stringWithFormat:@"%@ - %d - %@ - %@", [userInfo.gender capitalizedString], abs([userAgeComponents year]), heightString, weightString]];
+            [self.userInfoLabel setText:[NSString stringWithFormat:@"%@ - %d - %@ - %@", [userInfo.gender capitalizedString], abs((int)[userAgeComponents year]), heightString, weightString]];
             [self.userNameLabel setText:[NSString stringWithFormat:@"%@ %@", userInfo.firstName, userInfo.lastName]];
 
         } else {
