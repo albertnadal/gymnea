@@ -36,7 +36,7 @@ static CGFloat const kGEABannerOffsetFactor = 0.45f;
 static float const kGEABannerTransitionCrossDissolveDuration = 0.3f;
 static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeholder";
 
-@interface WorkoutDetailViewController () <GEAPopoverViewControllerDelegate, UIScrollViewDelegate, ChooseWorkoutDayViewControllerDelegate, WorkoutDayTableViewControllerDelegate, UIAlertViewDelegate>
+@interface WorkoutDetailViewController () <GEAPopoverViewControllerDelegate, UIScrollViewDelegate, ChooseWorkoutDayViewControllerDelegate, WorkoutDayTableViewControllerDelegate, UIAlertViewDelegate, UIDocumentInteractionControllerDelegate>
 {
     Workout *workout;
     WorkoutDetail *workoutDetail;
@@ -53,6 +53,9 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
     // Exercise download queue
     NSMutableArray *exerciseIdDownloadQueue;
+
+    // Document controller for managing the workout PDF
+    UIDocumentInteractionController *documentController;
 }
 
 @property (atomic) int eventId;
@@ -85,6 +88,8 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 @property (nonatomic, retain) MBProgressHUD *loadWorkoutHud;
 @property (nonatomic, weak) IBOutlet UIButton *playWorkoutButton;
 @property (nonatomic, retain) NSMutableArray *exerciseIdDownloadQueue;
+@property (nonatomic, retain) UIDocumentInteractionController *documentController;
+@property (nonatomic, retain) NSURL *pdfFileURL;
 
 
 - (void)loadWorkoutDetailData;
@@ -110,12 +115,13 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 - (void)downloadWorkout;
 - (void)downloadNextExerciseFromQueue;
 - (void)showErrorMessageAndCancelDownload;
+- (void)downloadWorkoutPDF;
 
 @end
 
 @implementation WorkoutDetailViewController
 
-@synthesize workout, workoutDetail, showingDetails, popover, reviewsView, detailsView, workoutDaysTableViewController, exerciseIdDownloadQueue;
+@synthesize workout, workoutDetail, showingDetails, popover, reviewsView, detailsView, workoutDaysTableViewController, exerciseIdDownloadQueue, documentController;
 
 - (id)initWithWorkout:(Workout *)workout_;
 {
@@ -130,6 +136,8 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         self.workoutDetail = nil;
         popover = nil;
         self.exerciseIdDownloadQueue = nil;
+        self.documentController = nil;
+        self.pdfFileURL = nil;
     }
 
     return self;
@@ -381,6 +389,59 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
     [self downloadNextExerciseFromQueue];
 
+}
+
+- (void)downloadWorkoutPDF
+{
+    //Just download the workout PDF
+
+    self.loadWorkoutHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.loadWorkoutHud.labelText = @"Downloading workout PDF";
+
+    [[GymneaWSClient sharedInstance] requestWorkoutPDFWithWorkout:self.workout
+                                              withCompletionBlock:^(GymneaWSClientRequestStatus success, NSData *pdf) {
+
+                                                  if((success == GymneaWSClientRequestSuccess) && (pdf != nil)) {
+
+                                                      NSError *error = nil;
+
+                                                      NSURL *directoryURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]] isDirectory:YES];
+                                                      [[NSFileManager defaultManager] createDirectoryAtURL:directoryURL withIntermediateDirectories:YES attributes:nil error:&error];
+
+                                                      self.pdfFileURL = [directoryURL URLByAppendingPathComponent:@"workout.pdf"];
+
+                                                      [pdf writeToURL:self.pdfFileURL options:NSDataWritingAtomic error:&error];
+
+                                                      if(self.documentController == nil) {
+                                                          self.documentController = [[UIDocumentInteractionController alloc] init];
+                                                      }
+
+                                                      [self.documentController setURL:self.pdfFileURL];
+                                                      documentController.delegate = self;
+                                                      documentController.UTI = @"com.adobe.pdf";
+                                                      [documentController presentOpenInMenuFromRect:CGRectZero
+                                                                                             inView:self.view
+                                                                                           animated:YES];
+
+                                                  } else {
+
+                                                      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                                                      message:@"Unable to reach the network when retrieving the workout PDF."
+                                                                                                     delegate:nil
+                                                                                            cancelButtonTitle:@"Ok"
+                                                                                            otherButtonTitles:nil];
+                                                      [alert setTag:1];
+                                                      [alert show];
+
+                                                  }
+
+                                                  // Hide HUD after 0.3 seconds
+                                                  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                                                      
+                                                      [self.loadWorkoutHud hide:YES];
+                                                  });
+
+                                              }];
 }
 
 - (void)updateBasicInfoData
@@ -637,6 +698,18 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+
+    if(self.pdfFileURL != nil) {
+        
+        // Delete the temporal file used to save the pdf
+        NSError *error = nil;
+        [[NSFileManager defaultManager] removeItemAtURL:self.pdfFileURL error:&error];
+    }
+}
+
 - (void)addActionsButton
 {
     UIBarButtonItem *navBarShareButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showPopover:)];
@@ -678,44 +751,6 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     WorkoutDescriptionViewController *edvc = [[WorkoutDescriptionViewController alloc] initWithName:self.workout.name withDescription:self.workoutDetail.workoutDescription];
     [self.navigationController pushViewController:edvc animated:YES];
 }
-
-/*
-- (IBAction)buyNow:(id)sender
-{
-#warning the following event detail fake is used only for testing purposes. This must use the event detail information provided by the web service
-    EventDetail *eventDetailTest = [[EventDetail alloc] init];
-    [eventDetailTest setEventId:1];
-    [eventDetailTest setBannerUrl:@"http://www.lafruitera.com/img_banner_fake.png"];
-    [eventDetailTest setEventUrl:@"http://www.albertnadal.cat"];
-    [eventDetailTest setTitle:@"Luces de Bohemia de Ramon del Valle-Inclán. Luces de Bohemia de Ramon del Valle-Inclán. Luces de Bohemia de Ramon del Valle-Inclán."];
-    [eventDetailTest setCompany:@"Gerry McCambridge"];
-    [eventDetailTest setRating:8];
-    [eventDetailTest setDescription:@"Gerry McCambridge has one of the most unique acts in Las Vegas as well as one of the most unique job titles: Mentalist.\n\nAs a mentalist, Gerry reads the minds of random audience members and predicts the outcome of random situations during the performance.\nThe entire show is also laced with comedy and plenty of audience interaction, making each performance a different experience.\n\nAccess Hollywood calls it “Amazing!”. Nominated “Best Magician in Las Vegas” and voted “World’s Best Entertainer” in his field, Gerry thrills audiences with his ability to get inside the minds of others. You won’t believe it until you see him LIVE!"];
-
-    NSDateComponents *comps = [[NSDateComponents alloc] init];
-    [comps setDay:1];
-    [comps setMonth:4];
-    [comps setYear:2013];
-    [eventDetailTest setStartDate:[[NSCalendar currentCalendar] dateFromComponents:comps]];
-
-    [comps setDay:1];
-    [comps setMonth:6];
-    [comps setYear:2013];
-    [eventDetailTest setEndDate:[[NSCalendar currentCalendar] dateFromComponents:comps]];
-
-    [eventDetailTest setMinPrice:35];
-    [eventDetailTest setMaxPrice:120];
-    [eventDetailTest setMinimalAge:18];
-    [eventDetailTest setAddress:@"Variety Theater\n3667 Las Vegas Blvd South\nLas Vegas, NV 89109\nUnited States"];
-    [eventDetailTest setLatitude:41.403571f];
-    [eventDetailTest setLongitude:2.174472f];
-
-    [eventDetailTest setTimes:@[@"5:00 PM", @"7:00 PM", @"9:00 PM", @"11:00 PM"]];
-
-//    PurchaseDateAndTimesViewController *pdtvc = [[PurchaseDateAndTimesViewController alloc] initWithEvent:eventDetailTest];
-//    [self.navigationController pushViewController:pdtvc animated:YES];
-
-}*/
 
 - (NSDictionary*)parseURLParams:(NSString *)query
 {
@@ -848,7 +883,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         case 2: return @"Download";
             break;
             
-        case 3: return @"Send via Email";
+        case 3: return @"Workout PDF";
             break;
     }
     
@@ -867,7 +902,14 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         case 2: //[self shareWithTwitter];
                 break;
 
-        case 3: break;
+        case 3: if(self.pdfFileURL != nil) {
+
+                    // Delete the temporal file used to save the pdf
+                    NSError *error = nil;
+                    [[NSFileManager defaultManager] removeItemAtURL:self.pdfFileURL error:&error];
+                }
+                [self downloadWorkoutPDF];
+                break;
     }
 }
 
@@ -889,6 +931,20 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     viewController.navigationController.toolbar.frame = viewControllerFrame;
     viewController.edgesForExtendedLayout = UIRectEdgeNone;
     [self.navigationController pushViewController:viewController animated:YES];
+}
+
+-(void)documentInteractionController:(UIDocumentInteractionController *)controller
+       willBeginSendingToApplication:(NSString *)application {
+    
+}
+
+-(void)documentInteractionController:(UIDocumentInteractionController *)controller
+          didEndSendingToApplication:(NSString *)application {
+    
+}
+
+-(void)documentInteractionControllerDidDismissOpenInMenu:(UIDocumentInteractionController *)controller {
+    
 }
 
 @end
