@@ -12,6 +12,7 @@
 #import "GEALabel+Gymnea.h"
 #import "GymneaWSClient.h"
 #import "GenericWorkoutsViewController.h"
+#import "GenericWorkoutsSavedViewController.h"
 #import "GenericWorkoutsDownloadedViewController.h"
 #import "ExercisesViewController.h"
 #import "ExercisesSavedViewController.h"
@@ -91,7 +92,7 @@
     [customWorkoutsViewController.view setBackgroundColor:[UIColor whiteColor]];
     [customWorkoutsViewController setTitle:@"Custom"];
 */
-    UIViewController *savedWorkoutsViewController = [[UIViewController alloc] init];
+    GenericWorkoutsSavedViewController *savedWorkoutsViewController = [[GenericWorkoutsSavedViewController alloc] init];
     [savedWorkoutsViewController.view setBackgroundColor:[UIColor whiteColor]];
     [savedWorkoutsViewController setTitle:@"Favorites"];
 

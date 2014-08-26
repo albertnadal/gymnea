@@ -84,6 +84,7 @@
 		FFADD41C198851A4009F14F3 /* clock_tic.wav in Resources */ = {isa = PBXBuildFile; fileRef = FFADD41B198851A4009F14F3 /* clock_tic.wav */; };
 		FFBEC01F19AC02A900FF699D /* ExercisesDownloadedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFBEC01D19AC02A900FF699D /* ExercisesDownloadedViewController.m */; };
 		FFBEC02219ACC74F00FF699D /* GenericWorkoutsDownloadedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFBEC02019ACC74F00FF699D /* GenericWorkoutsDownloadedViewController.m */; };
+		FFBEC02519ACE8B100FF699D /* GenericWorkoutsSavedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFBEC02319ACE8B000FF699D /* GenericWorkoutsSavedViewController.m */; };
 		FFC9892619A6719600E2C592 /* Workout.m in Sources */ = {isa = PBXBuildFile; fileRef = FFC9892519A6719600E2C592 /* Workout.m */; };
 		FFC9892919A6745B00E2C592 /* Workout+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = FFC9892819A6745B00E2C592 /* Workout+Management.m */; };
 		FFC9892D19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFC9892A19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.xib */; };
@@ -239,6 +240,8 @@
 		FFBEC01E19AC02A900FF699D /* ExercisesDownloadedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExercisesDownloadedViewController.h; path = Classes/Controller/ExercisesDownloadedViewController.h; sourceTree = "<group>"; };
 		FFBEC02019ACC74F00FF699D /* GenericWorkoutsDownloadedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenericWorkoutsDownloadedViewController.m; path = Classes/Controller/GenericWorkoutsDownloadedViewController.m; sourceTree = "<group>"; };
 		FFBEC02119ACC74F00FF699D /* GenericWorkoutsDownloadedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericWorkoutsDownloadedViewController.h; path = Classes/Controller/GenericWorkoutsDownloadedViewController.h; sourceTree = "<group>"; };
+		FFBEC02319ACE8B000FF699D /* GenericWorkoutsSavedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenericWorkoutsSavedViewController.m; path = Classes/Controller/GenericWorkoutsSavedViewController.m; sourceTree = "<group>"; };
+		FFBEC02419ACE8B100FF699D /* GenericWorkoutsSavedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericWorkoutsSavedViewController.h; path = Classes/Controller/GenericWorkoutsSavedViewController.h; sourceTree = "<group>"; };
 		FFC9892419A6719600E2C592 /* Workout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Workout.h; path = Classes/Model/Workout.h; sourceTree = "<group>"; };
 		FFC9892519A6719600E2C592 /* Workout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Workout.m; path = Classes/Model/Workout.m; sourceTree = "<group>"; };
 		FFC9892719A6745B00E2C592 /* Workout+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Workout+Management.h"; sourceTree = "<group>"; };
@@ -653,6 +656,8 @@
 			children = (
 				FFBEC02019ACC74F00FF699D /* GenericWorkoutsDownloadedViewController.m */,
 				FFBEC02119ACC74F00FF699D /* GenericWorkoutsDownloadedViewController.h */,
+				FFBEC02319ACE8B000FF699D /* GenericWorkoutsSavedViewController.m */,
+				FFBEC02419ACE8B100FF699D /* GenericWorkoutsSavedViewController.h */,
 				FFDDE704197D2A34009694D9 /* GenericWorkoutsViewController.h */,
 				FFDDE705197D2A34009694D9 /* GenericWorkoutsViewController.m */,
 				FF23A6451982968200E62C5B /* GenericWorkoutsViewController.xib */,
@@ -846,6 +851,7 @@
 				FF23A64D1982F48800E62C5B /* ChooseWorkoutDayViewController.m in Sources */,
 				FF681EC41993E8460061F458 /* ModelUtil.m in Sources */,
 				FF8E69AA1987AD1E008C6BF9 /* GEATouchView.m in Sources */,
+				FFBEC02519ACE8B100FF699D /* GenericWorkoutsSavedViewController.m in Sources */,
 				FF9110A4197B10BD00818E95 /* WorkoutDescriptionViewController.m in Sources */,
 				FFA1375D1969A58000DBEE68 /* gymnea.xcdatamodeld in Sources */,
 				FF60FBBB1996C3B200DC2F14 /* ExercisesViewController.m in Sources */,

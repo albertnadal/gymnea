@@ -107,11 +107,19 @@ typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
 
 - (void)requestWorkoutsWithCompletionBlock:(workoutsCompletionBlock)completionBlock;
 
+- (void)requestSavedWorkoutsWithCompletionBlock:(workoutsCompletionBlock)completionBlock;
+
 - (void)requestLocalWorkoutsWithType:(GymneaWorkoutType)workoutTypeId
                        withFrequency:(int)frequence
                            withLevel:(GymneaWorkoutLevel)levelId
                             withName:(NSString *)searchText
                  withCompletionBlock:(workoutsCompletionBlock)completionBlock;
+
+- (void)requestLocalSavedWorkoutsWithType:(GymneaWorkoutType)workoutTypeId
+                            withFrequency:(int)frequence
+                                withLevel:(GymneaWorkoutLevel)levelId
+                                 withName:(NSString *)searchText
+                      withCompletionBlock:(workoutsCompletionBlock)completionBlock;
 
 - (void)requestLocalDownloadedWorkoutsWithType:(GymneaWorkoutType)workoutTypeId
                                  withFrequency:(int)frequence
