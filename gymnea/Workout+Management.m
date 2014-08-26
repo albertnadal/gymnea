@@ -164,6 +164,13 @@ static NSString * const kEntityName = @"Workout";
     return fetchManagedObjects(kEntityName, predicate, nil, defaultManagedObjectContext());
 }
 
++ (NSArray *)getDownloadedWorkouts
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"downloaded == YES"];
+    
+    return fetchManagedObjects(kEntityName, predicate, nil, defaultManagedObjectContext());
+}
+
 + (NSArray *)getWorkoutsWithType:(GymneaWorkoutType)workoutTypeId
                    withFrequency:(int)frequency
                        withLevel:(GymneaWorkoutLevel)levelId
@@ -209,6 +216,58 @@ static NSString * const kEntityName = @"Workout";
 
     if([queryString isEqualToString:@""]) {
         return [Workout getWorkouts];
+    } else {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:queryString];
+        return fetchManagedObjects(kEntityName, predicate, nil, defaultManagedObjectContext());
+    }
+}
+
++ (NSArray *)getDownloadedWorkoutsWithType:(GymneaWorkoutType)workoutTypeId
+                             withFrequency:(int)frequency
+                                 withLevel:(GymneaWorkoutLevel)levelId
+                                  withName:(NSString *)searchText
+{
+    NSMutableArray *queryStringArray = [[NSMutableArray alloc] init];
+    
+    NSString *queryString = @"(downloaded == YES)";
+    [queryStringArray addObject:queryString];
+
+    if(workoutTypeId != GymneaWorkoutAny) {
+        queryString = [NSString stringWithFormat:@"(typeId == %@)", [NSNumber numberWithInt:workoutTypeId]];
+        [queryStringArray addObject:queryString];
+    }
+    
+    if(frequency > 0) {
+        queryString = [NSString stringWithFormat:@"(frequency == %@)", [NSNumber numberWithInt:frequency]];
+        [queryStringArray addObject:queryString];
+    }
+    
+    if(levelId != GymneaWorkoutLevelAny) {
+        queryString = [NSString stringWithFormat:@"(levelId == %@)", [NSNumber numberWithInt:levelId]];
+        [queryStringArray addObject:queryString];
+    }
+    
+    if(![searchText isEqualToString:@""]) {
+        queryString = [NSString stringWithFormat:@"(name MATCHES[cd] '.*(%@).*')", searchText];
+        [queryStringArray addObject:queryString];
+    }
+    
+    queryString = @"";
+    NSString *queryPredicateString = nil;
+    
+    BOOL isFirstPredicate = TRUE;
+    for(queryPredicateString in queryStringArray)
+    {
+        if(isFirstPredicate) {
+            queryString = [queryString stringByAppendingString:queryPredicateString];
+            isFirstPredicate = FALSE;
+        } else {
+            queryString = [queryString stringByAppendingString:[NSString stringWithFormat:@" AND %@", queryPredicateString]];
+        }
+    }
+    
+    if([queryString isEqualToString:@""]) {
+        return [Workout getDownloadedWorkouts];
     } else {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:queryString];
         return fetchManagedObjects(kEntityName, predicate, nil, defaultManagedObjectContext());

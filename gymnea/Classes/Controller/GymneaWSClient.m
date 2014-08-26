@@ -892,7 +892,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                        withFrequency:(int)frequence
                            withLevel:(GymneaWorkoutLevel)levelId
                             withName:(NSString *)searchText
-                 withCompletionBlock:(exercisesCompletionBlock)completionBlock
+                 withCompletionBlock:(workoutsCompletionBlock)completionBlock
 {
     NSArray *workoutsList = [Workout getWorkoutsWithType:workoutTypeId
                                            withFrequency:frequence
@@ -904,6 +904,25 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
             completionBlock(GymneaWSClientRequestSuccess, workoutsList);
         }
 
+    });
+}
+
+- (void)requestLocalDownloadedWorkoutsWithType:(GymneaWorkoutType)workoutTypeId
+                                 withFrequency:(int)frequence
+                                     withLevel:(GymneaWorkoutLevel)levelId
+                                      withName:(NSString *)searchText
+                           withCompletionBlock:(workoutsCompletionBlock)completionBlock
+{
+    NSArray *workoutsList = [Workout getDownloadedWorkoutsWithType:workoutTypeId
+                                                     withFrequency:frequence
+                                                         withLevel:levelId
+                                                          withName:searchText];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(completionBlock != nil) {
+            completionBlock(GymneaWSClientRequestSuccess, workoutsList);
+        }
+        
     });
 }
 

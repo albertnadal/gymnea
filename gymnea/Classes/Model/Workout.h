@@ -19,5 +19,6 @@
 @property (nonatomic) int32_t levelId;
 @property (nonatomic, retain) NSData *photoMedium;
 @property (nonatomic, retain) NSData *photoSmall;
+@property (nonatomic) BOOL downloaded;
 
 @end

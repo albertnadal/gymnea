@@ -354,12 +354,19 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         }];
     } else {
 
+        // At this point the workout is downloaded
+        [self.workout setDownloaded:YES];
+
+        // Flush workout model changes to db
+        AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+        [appDelegate saveContext];
+
         self.exerciseIdDownloadQueue = nil;
         [self.playWorkoutButton setTitle:@"Start Workout" forState:UIControlStateNormal];
 
         // Hide HUD after 0.3 seconds
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-            
+
             [self.loadWorkoutHud hide:YES];
         });
 
@@ -899,7 +906,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         case 1: //[self shareWithFacebook];
                 break;
 
-        case 2: [self downloadWorkoutPDF];
+        case 2: [self downloadWorkout];
                 break;
 
         case 3: if(self.pdfFileURL != nil) {

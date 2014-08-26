@@ -56,10 +56,17 @@ typedef enum _GymneaWorkoutImageSize
 
 + (NSArray *)getSavedWorkouts;
 
++ (NSArray *)getDownloadedWorkouts;
+
 + (NSArray *)getWorkoutsWithType:(GymneaWorkoutType)workoutTypeId
                    withFrequency:(int)frequency
                        withLevel:(GymneaWorkoutLevel)levelId
                         withName:(NSString *)searchText;
+
++ (NSArray *)getDownloadedWorkoutsWithType:(GymneaWorkoutType)workoutTypeId
+                             withFrequency:(int)frequency
+                                 withLevel:(GymneaWorkoutLevel)levelId
+                                  withName:(NSString *)searchText;
 
 + (NSArray *)getSavedWorkoutsWithType:(GymneaWorkoutType)workoutTypeId
                         withFrequency:(int)frequency

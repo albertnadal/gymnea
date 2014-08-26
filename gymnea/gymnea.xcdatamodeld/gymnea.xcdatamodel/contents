@@ -40,6 +40,7 @@
         <attribute name="weightKilograms" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
     </entity>
     <entity name="Workout" representedClassName="Workout" syncable="YES">
+        <attribute name="downloaded" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="frequency" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="levelId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -78,7 +79,7 @@
         <element name="Exercise" positionX="-101" positionY="225" width="128" height="180"/>
         <element name="ExerciseDetail" positionX="-252" positionY="222" width="128" height="255"/>
         <element name="UserInfo" positionX="-254" positionY="3" width="128" height="195"/>
-        <element name="Workout" positionX="52" positionY="-0" width="128" height="163"/>
+        <element name="Workout" positionX="52" positionY="-0" width="128" height="180"/>
         <element name="WorkoutDay" positionX="241" positionY="62" width="128" height="133"/>
         <element name="WorkoutDayExercise" positionX="52" positionY="225" width="128" height="178"/>
         <element name="WorkoutDetail" positionX="-101" positionY="-0" width="128" height="103"/>

@@ -19,5 +19,6 @@
 @dynamic levelId;
 @dynamic photoMedium;
 @dynamic photoSmall;
+@dynamic downloaded;
 
 @end

@@ -12,6 +12,7 @@
 #import "GEALabel+Gymnea.h"
 #import "GymneaWSClient.h"
 #import "GenericWorkoutsViewController.h"
+#import "GenericWorkoutsDownloadedViewController.h"
 #import "ExercisesViewController.h"
 #import "ExercisesSavedViewController.h"
 #import "ExercisesDownloadedViewController.h"
@@ -77,6 +78,10 @@
     
     
     
+    UIViewController *currentWorkoutViewController = [[UIViewController alloc] init];
+    [currentWorkoutViewController.view setBackgroundColor:[UIColor whiteColor]];
+    [currentWorkoutViewController setTitle:@"Current"];
+
     GenericWorkoutsViewController *workoutsViewController = [[GenericWorkoutsViewController alloc] init];
     [workoutsViewController.view setBackgroundColor:[UIColor whiteColor]];
     [workoutsViewController setTitle:@"Directory"];
@@ -87,23 +92,16 @@
     [customWorkoutsViewController setTitle:@"Custom"];
 */
     UIViewController *savedWorkoutsViewController = [[UIViewController alloc] init];
-    [savedWorkoutsViewController.view setFrame:CGRectMake(0,0,320,690)];
     [savedWorkoutsViewController.view setBackgroundColor:[UIColor whiteColor]];
     [savedWorkoutsViewController setTitle:@"Favorites"];
 
-    UIViewController *downloadedWorkoutsViewController = [[UIViewController alloc] init];
-    [downloadedWorkoutsViewController.view setFrame:CGRectMake(0,0,320,690)];
+    GenericWorkoutsDownloadedViewController *downloadedWorkoutsViewController = [[GenericWorkoutsDownloadedViewController alloc] init];
     [downloadedWorkoutsViewController.view setBackgroundColor:[UIColor whiteColor]];
     [downloadedWorkoutsViewController setTitle:@"Downloaded"];
 
-    UIViewController *currentWorkoutViewController = [[UIViewController alloc] init];
-    [currentWorkoutViewController.view setFrame:CGRectMake(0,0,320,690)];
-    [currentWorkoutViewController.view setBackgroundColor:[UIColor whiteColor]];
-    [currentWorkoutViewController setTitle:@"Current"];
-
     GEAScrollableTabBarController *scrollableTabBarController = [[GEAScrollableTabBarController alloc] init];
     [scrollableTabBarController.view setFrame:CGRectMake(0,0,320,690)];
-    [scrollableTabBarController setViewControllers:@[workoutsViewController, /*customWorkoutsViewController,*/ savedWorkoutsViewController, downloadedWorkoutsViewController, currentWorkoutViewController]];
+    [scrollableTabBarController setViewControllers:@[currentWorkoutViewController, workoutsViewController, /*customWorkoutsViewController,*/ savedWorkoutsViewController, downloadedWorkoutsViewController]];
 
     UITabBarItem *favorites2TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Workouts" image:[UIImage imageNamed:@"sidebar-workouts-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-workouts-icon"]];
     [scrollableTabBarController setTabBarItem:favorites2TabBarItem];
