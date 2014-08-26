@@ -7,6 +7,7 @@
 //
 
 #import "Exercise+Management.h"
+#import "ExerciseDetail+Management.h"
 #import "ModelUtil.h"
 
 static NSString * const kEntityName = @"Exercise";
@@ -262,6 +263,19 @@ static NSString * const kEntityName = @"Exercise";
     return fetchManagedObjects(kEntityName, predicate, nil, defaultManagedObjectContext());
 }
 
++ (NSArray *)getDownloadedExercises
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"videoLoop != nil"];
+    
+    NSArray *downloadedExerciseDetail = fetchManagedObjects(@"ExerciseDetail", predicate, nil, defaultManagedObjectContext());
+    NSMutableArray *downloadedExercises = [[NSMutableArray alloc] init];
+    for(ExerciseDetail *exerciseDetail in downloadedExerciseDetail) {
+        [downloadedExercises addObject:[Exercise getExerciseInfo:exerciseDetail.exerciseId]];
+    }
+
+    return [NSArray arrayWithArray:downloadedExercises];
+}
+
 + (NSArray *)getExercisesWithType:(GymneaExerciseType)exerciseTypeId
                        withMuscle:(GymneaMuscleType)muscleId
                     withEquipment:(GymneaEquipmentType)equipmentId
@@ -311,6 +325,83 @@ static NSString * const kEntityName = @"Exercise";
         }
     }
 
+    if([queryString isEqualToString:@""]) {
+        return [Exercise getExercises];
+    } else {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:queryString];
+        return fetchManagedObjects(kEntityName, predicate, nil, defaultManagedObjectContext());
+    }
+}
+
++ (NSArray *)getExercisesWithType:(GymneaExerciseType)exerciseTypeId
+                       withMuscle:(GymneaMuscleType)muscleId
+                    withEquipment:(GymneaEquipmentType)equipmentId
+                        withLevel:(GymneaExerciseLevel)levelId
+                         withName:(NSString *)searchText
+                  withExerciseIds:(NSArray *)exerciseIds
+{
+    NSMutableArray *queryStringArray = [[NSMutableArray alloc] init];
+    
+    NSString *queryString = nil;
+    
+    if(exerciseTypeId != GymneaExerciseAny) {
+        queryString = [NSString stringWithFormat:@"(typeId == %@)", [NSNumber numberWithInt:exerciseTypeId]];
+        [queryStringArray addObject:queryString];
+    }
+    
+    if(muscleId != GymneaMuscleAny) {
+        queryString = [NSString stringWithFormat:@"(muscleId == %@)", [NSNumber numberWithInt:muscleId]];
+        [queryStringArray addObject:queryString];
+    }
+    
+    if(equipmentId != GymneaEquipmentAny) {
+        queryString = [NSString stringWithFormat:@"(equipmentId == %@)", [NSNumber numberWithInt:equipmentId]];
+        [queryStringArray addObject:queryString];
+    }
+    
+    if(levelId != GymneaExerciseLevelAny) {
+        queryString = [NSString stringWithFormat:@"(levelId == %@)", [NSNumber numberWithInt:levelId]];
+        [queryStringArray addObject:queryString];
+    }
+
+    if(exerciseIds != nil) {
+
+        NSString *exerciseIdsString = @"";
+        BOOL isFirstExerciseId = TRUE;
+        for(NSNumber *exerciseIdNumber in exerciseIds) {
+
+            if(isFirstExerciseId) {
+                exerciseIdsString = [exerciseIdsString stringByAppendingString:[NSString stringWithFormat:@"(exerciseId == %@)", exerciseIdNumber]];
+                isFirstExerciseId = FALSE;
+            } else {
+                exerciseIdsString = [exerciseIdsString stringByAppendingString:[NSString stringWithFormat:@" OR (exerciseId == %@)", exerciseIdNumber]];
+            }
+        }
+
+        queryString = [NSString stringWithFormat:@"(%@)", exerciseIdsString];
+        [queryStringArray addObject:queryString];
+
+    }
+
+    if(![searchText isEqualToString:@""]) {
+        queryString = [NSString stringWithFormat:@"(name MATCHES[cd] '.*(%@).*')", searchText];
+        [queryStringArray addObject:queryString];
+    }
+    
+    queryString = @"";
+    NSString *queryPredicateString = nil;
+    
+    BOOL isFirstPredicate = TRUE;
+    for(queryPredicateString in queryStringArray)
+    {
+        if(isFirstPredicate) {
+            queryString = [queryString stringByAppendingString:queryPredicateString];
+            isFirstPredicate = FALSE;
+        } else {
+            queryString = [queryString stringByAppendingString:[NSString stringWithFormat:@" AND %@", queryPredicateString]];
+        }
+    }
+    
     if([queryString isEqualToString:@""]) {
         return [Exercise getExercises];
     } else {

@@ -14,6 +14,7 @@
 #import "GenericWorkoutsViewController.h"
 #import "ExercisesViewController.h"
 #import "ExercisesSavedViewController.h"
+#import "ExercisesDownloadedViewController.h"
 #import "GEAScrollableTabBarController.h"
 #import "ExerciseDetailViewController.h"
 
@@ -146,8 +147,7 @@
     [savedExercisesViewController.view setBackgroundColor:[UIColor whiteColor]];
     [savedExercisesViewController setTitle:@"Favorites"];
 
-    UIViewController *downloadedExercisesViewController = [[UIViewController alloc] init];
-    [downloadedExercisesViewController.view setFrame:CGRectMake(0,0,320,690)];
+    ExercisesDownloadedViewController *downloadedExercisesViewController = [[ExercisesDownloadedViewController alloc] init];
     [downloadedExercisesViewController.view setBackgroundColor:[UIColor whiteColor]];
     [downloadedExercisesViewController setTitle:@"Downloaded"];
 

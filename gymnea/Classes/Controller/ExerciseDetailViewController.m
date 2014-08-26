@@ -695,8 +695,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 - (NSInteger)numberOfRowsInPopoverViewController:(GEAPopoverViewController *)popover
 {
-    if(self.exerciseDetail.videoLoop == nil)    return 2;
-    else                                        return 1;
+    return 2;
 }
 
 - (UIImage *)iconImageInPopoverViewController:(GEAPopoverViewController *)popover atRowIndex:(NSInteger)index

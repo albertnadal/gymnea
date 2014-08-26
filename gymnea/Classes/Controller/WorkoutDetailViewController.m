@@ -899,7 +899,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         case 1: //[self shareWithFacebook];
                 break;
 
-        case 2: //[self shareWithTwitter];
+        case 2: [self downloadWorkoutPDF];
                 break;
 
         case 3: if(self.pdfFileURL != nil) {

@@ -648,6 +648,29 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
     });
 }
 
+- (void)requestLocalExercisesWithType:(GymneaExerciseType)exerciseTypeId
+                           withMuscle:(GymneaMuscleType)muscleId
+                        withEquipment:(GymneaEquipmentType)equipmentId
+                            withLevel:(GymneaExerciseLevel)levelId
+                             withName:(NSString *)searchText
+                      withExerciseIds:(NSArray *)exerciseIds
+                  withCompletionBlock:(exercisesCompletionBlock)completionBlock
+{
+    NSArray *exercisesList = [Exercise getExercisesWithType:exerciseTypeId
+                                                 withMuscle:muscleId
+                                              withEquipment:equipmentId
+                                                  withLevel:levelId
+                                                   withName:searchText
+                                            withExerciseIds:exerciseIds];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(completionBlock != nil) {
+            completionBlock(GymneaWSClientRequestSuccess, exercisesList);
+        }
+        
+    });
+}
+
 - (void)requestLocalSavedExercisesWithType:(GymneaExerciseType)exerciseTypeId
                                 withMuscle:(GymneaMuscleType)muscleId
                              withEquipment:(GymneaEquipmentType)equipmentId

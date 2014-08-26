@@ -64,11 +64,20 @@ typedef enum _GymneaExerciseImageGender
 
 + (NSArray *)getSavedExercises;
 
++ (NSArray *)getDownloadedExercises;
+
 + (NSArray *)getExercisesWithType:(GymneaExerciseType)exerciseTypeId
                        withMuscle:(GymneaMuscleType)muscleId
                     withEquipment:(GymneaEquipmentType)equipmentId
                         withLevel:(GymneaExerciseLevel)levelId
                          withName:(NSString *)searchText;
+
++ (NSArray *)getExercisesWithType:(GymneaExerciseType)exerciseTypeId
+                       withMuscle:(GymneaMuscleType)muscleId
+                    withEquipment:(GymneaEquipmentType)equipmentId
+                        withLevel:(GymneaExerciseLevel)levelId
+                         withName:(NSString *)searchText
+                  withExerciseIds:(NSArray *)exerciseIds;
 
 + (NSArray *)getSavedExercisesWithType:(GymneaExerciseType)exerciseTypeId
                             withMuscle:(GymneaMuscleType)muscleId
