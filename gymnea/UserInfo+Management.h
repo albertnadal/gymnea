@@ -8,6 +8,7 @@
 
 #import "UserInfo.h"
 #import <UIKit/UIKit.h>
+#import "Workout+Management.h"
 
 /** Management methods for Event entity */
 
@@ -22,7 +23,8 @@
                weightKilograms:(float)weightKilograms
                 weightIsMetric:(BOOL)weightIsMetric
                        picture:(NSData*)picture
-                     birthDate:(NSDate*)birthDate;
+                     birthDate:(NSDate*)birthDate
+                     workoutId:(int32_t)workoutId;
 
 - (void)updateWithFirstName:(NSString*)firstName
                    lastName:(NSString*)lastName
@@ -33,7 +35,8 @@
             weightKilograms:(float)weightKilograms
              weightIsMetric:(BOOL)weightIsMetric
                     picture:(NSData*)picture
-                  birthDate:(NSDate*)birthDate;
+                  birthDate:(NSDate*)birthDate
+                  workoutId:(int32_t)workoutId;
 
 - (void)updateWithDictionary:(NSDictionary *)userInfoDict;
 
@@ -43,36 +46,10 @@
 
 + (UserInfo*)updateUserPictureWithEmail:(NSString *)email withImage:(UIImage *)image;
 
-/** Creates a new, featured, event with the information got from the featuredList api method */
-//+ (UserInfo*) featuredEvent:(NSDictionary*) featuredEventDictionary;
-
-/** Returns the event with id eventId. If there isn't such event or there are more than one it returns nil
- 
- @param eventId The id of the event we want to retrieve */
- 
 + (UserInfo*)getUserInfo:(NSString*)email;
 
-/** It sets all the existing events as not featured
- 
- It's necessary, for example, before setting the new featured events */
-//+ (void) resetFeaturedEvents;
+- (BOOL)hasCurrentWorkout;
 
-/** Returns an array with the featuredEvents stored in CoreData. If there aren't returns an empty array */
-//+ (NSArray*) getFeaturedEvents;
-
-/** Delete all data from Event entity which lastUpdateDate is prior to toDate
- 
- @param toDate oldest lastUpdateDate that we keep */
-//+ (void) cleanDataToDate:(NSDate*) toDate;
-
-/** Updates the event with the information of the JSON response of the event details backend api
- 
- @param eventDictionary NSDictionary with all the information to create the event */
-//- (void) updateWithEventDictionary:(NSDictionary*) eventDictionary;
-
-/** Updates the event with the information of the JSON response of the featured events backend api
- 
- @param featuredEventDictionary NSDictionary with the featured event information (it's not complete information) */
-//- (void) updateWithFeaturedEventDictionary:(NSDictionary*) featuredEventDictionary;
+- (Workout *)getUserCurrentWorkout;
 
 @end

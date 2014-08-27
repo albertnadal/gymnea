@@ -11,6 +11,7 @@
 #import "InitialViewController.h"
 #import "GEALabel+Gymnea.h"
 #import "GymneaWSClient.h"
+#import "CurrentWorkoutDetailViewController.h"
 #import "GenericWorkoutsViewController.h"
 #import "GenericWorkoutsSavedViewController.h"
 #import "GenericWorkoutsDownloadedViewController.h"
@@ -79,8 +80,12 @@
     
     
     
-    UIViewController *currentWorkoutViewController = [[UIViewController alloc] init];
-    [currentWorkoutViewController.view setBackgroundColor:[UIColor whiteColor]];
+    CurrentWorkoutDetailViewController *currentWorkoutViewController = [[CurrentWorkoutDetailViewController alloc] init];
+    currentWorkoutViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+//    CGRect viewControllerFrame = currentWorkoutViewController.navigationController.toolbar.frame;
+//    viewControllerFrame.origin.y = 20;
+//    currentWorkoutViewController.navigationController.toolbar.frame = viewControllerFrame;
+//    currentWorkoutViewController.edgesForExtendedLayout = UIRectEdgeNone;
     [currentWorkoutViewController setTitle:@"Current"];
 
     GenericWorkoutsViewController *workoutsViewController = [[GenericWorkoutsViewController alloc] init];

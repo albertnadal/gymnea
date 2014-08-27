@@ -21,5 +21,6 @@
 @dynamic weightIsMetric;
 @dynamic picture;
 @dynamic birthDate;
+@dynamic currentWorkoutId;
 
 @end

@@ -22,5 +22,6 @@
 @property (nonatomic) BOOL weightIsMetric;
 @property (nonatomic, retain) NSData * picture;
 @property (nonatomic, retain) NSDate * birthDate;
+@property (nonatomic) int32_t currentWorkoutId;
 
 @end

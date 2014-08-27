@@ -43,6 +43,7 @@ typedef void(^exercisesCompletionBlock)(GymneaWSClientRequestStatus success, NSA
 typedef void(^exerciseDetailCompletionBlock)(GymneaWSClientRequestStatus success, ExerciseDetail *exercise);
 typedef void(^workoutDetailCompletionBlock)(GymneaWSClientRequestStatus success, WorkoutDetail *workout);
 typedef void(^workoutPDFCompletionBlock)(GymneaWSClientRequestStatus success, NSData *pdf);
+typedef void(^currentWorkoutCompletionBlock)(GymneaWSClientRequestStatus success);
 typedef void(^exerciseVideoLoopCompletionBlock)(GymneaWSClientRequestStatus success, NSData *video);
 typedef void(^workoutsCompletionBlock)(GymneaWSClientRequestStatus success, NSArray *workouts);
 typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
@@ -64,6 +65,10 @@ typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
 - (void)requestSessionIdWithCompletionBlock:(sessionIdCompletionBlock)completionBlock;
 
 - (void)requestUserInfoWithCompletionBlock:(userInfoCompletionBlock)completionBlock;
+
+- (void)requestLocalUserInfoWithCompletionBlock:(userInfoCompletionBlock)completionBlock;
+
+- (UserInfo *)requestLocalUserInfo;
 
 - (void)requestUserImageWithCompletionBlock:(userImageCompletionBlock)completionBlock;
 
@@ -136,5 +141,9 @@ typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
 
 - (void)requestWorkoutPDFWithWorkout:(Workout *)workout
                  withCompletionBlock:(workoutPDFCompletionBlock)completionBlock;
+
+- (void)setUserCurrentWorkoutWithWorkout:(Workout *)workout
+                     withCompletionBlock:(currentWorkoutCompletionBlock)completionBlock;
+
 
 @end

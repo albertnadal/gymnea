@@ -29,6 +29,7 @@
     </entity>
     <entity name="UserInfo" representedClassName="UserInfo" syncable="YES">
         <attribute name="birthDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="currentWorkoutId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="gender" optional="YES" attributeType="String" syncable="YES"/>
@@ -78,7 +79,7 @@
     <elements>
         <element name="Exercise" positionX="-101" positionY="225" width="128" height="180"/>
         <element name="ExerciseDetail" positionX="-252" positionY="222" width="128" height="255"/>
-        <element name="UserInfo" positionX="-254" positionY="3" width="128" height="195"/>
+        <element name="UserInfo" positionX="-254" positionY="3" width="128" height="210"/>
         <element name="Workout" positionX="52" positionY="-0" width="128" height="180"/>
         <element name="WorkoutDay" positionX="241" positionY="62" width="128" height="133"/>
         <element name="WorkoutDayExercise" positionX="52" positionY="225" width="128" height="178"/>

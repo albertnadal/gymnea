@@ -7,20 +7,6 @@
 //
 
 #import "WorkoutDetailViewController.h"
-#import "GEAPopoverViewController.h"
-#import "WorkoutDescriptionViewController.h"
-#import "WorkoutDayTableViewController.h"
-#import "AppDelegate.h"
-#import <QuartzCore/QuartzCore.h>
-#import "GymneaWSClient.h"
-#import "Exercise.h"
-#import "ExerciseDetail.h"
-#import "GEALabel+Gymnea.h"
-#import "UIImageView+AFNetworking.h"
-#import "ChooseWorkoutDayViewController.h"
-#import "WorkoutPlayViewController.h"
-#import "ExerciseDetailViewController.h"
-#import "MBProgressHUD.h"
 
 #define DETAILS_SEGMENT_INDEX 0
 #define WORKOUT_DAYS_SEGMENT_INDEX 1
@@ -37,85 +23,7 @@ static float const kGEABannerTransitionCrossDissolveDuration = 0.3f;
 static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeholder";
 
 @interface WorkoutDetailViewController () <GEAPopoverViewControllerDelegate, UIScrollViewDelegate, ChooseWorkoutDayViewControllerDelegate, WorkoutDayTableViewControllerDelegate, UIAlertViewDelegate, UIDocumentInteractionControllerDelegate>
-{
-    Workout *workout;
-    WorkoutDetail *workoutDetail;
-    
-    // Popover
-    GEAPopoverViewController *popover;
 
-    // Scroll and containers
-    UIView *reviewsView;
-    WorkoutDayTableViewController *workoutDaysTableViewController;
-
-    // State flags
-    bool showingDetails;
-
-    // Exercise download queue
-    NSMutableArray *exerciseIdDownloadQueue;
-
-    // Document controller for managing the workout PDF
-    UIDocumentInteractionController *documentController;
-}
-
-@property (atomic) int eventId;
-@property (nonatomic, weak) IBOutlet UIScrollView *scroll;
-@property (nonatomic, strong) IBOutlet UIView *detailsView;
-@property (nonatomic, strong) UIView *reviewsView;
-@property (nonatomic, strong) WorkoutDayTableViewController *workoutDaysTableViewController;
-@property (nonatomic, weak) IBOutlet UIView *bannerContainer;
-@property (nonatomic, weak) IBOutlet UIView *basicInfoContainer;
-@property (nonatomic, strong) IBOutlet UIView *dealContainer;
-@property (nonatomic, weak) IBOutlet UIView *segmentContainer;
-@property (nonatomic, weak) IBOutlet UIView *buyContainer;
-@property (nonatomic, weak) IBOutlet UIImageView *banner;
-@property (nonatomic, weak) IBOutlet UIImageView *bannerTopShadow;
-@property (nonatomic, weak) IBOutlet UIImageView *bannerBottomShadow;
-@property (nonatomic, weak) IBOutlet UILabel *eventTitle;
-@property (nonatomic, weak) IBOutlet UIImageView *ratingImage;
-@property (nonatomic, weak) IBOutlet UILabel *overallRating;
-@property (nonatomic, weak) IBOutlet UIView *scoreBackgroundView;
-@property (nonatomic, weak) IBOutlet UIButton *descriptionButton;
-@property (nonatomic, weak) IBOutlet UILabel *description;
-@property (nonatomic, weak) IBOutlet UILabel *workoutType;
-@property (nonatomic, weak) IBOutlet UILabel *workoutFrequency;
-@property (nonatomic, weak) IBOutlet UILabel *workoutDifficulty;
-@property (nonatomic, weak) IBOutlet UILabel *workoutMuscles;
-@property (nonatomic, strong) GEAPopoverViewController *popover;
-@property (nonatomic) bool showingDetails;
-@property (nonatomic, strong) Workout *workout;
-@property (nonatomic, strong) WorkoutDetail *workoutDetail;
-@property (nonatomic, retain) MBProgressHUD *loadWorkoutHud;
-@property (nonatomic, weak) IBOutlet UIButton *playWorkoutButton;
-@property (nonatomic, retain) NSMutableArray *exerciseIdDownloadQueue;
-@property (nonatomic, retain) UIDocumentInteractionController *documentController;
-@property (nonatomic, retain) NSURL *pdfFileURL;
-
-
-- (void)loadWorkoutDetailData;
-- (void)loadBanner;
-- (void)updateWorkoutDetailData;
-- (void)updateBannerData;
-- (void)updateBasicInfoData;
-- (void)updateDealData;
-- (void)updateSegmentControl;
-- (void)updateDetailsData;
-- (void)updateWorkoutDaysData;
-- (void)updateScroll;
-- (IBAction)showSelectedSegment:(id)sender;
-- (IBAction)showDescription:(id)sender;
-- (IBAction)startWorkout:(id)sender;
-- (void)addActionsButton;
-- (UIImage*)imageByCropping:(UIImage *)imageToCrop toRect:(CGRect)rect;
-- (void)stretchBannerWithVerticalOffset:(CGFloat)offset;
-- (void)updateBannerSizeAndPosition:(CGFloat)offset;
-- (void)moveBannerWithVerticalOffset:(CGFloat)offset;
-- (NSString *)stringFromFloat:(float)value;
-- (BOOL)workoutIsDownload;
-- (void)downloadWorkout;
-- (void)downloadNextExerciseFromQueue;
-- (void)showErrorMessageAndCancelDownload;
-- (void)downloadWorkoutPDF;
 
 @end
 
@@ -138,6 +46,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         self.exerciseIdDownloadQueue = nil;
         self.documentController = nil;
         self.pdfFileURL = nil;
+        self.totalWorkoutExercises = 0;
     }
 
     return self;
@@ -335,6 +244,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
                                                                           AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
                                                                           [appDelegate saveContext];
 
+                                                                          self.loadWorkoutHud.progress = ((self.totalWorkoutExercises - [self.exerciseIdDownloadQueue count]) * 1.0f) / self.totalWorkoutExercises;
                                                                           [self downloadNextExerciseFromQueue];
 
                                                                       } else {
@@ -378,6 +288,8 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     //Just download the video loop of all the exercises to complete all the missing exercise attributes
     
     self.loadWorkoutHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.loadWorkoutHud.mode = MBProgressHUDModeAnnularDeterminate;
+    self.loadWorkoutHud.progress = 0.0f;
     self.loadWorkoutHud.labelText = @"Downloading workout";
 
     self.exerciseIdDownloadQueue = [[NSMutableArray alloc] init];
@@ -394,6 +306,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         }
     }
 
+    self.totalWorkoutExercises = [self.exerciseIdDownloadQueue count];
     [self downloadNextExerciseFromQueue];
 
 }
@@ -449,6 +362,21 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
                                                   });
 
                                               }];
+}
+
+- (void)setAsUserCurrentWorkout
+{
+    if(self.loadWorkoutHud) {
+        [self.loadWorkoutHud hide:YES];
+    }
+
+    self.loadWorkoutHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.loadWorkoutHud.labelText = @"Setting as current workout";
+
+    [[GymneaWSClient sharedInstance] setUserCurrentWorkoutWithWorkout:self.workout
+                                                  withCompletionBlock:^(GymneaWSClientRequestStatus success) {
+                                                      [self.loadWorkoutHud hide:YES];
+                                                  }];
 }
 
 - (void)updateBasicInfoData
@@ -674,17 +602,8 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     [self updateScroll];
 }
 
-- (void)viewDidLoad
+- (void)loadWorkoutView
 {
-    [super viewDidLoad];
-    
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:nil
-                                                                            action:nil];
-    
     self.navigationItem.titleView = [[GEALabel alloc] initWithText:[self.workout name] fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
     
     self.loadWorkoutHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -702,7 +621,20 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self loadWorkoutDetailData];
     });
+}
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:nil
+                                                                            action:nil];
+    
+    [self loadWorkoutView];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -901,7 +833,8 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 {
     switch(index)
     {
-        case 0: break;
+        case 0: [self setAsUserCurrentWorkout];
+                break;
 
         case 1: //[self shareWithFacebook];
                 break;

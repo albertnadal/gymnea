@@ -31,10 +31,21 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
 typedef void(^responseVideoCompletionBlock)(GymneaWSClientRequestStatus success, NSData *video);
 typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, NSData *pdf);
 
-- (void) performAsyncRequest:(NSString *)path
-              withDictionary:(NSDictionary *)values
-          withAuthentication:(GEAAuthentication *)auth
-         withCompletionBlock:(responseCompletionBlock)completionBlock;
+- (void)performPOSTAsyncRequest:(NSString *)path
+                 withDictionary:(NSDictionary *)values
+             withAuthentication:(GEAAuthentication *)auth
+            withCompletionBlock:(responseCompletionBlock)completionBlock;
+
+- (void)performPUTAsyncRequest:(NSString *)path
+                withDictionary:(NSDictionary *)values
+            withAuthentication:(GEAAuthentication *)auth
+           withCompletionBlock:(responseCompletionBlock)completionBlock;
+
+- (void)performAsyncRequest:(NSString *)path
+             withDictionary:(NSDictionary *)values
+         withAuthentication:(GEAAuthentication *)auth
+                 withMethod:(NSString *)method
+        withCompletionBlock:(responseCompletionBlock)completionBlock;
 
 - (void)performImageAsyncRequest:(NSString *)path
                   withDictionary:(NSDictionary *)values
@@ -100,7 +111,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 {
     NSString *requestPath = @"/api/auth";
 
-    [self performAsyncRequest:requestPath
+    [self performPOSTAsyncRequest:requestPath
                withDictionary:@{@"username" : username, @"password": password}
            withAuthentication:nil
           withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
@@ -140,7 +151,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 {
     NSString *requestPath = @"/api/signup";
     
-    [self performAsyncRequest:requestPath
+    [self performPOSTAsyncRequest:requestPath
                withDictionary:@{@"firstname" : signUpForm.firstName,
                                 @"lastname": signUpForm.lastName,
                                 @"email": signUpForm.emailAddress,
@@ -191,7 +202,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
         GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
         GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
 
-        [self performAsyncRequest:requestPath
+        [self performPOSTAsyncRequest:requestPath
                    withDictionary:nil
                withAuthentication:auth
               withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
@@ -227,10 +238,12 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
         NSString *requestPath = @"/api/user/get_user_info";
 
-        [self performAsyncRequest:requestPath
+        [self performPOSTAsyncRequest:requestPath
                    withDictionary:nil
                withAuthentication:auth
               withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
+
+                  NSLog(@"USER INFO RESPONSE DATA: %@", responseData);
 
                   UserInfo *userInfo = nil;
                   NSMutableDictionary *responseMutableData = [[NSMutableDictionary alloc] initWithDictionary:responseData];
@@ -250,6 +263,10 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
                       AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
                       [appDelegate saveContext];
+
+                      // Send notification to reload the user current workout view
+                      [[NSNotificationCenter defaultCenter] postNotificationName:GEANotificationUserInfoUpdated object:nil userInfo:nil];
+
                   }
 
                   dispatch_async(dispatch_get_main_queue(), ^{
@@ -276,6 +293,32 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
         });
 
     }
+}
+
+- (void)requestLocalUserInfoWithCompletionBlock:(userInfoCompletionBlock)completionBlock
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+
+    // Retrieve data from DB by using the email address as primary key
+    UserInfo *userInfo = [UserInfo getUserInfo:[auth userEmail]];
+    
+    GymneaWSClientRequestStatus success = (userInfo == nil) ? GymneaWSClientRequestError : GymneaWSClientRequestSuccess;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(completionBlock != nil) {
+            completionBlock(success, nil, userInfo);
+        }
+    });
+}
+
+- (UserInfo *)requestLocalUserInfo
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+    
+    // Retrieve data from DB by using the email address as primary key
+    return [UserInfo getUserInfo:[auth userEmail]];
 }
 
 - (void)requestUserImageWithCompletionBlock:(userImageCompletionBlock)completionBlock
@@ -483,7 +526,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
         NSString *requestPath = @"/api/exercises/get_exercises";
 
-        [self performAsyncRequest:requestPath
+        [self performPOSTAsyncRequest:requestPath
                    withDictionary:nil
                withAuthentication:auth
               withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
@@ -563,7 +606,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
         
         NSString *requestPath = @"/api/saved_exercises/get_exercises";
         
-        [self performAsyncRequest:requestPath
+        [self performPOSTAsyncRequest:requestPath
                    withDictionary:nil
                withAuthentication:auth
               withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
@@ -703,7 +746,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
         // Retrieve data from web service API
         NSString *requestPath = [NSString stringWithFormat:@"/api/exercise/get_exercise/%d", [exercise exerciseId]];
 
-        [self performAsyncRequest:requestPath
+        [self performPOSTAsyncRequest:requestPath
                    withDictionary:nil
                withAuthentication:auth
               withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
@@ -825,7 +868,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
         
         NSString *requestPath = @"/api/workouts_directory/get_workouts";
         
-        [self performAsyncRequest:requestPath
+        [self performPOSTAsyncRequest:requestPath
                    withDictionary:nil
                withAuthentication:auth
               withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
@@ -899,7 +942,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
         NSString *requestPath = @"/api/saved_workouts/get_workouts";
 
-        [self performAsyncRequest:requestPath
+        [self performPOSTAsyncRequest:requestPath
                    withDictionary:nil
                withAuthentication:auth
               withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
@@ -1114,7 +1157,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
         // Retrieve data from web service API
         NSString *requestPath = [NSString stringWithFormat:@"/api/workout/get_workout_info/%d", [workout workoutId]];
         
-        [self performAsyncRequest:requestPath
+        [self performPOSTAsyncRequest:requestPath
                    withDictionary:nil
                withAuthentication:auth
               withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
@@ -1207,6 +1250,56 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
         
     }
 
+}
+
+- (void)setUserCurrentWorkoutWithWorkout:(Workout *)workout
+                     withCompletionBlock:(currentWorkoutCompletionBlock)completionBlock
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+
+    UserInfo *userInfoFromDB = [UserInfo getUserInfo:[auth userEmail]];
+    if(userInfoFromDB != nil) {
+        [userInfoFromDB setCurrentWorkoutId:workout.workoutId];
+    }
+
+    AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+    [appDelegate saveContext];
+
+
+    if(self.internetIsReachable) {
+        
+        NSString *requestPath = [NSString stringWithFormat:@"/api/workout/set_current_generic_workout/%d", workout.workoutId];
+        
+        [self performPUTAsyncRequest:requestPath
+                      withDictionary:nil
+                  withAuthentication:auth
+                 withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *responseCookies) {
+
+                     // Send notification to reload the user current workout view
+                     [[NSNotificationCenter defaultCenter] postNotificationName:GEANotificationUserInfoUpdated object:nil userInfo:nil];
+
+                     dispatch_async(dispatch_get_main_queue(), ^{
+                         if(completionBlock != nil) {
+                             completionBlock(success);
+                         }
+
+                     });
+
+        }];
+
+    } else {
+
+        // Send notification to reload the user current workout view
+        [[NSNotificationCenter defaultCenter] postNotificationName:GEANotificationUserInfoUpdated object:nil userInfo:nil];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(completionBlock != nil) {
+                completionBlock(GymneaWSClientRequestError);
+            }
+        });
+    }
+    
 }
 
 - (void)performPDFAsyncRequest:(NSString *)path
@@ -1498,16 +1591,43 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
 }
 
+- (void)performPOSTAsyncRequest:(NSString *)path
+             withDictionary:(NSDictionary *)values
+         withAuthentication:(GEAAuthentication *)auth
+        withCompletionBlock:(responseCompletionBlock)completionBlock {
+
+    [self performAsyncRequest:path
+               withDictionary:values
+           withAuthentication:auth
+                   withMethod:@"POST"
+          withCompletionBlock:completionBlock];
+    
+}
+
+- (void)performPUTAsyncRequest:(NSString *)path
+                withDictionary:(NSDictionary *)values
+            withAuthentication:(GEAAuthentication *)auth
+           withCompletionBlock:(responseCompletionBlock)completionBlock {
+
+    [self performAsyncRequest:path
+               withDictionary:values
+           withAuthentication:auth
+                   withMethod:@"PUT"
+          withCompletionBlock:completionBlock];
+
+}
+
 - (void)performAsyncRequest:(NSString *)path
              withDictionary:(NSDictionary *)values
          withAuthentication:(GEAAuthentication *)auth
+                 withMethod:(NSString *)method
         withCompletionBlock:(responseCompletionBlock)completionBlock {
 
     NSString *requestUrl = [NSString stringWithFormat:@"https://%@%@", kWSDomain, path];
 
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:requestUrl]];
     [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
-    [request setHTTPMethod:@"POST"];
+    [request setHTTPMethod:method];
     [request addValue:@"athlete.gymnea.com" forHTTPHeaderField:@"Host"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setHTTPShouldHandleCookies:YES];

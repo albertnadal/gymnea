@@ -72,6 +72,8 @@ NSString * const GEAWorkoutEasy = @"Easy";
 NSString * const GEAWorkoutIntermediate = @"Intermediate";
 NSString * const GEAWorkoutExpert = @"Expert";
 
+NSString * const GEANotificationUserInfoUpdated = @"GEANotificationUserInfoUpdated";
+
 @interface GEADefinitions()
 
 + (UIColor *)colorWithHexColorString:(NSString*)inColorString withAlpha:(float)alpha;

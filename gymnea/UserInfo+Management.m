@@ -25,6 +25,7 @@ static NSString * const kEntityName = @"UserInfo";
                 weightIsMetric:(BOOL)weightIsMetric
                        picture:(NSData*)picture
                      birthDate:(NSDate*)birthDate
+                     workoutId:(int32_t)workoutId
 {
   UserInfo *newUserInfo = (UserInfo *) [NSEntityDescription insertNewObjectForEntityForName:kEntityName inManagedObjectContext:defaultManagedObjectContext()];
 
@@ -37,7 +38,8 @@ static NSString * const kEntityName = @"UserInfo";
                    weightKilograms:weightKilograms
                     weightIsMetric:weightIsMetric
                            picture:(NSData*)picture
-                         birthDate:birthDate];
+                         birthDate:birthDate
+                         workoutId:workoutId];
 
   commitDefaultMOC();
   return newUserInfo;
@@ -60,7 +62,8 @@ static NSString * const kEntityName = @"UserInfo";
               weightKilograms:[[userInfoDict objectForKey:@"kilograms"] floatValue]
                weightIsMetric:[[userInfoDict objectForKey:@"weightIsMetric"] boolValue]
                       picture:[userInfoDict objectForKey:@"picture"]
-                    birthDate:[calendar dateFromComponents:components]];
+                    birthDate:[calendar dateFromComponents:components]
+                    workoutId:[[userInfoDict objectForKey:@"currentWorkoutId"] intValue]];
 
     commitDefaultMOC();
 }
@@ -97,7 +100,8 @@ static NSString * const kEntityName = @"UserInfo";
                                weightKilograms:[[userInfoDict objectForKey:@"kilograms"] floatValue]
                                 weightIsMetric:[[userInfoDict objectForKey:@"weightIsMetric"] boolValue]
                                        picture:[userInfoDict objectForKey:@"picture"]
-                                     birthDate:[calendar dateFromComponents:components]];
+                                     birthDate:[calendar dateFromComponents:components]
+                                     workoutId:[[userInfoDict objectForKey:@"currentWorkoutId"] intValue]];
 
     }
 
@@ -118,35 +122,6 @@ static NSString * const kEntityName = @"UserInfo";
     return userInfo;
 }
 
-/*
-+ (UserInfo*) featuredEvent:(NSDictionary *)featuredEventDictionary
-{
-  NSDictionary *eventVenue = [featuredEventDictionary objectForKey:@"eventVenue"];
-  
-  Event *event = [Event eventWithId:[featuredEventDictionary objectForKey:@"id"]
-                   eventDescription:nil
-                              title:[featuredEventDictionary objectForKey:@"title"]
-                           featured:YES
-                 imageHorizontalUrl:[featuredEventDictionary objectForKey:@"imageHorizontalUrl"]
-                   imageVerticalUrl:[featuredEventDictionary objectForKey:@"imageVerticalUrl"]
-                     imageSquareUrl:[featuredEventDictionary objectForKey:@"imageSquareUrl"]
-                        imageBigUrl:[featuredEventDictionary objectForKey:@"imageBigUrl"]
-                     ageRestriction:0
-                             rating:0
-                            venueId:0
-                          venueName:[eventVenue objectForKey:@"name"]
-                       venueCountry:nil
-                          venueCity:nil
-                        venueStreet:nil
-            venueCoordinateLatitude:0
-           venueCoordinateLongitude:0
-                         venueState:nil
-                        priceLowest:[[featuredEventDictionary objectForKey:@"priceLowest"] floatValue]
-                       priceHighest:[[featuredEventDictionary objectForKey:@"priceLowest"] floatValue]];
-  
-  return event;
-}
-*/
 #pragma mark Select methods
 
 + (UserInfo *)getUserInfo:(NSString *)email
@@ -157,72 +132,7 @@ static NSString * const kEntityName = @"UserInfo";
 
   return userInfo;
 }
-/*
-+ (NSArray*) getFeaturedEvents
-{
-  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"featured == %d", YES];
-  
-  return fetchManagedObjects(kEntityName, predicate, nil, defaultManagedObjectContext());
-}
 
-#pragma mark Update methods
-
-+ (void) resetFeaturedEvents
-{
-  NSArray *featuredEvents = [Event getFeaturedEvents];
-  for (Event *event in featuredEvents)
-    event.featured = NO;
-  
-  commitDefaultMOC();
-}
-
-- (void) updateWithEventDictionary:(NSDictionary *)eventDictionary
-{
-  NSDictionary *yelpInfo = [eventDictionary objectForKey:@"yelpInfo"];
-  NSDictionary *eventVenue = [eventDictionary objectForKey:@"eventVenue"];
-  
-  [self updateWithDescription:[eventDictionary objectForKey:@"description"]
-                        title:[eventDictionary objectForKey:@"title"]
-                     featured:[[eventDictionary objectForKey:@"featured"] boolValue]
-           imageHorizontalUrl:[eventDictionary objectForKey:@"imageHorizontalUrl"]
-             imageVerticalUrl:[eventDictionary objectForKey:@"imageVerticalUrl"]
-               imageSquareUrl:[eventDictionary objectForKey:@"imageSquareUrl"]
-                  imageBigUrl:[eventDictionary objectForKey:@"imageBigUrl"]
-               ageRestriction:[[eventDictionary objectForKey:@"ageRestriction"] unsignedIntegerValue]
-                       rating:[[yelpInfo objectForKey:@"rating"] unsignedIntegerValue]
-                      venueId:[[eventDictionary objectForKey:@"venueId"] unsignedIntegerValue]
-                    venueName:[eventVenue objectForKey:@"name"]
-                 venueCountry:[eventVenue objectForKey:@"country"]
-                    venueCity:[eventVenue objectForKey:@"city"]
-                  venueStreet:[eventVenue objectForKey:@"street"]
-      venueCoordinateLatitude:[[eventVenue objectForKey:@"coordinateLatitude"] doubleValue]
-     venueCoordinateLongitude:[[eventVenue objectForKey:@"coordinateLongitude"] doubleValue]
-                   venueState:[eventVenue objectForKey:@"venueState"]
-                  priceLowest:[[eventDictionary objectForKey:@"priceLowest"] floatValue]
-                 priceHighest:[[eventDictionary objectForKey:@"priceLowest"] floatValue]];
-  
-  commitDefaultMOC();
-}
-
-- (void) updateWithFeaturedEventDictionary:(NSDictionary *)featuredEventDictionary
-{
-  NSDictionary *eventVenue = [featuredEventDictionary objectForKey:@"eventVenue"];
-  
-  self.featured = YES;
-  self.title = [featuredEventDictionary objectForKey:@"title"];
-  self.imageHorizontalUrl = [featuredEventDictionary objectForKey:@"imageHorizontalUrl"];
-  self.imageVerticalUrl = [featuredEventDictionary objectForKey:@"imageVerticallUrl"];
-  self.imageSquareUrl = [featuredEventDictionary objectForKey:@"imageSquareUrl"];
-  self.imageBigUrl = [featuredEventDictionary objectForKey:@"imageBigUrl"];
-  self.venueName = [eventVenue objectForKey:@"name"];
-  self.priceLowest = [[featuredEventDictionary objectForKey:@"priceLowest"] floatValue];
-  self.priceHighest = [[featuredEventDictionary objectForKey:@"priceHighest"] floatValue];
-  
-  self.lastUpdateDate = [NSDate date];
-
-  commitDefaultMOC();
-}
-*/
 - (void)updateWithFirstName:(NSString*)firstName
                    lastName:(NSString*)lastName
                      gender:(NSString*)gender
@@ -233,6 +143,7 @@ static NSString * const kEntityName = @"UserInfo";
              weightIsMetric:(BOOL)weightIsMetric
                     picture:(NSData*)picture
                   birthDate:(NSDate*)birthDate
+                  workoutId:(int32_t)workoutId
 {
   self.firstName = firstName;
   self.lastName = lastName;
@@ -244,16 +155,21 @@ static NSString * const kEntityName = @"UserInfo";
   self.weightIsMetric = weightIsMetric;
   self.picture = picture;
   self.birthDate = birthDate;
+  self.currentWorkoutId = workoutId;
 }
 
-/*
-#pragma mark Delete methods
-
-+ (void) cleanDataToDate:(NSDate *)toDate
+- (BOOL)hasCurrentWorkout
 {
-  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"lastUpdateDate < %@", toDate];
-  
-  deleteManagedObjects(kEntityName, predicate, defaultManagedObjectContext());  
+    return (self.currentWorkoutId != 0);
 }
-*/
+
+- (Workout *)getUserCurrentWorkout
+{
+    if(![self hasCurrentWorkout]) {
+        return nil;
+    }
+
+    return [Workout getWorkoutInfo:self.currentWorkoutId];
+}
+
 @end

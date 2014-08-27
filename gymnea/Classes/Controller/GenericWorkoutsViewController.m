@@ -199,7 +199,7 @@
     
     WorkoutDetailViewController *viewController = [[WorkoutDetailViewController alloc] initWithWorkout:workout];
     viewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    viewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+//    viewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     CGRect viewControllerFrame = viewController.navigationController.toolbar.frame;
     viewControllerFrame.origin.y = 20;
     viewController.navigationController.toolbar.frame = viewControllerFrame;

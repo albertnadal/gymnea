@@ -154,6 +154,8 @@ extern NSString * const GEAWorkoutEasy;
 extern NSString * const GEAWorkoutIntermediate;
 extern NSString * const GEAWorkoutExpert;
 
+extern NSString * const GEANotificationUserInfoUpdated;
+
 @interface GEADefinitions : NSObject
 
 + (NSString *)retrieveTitleForMuscle:(GymneaMuscleType)muscleId;
