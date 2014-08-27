@@ -121,6 +121,14 @@
             self.workoutDetail = theWorkout;
             
             [self loadBanner];
+
+            [self.workoutDaysTableViewController.view removeFromSuperview];
+            [self.workoutDaysTableViewController.tableView removeFromSuperview];
+
+            // Create the workout days table and force initial reload data
+            self.workoutDaysTableViewController = [[WorkoutDayTableViewController alloc] initWithWorkoutDays:self.workoutDetail.workoutDays withDelegate:self];
+            [self.workoutDaysTableViewController.tableView reloadData];
+
             [self updateWorkoutDetailData];
             
             [self.scroll setHidden:NO];

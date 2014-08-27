@@ -22,7 +22,7 @@ static CGFloat const kGEABannerOffsetFactor = 0.45f;
 static float const kGEABannerTransitionCrossDissolveDuration = 0.3f;
 static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeholder";
 
-@interface WorkoutDetailViewController () <GEAPopoverViewControllerDelegate, UIScrollViewDelegate, ChooseWorkoutDayViewControllerDelegate, WorkoutDayTableViewControllerDelegate, UIAlertViewDelegate, UIDocumentInteractionControllerDelegate>
+@interface WorkoutDetailViewController ()
 
 
 @end
@@ -60,11 +60,19 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
             self.workoutDetail = theWorkout;
             
             [self loadBanner];
+
+            [self.workoutDaysTableViewController.view removeFromSuperview];
+            [self.workoutDaysTableViewController.tableView removeFromSuperview];
+
+            // Create the workout days table and force initial reload data
+            self.workoutDaysTableViewController = [[WorkoutDayTableViewController alloc] initWithWorkoutDays:self.workoutDetail.workoutDays withDelegate:self];
+            [self.workoutDaysTableViewController.tableView reloadData];
+
             [self updateWorkoutDetailData];
             
             [self.scroll setHidden:NO];
             [self.buyContainer setHidden:NO];
-            
+
             [self addActionsButton];
 
         } else {
@@ -388,10 +396,15 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     CGRect bannerContainerFrame = self.bannerContainer.frame;
     CGFloat baseYPosition = bannerContainerFrame.origin.y + bannerContainerFrame.size.height + 1.0f;
 
+    CGRect eventTitleFrame = self.eventTitle.frame;
+    eventTitleFrame.size.width = [UIScreen mainScreen].bounds.size.width - (eventTitleFrame.origin.x * 2.0f);
+    eventTitleFrame.size.height = 0;
+    [self.eventTitle setFrame:eventTitleFrame];
+
     [self.eventTitle setText:self.workout.name];
     [self.eventTitle sizeToFit];
 
-    CGRect eventTitleFrame = self.eventTitle.frame;
+    eventTitleFrame = self.eventTitle.frame;
     CGFloat y = eventTitleFrame.origin.y + eventTitleFrame.size.height + kGEASpaceBetweenLabels + kGEAContainerPadding;
 
     CGRect ratingImageFrame = self.ratingImage.frame;
@@ -495,28 +508,23 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         [self.workoutDaysTableViewController.view removeFromSuperview];
         [self.workoutDaysTableViewController.view setHidden:YES];
     }
-    else
+    else if(self.workoutDaysTableViewController)
     {
-
         CGRect segmentContainerFrame = self.segmentContainer.frame;
         CGFloat baseYPosition = segmentContainerFrame.origin.y + segmentContainerFrame.size.height + kGEASpaceBetweenLabels;
-
-        if(!self.workoutDaysTableViewController)
-        {
-            self.workoutDaysTableViewController = [[WorkoutDayTableViewController alloc] initWithWorkoutDays:self.workoutDetail.workoutDays withDelegate:self];
-
-            CGRect workoutDaysFrame = self.workoutDaysTableViewController.view.frame;
-            workoutDaysFrame.origin.x = 0.0f;
-            workoutDaysFrame.origin.y = baseYPosition;
-            workoutDaysFrame.size.width = [[UIScreen mainScreen] bounds].size.width;
-            workoutDaysFrame.size.height = [self.workoutDaysTableViewController getHeight];
-
-            [self.workoutDaysTableViewController.view setFrame:workoutDaysFrame];
-        }
-
+        
+        CGRect workoutDaysFrame = self.workoutDaysTableViewController.view.frame;
+        workoutDaysFrame.origin.x = 0.0f;
+        workoutDaysFrame.origin.y = baseYPosition;
+        workoutDaysFrame.size.width = [[UIScreen mainScreen] bounds].size.width;
+        workoutDaysFrame.size.height = [self.workoutDaysTableViewController getHeight];
+        
+        [self.workoutDaysTableViewController.view setFrame:workoutDaysFrame];
+        
         [self.scroll addSubview:self.workoutDaysTableViewController.view];
         [self.workoutDaysTableViewController.view setHidden:NO];
     }
+
 }
 
 - (void)updateDetailsData
@@ -556,6 +564,8 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
     [self.scroll setContentSize:CGSizeMake([[UIScreen mainScreen] bounds].size.width, scrollContentLength)];
     [self.scroll setFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, self.buyContainer.frame.origin.y - 1.0f)];
+    self.scroll.delaysContentTouches = YES;
+    self.scroll.canCancelContentTouches = NO;
 }
 
 - (void)updateBannerData
@@ -617,7 +627,14 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     
     [self.scroll setHidden:YES];
     [self.buyContainer setHidden:YES];
-    
+
+    // Remove any existing view of previous workout days table view
+    if(self.workoutDaysTableViewController) {
+        [self.workoutDaysTableViewController.view removeFromSuperview];
+        [self.workoutDaysTableViewController.tableView removeFromSuperview];
+    }
+
+
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self loadWorkoutDetailData];
     });

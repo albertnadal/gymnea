@@ -518,6 +518,12 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
       [UIView beginAnimations:@"mainViewControllerZoomOut" context:NULL];
       [UIView setAnimationDelegate:self];
       [UIView setAnimationDuration:kGEAOpenCloseAnimationDuration];
+
+      [self.mainViewContainer setClipsToBounds:YES];
+      self.mainViewContainer.layer.cornerRadius = 16.0f;
+      UIBezierPath *mainViewContainerShadowPath = [UIBezierPath bezierPathWithRect:self.mainViewContainer.bounds];
+      self.mainViewContainer.layer.shadowPath = mainViewContainerShadowPath.CGPath;
+
       CGAffineTransform zooming = CGAffineTransformMakeScale(kGEAMainViewScaleOffset, kGEAMainViewScaleOffset);
       self.mainViewContainer.transform = zooming;
       [UIView commitAnimations];

@@ -125,7 +125,6 @@
 {
     WorkoutDayTableViewCell *cell = (WorkoutDayTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"GEAWorkoutDay"];
 
-
     WorkoutDay *workoutDay = [self.workoutDays objectAtIndex:indexPath.section];
     NSMutableSet *workoutDayExercisesMutableSet = [[NSMutableSet alloc] initWithSet:workoutDay.workoutDayExercises];
     NSSortDescriptor *exerciseOrderDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"order" ascending:YES];

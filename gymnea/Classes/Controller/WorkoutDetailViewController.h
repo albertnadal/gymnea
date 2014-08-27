@@ -23,7 +23,7 @@
 #import "ExerciseDetailViewController.h"
 #import "MBProgressHUD.h"
 
-@interface WorkoutDetailViewController : UIViewController
+@interface WorkoutDetailViewController : UIViewController <GEAPopoverViewControllerDelegate, UIScrollViewDelegate, ChooseWorkoutDayViewControllerDelegate, WorkoutDayTableViewControllerDelegate, UIAlertViewDelegate, UIDocumentInteractionControllerDelegate>
 {
     Workout *workout;
     WorkoutDetail *workoutDetail;
