@@ -9,11 +9,12 @@
 #import "NextExerciseCountdownViewController.h"
 #import "WorkoutPlayExerciseViewController.h"
 #import "WorkoutPlayRestViewController.h"
+#import "WorkoutDay+Management.h"
 #import <UIKit/UIKit.h>
 
 
 @interface WorkoutPlayViewController : UIViewController<NextExerciseCountdownViewControllerDelegate, WorkoutPlayExerciseViewControllerDelegate, WorkoutPlayRestViewControllerDelegate>
 
-- (id)init;
+- (id)initWithWorkoutDay:(WorkoutDay *)theWorkoutDay;
 
 @end

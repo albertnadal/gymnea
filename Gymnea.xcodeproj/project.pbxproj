@@ -100,6 +100,10 @@
 		FFF5715219800CBD00BE457B /* WorkoutDayTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF5715019800CBD00BE457B /* WorkoutDayTableViewController.m */; };
 		FFF779471985340C0073E0BE /* NextExerciseCountdownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF779451985340C0073E0BE /* NextExerciseCountdownViewController.m */; };
 		FFF779481985340C0073E0BE /* NextExerciseCountdownViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFF779461985340C0073E0BE /* NextExerciseCountdownViewController.xib */; };
+		FFFC076E19AF8450007F2982 /* WorkoutPlayTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFC076C19AF8450007F2982 /* WorkoutPlayTableViewController.m */; };
+		FFFC076F19AF8450007F2982 /* WorkoutPlayTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFFC076D19AF8450007F2982 /* WorkoutPlayTableViewController.xib */; };
+		FFFC077319AF8568007F2982 /* WorkoutPlayTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFC077119AF8568007F2982 /* WorkoutPlayTableViewCell.m */; };
+		FFFC077419AF8568007F2982 /* WorkoutPlayTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFFC077219AF8568007F2982 /* WorkoutPlayTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -271,6 +275,12 @@
 		FFF779441985340C0073E0BE /* NextExerciseCountdownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NextExerciseCountdownViewController.h; path = Classes/Controller/NextExerciseCountdownViewController.h; sourceTree = "<group>"; };
 		FFF779451985340C0073E0BE /* NextExerciseCountdownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NextExerciseCountdownViewController.m; path = Classes/Controller/NextExerciseCountdownViewController.m; sourceTree = "<group>"; };
 		FFF779461985340C0073E0BE /* NextExerciseCountdownViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NextExerciseCountdownViewController.xib; path = Classes/Controller/NextExerciseCountdownViewController.xib; sourceTree = "<group>"; };
+		FFFC076B19AF8450007F2982 /* WorkoutPlayTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutPlayTableViewController.h; path = Classes/Controller/WorkoutPlayTableViewController.h; sourceTree = "<group>"; };
+		FFFC076C19AF8450007F2982 /* WorkoutPlayTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutPlayTableViewController.m; path = Classes/Controller/WorkoutPlayTableViewController.m; sourceTree = "<group>"; };
+		FFFC076D19AF8450007F2982 /* WorkoutPlayTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkoutPlayTableViewController.xib; path = Classes/Controller/WorkoutPlayTableViewController.xib; sourceTree = "<group>"; };
+		FFFC077019AF8568007F2982 /* WorkoutPlayTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutPlayTableViewCell.h; path = Classes/Controller/WorkoutPlayTableViewCell.h; sourceTree = "<group>"; };
+		FFFC077119AF8568007F2982 /* WorkoutPlayTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutPlayTableViewCell.m; path = Classes/Controller/WorkoutPlayTableViewCell.m; sourceTree = "<group>"; };
+		FFFC077219AF8568007F2982 /* WorkoutPlayTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkoutPlayTableViewCell.xib; path = Classes/Controller/WorkoutPlayTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -344,6 +354,12 @@
 				FF78E78019867265001396E3 /* WorkoutPlayRestViewController.h */,
 				FF78E78119867265001396E3 /* WorkoutPlayRestViewController.m */,
 				FF78E78219867265001396E3 /* WorkoutPlayRestViewController.xib */,
+				FFFC076B19AF8450007F2982 /* WorkoutPlayTableViewController.h */,
+				FFFC076C19AF8450007F2982 /* WorkoutPlayTableViewController.m */,
+				FFFC076D19AF8450007F2982 /* WorkoutPlayTableViewController.xib */,
+				FFFC077019AF8568007F2982 /* WorkoutPlayTableViewCell.h */,
+				FFFC077119AF8568007F2982 /* WorkoutPlayTableViewCell.m */,
+				FFFC077219AF8568007F2982 /* WorkoutPlayTableViewCell.xib */,
 			);
 			name = WorkoutPlay;
 			sourceTree = "<group>";
@@ -573,8 +589,8 @@
 				FF92966E199A1FB3008B7823 /* Defines */,
 				FF60FBB81996C34400DC2F14 /* Exercises */,
 				FF6BBFFF199013C0001FC624 /* ExerciseDetails */,
-				FF23A6491982F3C600E62C5B /* WorkoutPlay */,
 				FFDDE703197D29FB009694D9 /* Workouts */,
+				FF23A6491982F3C600E62C5B /* WorkoutPlay */,
 				FF9110A7197B10F700818E95 /* WorkoutDetails */,
 				FF11F5BF196DF01900590C10 /* Views */,
 				FF3F70A5196D5391007AADF1 /* Containers */,
@@ -768,6 +784,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF9110BD197BB1B500818E95 /* WorkoutDetailViewController.xib in Resources */,
+				FFFC077419AF8568007F2982 /* WorkoutPlayTableViewCell.xib in Resources */,
 				FFABFDD2196C4A48004FC527 /* InitialQuestionnaireGoalViewController.xib in Resources */,
 				FF76206B196ABA9100611B3B /* Avenir Next.ttc in Resources */,
 				FFF779481985340C0073E0BE /* NextExerciseCountdownViewController.xib in Resources */,
@@ -794,6 +811,7 @@
 				FF78CC5E199AC7C9004E0D23 /* ExerciseFilterCollectionReusableView.xib in Resources */,
 				FF6BBFFE19901370001FC624 /* ExerciseDetailViewController.xib in Resources */,
 				FF0DC1B9196CA1CC006E1817 /* LogInViewController.xib in Resources */,
+				FFFC076F19AF8450007F2982 /* WorkoutPlayTableViewController.xib in Resources */,
 				FF441EAA197067EC00865065 /* GEASideMenuController.xib in Resources */,
 				FFC9892D19A6B44B00E2C592 /* WorkoutFilterCollectionReusableView.xib in Resources */,
 				FF81625E1983222000443C13 /* ChooseWorkoutDayTableViewCell.xib in Resources */,
@@ -870,6 +888,7 @@
 				FF9110B8197B1ED400818E95 /* ExerciseDetail.m in Sources */,
 				FF03958A196D528200EA1CF6 /* StartViewController.m in Sources */,
 				FFC9893119A76C2700E2C592 /* WorkoutDetail.m in Sources */,
+				FFFC077319AF8568007F2982 /* WorkoutPlayTableViewCell.m in Sources */,
 				FFC9892919A6745B00E2C592 /* Workout+Management.m in Sources */,
 				FF2521ED1987E78000D9E9B1 /* GenericWorkoutCollectionViewCell.m in Sources */,
 				FF8A911119A3AC1D000F3CDF /* ExercisePlayViewController.m in Sources */,
@@ -887,6 +906,7 @@
 				FF929671199A2017008B7823 /* GEADefinitions.m in Sources */,
 				FFC9893719A9FA3B00E2C592 /* WorkoutDay.m in Sources */,
 				FF23A64019825DDC00E62C5B /* WorkoutDayTableViewCell.m in Sources */,
+				FFFC076E19AF8450007F2982 /* WorkoutPlayTableViewController.m in Sources */,
 				FFF779471985340C0073E0BE /* NextExerciseCountdownViewController.m in Sources */,
 				FFBEC01F19AC02A900FF699D /* ExercisesDownloadedViewController.m in Sources */,
 				FFA137571969A58000DBEE68 /* main.m in Sources */,

@@ -7,20 +7,37 @@
 //
 
 #import "WorkoutPlayViewController.h"
+#import "WorkoutPlayTableViewController.h"
 #import "GEALabel+Gymnea.h"
 
 
 @interface WorkoutPlayViewController ()
+{
+    WorkoutDay *workoutDay;
+    WorkoutPlayTableViewController *workoutPlayTableViewController;
+}
+
+@property (nonatomic, retain) WorkoutDay *workoutDay;
+@property (nonatomic, strong) WorkoutPlayTableViewController *workoutPlayTableViewController;
+@property (nonatomic, weak) IBOutlet UIView *startContainerView;
+
+- (IBAction)startWorkout:(id)sender;
 
 @end
 
 @implementation WorkoutPlayViewController
 
-- (id)init
+@synthesize workoutDay;
+@synthesize workoutPlayTableViewController;
+
+- (id)initWithWorkoutDay:(WorkoutDay *)theWorkoutDay
 {
     self = [super initWithNibName:@"WorkoutPlayViewController" bundle:nil];
     if (self) {
-        // Custom initialization
+
+        self.workoutPlayTableViewController = nil;
+        self.workoutDay = theWorkoutDay;
+
     }
     return self;
 }
@@ -29,16 +46,33 @@
 {
     [super viewDidLoad];
 
-    self.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Results" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    
+    self.navigationItem.titleView = [[GEALabel alloc] initWithText:self.workoutDay.title fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:nil
                                                                             action:nil];
 
-    NextExerciseCountdownViewController *nextExerciseCountdownViewController = [[NextExerciseCountdownViewController alloc] initWithDelegate:self];
-    [self.navigationController pushViewController:nextExerciseCountdownViewController animated:NO];
+    self.workoutPlayTableViewController = [[WorkoutPlayTableViewController alloc] initWithExercises:self.workoutDay.workoutDayExercises];
 
+    CGRect workoutDayFrame = self.workoutPlayTableViewController.view.frame;
+    workoutDayFrame.origin.x = 0.0f;
+    workoutDayFrame.origin.y = 0.0f;
+    workoutDayFrame.size.width = [[UIScreen mainScreen] bounds].size.width;
+    workoutDayFrame.size.height = self.startContainerView.frame.origin.y;
+    
+    [self.workoutPlayTableViewController.view setFrame:workoutDayFrame];
+    [self.view addSubview:self.workoutPlayTableViewController.view];
+    [self.view bringSubviewToFront:self.startContainerView];
+
+}
+
+- (IBAction)startWorkout:(id)sender
+{
+    NextExerciseCountdownViewController *nextExerciseCountdownViewController = [[NextExerciseCountdownViewController alloc] initWithDelegate:self];
+    [self.navigationController pushViewController:nextExerciseCountdownViewController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

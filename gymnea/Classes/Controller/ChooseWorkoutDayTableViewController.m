@@ -81,7 +81,7 @@
     ChooseWorkoutDayTableViewCell *cell = (ChooseWorkoutDayTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"GEAChooseWorkoutDay"];
 
     WorkoutDay *workoutDay = [self.workoutDays objectAtIndex:indexPath.section];
-    int workoutDayTotalExercises = [[[NSMutableSet alloc] initWithSet:workoutDay.workoutDayExercises] count];
+    int workoutDayTotalExercises = (int)[[[NSMutableSet alloc] initWithSet:workoutDay.workoutDayExercises] count];
 
     [[(ChooseWorkoutDayTableViewCell *)cell titleLabel] setText:workoutDay.title];
     [[(ChooseWorkoutDayTableViewCell *)cell titleLabel] sizeToFit];
@@ -146,7 +146,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if([self.delegate respondsToSelector:@selector(willSelectRowInChooseWorkoutViewController:atRowIndex:)])
-        [self.delegate willSelectRowInChooseWorkoutViewController:self atRowIndex:indexPath.row];
+        [self.delegate willSelectRowInChooseWorkoutViewController:self atRowIndex:indexPath.section];
 }
 
 /*

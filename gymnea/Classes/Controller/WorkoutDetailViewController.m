@@ -871,8 +871,14 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 - (void)willSelectRowInChooseWorkoutDayViewController:(ChooseWorkoutDayViewController *)chooseWorkoutDayViewController atRowIndex:(NSInteger)index
 {
-    WorkoutPlayViewController *workoutPlayViewController = [[WorkoutPlayViewController alloc] init];
-    [self.navigationController pushViewController:workoutPlayViewController animated:NO];
+
+    NSMutableSet *workoutDaysMutableSet = [[NSMutableSet alloc] initWithSet:self.workoutDetail.workoutDays];
+    NSSortDescriptor *dayNumberDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dayNumber" ascending:YES];
+    NSArray *workoutDaysArray = [workoutDaysMutableSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:dayNumberDescriptor]];
+    WorkoutDay *workoutDay = [workoutDaysArray objectAtIndex:index];
+
+    WorkoutPlayViewController *workoutPlayViewController = [[WorkoutPlayViewController alloc] initWithWorkoutDay:workoutDay];
+    [self.navigationController pushViewController:workoutPlayViewController animated:YES];
 }
 
 - (void)willSelectExerciseInWorkoutDayTableViewController:(WorkoutDayTableViewController *)workoutDayTableViewController withExerciseId:(int)exerciseId
