@@ -52,6 +52,102 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     return self;
 }
 
+- (void)setupLocalNotifications
+{
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+
+    for(WorkoutDay *workoutDay in self.workoutDetail.workoutDays)
+    {
+        // weekday 1 => Sunday ... weekday 7 => Saturday
+        int weekDay = 0;
+
+        if(([[workoutDay.dayName lowercaseString] isEqualToString:@"monday"]) && (workoutDay.dayNumber == 1)) {
+            weekDay = 2; // Monday
+        } else if(([[workoutDay.dayName lowercaseString] isEqualToString:@"tuesday"]) && (workoutDay.dayNumber == 2)) {
+            weekDay = 3; // Tuesday
+        } else if(([[workoutDay.dayName lowercaseString] isEqualToString:@"wednesday"]) && (workoutDay.dayNumber == 3)) {
+            weekDay = 4; // Wednesday
+        } else if(([[workoutDay.dayName lowercaseString] isEqualToString:@"thursday"]) && (workoutDay.dayNumber == 4)) {
+            weekDay = 5; // Thurdsay
+        } else if(([[workoutDay.dayName lowercaseString] isEqualToString:@"friday"]) && (workoutDay.dayNumber == 5)) {
+            weekDay = 6; // Friday
+        } else if(([[workoutDay.dayName lowercaseString] isEqualToString:@"saturday"]) && (workoutDay.dayNumber == 6)) {
+            weekDay = 7; // Saturday
+        } else if(([[workoutDay.dayName lowercaseString] isEqualToString:@"sunday"]) && (workoutDay.dayNumber == 7)) {
+            weekDay = 1; // Sunday
+        }
+
+        if(weekDay) {
+            NSDictionary *workoutData = @{ @"workoutDayId" : [NSNumber numberWithInteger:workoutDay.workoutDayId], @"name" : workoutDay.title };
+            [self notificationWithItem:workoutData withDate:[self setDateForAlarmWithWeekday:weekDay withTime:@"18:00 PM"] andRepeatInterval:NSWeekCalendarUnit];
+        }
+    }
+
+}
+
+- (void)notificationWithItem:(NSDictionary *)tmpdict withDate:(NSDate *)date andRepeatInterval:(NSCalendarUnit)CalUnit
+{
+    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+
+    if (localNotification==nil) {
+        return;
+    }
+
+    localNotification.fireDate = date;
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    localNotification.repeatCalendar = [NSCalendar currentCalendar];
+    localNotification.alertBody = (NSString *)[tmpdict objectForKey:@"name"];
+    localNotification.alertAction = @"Open workout";
+
+    localNotification.repeatInterval = CalUnit;
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    //localNotification.soundName=[NSString stringWithFormat:@"%@.caf",[tmpdict objectForKey:@"Tone"]];
+    localNotification.userInfo = @{ @"workoutDayId" : [tmpdict objectForKey:@"workoutDayId"] };
+
+    [[UIApplication sharedApplication]scheduleLocalNotification:localNotification];
+}
+
+- (NSDate*)setDateForAlarmWithWeekday:(int)weekNumber withTime:(NSString *)timeString
+{
+    NSCalendar *calendar=[NSCalendar currentCalendar];
+    [calendar setTimeZone:[NSTimeZone defaultTimeZone]];
+    
+    unsigned currentFlag=NSDayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit|NSWeekdayCalendarUnit;
+    
+    NSDateComponents *comp=[calendar components:currentFlag fromDate:[NSDate date]];
+    
+    NSArray *array=[timeString componentsSeparatedByString:@" "];
+    NSInteger hour=[[[[array objectAtIndex:0] componentsSeparatedByString:@":"] objectAtIndex:0] intValue];
+    NSInteger min=[[[[array objectAtIndex:0] componentsSeparatedByString:@":"] objectAtIndex:1] intValue];
+    
+    if ([[array objectAtIndex:1] isEqualToString:@"PM"]) {
+        hour=hour+12;
+    }
+    else
+    {
+        if (hour==12) {
+            hour=0;
+        }
+    }
+    
+    comp.hour=hour;
+    comp.minute=min;
+    comp.second=0;
+    
+    int diff=(weekNumber-comp.weekday);
+    
+    int multiplier;
+    if (weekNumber==0) {
+        multiplier=0;
+    }else
+    {
+        multiplier=diff>0?diff:(diff==0?diff:diff+7);
+    }
+
+    int secondsInOneDay = 86400;
+    return [[calendar dateFromComponents:comp]dateByAddingTimeInterval:multiplier*secondsInOneDay];
+}
+
 - (void)loadWorkoutDetailData
 {
     [[GymneaWSClient sharedInstance] requestWorkoutDetailWithWorkout:self.workout withCompletionBlock:^(GymneaWSClientRequestStatus success, WorkoutDetail *theWorkout) {
@@ -382,6 +478,10 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
     [[GymneaWSClient sharedInstance] setUserCurrentWorkoutWithWorkout:self.workout
                                                   withCompletionBlock:^(GymneaWSClientRequestStatus success) {
+
+                                                      // Setup local notifications properly
+                                                      [self setupLocalNotifications];
+
                                                       [self.loadWorkoutHud hide:YES];
                                                   }];
 }

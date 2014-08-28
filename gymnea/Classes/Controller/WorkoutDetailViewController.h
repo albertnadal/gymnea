@@ -107,5 +107,8 @@
 - (void)showErrorMessageAndCancelDownload;
 - (void)downloadWorkoutPDF;
 - (void)setAsUserCurrentWorkout;
+- (void)setupLocalNotifications;
+- (NSDate*)setDateForAlarmWithWeekday:(int)weekNumber withTime:(NSString *)timeString;
+- (void)notificationWithItem:(NSDictionary *)tmpdict withDate:(NSDate *)date andRepeatInterval:(NSCalendarUnit)CalUnit;
 
 @end

@@ -1295,7 +1295,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
         dispatch_async(dispatch_get_main_queue(), ^{
             if(completionBlock != nil) {
-                completionBlock(GymneaWSClientRequestError);
+                completionBlock(GymneaWSClientRequestSuccess);
             }
         });
     }
