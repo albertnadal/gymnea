@@ -10,4 +10,8 @@
 
 @interface ChooseWorkoutDayTableViewCell : UITableViewCell
 
+@property (nonatomic, weak) IBOutlet UILabel *dayLabel;
+@property (nonatomic, weak) IBOutlet UILabel *titleLabel;
+@property (nonatomic, weak) IBOutlet UILabel *totalExercisesLabel;
+
 @end

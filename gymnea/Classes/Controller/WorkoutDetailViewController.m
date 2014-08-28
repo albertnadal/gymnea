@@ -109,9 +109,8 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         
     } else {
         
-        ChooseWorkoutDayViewController *chooseWorkoutDayViewController = [[ChooseWorkoutDayViewController alloc] initWithDelegate:self];
+        ChooseWorkoutDayViewController *chooseWorkoutDayViewController = [[ChooseWorkoutDayViewController alloc] initWithWorkoutDays:self.workoutDetail.workoutDays withDelegate:self];
         [self presentViewController:chooseWorkoutDayViewController animated:YES completion:nil];
-
     }
 
 }

@@ -14,7 +14,7 @@
 
 @property (weak, nonatomic) id<ChooseWorkoutDayViewControllerDelegate>delegate;
 
-- (id)initWithDelegate:(id<ChooseWorkoutDayViewControllerDelegate>)delegate_;
+- (id)initWithWorkoutDays:(NSSet *)workout_days_ withDelegate:(id<ChooseWorkoutDayViewControllerDelegate>)delegate_;
 
 @end
 

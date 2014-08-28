@@ -243,7 +243,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                withAuthentication:auth
               withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
 
-                  NSLog(@"USER INFO RESPONSE DATA: %@", responseData);
+                  //NSLog(@"USER INFO RESPONSE DATA: %@", responseData);
 
                   UserInfo *userInfo = nil;
                   NSMutableDictionary *responseMutableData = [[NSMutableDictionary alloc] initWithDictionary:responseData];
@@ -538,7 +538,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                       exercisesArray = [[NSMutableArray alloc] init];
 
                       for (NSDictionary *exerciseDict in (NSArray *)responseData) {
-                          NSLog(@"getExerciseInfo: %d", [[exerciseDict objectForKey:@"id"] intValue]);
+                          //NSLog(@"getExerciseInfo: %d", [[exerciseDict objectForKey:@"id"] intValue]);
                           Exercise *exerciseFromDB = [Exercise getExerciseInfo:[[exerciseDict objectForKey:@"id"] intValue]];
 
                           if(exerciseFromDB != nil) {
@@ -618,7 +618,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                       exercisesArray = [[NSMutableArray alloc] init];
 
                       for (NSDictionary *exerciseDict in (NSArray *)responseData) {
-                          NSLog(@"getExerciseInfo: %d", [[exerciseDict objectForKey:@"id"] intValue]);
+                          //NSLog(@"getExerciseInfo: %d", [[exerciseDict objectForKey:@"id"] intValue]);
                           Exercise *exerciseFromDB = [Exercise getExerciseInfo:[[exerciseDict objectForKey:@"id"] intValue]];
                           
                           if(exerciseFromDB != nil) {
@@ -880,7 +880,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                       workoutsArray = [[NSMutableArray alloc] init];
                       
                       for (NSDictionary *workoutDict in (NSArray *)responseData) {
-                          NSLog(@"getWorkoutInfo: %d", [[workoutDict objectForKey:@"id"] intValue]);
+                          //NSLog(@"getWorkoutInfo: %d", [[workoutDict objectForKey:@"id"] intValue]);
                           Workout *workoutFromDB = [Workout getWorkoutInfo:[[workoutDict objectForKey:@"id"] intValue]];
                           
                           if(workoutFromDB != nil) {
@@ -954,7 +954,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                       workoutsArray = [[NSMutableArray alloc] init];
                       
                       for (NSDictionary *workoutDict in (NSArray *)responseData) {
-                          NSLog(@"getWorkoutInfo: %d", [[workoutDict objectForKey:@"id"] intValue]);
+                          //NSLog(@"getWorkoutInfo: %d", [[workoutDict objectForKey:@"id"] intValue]);
                           Workout *workoutFromDB = [Workout getWorkoutInfo:[[workoutDict objectForKey:@"id"] intValue]];
                           
                           if(workoutFromDB != nil) {
@@ -1162,7 +1162,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                withAuthentication:auth
               withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
 
-                  NSLog(@"WORKOUT DETAIL RESPONSE DATA: %@", responseData);
+                  //NSLog(@"WORKOUT DETAIL RESPONSE DATA: %@", responseData);
                   WorkoutDetail *workoutDetail = nil;
                   
                   if(success == GymneaWSClientRequestSuccess) {

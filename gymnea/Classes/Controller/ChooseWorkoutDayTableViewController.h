@@ -14,7 +14,7 @@
 
 @property (weak, nonatomic) id<ChooseWorkoutDayTableViewControllerDelegate>delegate;
 
-- (id)initWithDelegate:(id<ChooseWorkoutDayTableViewControllerDelegate>)delegate_;
+- (id)initWithWorkoutDays:(NSArray *)workout_days_ withDelegate:(id<ChooseWorkoutDayTableViewControllerDelegate>)delegate_;
 
 @end
 

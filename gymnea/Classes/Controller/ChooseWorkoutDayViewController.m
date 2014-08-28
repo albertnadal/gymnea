@@ -12,9 +12,11 @@
 
 @interface ChooseWorkoutDayViewController ()<ChooseWorkoutDayTableViewControllerDelegate>
 {
+    NSArray *workoutDays;
     ChooseWorkoutDayTableViewController *chooseWorkoutDayTableViewController;
 }
 
+@property (nonatomic, strong) NSArray *workoutDays;
 @property (nonatomic, strong) ChooseWorkoutDayTableViewController *chooseWorkoutDayTableViewController;
 @property (nonatomic, weak) IBOutlet UIView *cancelContainer;
 @property (nonatomic, weak) IBOutlet UIView *topLineSeparator;
@@ -26,13 +28,19 @@
 @implementation ChooseWorkoutDayViewController
 
 @synthesize chooseWorkoutDayTableViewController;
+@synthesize workoutDays;
 
-- (id)initWithDelegate:(id<ChooseWorkoutDayViewControllerDelegate>)delegate_
+- (id)initWithWorkoutDays:(NSSet *)workout_days_ withDelegate:(id<ChooseWorkoutDayViewControllerDelegate>)delegate_
 {
     if(self = [super initWithNibName:@"ChooseWorkoutDayViewController" bundle:nil])
     {
         chooseWorkoutDayTableViewController = nil;
         self.delegate = delegate_;
+
+        // Sort workout days by day number {0..7}
+        NSMutableSet *workoutDaysMutableSet = [[NSMutableSet alloc] initWithSet:workout_days_];
+        NSSortDescriptor *dayNumberDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"dayNumber" ascending:YES];
+        self.workoutDays = [workoutDaysMutableSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:dayNumberDescriptor]];
     }
     
     return self;
@@ -42,14 +50,14 @@
 {
     [super viewDidLoad];
 
-    GEALabel *titleModal = [[GEALabel alloc] initWithText:@"Choose a workout day" fontSize:18.0f frame:CGRectMake(0.0f,20.0f,[[UIScreen mainScreen] bounds].size.width,44.0f)];
+    GEALabel *titleModal = [[GEALabel alloc] initWithText:@"Choose a workout day to play" fontSize:18.0f frame:CGRectMake(0.0f,20.0f,[[UIScreen mainScreen] bounds].size.width,44.0f)];
     [self.view addSubview:titleModal];
 
     CGRect topLineSeparatorFrame = self.topLineSeparator.frame;
     topLineSeparatorFrame.origin.y = CGRectGetMaxY(titleModal.frame);
     [self.view bringSubviewToFront:self.topLineSeparator];
 
-    self.chooseWorkoutDayTableViewController = [[ChooseWorkoutDayTableViewController alloc] initWithDelegate:self];
+    self.chooseWorkoutDayTableViewController = [[ChooseWorkoutDayTableViewController alloc] initWithWorkoutDays:self.workoutDays withDelegate:self]; //initWithDelegate:self];
 
     CGRect workoutDaysFrame = self.chooseWorkoutDayTableViewController.view.frame;
     workoutDaysFrame.origin.x = 0.0f;

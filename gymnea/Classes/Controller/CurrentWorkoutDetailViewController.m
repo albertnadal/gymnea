@@ -24,7 +24,7 @@
 
         // Loads the user info current workout
         UserInfo *userInfo = [[GymneaWSClient sharedInstance] requestLocalUserInfo];
-        NSLog(@"user info current workout: %d", userInfo.currentWorkoutId);
+        //NSLog(@"user info current workout: %d", userInfo.currentWorkoutId);
         self.workout = [userInfo getUserCurrentWorkout];
 
         self.workoutDetail = nil;
@@ -39,11 +39,14 @@
 
 - (void)reloadUserInfoCurrentWorkout
 {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+
+        // Move scroll to top
+        [self.scroll setContentOffset:CGPointZero animated:NO];
 
         // Loads the user info current workout
         UserInfo *userInfo = [[GymneaWSClient sharedInstance] requestLocalUserInfo];
-        NSLog(@"user info current workout: %d", userInfo.currentWorkoutId);
+        //NSLog(@"user info current workout: %d", userInfo.currentWorkoutId);
         Workout *latest_current_workout = [userInfo getUserCurrentWorkout];
 
         // If the latest current workout retrieved from the web server is the same locally then there is no necessary to reload
@@ -71,7 +74,7 @@
         [self.scroll setHidden:YES];
         [self.buyContainer setHidden:YES];
 
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             [self loadWorkoutDetailData];
         });
 

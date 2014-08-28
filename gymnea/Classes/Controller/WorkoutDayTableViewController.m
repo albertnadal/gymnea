@@ -15,7 +15,6 @@
 
 @interface WorkoutDayTableViewController ()
 {
-    // Id and model of the review to show
     NSArray *workoutDays;
 }
 

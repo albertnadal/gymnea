@@ -9,18 +9,27 @@
 #import "ChooseWorkoutDayTableViewController.h"
 #import "ChooseWorkoutDayTableViewCell.h"
 #import "WorkoutPlayViewController.h"
+#import "WorkoutDay+Management.h"
 
 @interface ChooseWorkoutDayTableViewController ()
+{
+    NSArray *workoutDays;
+}
+
+@property (nonatomic, strong) NSArray *workoutDays;
 
 @end
 
 @implementation ChooseWorkoutDayTableViewController
 
-- (id)initWithDelegate:(id<ChooseWorkoutDayTableViewControllerDelegate>)delegate_
+@synthesize workoutDays;
+
+- (id)initWithWorkoutDays:(NSArray *)workout_days_ withDelegate:(id<ChooseWorkoutDayTableViewControllerDelegate>)delegate_
 {
     if(self = [super init])
     {
         self.delegate = delegate_;
+        self.workoutDays = workout_days_;
     }
 
     return self;
@@ -44,7 +53,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return [self.workoutDays count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -69,13 +78,31 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GEAChooseWorkoutDay"];
-    
-    if(cell == nil)
-    {
-        cell = [[ChooseWorkoutDayTableViewCell alloc] init];
-    }
-    
+    ChooseWorkoutDayTableViewCell *cell = (ChooseWorkoutDayTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"GEAChooseWorkoutDay"];
+
+    WorkoutDay *workoutDay = [self.workoutDays objectAtIndex:indexPath.section];
+    int workoutDayTotalExercises = [[[NSMutableSet alloc] initWithSet:workoutDay.workoutDayExercises] count];
+
+    [[(ChooseWorkoutDayTableViewCell *)cell titleLabel] setText:workoutDay.title];
+    [[(ChooseWorkoutDayTableViewCell *)cell titleLabel] sizeToFit];
+    [[(ChooseWorkoutDayTableViewCell *)cell dayLabel] setText:workoutDay.dayName];
+    [[(ChooseWorkoutDayTableViewCell *)cell dayLabel] sizeToFit];
+    [[(ChooseWorkoutDayTableViewCell *)cell totalExercisesLabel] setText:[NSString stringWithFormat:@"%d exercises", workoutDayTotalExercises]];
+    [[(ChooseWorkoutDayTableViewCell *)cell totalExercisesLabel] sizeToFit];
+
+    CGRect dayLabelFrame = [(ChooseWorkoutDayTableViewCell *)cell dayLabel].frame;
+    dayLabelFrame.origin.y = 10.0f;
+    dayLabelFrame.size.height = 20.0f;
+    [[(ChooseWorkoutDayTableViewCell *)cell dayLabel] setFrame:dayLabelFrame];
+
+    CGRect titleLabelFrame = [(ChooseWorkoutDayTableViewCell *)cell titleLabel].frame;
+    titleLabelFrame.origin.y = 10.0f;
+    titleLabelFrame.origin.x = CGRectGetMaxX(dayLabelFrame) + 10.0f;
+    titleLabelFrame.size.width = [UIScreen mainScreen].bounds.size.width - titleLabelFrame.origin.x - 10.f;
+    titleLabelFrame.size.height = 20.0f;
+    [[(ChooseWorkoutDayTableViewCell *)cell titleLabel] setFrame:titleLabelFrame];
+
+
     return cell;
 }
 
