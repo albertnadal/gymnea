@@ -635,47 +635,49 @@
 {
     UICollectionViewCell *cell = (ExerciseCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"exerciseCellIdentifier" forIndexPath:indexPath];
 
-        Exercise *exercise = (Exercise *)[self.exercisesList objectAtIndex:indexPath.row];
-
-        [[(ExerciseCollectionViewCell *)cell exerciseTitle] setText:exercise.name];
-        CGRect titleFrame = [(ExerciseCollectionViewCell *)cell exerciseTitle].frame;
-        CGFloat titleHeight = [self calculateHeightForString:exercise.name withFont:[(ExerciseCollectionViewCell *)cell exerciseTitle].font withWidth:titleFrame.size.width];
-        titleFrame.size.height = titleHeight;
-        [[(ExerciseCollectionViewCell *)cell exerciseTitle] setFrame:titleFrame];
-
-        CGRect attributesViewFrame = [(ExerciseCollectionViewCell *)cell attributesView].frame;
-        attributesViewFrame.origin.y = CGRectGetMaxY(titleFrame) + 8.0f;
-        [[(ExerciseCollectionViewCell *)cell attributesView] setFrame:attributesViewFrame];
-
-        [[(ExerciseCollectionViewCell *)cell exerciseType] setText:[GEADefinitions retrieveTitleForExerciseType:exercise.typeId]];
-        [[(ExerciseCollectionViewCell *)cell exerciseMuscle] setText:[GEADefinitions retrieveTitleForMuscle:exercise.muscleId]];
-        [[(ExerciseCollectionViewCell *)cell exerciseEquipment] setText:[GEADefinitions retrieveTitleForEquipment:exercise.equipmentId]];
-        [[(ExerciseCollectionViewCell *)cell exerciseLevel] setText:[GEADefinitions retrieveTitleForExerciseLevel:exercise.levelId]];
-        [[(ExerciseCollectionViewCell *)cell thumbnail] setImage:[UIImage imageNamed:@"exercise-default-thumbnail"]];
-        [(ExerciseCollectionViewCell *)cell setBackgroundColor:[GEADefinitions retrieveColorForExerciseType:exercise.typeId]];
-
-        [[GymneaWSClient sharedInstance] requestImageForExercise:exercise.exerciseId
-                                                        withSize:ExerciseImageSizeMedium
-                                                      withGender:ExerciseImageMale
-                                                       withOrder:ExerciseImageFirst
-                                             withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *exerciseImage) {
-
-                                                 if(success==GymneaWSClientRequestSuccess) {
-
-                                                     if(exerciseImage == nil) {
-                                                         exerciseImage = [UIImage imageNamed:@"exercise-default-thumbnail"];
-                                                     }
-
-                                                     [[(ExerciseCollectionViewCell *)cell thumbnail] setImage:exerciseImage];
+    Exercise *exercise = (Exercise *)[self.exercisesList objectAtIndex:indexPath.row];
+    
+    [[(ExerciseCollectionViewCell *)cell exerciseTitle] setText:exercise.name];
+    CGRect titleFrame = [(ExerciseCollectionViewCell *)cell exerciseTitle].frame;
+    CGFloat titleHeight = [self calculateHeightForString:exercise.name withFont:[(ExerciseCollectionViewCell *)cell exerciseTitle].font withWidth:titleFrame.size.width];
+    titleFrame.size.height = titleHeight;
+    [[(ExerciseCollectionViewCell *)cell exerciseTitle] setFrame:titleFrame];
+    
+    CGRect attributesViewFrame = [(ExerciseCollectionViewCell *)cell attributesView].frame;
+    attributesViewFrame.origin.y = CGRectGetMaxY(titleFrame) + 8.0f;
+    [[(ExerciseCollectionViewCell *)cell attributesView] setFrame:attributesViewFrame];
+    
+    [[(ExerciseCollectionViewCell *)cell exerciseType] setText:[GEADefinitions retrieveTitleForExerciseType:exercise.typeId]];
+    [[(ExerciseCollectionViewCell *)cell exerciseMuscle] setText:[GEADefinitions retrieveTitleForMuscle:exercise.muscleId]];
+    [[(ExerciseCollectionViewCell *)cell exerciseEquipment] setText:[GEADefinitions retrieveTitleForEquipment:exercise.equipmentId]];
+    [[(ExerciseCollectionViewCell *)cell exerciseLevel] setText:[GEADefinitions retrieveTitleForExerciseLevel:exercise.levelId]];
+    [[(ExerciseCollectionViewCell *)cell thumbnail] setImage:[UIImage imageNamed:@"exercise-default-thumbnail"]];
+    [(ExerciseCollectionViewCell *)cell setBackgroundColor:[GEADefinitions retrieveColorForExerciseType:exercise.typeId]];
+    
+    [[GymneaWSClient sharedInstance] requestImageForExercise:exercise.exerciseId
+                                                    withSize:ExerciseImageSizeMedium
+                                                  withGender:ExerciseImageMale
+                                                   withOrder:ExerciseImageFirst
+                                         withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *exerciseImage) {
+                                             
+                                             if(success==GymneaWSClientRequestSuccess) {
+                                                 
+                                                 if(exerciseImage == nil) {
+                                                     exerciseImage = [UIImage imageNamed:@"exercise-default-thumbnail"];
                                                  }
-
-                                             }];
-
+                                                 
+                                                 [[(ExerciseCollectionViewCell *)cell thumbnail] setImage:exerciseImage];
+                                             }
+                                             
+                                         }];
+    
+    if(cell.layer.cornerRadius != 4.0) {
         cell.layer.borderWidth = 0.5f;
         cell.layer.borderColor = [UIColor colorWithRed:80.0/255.0 green:80.0/255.0 blue:80.0/255.0 alpha:0.3].CGColor;
         cell.layer.cornerRadius = 4.0;
         UIBezierPath *cellViewShadowPath = [UIBezierPath bezierPathWithRect:cell.bounds];
         cell.layer.shadowPath = cellViewShadowPath.CGPath;
+    }
 
     return cell;
 }

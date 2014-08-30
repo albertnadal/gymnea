@@ -88,15 +88,19 @@
 
     WorkoutDayExercise *workoutDayExercise = (WorkoutDayExercise *)[self.exercises objectAtIndex:indexPath.row];
 
-    UIBezierPath *pictureViewShadowPath = [UIBezierPath bezierPathWithRect:[(WorkoutPlayTableViewCell *)cell pictureContainer].frame];
-    [(WorkoutPlayTableViewCell *)cell pictureContainer].layer.shadowPath = pictureViewShadowPath.CGPath;
-    [(WorkoutPlayTableViewCell *)cell pictureContainer].layer.cornerRadius = [(WorkoutPlayTableViewCell *)cell pictureContainer].frame.size.width / 2.0f;;
-    [(WorkoutPlayTableViewCell *)cell pictureContainer].layer.masksToBounds = YES;
+    if([[(WorkoutPlayTableViewCell *)cell exerciseTitleLabel] tag] != 1234)
+    {
+        [[(WorkoutPlayTableViewCell *)cell exerciseTitleLabel] setTag:1234];
+        UIBezierPath *pictureViewShadowPath = [UIBezierPath bezierPathWithRect:[(WorkoutPlayTableViewCell *)cell pictureContainer].frame];
+        [(WorkoutPlayTableViewCell *)cell pictureContainer].layer.shadowPath = pictureViewShadowPath.CGPath;
+        [(WorkoutPlayTableViewCell *)cell pictureContainer].layer.cornerRadius = [(WorkoutPlayTableViewCell *)cell pictureContainer].frame.size.width / 2.0f;;
+        [(WorkoutPlayTableViewCell *)cell pictureContainer].layer.masksToBounds = YES;
 
-    UIBezierPath *restViewShadowPath = [UIBezierPath bezierPathWithRect:[(WorkoutPlayTableViewCell *)cell restContainer].frame];
-    [(WorkoutPlayTableViewCell *)cell restContainer].layer.shadowPath = restViewShadowPath.CGPath;
-    [(WorkoutPlayTableViewCell *)cell restContainer].layer.cornerRadius = [(WorkoutPlayTableViewCell *)cell restContainer].frame.size.width / 2.0f;;
-    [(WorkoutPlayTableViewCell *)cell restContainer].layer.masksToBounds = YES;
+        UIBezierPath *restViewShadowPath = [UIBezierPath bezierPathWithRect:[(WorkoutPlayTableViewCell *)cell restContainer].frame];
+        [(WorkoutPlayTableViewCell *)cell restContainer].layer.shadowPath = restViewShadowPath.CGPath;
+        [(WorkoutPlayTableViewCell *)cell restContainer].layer.cornerRadius = [(WorkoutPlayTableViewCell *)cell restContainer].frame.size.width / 2.0f;;
+        [(WorkoutPlayTableViewCell *)cell restContainer].layer.masksToBounds = YES;
+    }
 
     [[(WorkoutPlayTableViewCell *)cell exerciseTitleLabel] setText:workoutDayExercise.name];
     [[(WorkoutPlayTableViewCell *)cell exerciseRepsLabel] setText:[NSString stringWithFormat:@"%@ Reps.", workoutDayExercise.reps]];

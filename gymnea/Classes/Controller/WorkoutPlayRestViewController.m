@@ -7,6 +7,7 @@
 //
 
 #import "WorkoutPlayRestViewController.h"
+#import "GymneaWSClient.h"
 #import "GEALabel+Gymnea.h"
 
 @import AVFoundation;
@@ -17,6 +18,8 @@
     BOOL countdownActive;
 }
 
+@property (nonatomic, weak) IBOutlet UILabel *exerciseTitleLabel;
+@property (nonatomic, weak) IBOutlet UIImageView *thumbnail;
 @property (nonatomic, weak) IBOutlet UILabel *countdownLabel;
 @property (nonatomic, retain) NSTimer *countdownTemporizer;
 @property (assign) SystemSoundID countdownSound;
@@ -29,14 +32,14 @@
 
 @implementation WorkoutPlayRestViewController
 
-- (id)initWithDelegate:(id<WorkoutPlayRestViewControllerDelegate>)delegate_
+- (id)initWithSecondsRest:(int)seconds withDelegate:(id<WorkoutPlayRestViewControllerDelegate>)delegate_
 {
     self = [super initWithNibName:@"WorkoutPlayRestViewController" bundle:nil];
     if (self) {
         self.delegate = delegate_;
         self.countdownTemporizer = nil;
         countdownActive = TRUE;
-        countdownSeconds = 10;
+        countdownSeconds = seconds;
     }
     
     return self;
@@ -62,6 +65,26 @@
                                                               selector:@selector(updateTimer:)
                                                               userInfo:nil
                                                                repeats:YES];
+
+    UIBezierPath *pictureViewShadowPath = [UIBezierPath bezierPathWithRect:self.thumbnail.frame];
+    self.thumbnail.layer.shadowPath = pictureViewShadowPath.CGPath;
+    self.thumbnail.layer.cornerRadius = self.thumbnail.frame.size.width / 2.0f;;
+    self.thumbnail.layer.masksToBounds = YES;
+
+    if([self.delegate respondsToSelector:@selector(nextExerciseIdAfterRest:)]) {
+        int exerciseId = [self.delegate nextExerciseIdAfterRest:self];
+        
+        [[GymneaWSClient sharedInstance] requestImageForExercise:exerciseId
+                                                        withSize:ExerciseImageSizeMedium withGender:ExerciseImageMale
+                                                       withOrder:ExerciseImageFirst
+                                             withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *exerciseImage) {
+                                                 [self.thumbnail setImage:exerciseImage];
+                                             }];
+    }
+
+    if([self.delegate respondsToSelector:@selector(nextExerciseNameAfterRest:)])
+        [self.exerciseTitleLabel setText:[self.delegate nextExerciseNameAfterRest:self]];
+
 }
 
 - (void)updateTimer:(id)sender

@@ -79,7 +79,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
         if(weekDay) {
             NSDictionary *workoutData = @{ @"workoutDayId" : [NSNumber numberWithInteger:workoutDay.workoutDayId], @"name" : workoutDay.title };
-            [self notificationWithItem:workoutData withDate:[self setDateForAlarmWithWeekday:weekDay withTime:@"18:00 PM"] andRepeatInterval:NSWeekCalendarUnit];
+            [self notificationWithItem:workoutData withDate:[self setDateForAlarmWithWeekday:weekDay withTime:@"6:00 PM"] andRepeatInterval:NSWeekCalendarUnit];
         }
     }
 

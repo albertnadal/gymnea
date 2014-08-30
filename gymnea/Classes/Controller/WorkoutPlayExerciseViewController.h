@@ -20,6 +20,12 @@
 
 @protocol WorkoutPlayExerciseViewControllerDelegate <NSObject>
 
+- (int)currentExerciseId:(WorkoutPlayExerciseViewController *)currentExercise;
+- (NSString *)currentExerciseName:(WorkoutPlayExerciseViewController *)currentExercise;
+- (NSInteger)numberOfRepetitionsForCurrentExercise:(WorkoutPlayExerciseViewController *)currentExercise;
+- (NSInteger)numberOfSetsForCurrentExercise:(WorkoutPlayExerciseViewController *)currentExercise;
+- (NSInteger)currentSetForCurrentExercise:(WorkoutPlayExerciseViewController *)currentExercise;
+
 /*
 - (NSInteger)numberOfSecondsToCoundown:(NextExerciseCountdownViewController *)nextExerciseCountdown;
 - (NSString *)nextExerciseName:(NextExerciseCountdownViewController *)nextExerciseCountdown;

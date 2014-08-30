@@ -10,6 +10,7 @@
 
 @interface WorkoutPlayTableViewCell : UITableViewCell
 
+@property (nonatomic) BOOL maskApplied;
 @property (nonatomic, weak) IBOutlet UIImageView *thumbnail;
 @property (nonatomic, weak) IBOutlet UIView *pictureContainer;
 @property (nonatomic, weak) IBOutlet UIView *restContainer;

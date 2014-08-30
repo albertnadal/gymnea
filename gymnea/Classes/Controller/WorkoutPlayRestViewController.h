@@ -14,18 +14,14 @@
 
 @property (weak, nonatomic) id<WorkoutPlayRestViewControllerDelegate>delegate;
 
-- (id)initWithDelegate:(id<WorkoutPlayRestViewControllerDelegate>)delegate_;
+- (id)initWithSecondsRest:(int)seconds withDelegate:(id<WorkoutPlayRestViewControllerDelegate>)delegate_;
 
 @end
 
 @protocol WorkoutPlayRestViewControllerDelegate <NSObject>
 
-/*
- - (NSInteger)numberOfSecondsToCoundown:(NextExerciseCountdownViewController *)nextExerciseCountdown;
- - (NSString *)nextExerciseName:(NextExerciseCountdownViewController *)nextExerciseCountdown;
- - (NSInteger)nextExerciseTotalRepetitions:(NextExerciseCountdownViewController *)nextExerciseCountdown;
- - (NSString *)nextExerciseSetsRepetitionsString:(NextExerciseCountdownViewController *)nextExerciseCountdown;
- */
+- (NSString *)nextExerciseNameAfterRest:(WorkoutPlayRestViewController *)workoutExerciseRest;
+- (int)nextExerciseIdAfterRest:(WorkoutPlayRestViewController *)workoutExerciseRest;
 - (void)workoutExerciseRestFinished:(WorkoutPlayRestViewController *)workoutExerciseRest;
 - (void)userDidSelectFinishWorkoutFromRest:(WorkoutPlayRestViewController *)workoutExerciseRest;
 

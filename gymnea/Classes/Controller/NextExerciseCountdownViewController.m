@@ -7,6 +7,7 @@
 //
 
 #import "NextExerciseCountdownViewController.h"
+#import "GymneaWSClient.h"
 #import "GEALabel+Gymnea.h"
 
 @import AVFoundation;
@@ -17,6 +18,9 @@
 }
 
 @property (nonatomic, weak) IBOutlet UILabel *countdownLabel;
+@property (nonatomic, weak) IBOutlet UILabel *exerciseTitleLabel;
+@property (nonatomic, weak) IBOutlet UILabel *exerciseSetsAndRepetitionsLabel;
+@property (nonatomic, weak) IBOutlet UIImageView *thumbnail;
 @property (nonatomic, retain) NSTimer *countdownTemporizer;
 @property (assign) SystemSoundID countdownSound;
 
@@ -50,6 +54,35 @@
     NSString *pewPewPath = [[NSBundle mainBundle] pathForResource:@"clock_tic" ofType:@"wav"];
     NSURL *pewPewURL = [NSURL fileURLWithPath:pewPewPath];
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)pewPewURL, &_countdownSound);
+
+    UIBezierPath *pictureViewShadowPath = [UIBezierPath bezierPathWithRect:self.thumbnail.frame];
+    self.thumbnail.layer.shadowPath = pictureViewShadowPath.CGPath;
+    self.thumbnail.layer.cornerRadius = self.thumbnail.frame.size.width / 2.0f;;
+    self.thumbnail.layer.masksToBounds = YES;
+
+    if([self.delegate respondsToSelector:@selector(nextExerciseId:)]) {
+        int exerciseId = [self.delegate nextExerciseId:self];
+
+        [[GymneaWSClient sharedInstance] requestImageForExercise:exerciseId
+                                                        withSize:ExerciseImageSizeMedium withGender:ExerciseImageMale
+                                                       withOrder:ExerciseImageFirst
+                                             withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *exerciseImage) {
+                                                 [self.thumbnail setImage:exerciseImage];
+                                             }];
+    }
+
+    NSString *setsAndRepetitions = @"";
+
+    if([self.delegate respondsToSelector:@selector(nextExerciseTotalRepetitions:)])
+        setsAndRepetitions = [NSString stringWithFormat:@"%ld sets", (long)[self.delegate nextExerciseTotalRepetitions:self]];
+
+    if([self.delegate respondsToSelector:@selector(nextExerciseSetsRepetitionsString:)])
+        setsAndRepetitions = [setsAndRepetitions stringByAppendingFormat:@"\n%@ Reps.", [self.delegate nextExerciseSetsRepetitionsString:self]];
+
+    [self.exerciseSetsAndRepetitionsLabel setText:setsAndRepetitions];
+
+    if([self.delegate respondsToSelector:@selector(nextExerciseName:)])
+        [self.exerciseTitleLabel setText:[self.delegate nextExerciseName:self]];
 
     if([self.delegate respondsToSelector:@selector(numberOfSecondsToCoundown:)])
         countdownSeconds = (int)[self.delegate numberOfSecondsToCoundown:self];
