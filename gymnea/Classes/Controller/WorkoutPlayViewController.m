@@ -238,6 +238,13 @@
     //    [self.navigationController popToViewController:self animated:NO];
 }
 
+- (void)userDidSelectFinishWorkoutFromCountdown:(NextExerciseCountdownViewController *)nextExerciseCountdown
+{
+    self.navigationController.navigationBar.hidden = FALSE;
+    
+    //    [self.navigationController popToViewController:self animated:NO];
+}
+
 - (NSInteger)numberOfSetsForCurrentExercise:(WorkoutPlayExerciseViewController *)currentExercise
 {
     return [(NSArray *)[self.workoutDaySequence objectAtIndex:indexCurrentExerciseSet] count];

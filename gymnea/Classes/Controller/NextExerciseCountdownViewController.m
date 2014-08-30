@@ -12,9 +12,10 @@
 
 @import AVFoundation;
 
-@interface NextExerciseCountdownViewController ()
+@interface NextExerciseCountdownViewController ()<UIActionSheetDelegate>
 {
     int countdownSeconds;
+    BOOL countdownActive;
 }
 
 @property (nonatomic, weak) IBOutlet UILabel *countdownLabel;
@@ -25,6 +26,8 @@
 @property (assign) SystemSoundID countdownSound;
 
 - (void)updateTimer:(id)sender;
+- (IBAction)forceFinishCountdown:(id)sender;
+- (IBAction)showOptionsMenu:(id)sender;
 
 @end
 
@@ -37,6 +40,7 @@
         self.delegate = delegate_;
         self.countdownTemporizer = nil;
         countdownSeconds = 10;
+        countdownActive = TRUE;
     }
 
     return self;
@@ -48,7 +52,7 @@
 
     self.navigationController.navigationBar.hidden = TRUE;
 
-    GEALabel *titleModal = [[GEALabel alloc] initWithText:@"Get ready!" fontSize:18.0f frame:CGRectMake(0.0f,20.0f,[[UIScreen mainScreen] bounds].size.width,44.0f)];
+    GEALabel *titleModal = [[GEALabel alloc] initWithText:@"Get ready!" fontSize:21.0f frame:CGRectMake(0.0f,20.0f,[[UIScreen mainScreen] bounds].size.width,44.0f)];
     [self.view addSubview:titleModal];
 
     NSString *pewPewPath = [[NSBundle mainBundle] pathForResource:@"clock_tic" ofType:@"wav"];
@@ -98,6 +102,9 @@
 
 - (void)updateTimer:(id)sender
 {
+    if(!countdownActive)
+        return;
+
     [self.countdownLabel setText:[NSString stringWithFormat:@"%d", countdownSeconds]];
 
     if((countdownSeconds<=3) && (countdownSeconds>0)) {
@@ -121,15 +128,39 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (IBAction)showOptionsMenu:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    countdownActive = FALSE;
+    
+    UIActionSheet *popupOptions = [[UIActionSheet alloc] initWithTitle:@"Don't stop now!" delegate:self cancelButtonTitle:@"Resume" destructiveButtonTitle:@"End Workout" otherButtonTitles: nil];
+    popupOptions.actionSheetStyle = UIActionSheetStyleDefault;
+    [popupOptions showInView:self.view];
 }
-*/
+
+- (IBAction)forceFinishCountdown:(id)sender
+{
+    [self.countdownTemporizer invalidate];
+    self.countdownTemporizer = nil;
+    
+    if([self.delegate respondsToSelector:@selector(nextExerciseCountdownFinished:)])
+        [self.delegate nextExerciseCountdownFinished:self];
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [self.countdownTemporizer invalidate];
+        self.countdownTemporizer = nil;
+
+        if([self.delegate respondsToSelector:@selector(userDidSelectFinishWorkoutFromCountdown:)])
+        {
+            [self.delegate userDidSelectFinishWorkoutFromCountdown:self];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        
+    } else if (buttonIndex == 1) {
+        countdownActive = TRUE;
+    }
+}
 
 @end

@@ -26,7 +26,6 @@
 - (NSString *)nextExerciseSetsRepetitionsString:(NextExerciseCountdownViewController *)nextExerciseCountdown;
 - (int)nextExerciseId:(NextExerciseCountdownViewController *)nextExerciseCountdown;
 - (void)nextExerciseCountdownFinished:(NextExerciseCountdownViewController *)nextExerciseCountdown;
-
-//- (void)willSelectRowInPopoverViewController:(NextExerciseCountdownViewController *)popover atRowIndex:(NSInteger)index;
+- (void)userDidSelectFinishWorkoutFromCountdown:(NextExerciseCountdownViewController *)nextExerciseCountdown;
 
 @end
