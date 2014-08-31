@@ -8,13 +8,14 @@
 
 #import "WorkoutPlayViewController.h"
 #import "WorkoutPlayTableViewController.h"
+#import "WorkoutPlayResultsViewController.h"
 #import "WorkoutDayExercise+Management.h"
 #import "GymneaWSClient.h"
 #import "Exercise+Management.h"
 #import "GEALabel+Gymnea.h"
 
 
-@interface WorkoutPlayViewController ()
+@interface WorkoutPlayViewController ()<WorkoutPlayResultsViewControllerDelegate>
 {
     WorkoutDay *workoutDay;
     WorkoutPlayTableViewController *workoutPlayTableViewController;
@@ -203,11 +204,19 @@
 
 - (void)workoutExerciseFinished:(WorkoutPlayExerciseViewController *)workoutExercise
 {
+
+    // Check first if workout has finished
+    if([self.workoutDaySequence count] == indexCurrentExerciseSet + 1) {
+        WorkoutPlayResultsViewController *workoutPlayResultsViewController = [[WorkoutPlayResultsViewController alloc] initWithDelegate:self];
+        [self.navigationController pushViewController:workoutPlayResultsViewController animated:YES];
+        return;
+    }
+
     [self.navigationController popToViewController:self animated:NO];
 
     NSArray *exerciseSetArray = [self.workoutDaySequence objectAtIndex:indexCurrentExerciseSet];
     NSDictionary *exerciseInfo = [exerciseSetArray objectAtIndex:indexCurrentExercise];
-
+    
     int currentExerciseRest = [[exerciseInfo objectForKey:@"rest"] intValue];
 
     // Move indexes to next exercise set or exercise repetition
@@ -314,5 +323,21 @@
     return [[exerciseInfo objectForKey:@"exerciseId"] intValue];
 }
 
+#pragma WorkoutPlayResultsViewControllerDelegate
+
+- (WorkoutDay *)getWorkoutDay:(WorkoutPlayResultsViewController *)workoutPlayResults
+{
+    return self.workoutDay;
+}
+
+- (void)userDidSelectDiscardResults:(WorkoutPlayResultsViewController *)workoutPlayResults
+{
+    // Implement
+}
+
+- (void)userDidSelectSaveResults:(WorkoutPlayResultsViewController *)workoutPlayResults
+{
+    // Implement
+}
 
 @end

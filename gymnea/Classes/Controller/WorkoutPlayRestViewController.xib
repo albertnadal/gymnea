@@ -31,7 +31,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="exercise-default-thumbnail" id="fH8-Gc-Uh6" userLabel="thumbnail">
-                    <rect key="frame" x="121" y="345" width="77" height="77"/>
+                    <rect key="frame" x="118" y="345" width="84" height="84"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="k3Y-hN-lFn">
