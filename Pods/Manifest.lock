@@ -21,8 +21,18 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - CHTCollectionViewWaterfallLayout (0.7)
+  - DACircularProgress (2.2.0)
   - MBProgressHUD (0.8)
+  - MWPhotoBrowser (1.4.0):
+    - DACircularProgress
+    - MBProgressHUD (~> 0.8)
+    - PSTCollectionView (~> 1.2)
+    - SDWebImage (~> 3.5.4)
+  - PSTCollectionView (1.2.3)
   - Reachability (3.1.1)
+  - SDWebImage (3.5.4):
+    - SDWebImage/Core
+  - SDWebImage/Core (3.5.4)
   - URBMediaFocusViewController (0.5.5)
 
 DEPENDENCIES:
@@ -30,14 +40,19 @@ DEPENDENCIES:
   - AFNetworking/NSURLSession (~> 2.0)
   - CHTCollectionViewWaterfallLayout (~> 0.7)
   - MBProgressHUD (~> 0.8)
+  - MWPhotoBrowser
   - Reachability (~> 3.1.1)
   - URBMediaFocusViewController
 
 SPEC CHECKSUMS:
   AFNetworking: 6d7b76aa5d04c8c37daad3eef4b7e3f2a7620da3
   CHTCollectionViewWaterfallLayout: 184d3b6d5456b48e93ac97e93e606bd8b68aedcc
+  DACircularProgress: 3b41941891a56dc6aa17971f5322a9a38a6f446e
   MBProgressHUD: c356980b0cd097f19acec959b49dca5eb8ec31be
+  MWPhotoBrowser: 4efcdb9da34751f97992128a5356f3929d1af537
+  PSTCollectionView: d9f466e4554cc83260ca9bde7beb27f308e8fd76
   Reachability: 8e9635e3cb4f98e7f825e51147f677ecc694d0e7
+  SDWebImage: 571295c8acbb699505a0f68e54506147c3de9ea7
   URBMediaFocusViewController: 4dff9de3767e60b96ba325c897d4ffa7131a122e
 
 COCOAPODS: 0.33.1

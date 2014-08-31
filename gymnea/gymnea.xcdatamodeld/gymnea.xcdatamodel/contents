@@ -56,7 +56,7 @@
         <attribute name="dayNumber" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="workoutDayId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <relationship name="workout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutDetail" syncable="YES"/>
+        <relationship name="workout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutDetail" inverseName="workoutDays" inverseEntity="WorkoutDetail" syncable="YES"/>
         <relationship name="workoutDayExercises" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WorkoutDayExercise" inverseName="workoutDay" inverseEntity="WorkoutDayExercise" syncable="YES"/>
     </entity>
     <entity name="WorkoutDayExercise" representedClassName="WorkoutDayExercise" syncable="YES">
@@ -74,7 +74,7 @@
         <attribute name="muscles" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="workoutDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="workoutId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <relationship name="workoutDays" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WorkoutDay" syncable="YES"/>
+        <relationship name="workoutDays" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WorkoutDay" inverseName="workout" inverseEntity="WorkoutDay" syncable="YES"/>
     </entity>
     <elements>
         <element name="Exercise" positionX="-101" positionY="225" width="128" height="180"/>
