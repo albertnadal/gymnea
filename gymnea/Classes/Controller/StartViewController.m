@@ -20,6 +20,7 @@
 #import "ExercisesDownloadedViewController.h"
 #import "GEAScrollableTabBarController.h"
 #import "ExerciseDetailViewController.h"
+#import "PicturesViewController.h"
 
 @interface StartViewController ()
 {
@@ -230,19 +231,18 @@
     
     
     
-    UIViewController *favorites6ViewController = [[UIViewController alloc] init];
-    [favorites6ViewController.view setFrame:CGRectMake(0,0,320,690)];
-    CGRect frame6 = favorites6ViewController.navigationController.toolbar.frame;
-    frame6.origin.y = 20;
-    favorites6ViewController.navigationController.toolbar.frame = frame6;
-    favorites6ViewController.edgesForExtendedLayout = UIRectEdgeNone;
-    [favorites6ViewController.view setBackgroundColor:[UIColor whiteColor]];
-    UITabBarItem *favorites6TabBarItem = [[UITabBarItem alloc] initWithTitle:@"Pictures" image:[UIImage imageNamed:@"sidebar-pictures-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-pictures-icon"]];
-    [favorites6ViewController setTabBarItem:favorites6TabBarItem];
-    UINavigationController *favorites6Controller = [[UINavigationController alloc] initWithRootViewController:favorites6ViewController];
-    [favorites6Controller.interactivePopGestureRecognizer setEnabled:NO];
-    // Add the screen title
-    favorites6ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Pictures" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+    PicturesViewController *picturesViewController = [[PicturesViewController alloc] init];
+
+    UIViewController *picturesBrowser = [picturesViewController getPhotoBrowser];
+
+    picturesBrowser.edgesForExtendedLayout = UIRectEdgeNone;
+    [picturesBrowser.view setBackgroundColor:[UIColor whiteColor]];
+    UITabBarItem *picturesTabBarItem = [[UITabBarItem alloc] initWithTitle:@"Pictures" image:[UIImage imageNamed:@"sidebar-pictures-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-pictures-icon"]];
+    [picturesBrowser setTabBarItem:picturesTabBarItem];
+
+    UINavigationController *picturesController = [[UINavigationController alloc] initWithRootViewController:picturesBrowser];
+    [picturesController.interactivePopGestureRecognizer setEnabled:NO];
+    picturesController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Pictures" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
     
     
     /*
@@ -270,7 +270,7 @@
 
     // Side menu
     GEASideMenuController *sideMenuController = [[GEASideMenuController alloc] init];
-    sideMenuController.viewControllers = @[favoritesController, favorites2Controller, exercisesController, favorites4Controller, favorites5Controller, favorites6Controller];
+    sideMenuController.viewControllers = @[favoritesController, favorites2Controller, exercisesController, favorites4Controller, favorites5Controller, picturesController];
     
     [[[UIApplication sharedApplication] keyWindow] setRootViewController:sideMenuController];
 }

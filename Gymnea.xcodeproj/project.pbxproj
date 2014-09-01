@@ -16,6 +16,16 @@
 		FF13B06C198C26B600FB6461 /* SignUpForm.m in Sources */ = {isa = PBXBuildFile; fileRef = FF13B06A198C26B600FB6461 /* SignUpForm.m */; };
 		FF13B071198C26CE00FB6461 /* GEAAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = FF13B06E198C26CE00FB6461 /* GEAAuthentication.m */; };
 		FF13B072198C26CE00FB6461 /* GEAAuthenticationKeychainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = FF13B070198C26CE00FB6461 /* GEAAuthenticationKeychainStore.m */; };
+		FF154C9619B4C172002CCC73 /* PicturesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF154C9419B4C172002CCC73 /* PicturesViewController.m */; };
+		FF154C9719B4C172002CCC73 /* PicturesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF154C9519B4C172002CCC73 /* PicturesViewController.xib */; };
+		FF154CAC19B53059002CCC73 /* MWCaptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = FF154C9A19B53059002CCC73 /* MWCaptionView.m */; };
+		FF154CAD19B53059002CCC73 /* MWGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FF154C9D19B53059002CCC73 /* MWGridCell.m */; };
+		FF154CAE19B53059002CCC73 /* MWGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF154C9F19B53059002CCC73 /* MWGridViewController.m */; };
+		FF154CAF19B53059002CCC73 /* MWPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = FF154CA119B53059002CCC73 /* MWPhoto.m */; };
+		FF154CB019B53059002CCC73 /* MWPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = FF154CA319B53059002CCC73 /* MWPhotoBrowser.m */; };
+		FF154CB119B53059002CCC73 /* MWTapDetectingImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = FF154CA719B53059002CCC73 /* MWTapDetectingImageView.m */; };
+		FF154CB219B53059002CCC73 /* MWTapDetectingView.m in Sources */ = {isa = PBXBuildFile; fileRef = FF154CA919B53059002CCC73 /* MWTapDetectingView.m */; };
+		FF154CB319B53059002CCC73 /* MWZoomingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = FF154CAB19B53059002CCC73 /* MWZoomingScrollView.m */; };
 		FF23A64019825DDC00E62C5B /* WorkoutDayTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FF23A63E19825DDC00E62C5B /* WorkoutDayTableViewCell.m */; };
 		FF23A6431982964100E62C5B /* WorkoutDayTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF23A6421982964100E62C5B /* WorkoutDayTableViewController.xib */; };
 		FF23A6461982968200E62C5B /* WorkoutDayTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF23A6441982968200E62C5B /* WorkoutDayTableViewCell.xib */; };
@@ -136,6 +146,28 @@
 		FF13B06E198C26CE00FB6461 /* GEAAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GEAAuthentication.m; path = Classes/Controller/GEAAuthentication.m; sourceTree = "<group>"; };
 		FF13B06F198C26CE00FB6461 /* GEAAuthenticationKeychainStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GEAAuthenticationKeychainStore.h; path = Classes/Controller/GEAAuthenticationKeychainStore.h; sourceTree = "<group>"; };
 		FF13B070198C26CE00FB6461 /* GEAAuthenticationKeychainStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GEAAuthenticationKeychainStore.m; path = Classes/Controller/GEAAuthenticationKeychainStore.m; sourceTree = "<group>"; };
+		FF154C9319B4C172002CCC73 /* PicturesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PicturesViewController.h; path = Classes/Controller/PicturesViewController.h; sourceTree = "<group>"; };
+		FF154C9419B4C172002CCC73 /* PicturesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PicturesViewController.m; path = Classes/Controller/PicturesViewController.m; sourceTree = "<group>"; };
+		FF154C9519B4C172002CCC73 /* PicturesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PicturesViewController.xib; path = Classes/Controller/PicturesViewController.xib; sourceTree = "<group>"; };
+		FF154C9919B53059002CCC73 /* MWCaptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWCaptionView.h; path = Classes/Controller/MWPhotoBrowser/MWCaptionView.h; sourceTree = "<group>"; };
+		FF154C9A19B53059002CCC73 /* MWCaptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWCaptionView.m; path = Classes/Controller/MWPhotoBrowser/MWCaptionView.m; sourceTree = "<group>"; };
+		FF154C9B19B53059002CCC73 /* MWCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWCommon.h; path = Classes/Controller/MWPhotoBrowser/MWCommon.h; sourceTree = "<group>"; };
+		FF154C9C19B53059002CCC73 /* MWGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWGridCell.h; path = Classes/Controller/MWPhotoBrowser/MWGridCell.h; sourceTree = "<group>"; };
+		FF154C9D19B53059002CCC73 /* MWGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWGridCell.m; path = Classes/Controller/MWPhotoBrowser/MWGridCell.m; sourceTree = "<group>"; };
+		FF154C9E19B53059002CCC73 /* MWGridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWGridViewController.h; path = Classes/Controller/MWPhotoBrowser/MWGridViewController.h; sourceTree = "<group>"; };
+		FF154C9F19B53059002CCC73 /* MWGridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWGridViewController.m; path = Classes/Controller/MWPhotoBrowser/MWGridViewController.m; sourceTree = "<group>"; };
+		FF154CA019B53059002CCC73 /* MWPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWPhoto.h; path = Classes/Controller/MWPhotoBrowser/MWPhoto.h; sourceTree = "<group>"; };
+		FF154CA119B53059002CCC73 /* MWPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWPhoto.m; path = Classes/Controller/MWPhotoBrowser/MWPhoto.m; sourceTree = "<group>"; };
+		FF154CA219B53059002CCC73 /* MWPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWPhotoBrowser.h; path = Classes/Controller/MWPhotoBrowser/MWPhotoBrowser.h; sourceTree = "<group>"; };
+		FF154CA319B53059002CCC73 /* MWPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWPhotoBrowser.m; path = Classes/Controller/MWPhotoBrowser/MWPhotoBrowser.m; sourceTree = "<group>"; };
+		FF154CA419B53059002CCC73 /* MWPhotoBrowserPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWPhotoBrowserPrivate.h; path = Classes/Controller/MWPhotoBrowser/MWPhotoBrowserPrivate.h; sourceTree = "<group>"; };
+		FF154CA519B53059002CCC73 /* MWPhotoProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWPhotoProtocol.h; path = Classes/Controller/MWPhotoBrowser/MWPhotoProtocol.h; sourceTree = "<group>"; };
+		FF154CA619B53059002CCC73 /* MWTapDetectingImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWTapDetectingImageView.h; path = Classes/Controller/MWPhotoBrowser/MWTapDetectingImageView.h; sourceTree = "<group>"; };
+		FF154CA719B53059002CCC73 /* MWTapDetectingImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWTapDetectingImageView.m; path = Classes/Controller/MWPhotoBrowser/MWTapDetectingImageView.m; sourceTree = "<group>"; };
+		FF154CA819B53059002CCC73 /* MWTapDetectingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWTapDetectingView.h; path = Classes/Controller/MWPhotoBrowser/MWTapDetectingView.h; sourceTree = "<group>"; };
+		FF154CA919B53059002CCC73 /* MWTapDetectingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWTapDetectingView.m; path = Classes/Controller/MWPhotoBrowser/MWTapDetectingView.m; sourceTree = "<group>"; };
+		FF154CAA19B53059002CCC73 /* MWZoomingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWZoomingScrollView.h; path = Classes/Controller/MWPhotoBrowser/MWZoomingScrollView.h; sourceTree = "<group>"; };
+		FF154CAB19B53059002CCC73 /* MWZoomingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWZoomingScrollView.m; path = Classes/Controller/MWPhotoBrowser/MWZoomingScrollView.m; sourceTree = "<group>"; };
 		FF23A63D19825DDC00E62C5B /* WorkoutDayTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutDayTableViewCell.h; path = Classes/Controller/WorkoutDayTableViewCell.h; sourceTree = "<group>"; };
 		FF23A63E19825DDC00E62C5B /* WorkoutDayTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutDayTableViewCell.m; path = Classes/Controller/WorkoutDayTableViewCell.m; sourceTree = "<group>"; };
 		FF23A6421982964100E62C5B /* WorkoutDayTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkoutDayTableViewController.xib; path = Resources/Views/WorkoutDayTableViewController.xib; sourceTree = "<group>"; };
@@ -330,6 +362,43 @@
 				FF13B070198C26CE00FB6461 /* GEAAuthenticationKeychainStore.m */,
 			);
 			name = Authentication;
+			sourceTree = "<group>";
+		};
+		FF154C9219B4C120002CCC73 /* Pictures */ = {
+			isa = PBXGroup;
+			children = (
+				FF154C9819B52F65002CCC73 /* MWPhotoBrowser */,
+				FF154C9319B4C172002CCC73 /* PicturesViewController.h */,
+				FF154C9419B4C172002CCC73 /* PicturesViewController.m */,
+				FF154C9519B4C172002CCC73 /* PicturesViewController.xib */,
+			);
+			name = Pictures;
+			sourceTree = "<group>";
+		};
+		FF154C9819B52F65002CCC73 /* MWPhotoBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				FF154C9919B53059002CCC73 /* MWCaptionView.h */,
+				FF154C9A19B53059002CCC73 /* MWCaptionView.m */,
+				FF154C9B19B53059002CCC73 /* MWCommon.h */,
+				FF154C9C19B53059002CCC73 /* MWGridCell.h */,
+				FF154C9D19B53059002CCC73 /* MWGridCell.m */,
+				FF154C9E19B53059002CCC73 /* MWGridViewController.h */,
+				FF154C9F19B53059002CCC73 /* MWGridViewController.m */,
+				FF154CA019B53059002CCC73 /* MWPhoto.h */,
+				FF154CA119B53059002CCC73 /* MWPhoto.m */,
+				FF154CA219B53059002CCC73 /* MWPhotoBrowser.h */,
+				FF154CA319B53059002CCC73 /* MWPhotoBrowser.m */,
+				FF154CA419B53059002CCC73 /* MWPhotoBrowserPrivate.h */,
+				FF154CA519B53059002CCC73 /* MWPhotoProtocol.h */,
+				FF154CA619B53059002CCC73 /* MWTapDetectingImageView.h */,
+				FF154CA719B53059002CCC73 /* MWTapDetectingImageView.m */,
+				FF154CA819B53059002CCC73 /* MWTapDetectingView.h */,
+				FF154CA919B53059002CCC73 /* MWTapDetectingView.m */,
+				FF154CAA19B53059002CCC73 /* MWZoomingScrollView.h */,
+				FF154CAB19B53059002CCC73 /* MWZoomingScrollView.m */,
+			);
+			name = MWPhotoBrowser;
 			sourceTree = "<group>";
 		};
 		FF23A648198297C800E62C5B /* WorkoutDetails */ = {
@@ -594,6 +663,7 @@
 		FFA137831969F84900DBEE68 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				FF154C9219B4C120002CCC73 /* Pictures */,
 				FF92966E199A1FB3008B7823 /* Defines */,
 				FF60FBB81996C34400DC2F14 /* Exercises */,
 				FF6BBFFF199013C0001FC624 /* ExerciseDetails */,
@@ -806,6 +876,7 @@
 				FF2521EE1987E78000D9E9B1 /* GenericWorkoutCollectionViewCell.xib in Resources */,
 				FFA137651969A58000DBEE68 /* Images.xcassets in Resources */,
 				FFA1378E196A02D300DBEE68 /* InitialViewController.xib in Resources */,
+				FF154C9719B4C172002CCC73 /* PicturesViewController.xib in Resources */,
 				FFABFDD9196C8920004FC527 /* SignUpViewController.xib in Resources */,
 				FF23A6461982968200E62C5B /* WorkoutDayTableViewCell.xib in Resources */,
 				FF3F70A4196D52EF007AADF1 /* StartViewController.xib in Resources */,
@@ -875,11 +946,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF8E5C7419AA606700DCA9E6 /* WorkoutDayExercise+Management.m in Sources */,
+				FF154C9619B4C172002CCC73 /* PicturesViewController.m in Sources */,
 				FF13B06B198C26B600FB6461 /* GymneaWSClient.m in Sources */,
 				FFABFDDD196CA111004FC527 /* LogInViewController.m in Sources */,
 				FF6BC002199014EE001FC624 /* ExerciseDetailViewController.m in Sources */,
 				FF681EC71993EC390061F458 /* UserInfo+Management.m in Sources */,
 				FF816258198305B500443C13 /* ChooseWorkoutDayTableViewController.m in Sources */,
+				FF154CAE19B53059002CCC73 /* MWGridViewController.m in Sources */,
+				FF154CB119B53059002CCC73 /* MWTapDetectingImageView.m in Sources */,
 				FF23A64D1982F48800E62C5B /* ChooseWorkoutDayViewController.m in Sources */,
 				FF681EC41993E8460061F458 /* ModelUtil.m in Sources */,
 				FF8E69AA1987AD1E008C6BF9 /* GEATouchView.m in Sources */,
@@ -890,9 +964,13 @@
 				FF13B071198C26CE00FB6461 /* GEAAuthentication.m in Sources */,
 				FFF5715219800CBD00BE457B /* WorkoutDayTableViewController.m in Sources */,
 				FF80E93F196B39D100D29986 /* InitialQuestionnaireViewController.m in Sources */,
+				FF154CB219B53059002CCC73 /* MWTapDetectingView.m in Sources */,
 				FF8E5C7719AA709000DCA9E6 /* WorkoutDay+Management.m in Sources */,
 				FF9110AB197B187600818E95 /* Exercise.m in Sources */,
+				FF154CAC19B53059002CCC73 /* MWCaptionView.m in Sources */,
+				FF154CB019B53059002CCC73 /* MWPhotoBrowser.m in Sources */,
 				FF8E69A91987AD1E008C6BF9 /* GEAScrollableTabBarController.m in Sources */,
+				FF154CAD19B53059002CCC73 /* MWGridCell.m in Sources */,
 				FFF0843219926C1C009C50F8 /* UserInfo.m in Sources */,
 				FF9110B8197B1ED400818E95 /* ExerciseDetail.m in Sources */,
 				FF03958A196D528200EA1CF6 /* StartViewController.m in Sources */,
@@ -924,10 +1002,12 @@
 				FF60FBBF1996C3EA00DC2F14 /* ExerciseCollectionViewCell.m in Sources */,
 				FF81625D1983222000443C13 /* ChooseWorkoutDayTableViewCell.m in Sources */,
 				FFC9893419A77BDD00E2C592 /* WorkoutDetail+Management.m in Sources */,
+				FF154CB319B53059002CCC73 /* MWZoomingScrollView.m in Sources */,
 				FFABFDD6196C88C4004FC527 /* SignUpViewController.m in Sources */,
 				FFCAB301199E44CF00A0036A /* ExerciseDetail+Management.m in Sources */,
 				FF13B072198C26CE00FB6461 /* GEAAuthenticationKeychainStore.m in Sources */,
 				FF892BC819A503C6003910E7 /* ExercisesSavedViewController.m in Sources */,
+				FF154CAF19B53059002CCC73 /* MWPhoto.m in Sources */,
 				FFA137871969F9EA00DBEE68 /* InitialViewController.m in Sources */,
 				FF8E5C7119AA038A00DCA9E6 /* WorkoutDayExercise.m in Sources */,
 				FF9110C1197BB4AD00818E95 /* GEAPopoverViewController.m in Sources */,

@@ -356,12 +356,12 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
 }
 
 - (void)setSelectedViewController:(UIViewController *)selectedViewController {
-  if ([_selectedViewController isEqual:selectedViewController] || (!_selectedViewController && !selectedViewController)) {
+/*  if ([_selectedViewController isEqual:selectedViewController] || (!_selectedViewController && !selectedViewController)) {
     if ([_selectedViewController isKindOfClass:[UINavigationController class] ]) {
       [(UINavigationController *) _selectedViewController popToRootViewControllerAnimated:YES];
     }
     return;
-  }
+  }*/
 
     // Create the left bar button item
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60.0f, 44.0f)];
