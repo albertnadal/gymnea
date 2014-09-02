@@ -40,6 +40,12 @@
         <attribute name="weightIsMetric" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="weightKilograms" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
     </entity>
+    <entity name="UserPicture" representedClassName="UserPicture" syncable="YES">
+        <attribute name="photoBig" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="photoMedium" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="pictureDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="pictureId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+    </entity>
     <entity name="Workout" representedClassName="Workout" syncable="YES">
         <attribute name="downloaded" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="frequency" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -84,5 +90,6 @@
         <element name="WorkoutDay" positionX="241" positionY="62" width="128" height="133"/>
         <element name="WorkoutDayExercise" positionX="52" positionY="225" width="128" height="178"/>
         <element name="WorkoutDetail" positionX="-101" positionY="-0" width="128" height="103"/>
+        <element name="UserPicture" positionX="-45" positionY="153" width="128" height="103"/>
     </elements>
 </model>
