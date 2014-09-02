@@ -7,9 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MBProgressHUD.h"
+#import "GymneaWSClient.h"
+#import "UserPicture+Management.h"
+#import "MWPhotoBrowser/MWPhotoBrowser.h"
 
-@interface PicturesViewController : UIViewController
+@interface PicturesViewController : MWPhotoBrowser
 
-- (UIViewController *)getPhotoBrowser;
+@property (nonatomic, retain) MBProgressHUD *loadPicturesHud;
+@property (nonatomic, weak) IBOutlet UILabel *noPicturesFoundLabel;
+
+- (id)init;
+- (void)loadPicturesFromArray:(NSArray *)picList;
+- (void)loadInitialData;
 
 @end

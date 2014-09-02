@@ -232,8 +232,18 @@
     
     
     PicturesViewController *picturesViewController = [[PicturesViewController alloc] init];
+    picturesViewController.edgesForExtendedLayout = UIRectEdgeNone;
+    [picturesViewController.view setBackgroundColor:[UIColor whiteColor]];
 
-    UIViewController *picturesBrowser = [picturesViewController getPhotoBrowser];
+    UITabBarItem *picturesTabBarItem = [[UITabBarItem alloc] initWithTitle:@"Pictures" image:[UIImage imageNamed:@"sidebar-pictures-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-pictures-icon"]];
+    [picturesViewController setTabBarItem:picturesTabBarItem];
+    
+    UINavigationController *picturesController = [[UINavigationController alloc] initWithRootViewController:picturesViewController];
+    [picturesController.interactivePopGestureRecognizer setEnabled:NO];
+    picturesViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Pictures" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+
+
+/*    UIViewController *picturesBrowser = [picturesViewController getPhotoBrowser];
 
     picturesBrowser.edgesForExtendedLayout = UIRectEdgeNone;
     [picturesBrowser.view setBackgroundColor:[UIColor whiteColor]];
@@ -243,8 +253,19 @@
     UINavigationController *picturesController = [[UINavigationController alloc] initWithRootViewController:picturesBrowser];
     [picturesController.interactivePopGestureRecognizer setEnabled:NO];
     picturesController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Pictures" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
-    
-    
+    */
+
+
+
+
+
+
+
+
+
+
+
+
     /*
      signUpWithForm:self.signUpForm
      withCompletionBlock:^(GymneaSignUpWSClientRequestResponse success, NSDictionary *responseData, UserInfo *userInfo) {
@@ -270,7 +291,7 @@
 
     // Side menu
     GEASideMenuController *sideMenuController = [[GEASideMenuController alloc] init];
-    sideMenuController.viewControllers = @[favoritesController, favorites2Controller, exercisesController, favorites4Controller, favorites5Controller, picturesController];
+    sideMenuController.viewControllers = @[favoritesController, favorites2Controller, exercisesController, favorites4Controller, favorites5Controller, picturesController /*picturesController*/];
     
     [[[UIApplication sharedApplication] keyWindow] setRootViewController:sideMenuController];
 }

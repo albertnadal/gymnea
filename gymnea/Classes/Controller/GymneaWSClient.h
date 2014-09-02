@@ -16,6 +16,7 @@
 #import "WorkoutDetail+Management.h"
 #import "WorkoutDayExercise+Management.h"
 #import "UserInfo+Management.h"
+#import "UserPicture+Management.h"
 
 typedef enum _GymneaWSClientRequestStatus
 {
@@ -47,6 +48,7 @@ typedef void(^currentWorkoutCompletionBlock)(GymneaWSClientRequestStatus success
 typedef void(^exerciseVideoLoopCompletionBlock)(GymneaWSClientRequestStatus success, NSData *video);
 typedef void(^workoutsCompletionBlock)(GymneaWSClientRequestStatus success, NSArray *workouts);
 typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
+typedef void(^userPicturesCompletionBlock)(GymneaWSClientRequestStatus success, NSArray *userPictures);
 
 @interface GymneaWSClient : NSObject<NSURLConnectionDelegate, NSURLSessionDelegate>
 {
@@ -145,5 +147,6 @@ typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
 - (void)setUserCurrentWorkoutWithWorkout:(Workout *)workout
                      withCompletionBlock:(currentWorkoutCompletionBlock)completionBlock;
 
+- (void)requestUserPicturesWithCompletionBlock:(userPicturesCompletionBlock)completionBlock;
 
 @end

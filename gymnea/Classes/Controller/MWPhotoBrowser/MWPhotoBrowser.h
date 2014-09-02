@@ -41,6 +41,7 @@
 
 @interface MWPhotoBrowser : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate>
 
+
 @property (nonatomic, retain) id<MWPhotoBrowserDelegate> delegate;
 @property (nonatomic) BOOL zoomPhotosToFill;
 @property (nonatomic) BOOL displayNavArrows;
@@ -52,6 +53,9 @@
 @property (nonatomic) BOOL startOnGrid;
 @property (nonatomic) NSUInteger delayToHideElements;
 @property (nonatomic, readonly) NSUInteger currentIndex;
+@property (nonatomic) BOOL needRefreshData;
+@property (nonatomic) BOOL loadingData;
+
 
 // Init
 - (id)initWithPhotos:(NSArray *)photosArray  __attribute__((deprecated("Use initWithDelegate: instead"))); // Depreciated
@@ -67,5 +71,9 @@
 // Navigation
 - (void)showNextPhotoAnimated:(BOOL)animated;
 - (void)showPreviousPhotoAnimated:(BOOL)animated;
+
+// Other
+- (void)_initialisation;
+- (void)loadVisuals;
 
 @end

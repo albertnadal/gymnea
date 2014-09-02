@@ -1302,6 +1302,71 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
     
 }
 
+- (void)requestUserPicturesWithCompletionBlock:(userPicturesCompletionBlock)completionBlock
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+    
+    if(self.internetIsReachable) {
+        
+        // Retrieve data from web service API
+        NSString *requestPath = @"/api/pictures/get_pictures";
+        
+        [self performPOSTAsyncRequest:requestPath
+                       withDictionary:nil
+                   withAuthentication:auth
+                  withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
+
+                      NSMutableArray *userPicturesArray = nil;
+                      
+                      if(success == GymneaWSClientRequestSuccess) {
+
+                          userPicturesArray = [[NSMutableArray alloc] init];
+                          
+                          for (NSDictionary *userPictureDict in (NSArray *)[responseData objectForKey:@"pictures"]) {
+
+                              NSLog(@"userPictureDict: %@", userPictureDict);
+                              UserPicture *userPictureFromDB = [UserPicture getUserPictureInfo:[[userPictureDict objectForKey:@"id"] intValue]];
+                              
+                              if(userPictureFromDB != nil) {
+
+                                  [userPicturesArray addObject:userPictureFromDB];
+                              } else {
+                                  
+                                  UserPicture *userPictureInfo = [UserPicture updateUserPictureWithId:[[userPictureDict objectForKey:@"id"] intValue]
+                                                                                       withDictionary:userPictureDict];
+                                  [userPicturesArray addObject:userPictureInfo];
+                              }
+                          }
+
+                          AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+                          [appDelegate saveContext];
+                      }
+
+                      dispatch_async(dispatch_get_main_queue(), ^{
+                          if(completionBlock != nil) {
+                              completionBlock(success, userPicturesArray);
+                          }
+                          
+                      });
+                      
+                  }];
+        
+    } else {
+        
+        NSArray *userPicturesList = [UserPicture getUserPictures];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(completionBlock != nil) {
+                completionBlock(GymneaWSClientRequestSuccess, userPicturesList);
+            }
+
+        });
+
+    }
+
+}
+
 - (void)performPDFAsyncRequest:(NSString *)path
                 withDictionary:(NSDictionary *)values
             withAuthentication:(GEAAuthentication *)auth

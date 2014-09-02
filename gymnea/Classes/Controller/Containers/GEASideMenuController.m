@@ -9,6 +9,7 @@
 #import "GEASideMenuController.h"
 #import "GEAScrollableTabBarController.h"
 #import "GymneaWSClient.h"
+#import "PicturesViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
 
@@ -382,6 +383,11 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
     if ([selectedViewController isKindOfClass:[UINavigationController class] ]) {
         UINavigationController *navController = (UINavigationController *)selectedViewController;
         UIViewController *rootViewController = (UIViewController *)navController.viewControllers[0];
+
+        if([rootViewController respondsToSelector:@selector(loadInitialData)]) {
+            [(PicturesViewController *)rootViewController loadInitialData];
+        }
+
         rootViewController.sideMenuController = self;
 
         // First UIViewController must not have a left margin space in the navigation bar

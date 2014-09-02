@@ -30,6 +30,10 @@
 
 #pragma mark - Class Methods
 
++ (MWPhoto *)photoWithPictureId:(int)picId {
+    return [[MWPhoto alloc] initWithPictureId:picId];
+}
+
 + (MWPhoto *)photoWithImage:(UIImage *)image {
 	return [[MWPhoto alloc] initWithImage:image];
 }
@@ -44,6 +48,14 @@
 }
 
 #pragma mark - Init
+
+- (id)initWithPictureId:(int)picId
+{
+    if ((self = [super init])) {
+        self.pictureId = picId;
+    }
+    return self;
+}
 
 - (id)initWithImage:(UIImage *)image {
 	if ((self = [super init])) {

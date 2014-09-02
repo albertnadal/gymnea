@@ -9,6 +9,7 @@
 #import "GEAScrollableTabBarController.h"
 #import "ExercisesViewController.h"
 #import "GenericWorkoutsViewController.h"
+#import "PicturesViewController.h"
 #import "GEALabel+Gymnea.h"
 #import "GEATouchView.h"
 
@@ -147,6 +148,8 @@ static const CGFloat kVTSTabBarBackTapTresshold = 110.0f;
             [(ExercisesViewController *)selectedViewController reloadData];
         } else if([selectedViewController isKindOfClass:[GenericWorkoutsViewController class]]) {
             [(GenericWorkoutsViewController *)selectedViewController reloadData];
+        } else if([selectedViewController isKindOfClass:[PicturesViewController class]]) {
+            [(PicturesViewController *)selectedViewController reloadData];
         }
     }
 }

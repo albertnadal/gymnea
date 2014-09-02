@@ -10,6 +10,7 @@
 #import "MWPhotoBrowser.h"
 #import "SDImageCache.h"
 #import "MWCommon.h"
+#import "GEALabel+Gymnea.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
 @interface PicturesViewController ()<MWPhotoBrowserDelegate>
@@ -28,14 +29,23 @@
 
 @implementation PicturesViewController
 
+@synthesize loadingData;
+@synthesize needRefreshData;
+
 - (id)init
 {
     self = [super initWithNibName:@"PicturesViewController" bundle:nil];
     if (self)
     {
+        [self _initialisation];
+        self.delegate = self;
+
         // Clear cache for testing
-        [[SDImageCache sharedImageCache] clearDisk];
-        [[SDImageCache sharedImageCache] clearMemory];
+//        [[SDImageCache sharedImageCache] clearDisk];
+//        [[SDImageCache sharedImageCache] clearMemory];
+
+        self.needRefreshData = TRUE;
+        self.loadingData = FALSE;
 
         [self loadAssets];
 
@@ -45,18 +55,86 @@
     return nil;
 }
 
-- (UIViewController *)getPhotoBrowser
+
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+    self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    [self.noPicturesFoundLabel setHidden:YES];
+
+    self.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Pictures" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    
+    //CGRect frameRect = CGRectMake(0,44.0f+20.0f, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height - (44.0f+20.0f));
+    //self.view.frame = frameRect;
+    //self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+}
+
+- (void)loadInitialData
+{
+    
+    if((self.needRefreshData) && (!self.loadingData)) {
+        
+        self.loadingData = TRUE;
+
+        [self.noPicturesFoundLabel setHidden:YES];
+        self.loadPicturesHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.loadPicturesHud.labelText = @"Loading pictures";
+        
+        GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
+        [gymneaWSClient requestUserPicturesWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSArray *userPictures) {
+
+            if(success == GymneaWSClientRequestSuccess) {
+                self.needRefreshData = FALSE;
+
+                [self loadPicturesFromArray:userPictures];
+
+                // Hide HUD after 0.3 seconds
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                    [self.noPicturesFoundLabel setHidden:YES];
+                    [self.loadPicturesHud hide:YES];
+                    self.loadingData = FALSE;
+
+                    [self loadVisuals];
+                    [self viewWillAppear:YES];
+                });
+
+            } else {
+
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"An unexpected error occurred. Check your Internet connection and retry again." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                [alert show];
+
+                [self.loadPicturesHud hide:YES];
+                self.loadingData = FALSE;
+                self.needRefreshData = TRUE;
+                [self.noPicturesFoundLabel setHidden:NO];
+            }
+
+        }];
+
+    }
+
+}
+
+- (void)loadPicturesFromArray:(NSArray *)picList
 {
     NSMutableArray *photos = [[NSMutableArray alloc] init];
     NSMutableArray *thumbs = [[NSMutableArray alloc] init];
+
     MWPhoto *photo;
-    BOOL displayActionButton = YES;
-    BOOL displaySelectionButtons = NO;
-    BOOL displayNavArrows = NO;
-    BOOL enableGrid = YES;
-    BOOL startOnGrid = YES;
-    
-    
+
+/*    for(UserPicture *userPicture in self.picturesList)
+    {
+        photo = [MWPhoto photoWithPictureId:userPicture.pictureId];
+        photo.caption = @"Plantar un pi";
+        [photos addObject:photo];
+        [thumbs addObject:[MWPhoto photoWithPictureId:userPicture.pictureId]];
+    }*/
+
+
     // Photos & thumbs
     photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://albertnadal.cat/wp-content/uploads/2013/11/header_plantar_pi-150x150.jpg"]];
     photo.caption = @"Plantar un pi";
@@ -68,144 +146,23 @@
     [photos addObject:photo];
     [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://albertnadal.cat/wp-content/uploads/2013/03/bunquers_martinet_montella-150x150.jpg"]]];
 
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://albertnadal.cat/wp-content/uploads/2013/03/bunquers_martinet_montella-150x150.jpg"]];
-    photo.caption = @"Woburn Abbey";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm9.static.flickr.com/8379/8530199945_47b386320f_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm9.static.flickr.com/8364/8268120482_332d61a89e_b.jpg"]];
-    photo.caption = @"Frosty walk";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm9.static.flickr.com/8364/8268120482_332d61a89e_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm8.static.flickr.com/7109/7604416018_f23733881b_b.jpg"]];
-    photo.caption = @"Jury's Inn";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm8.static.flickr.com/7109/7604416018_f23733881b_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm7.static.flickr.com/6002/6020924733_b21874f14c_b.jpg"]];
-    photo.caption = @"Heavy Rain";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm7.static.flickr.com/6002/6020924733_b21874f14c_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm5.static.flickr.com/4012/4501918517_5facf1a8c4_b.jpg"]];
-    photo.caption = @"iPad Application Sketch Template v1";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm5.static.flickr.com/4012/4501918517_5facf1a8c4_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm3.static.flickr.com/2667/4072710001_f36316ddc7_b.jpg"]];
-    photo.caption = @"Grotto of the Madonna";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm3.static.flickr.com/2667/4072710001_f36316ddc7_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm3.static.flickr.com/2449/4052876281_6e068ac860_b.jpg"]];
-    photo.caption = @"Beautiful Eyes";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm3.static.flickr.com/2449/4052876281_6e068ac860_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3528/4052875665_53e5b4dc61_b.jpg"]];
-    photo.caption = @"Cousin Portrait";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3528/4052875665_53e5b4dc61_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3520/3846053408_6ecf775a3e_b.jpg"]];
-    photo.caption = @"iPhone Application Sketch Template v1.3";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3520/3846053408_6ecf775a3e_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3624/3559209373_003152b4fd_b.jpg"]];
-    photo.caption = @"Door Knocker of Capitanía General";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3624/3559209373_003152b4fd_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3551/3523421738_30455b63e0_b.jpg"]];
-    photo.caption = @"Parroquia Sta Maria del Mar";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3551/3523421738_30455b63e0_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3224/3523355044_6551552f93_b.jpg"]];
-    photo.caption = @"Central Atrium in Casa Batlló";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3224/3523355044_6551552f93_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3567/3523321514_371d9ac42f_b.jpg"]];
-    photo.caption = @"Gaudí's Casa Batlló spiral ceiling";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3567/3523321514_371d9ac42f_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3629/3339128908_7aecabc34b_b.jpg"]];
-    photo.caption = @"The Royal Albert Hall";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3629/3339128908_7aecabc34b_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3338/3339119002_e0d8ec2f2e_b.jpg"]];
-    photo.caption = @"Midday & Midnight at the RAH";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3338/3339119002_e0d8ec2f2e_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3364/3338617424_7ff836d55f_b.jpg"]];
-    photo.caption = @"Westminster Bridge";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3364/3338617424_7ff836d55f_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3604/3328356821_5503b332aa_b.jpg"]];
-    photo.caption = @"Prime Meridian Sculpture";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3604/3328356821_5503b332aa_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3590/3329114220_5fbc5bc92b_b.jpg"]];
-    photo.caption = @"Docklands";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3590/3329114220_5fbc5bc92b_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3602/3329107762_64a1454080_b.jpg"]];
-    photo.caption = @"Planetarium";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3602/3329107762_64a1454080_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3122/3143635211_80b29ab354_b.jpg"]];
-    photo.caption = @"Eurostar Perspective";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3122/3143635211_80b29ab354_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3091/3144451298_db6f6da3f9_b.jpg"]];
-    photo.caption = @"The Meeting Place";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3091/3144451298_db6f6da3f9_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3110/3143623585_a12fa172fc_b.jpg"]];
-    photo.caption = @"Embrace";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3110/3143623585_a12fa172fc_q.jpg"]]];
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3107/3143613445_d9562105ea_b.jpg"]];
-    photo.caption = @"See to the Sky with the Station Saver";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://farm4.static.flickr.com/3107/3143613445_d9562105ea_q.jpg"]]];
-    
-    
+
     self.photos = photos;
     self.thumbs = thumbs;
-    
+
     // Create browser
-    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
-    browser.displayActionButton = displayActionButton;
-    browser.displayNavArrows = displayNavArrows;
-    browser.displaySelectionButtons = displaySelectionButtons;
-    browser.alwaysShowControls = displaySelectionButtons;
-    browser.zoomPhotosToFill = YES;
-    /*
-     #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
-     browser.wantsFullScreenLayout = YES;
-     #endif
-     */
-    browser.enableGrid = enableGrid;
-    browser.startOnGrid = startOnGrid;
-    browser.enableSwipeToDismiss = YES;
-    [browser setCurrentPhotoIndex:0];
     
-    // Reset selections
-    if (displaySelectionButtons) {
-        _selections = [NSMutableArray new];
-        for (int i = 0; i < photos.count; i++) {
-            [_selections addObject:[NSNumber numberWithBool:NO]];
-        }
-    }
+    self.displayActionButton = YES;
+    self.displayNavArrows = NO;
+    self.displaySelectionButtons = NO;
+    self.alwaysShowControls = NO;
+    self.zoomPhotosToFill = YES;
+    self.enableGrid = YES;
+    self.startOnGrid = YES;
+    self.enableSwipeToDismiss = YES;
+
+    [self setCurrentPhotoIndex:0];
     
-    
-    // Test reloading of data after delay
-    double delayInSeconds = 3;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        
-        
-    });
-
-    return browser;
-
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
 }
 
 - (void)didReceiveMemoryWarning

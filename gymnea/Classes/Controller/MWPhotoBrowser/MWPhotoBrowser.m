@@ -137,42 +137,42 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+    
+	// Super
+    [super viewDidLoad];
+	
+}
 
-    self.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Pictures" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
-
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-
-    CGRect frameRect = CGRectMake(0,44.0f+20.0f, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height - (44.0f+20.0f));
-    self.view.frame = frameRect;
-    self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-
+- (void)loadVisuals
+{
     // Validate grid settings
     if (_startOnGrid) _enableGrid = YES;
     if (_enableGrid) {
         _enableGrid = [_delegate respondsToSelector:@selector(photoBrowser:thumbPhotoAtIndex:)];
     }
     if (!_enableGrid) _startOnGrid = NO;
-	
-	// View
-	self.view.backgroundColor = [UIColor whiteColor];
+    
+    // View
+    self.view.backgroundColor = [UIColor whiteColor];
     self.view.clipsToBounds = NO;
-	
-	// Setup paging scrolling view
-	CGRect pagingScrollViewFrame = [self frameForPagingScrollView];
-	_pagingScrollView = [[UIScrollView alloc] initWithFrame:pagingScrollViewFrame];
-	_pagingScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	_pagingScrollView.pagingEnabled = YES;
-	_pagingScrollView.delegate = self;
-	_pagingScrollView.showsHorizontalScrollIndicator = NO;
-	_pagingScrollView.showsVerticalScrollIndicator = NO;
-	_pagingScrollView.backgroundColor = [UIColor whiteColor];
+    
+    // Setup paging scrolling view
+    CGRect pagingScrollViewFrame = CGRectMake(0, -[[UIScreen mainScreen] bounds].size.height - 44.0f - 20.0f, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height); //[self frameForPagingScrollView];
+    _pagingScrollView = [[UIScrollView alloc] initWithFrame:pagingScrollViewFrame];
+    _pagingScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    _pagingScrollView.pagingEnabled = YES;
+    _pagingScrollView.delegate = self;
+    _pagingScrollView.showsHorizontalScrollIndicator = NO;
+    _pagingScrollView.showsVerticalScrollIndicator = NO;
+    _pagingScrollView.backgroundColor = [UIColor whiteColor];
     _pagingScrollView.contentSize = [self contentSizeForPagingScrollView];
     _pagingScrollView.clipsToBounds = NO;
-	[self.view addSubview:_pagingScrollView];
-	
+    [self.view addSubview:_pagingScrollView];
+    
     // Toolbar
     _toolbar = [[UIToolbar alloc] initWithFrame:[self frameForToolbarAtOrientation:self.interfaceOrientation]];
-    _toolbar.tintColor = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7") ? [UIColor whiteColor] : nil;
+    _toolbar.alpha = 0;
+    _toolbar.tintColor = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7") ? [UIColor grayColor] : nil;
     if ([_toolbar respondsToSelector:@selector(setBarTintColor:)]) {
         _toolbar.barTintColor = nil;
     }
@@ -207,10 +207,6 @@
         swipeGesture.direction = UISwipeGestureRecognizerDirectionDown | UISwipeGestureRecognizerDirectionUp;
         [self.view addGestureRecognizer:swipeGesture];
     }
-    
-	// Super
-    [super viewDidLoad];
-	
 }
 
 - (void)performLayout {
@@ -222,7 +218,7 @@
 	// Setup pages
     [_visiblePages removeAllObjects];
     [_recycledPages removeAllObjects];
-    
+/*
     // Navigation buttons
     if ([self.navigationController.viewControllers objectAtIndex:0] == self) {
         // We're first on stack so show done button
@@ -254,7 +250,7 @@
         _previousViewControllerBackButton = previousViewController.navigationItem.backBarButtonItem; // remember previous
         previousViewController.navigationItem.backBarButtonItem = newBackButton;
     }
-
+*/
     // Toolbar items
     BOOL hasItems = NO;
     UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
@@ -316,6 +312,7 @@
 	_pagingScrollView.contentOffset = [self contentOffsetForPageAtIndex:_currentPageIndex];
     [self tilePages];
     _performingLayout = NO;
+
     
 }
 
@@ -357,87 +354,95 @@
     
 	// Super
 	[super viewWillAppear:animated];
-    
-    // Status bar
-    if ([UIViewController instancesRespondToSelector:@selector(prefersStatusBarHidden)]) {
-        _leaveStatusBarAlone = [self presentingViewControllerPrefersStatusBarHidden];
-    } else {
-        _leaveStatusBarAlone = [UIApplication sharedApplication].statusBarHidden;
-    }
-    if (CGRectEqualToRect([[UIApplication sharedApplication] statusBarFrame], CGRectZero)) {
-        // If the frame is zero then definitely leave it alone
-        _leaveStatusBarAlone = YES;
-    }
-    BOOL fullScreen = YES;
+
+    if((!self.needRefreshData) && (!self.loadingData))
+    {
+
+        // Status bar
+        if ([UIViewController instancesRespondToSelector:@selector(prefersStatusBarHidden)]) {
+            _leaveStatusBarAlone = [self presentingViewControllerPrefersStatusBarHidden];
+        } else {
+            _leaveStatusBarAlone = [UIApplication sharedApplication].statusBarHidden;
+        }
+        if (CGRectEqualToRect([[UIApplication sharedApplication] statusBarFrame], CGRectZero)) {
+            // If the frame is zero then definitely leave it alone
+            _leaveStatusBarAlone = YES;
+        }
+        BOOL fullScreen = YES;
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
-    if (SYSTEM_VERSION_LESS_THAN(@"7")) fullScreen = self.wantsFullScreenLayout;
+        if (SYSTEM_VERSION_LESS_THAN(@"7")) fullScreen = self.wantsFullScreenLayout;
 #endif
-    if (!_leaveStatusBarAlone && fullScreen && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        _previousStatusBarStyle = [[UIApplication sharedApplication] statusBarStyle];
-        if (SYSTEM_VERSION_LESS_THAN(@"7")) {
+        if (!_leaveStatusBarAlone && fullScreen && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            _previousStatusBarStyle = [[UIApplication sharedApplication] statusBarStyle];
+            if (SYSTEM_VERSION_LESS_THAN(@"7")) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:animated];
+                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:animated];
 #pragma clang diagnostic push
-        } else {
-            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:animated];
+            } else {
+                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:animated];
+            }
         }
-    }
-    
-    // Navigation bar appearance
-    if (!_viewIsActive && [self.navigationController.viewControllers objectAtIndex:0] != self) {
-        [self storePreviousNavBarAppearance];
-    }
-    [self setNavBarAppearance:animated];
-    
-    // Hide navigation controller's toolbar
-    _previousNavToolbarHidden = self.navigationController.toolbarHidden;
-    [self.navigationController setToolbarHidden:YES];
-    
-    // Update UI
-	[self hideControlsAfterDelay];
-    
-    // Initial appearance
-    if (!_viewHasAppearedInitially) {
-        if (_startOnGrid) {
-            [self showGrid:NO];
-        }
-        _viewHasAppearedInitially = YES;
-    }
 
+        // Navigation bar appearance
+        if (!_viewIsActive && [self.navigationController.viewControllers objectAtIndex:0] != self) {
+            [self storePreviousNavBarAppearance];
+        }
+        [self setNavBarAppearance:animated];
+
+        // Hide navigation controller's toolbar
+        _previousNavToolbarHidden = self.navigationController.toolbarHidden;
+        [self.navigationController setToolbarHidden:YES];
+
+        // Update UI
+        [self hideControlsAfterDelay];
+
+        // Initial appearance
+        if (!_viewHasAppearedInitially) {
+            if (_startOnGrid) {
+                [self showGrid:NO];
+            }
+            _viewHasAppearedInitially = YES;
+        }
+
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    
-    // Check that we're being popped for good
-    if ([self.navigationController.viewControllers objectAtIndex:0] != self &&
-        ![self.navigationController.viewControllers containsObject:self]) {
+
+    if((!self.needRefreshData) && (!self.loadingData))
+    {
+        // Check that we're being popped for good
+        if ([self.navigationController.viewControllers objectAtIndex:0] != self &&
+            ![self.navigationController.viewControllers containsObject:self]) {
+            
+            // State
+            _viewIsActive = NO;
+            
+            // Bar state / appearance
+            [self restorePreviousNavBarAppearance:animated];
+            
+        }
         
-        // State
-        _viewIsActive = NO;
+        // Controls
+        [self.navigationController.navigationBar.layer removeAllAnimations]; // Stop all animations on nav bar
+        [NSObject cancelPreviousPerformRequestsWithTarget:self]; // Cancel any pending toggles from taps
+        [self setControlsHidden:NO animated:NO permanent:YES];
         
-        // Bar state / appearance
-        [self restorePreviousNavBarAppearance:animated];
-        
-    }
-    
-    // Controls
-    [self.navigationController.navigationBar.layer removeAllAnimations]; // Stop all animations on nav bar
-    [NSObject cancelPreviousPerformRequestsWithTarget:self]; // Cancel any pending toggles from taps
-    [self setControlsHidden:NO animated:NO permanent:YES];
-    
-    // Status bar
-    BOOL fullScreen = YES;
+        // Status bar
+        BOOL fullScreen = YES;
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
-    if (SYSTEM_VERSION_LESS_THAN(@"7")) fullScreen = self.wantsFullScreenLayout;
+        if (SYSTEM_VERSION_LESS_THAN(@"7")) fullScreen = self.wantsFullScreenLayout;
 #endif
-    if (!_leaveStatusBarAlone && fullScreen && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        [[UIApplication sharedApplication] setStatusBarStyle:_previousStatusBarStyle animated:animated];
+        if (!_leaveStatusBarAlone && fullScreen && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            [[UIApplication sharedApplication] setStatusBarStyle:_previousStatusBarStyle animated:animated];
+        }
+        
+        // Show navigation controller's toolbar
+        [self.navigationController setToolbarHidden:_previousNavToolbarHidden];
+
     }
-    
-    // Show navigation controller's toolbar
-    [self.navigationController setToolbarHidden:_previousNavToolbarHidden];
-    
+
 	// Super
 	[super viewWillDisappear:animated];
     
@@ -445,17 +450,28 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    _viewIsActive = YES;
+
+    if((!self.needRefreshData) && (!self.loadingData))
+    {
+        _viewIsActive = YES;
+    }
 }
 
 - (void)willMoveToParentViewController:(UIViewController *)parent {
-    if (parent && _hasBelongedToViewController) {
-        [NSException raise:@"MWPhotoBrowser Instance Reuse" format:@"MWPhotoBrowser instances cannot be reused."];
+    if((!self.needRefreshData) && (!self.loadingData))
+    {
+        if (parent && _hasBelongedToViewController) {
+            [NSException raise:@"MWPhotoBrowser Instance Reuse" format:@"MWPhotoBrowser instances cannot be reused."];
+        }
     }
 }
 
 - (void)didMoveToParentViewController:(UIViewController *)parent {
-    if (!parent) _hasBelongedToViewController = YES;
+
+    if((!self.needRefreshData) && (!self.loadingData))
+    {
+        if (!parent) _hasBelongedToViewController = YES;
+    }
 }
 
 #pragma mark - Nav Bar Appearance
@@ -523,8 +539,12 @@
 #pragma mark - Layout
 
 - (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-    [self layoutVisiblePages];
+
+    if((!self.needRefreshData) && (!self.loadingData))
+    {
+        [super viewWillLayoutSubviews];
+        [self layoutVisiblePages];
+    }
 }
 
 - (void)layoutVisiblePages {
@@ -583,7 +603,7 @@
 #pragma mark - Rotation
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    return YES;
+    return NO;
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
@@ -591,7 +611,7 @@
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    
+/*
 	// Remember page index before rotation
 	_pageIndexBeforeRotation = _currentPageIndex;
 	_rotating = YES;
@@ -601,11 +621,11 @@
         // Force hidden
         self.navigationController.navigationBarHidden = YES;
     }
-	
+*/
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-	
+/*
 	// Perform layout
 	_currentPageIndex = _pageIndexBeforeRotation;
 	
@@ -614,16 +634,18 @@
     
     // Layout
     [self layoutVisiblePages];
-	
+*/
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+/*
 	_rotating = NO;
     // Ensure nav bar isn't re-displayed
     if ([self areControlsHidden]) {
         self.navigationController.navigationBarHidden = NO;
         self.navigationController.navigationBar.alpha = 0;
     }
+*/
 }
 
 #pragma mark - Data
@@ -1011,6 +1033,7 @@
 
 - (CGRect)frameForToolbarAtOrientation:(UIInterfaceOrientation)orientation {
     CGFloat height = 44;
+
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone &&
         UIInterfaceOrientationIsLandscape(orientation)) height = 32;
 	return CGRectIntegral(CGRectMake(0, self.view.bounds.size.height - height, self.view.bounds.size.width, height));
@@ -1166,15 +1189,25 @@
 
 - (void)showGrid:(BOOL)animated {
 
-//    if (_gridController) return;
+    if (_gridController) return;
     
     // Init grid controller
     _gridController = [[MWGridViewController alloc] init];
+    [_gridController.view setHidden:YES];
     _gridController.initialContentOffset = _currentGridContentOffset;
     _gridController.browser = self;
     _gridController.selectionMode = _displaySelectionButtons;
     _gridController.view.frame = self.view.bounds;
     _gridController.view.frame = CGRectOffset(_gridController.view.frame, 0, self.view.bounds.size.height);
+    [_gridController.view setBackgroundColor:[UIColor whiteColor]];
+
+    _gridController.view.alpha = 0.0;
+    [_gridController.view setHidden:NO];
+
+    [UIView beginAnimations:@"grid fade in" context:nil];
+    [UIView setAnimationDuration:0.3];
+    _gridController.view.alpha = 1.0;
+    [UIView commitAnimations];
 
     // Stop specific layout being triggered
     _skipNextPagingScrollViewPositioning = YES;
@@ -1182,7 +1215,7 @@
     // Add as a child view controller
     [self addChildViewController:_gridController];
     [self.view addSubview:_gridController.view];
-    
+
     // Hide action button on nav bar if it exists
     if (self.navigationItem.rightBarButtonItem == _actionButton) {
         _gridPreviousRightNavItem = _actionButton;
@@ -1194,17 +1227,15 @@
     // Update
     [self updateNavigation];
     [self setControlsHidden:NO animated:YES permanent:YES];
-    
+
     // Animate grid in and photo scroller out
     [UIView animateWithDuration:animated ? 0.3 : 0 animations:^(void) {
         _gridController.view.frame = self.view.bounds;
-        CGRect newPagingFrame = [self frameForPagingScrollView];
-        newPagingFrame = CGRectOffset(newPagingFrame, 0, -newPagingFrame.size.height);
-        _pagingScrollView.frame = newPagingFrame;
+        _pagingScrollView.frame = CGRectMake(0, -[[UIScreen mainScreen] bounds].size.height - 44.0f - 20.0f, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height);
     } completion:^(BOOL finished) {
         [_gridController didMoveToParentViewController:self];
     }];
-    
+
 }
 
 - (void)hideGrid {
@@ -1250,7 +1281,7 @@
 // If permanent then we don't set timers to hide again
 // Fades all controls on iOS 5 & 6, and iOS 7 controls slide and fade
 - (void)setControlsHidden:(BOOL)hidden animated:(BOOL)animated permanent:(BOOL)permanent {
-    
+
     // Force visible
     if (![self numberOfPhotos] || _gridController || _alwaysShowControls)
         hidden = NO;
@@ -1262,7 +1293,7 @@
     BOOL slideAndFade = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7");
     CGFloat animatonOffset = 20;
     CGFloat animationDuration = (animated ? 0.35 : 0);
-    
+
     // Status bar
     if (!_leaveStatusBarAlone) {
         if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
@@ -1284,44 +1315,10 @@
                 
             }
 
-        } else {
-            
-            // iOS < 7
-            // Status bar and nav bar positioning
-            BOOL fullScreen = YES;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
-            if (SYSTEM_VERSION_LESS_THAN(@"7")) fullScreen = self.wantsFullScreenLayout;
-#endif
-            if (fullScreen) {
-                
-                // Need to get heights and set nav bar position to overcome display issues
-                
-                // Get status bar height if visible
-                CGFloat statusBarHeight = 0;
-                if (![UIApplication sharedApplication].statusBarHidden) {
-                    CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
-                    statusBarHeight = MIN(statusBarFrame.size.height, statusBarFrame.size.width);
-                }
-                
-                // Status Bar
-                [[UIApplication sharedApplication] setStatusBarHidden:hidden withAnimation:animated?UIStatusBarAnimationFade:UIStatusBarAnimationNone];
-                
-                // Get status bar height if visible
-                if (![UIApplication sharedApplication].statusBarHidden) {
-                    CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
-                    statusBarHeight = MIN(statusBarFrame.size.height, statusBarFrame.size.width);
-                }
-                
-                // Set navigation bar frame
-                CGRect navBarFrame = self.navigationController.navigationBar.frame;
-                navBarFrame.origin.y = statusBarHeight;
-                self.navigationController.navigationBar.frame = navBarFrame;
-                
-            }
-            
         }
+
     }
-    
+
     // Toolbar, nav bar and captions
     // Pre-appear animation positions for iOS 7 sliding
     if (slideAndFade && [self areControlsHidden] && !hidden && animated) {
@@ -1346,13 +1343,14 @@
         CGFloat alpha = hidden ? 0 : 1;
 
         // Nav bar slides up on it's own on iOS 7
-        //[self.navigationController.navigationBar setAlpha:alpha];
+//        [self.navigationController.navigationBar setAlpha:alpha];
         
         // Toolbar
         if (slideAndFade) {
             _toolbar.frame = [self frameForToolbarAtOrientation:self.interfaceOrientation];
             if (hidden) _toolbar.frame = CGRectOffset(_toolbar.frame, 0, animatonOffset);
         }
+
         _toolbar.alpha = alpha;
 
         // Captions
