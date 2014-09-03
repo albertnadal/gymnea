@@ -10,7 +10,6 @@
 #import "MWCommon.h"
 #import "MWPhotoBrowser.h"
 #import "MWPhotoBrowserPrivate.h"
-#import "SDImageCache.h"
 #import "GEALabel+Gymnea.h"
 
 #define PADDING                  10
@@ -98,7 +97,6 @@
     _pagingScrollView.delegate = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self releaseAllUnderlyingPhotos:NO];
-    [[SDImageCache sharedImageCache] clearMemory]; // clear memory
 }
 
 - (void)releaseAllUnderlyingPhotos:(BOOL)preserveCurrent {
@@ -199,7 +197,7 @@
     }
     
     // Update
-    [self reloadData];
+//    [self reloadData];
     
     // Swipe to dismiss
     if (_enableSwipeToDismiss) {
@@ -299,6 +297,11 @@
             break;
         }
     }
+    
+    if(CGRectGetMinY(_pagingScrollView.frame) < 0) {
+            _toolbar.alpha = 0;
+    } else  _toolbar.alpha = 1;
+
     if (hideToolbar) {
         [_toolbar removeFromSuperview];
     } else {
@@ -569,7 +572,9 @@
 	
 	// Recalculate contentSize based on current orientation
 	_pagingScrollView.contentSize = [self contentSizeForPagingScrollView];
-	
+
+    NSLog(@"TOTAL PAGES: %d", [_visiblePages count]);
+
 	// Adjust frames and configuration of each visible page
 	for (MWZoomingScrollView *page in _visiblePages) {
         NSUInteger index = page.index;
@@ -834,7 +839,10 @@
     if (iFirstIndex > [self numberOfPhotos] - 1) iFirstIndex = [self numberOfPhotos] - 1;
     if (iLastIndex < 0) iLastIndex = 0;
     if (iLastIndex > [self numberOfPhotos] - 1) iLastIndex = [self numberOfPhotos] - 1;
-	
+
+    iFirstIndex = 0;
+    iLastIndex = [self numberOfPhotos] - 1;
+
 	// Recycle no longer needed pages
     NSInteger pageIndex;
 	for (MWZoomingScrollView *page in _visiblePages) {
@@ -845,7 +853,7 @@
             [page.selectedButton removeFromSuperview];
             [page prepareForReuse];
 			[page removeFromSuperview];
-			MWLog(@"Removed page at index %lu", (unsigned long)pageIndex);
+			NSLog(@"Removed page at index %lu", (unsigned long)pageIndex);
 		}
 	}
 	[_visiblePages minusSet:_recycledPages];
@@ -865,7 +873,7 @@
 			[self configurePage:page forIndex:index];
 
 			[_pagingScrollView addSubview:page];
-			MWLog(@"Added page at index %lu", (unsigned long)index);
+			NSLog(@"Added page at index %lu", (unsigned long)index);
             
             // Add caption
             MWCaptionView *captionView = [self captionViewForPhotoAtIndex:index];
@@ -1231,6 +1239,10 @@
     // Animate grid in and photo scroller out
     [UIView animateWithDuration:animated ? 0.3 : 0 animations:^(void) {
         _gridController.view.frame = self.view.bounds;
+
+//        CGRect newPagingFrame = [self frameForPagingScrollView];
+//        newPagingFrame = CGRectOffset(newPagingFrame, 0, (self.startOnGrid ? 1 : -1) * newPagingFrame.size.height);
+//        _pagingScrollView.frame = newPagingFrame;
         _pagingScrollView.frame = CGRectMake(0, -[[UIScreen mainScreen] bounds].size.height - 44.0f - 20.0f, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height);
     } completion:^(BOOL finished) {
         [_gridController didMoveToParentViewController:self];

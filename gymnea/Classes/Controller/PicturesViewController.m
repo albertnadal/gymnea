@@ -8,7 +8,6 @@
 
 #import "PicturesViewController.h"
 #import "MWPhotoBrowser.h"
-#import "SDImageCache.h"
 #import "MWCommon.h"
 #import "GEALabel+Gymnea.h"
 #import <AssetsLibrary/AssetsLibrary.h>
@@ -39,11 +38,6 @@
     {
         [self _initialisation];
         self.delegate = self;
-
-        // Clear cache for testing
-//        [[SDImageCache sharedImageCache] clearDisk];
-//        [[SDImageCache sharedImageCache] clearMemory];
-
         self.needRefreshData = TRUE;
         self.loadingData = FALSE;
 
@@ -91,6 +85,9 @@
                 self.needRefreshData = FALSE;
 
                 [self loadPicturesFromArray:userPictures];
+                [self loadVisuals];
+
+                [[self.loadPicturesHud superview] bringSubviewToFront:self.loadPicturesHud];
 
                 // Hide HUD after 0.3 seconds
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
@@ -98,8 +95,9 @@
                     [self.loadPicturesHud hide:YES];
                     self.loadingData = FALSE;
 
-                    [self loadVisuals];
                     [self viewWillAppear:YES];
+                    [self reloadData];
+
                 });
 
             } else {
@@ -126,32 +124,17 @@
 
     MWPhoto *photo;
 
-/*    for(UserPicture *userPicture in self.picturesList)
+    for(UserPicture *userPicture in picList)
     {
-        photo = [MWPhoto photoWithPictureId:userPicture.pictureId];
-        photo.caption = @"Plantar un pi";
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        [formatter setTimeZone:[NSTimeZone systemTimeZone]];
+
+        photo = [MWPhoto photoWithPictureId:userPicture.pictureId withSize:UserPictureImageSizeBig];
+        photo.caption = [formatter stringFromDate:[userPicture pictureDate]];
         [photos addObject:photo];
-        [thumbs addObject:[MWPhoto photoWithPictureId:userPicture.pictureId]];
-    }*/
-
-
-    // Photos & thumbs
-    photo = [MWPhoto photoWithPictureId:58 withSize:UserPictureImageSizeBig]; //photoWithURL:[NSURL URLWithString:@"http://albertnadal.cat/wp-content/uploads/2013/11/header_plantar_pi-150x150.jpg"]];
-    photo.caption = @"Fotografia 1";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithPictureId:58 withSize:UserPictureImageSizeMedium]]; //photoWithURL:[NSURL URLWithString:@"http://albertnadal.cat/wp-content/uploads/2013/11/header_plantar_pi-150x150.jpg"]]];
-
-    photo = [MWPhoto photoWithPictureId:32 withSize:UserPictureImageSizeBig]; //photoWithURL:[NSURL URLWithString:@"http://albertnadal.cat/wp-content/uploads/2013/11/header_plantar_pi-150x150.jpg"]];
-    photo.caption = @"Fotografia 2";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithPictureId:32 withSize:UserPictureImageSizeMedium]]; //photoWithURL:[NSURL URLWithString:@"http://albertnadal.cat/wp-content/uploads/2013/11/header_plantar_pi-150x150.jpg"]]];
-
-/*
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://albertnadal.cat/wp-content/uploads/2013/03/bunquers_martinet_montella-150x150.jpg"]];
-    photo.caption = @"Bunquers de Martinet";
-    [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://albertnadal.cat/wp-content/uploads/2013/03/bunquers_martinet_montella-150x150.jpg"]]];
-*/
+        [thumbs addObject:[MWPhoto photoWithPictureId:userPicture.pictureId withSize:UserPictureImageSizeMedium]];
+    }
 
     self.photos = photos;
     self.thumbs = thumbs;

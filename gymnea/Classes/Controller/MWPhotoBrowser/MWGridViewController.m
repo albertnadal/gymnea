@@ -44,8 +44,8 @@
         } else {
             // iPhone 4 inch
             _columns = 3, _columnsL = 5;
-            _margin = 0, _gutter = 1;
-            _marginL = 0, _gutterL = 2;
+            _margin = 0.5, _gutter = 0.5;
+            _marginL = 0.5, _gutterL = 0.5;
         }
 
         _initialContentOffset = CGPointMake(0, CGFLOAT_MAX);
