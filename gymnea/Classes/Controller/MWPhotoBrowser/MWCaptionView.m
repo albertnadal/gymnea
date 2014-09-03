@@ -79,8 +79,9 @@ static const CGFloat labelPadding = 10;
     }
 
     _label.numberOfLines = 0;
-    _label.textColor = [UIColor blackColor];
-    _label.font = [UIFont systemFontOfSize:17];
+    _label.textColor = [UIColor colorWithRed:80.0f/255.0f green:80.0f/255.0f blue:80.0f/255.0f alpha:1];
+    _label.font = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f];
+
     if ([_photo respondsToSelector:@selector(caption)]) {
         _label.text = [_photo caption] ? [_photo caption] : @" ";
     }

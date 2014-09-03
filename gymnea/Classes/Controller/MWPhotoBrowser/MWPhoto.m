@@ -23,7 +23,8 @@
 
 @implementation MWPhoto
 
-@synthesize underlyingImage = _underlyingImage; // synth property from protocol
+//@synthesize underlyingImage = _underlyingImage; // synth property from protocol
+@synthesize imatge;
 
 #pragma mark - Class Methods
 
@@ -83,7 +84,7 @@
 #pragma mark - MWPhoto Protocol Methods
 
 - (UIImage *)underlyingImage {
-    return _underlyingImage;
+    return self.imatge;
 }
 
 - (void)loadUnderlyingImageAndNotify {
@@ -98,7 +99,7 @@
         }
     }
     @catch (NSException *exception) {
-        self.underlyingImage = nil;
+        self.imatge = nil;
         _loadingInProgress = NO;
         [self imageLoadingComplete];
     }
@@ -113,57 +114,10 @@
     if (_image) {
         
         // We have UIImage!
-        self.underlyingImage = _image;
+        self.imatge = _image;
         [self imageLoadingComplete];
         
-    } else if ((_photoURL) || (self.pictureId)) {
-        
-        // Check what type of url it is
-        if ([[[_photoURL scheme] lowercaseString] isEqualToString:@"assets-library"]) {
-            
-            // Load from asset library async
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                @autoreleasepool {
-                    @try {
-                        ALAssetsLibrary *assetslibrary = [[ALAssetsLibrary alloc] init];
-                        [assetslibrary assetForURL:_photoURL
-                                       resultBlock:^(ALAsset *asset){
-                                           ALAssetRepresentation *rep = [asset defaultRepresentation];
-                                           CGImageRef iref = [rep fullScreenImage];
-                                           if (iref) {
-                                               self.underlyingImage = [UIImage imageWithCGImage:iref];
-                                           }
-                                           [self performSelectorOnMainThread:@selector(imageLoadingComplete) withObject:nil waitUntilDone:NO];
-                                       }
-                                      failureBlock:^(NSError *error) {
-                                          self.underlyingImage = nil;
-                                          MWLog(@"Photo from asset library error: %@",error);
-                                          [self performSelectorOnMainThread:@selector(imageLoadingComplete) withObject:nil waitUntilDone:NO];
-                                      }];
-                    } @catch (NSException *e) {
-                        MWLog(@"Photo from asset library error: %@", e);
-                        [self performSelectorOnMainThread:@selector(imageLoadingComplete) withObject:nil waitUntilDone:NO];
-                    }
-                }
-            });
-            
-        } else if ([_photoURL isFileReferenceURL]) {
-            
-            // Load from local file async
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                @autoreleasepool {
-                    @try {
-                        self.underlyingImage = [UIImage imageWithContentsOfFile:_photoURL.path];
-                        if (!_underlyingImage) {
-                            MWLog(@"Error loading photo from path: %@", _photoURL.path);
-                        }
-                    } @finally {
-                        [self performSelectorOnMainThread:@selector(imageLoadingComplete) withObject:nil waitUntilDone:NO];
-                    }
-                }
-            });
-            
-        } else {
+    } else if (self.pictureId) {
 
             [[GymneaWSClient sharedInstance] requestImageForUserPicture:self.pictureId
                                                                withSize:self.pictureSize
@@ -173,15 +127,13 @@
                                                             
                                                             if(userPictureImage != nil) {
 
-                                                                self.underlyingImage = userPictureImage;
+                                                                self.imatge = userPictureImage;
                                                                 [self imageLoadingComplete];
 
                                                             }
 
                                                         }
                                                     }];
-
-        }
 
     } else {
         
@@ -194,7 +146,7 @@
 // Release if we can get it again from path or url
 - (void)unloadUnderlyingImage {
     _loadingInProgress = NO;
-	self.underlyingImage = nil;
+	//self.imatge = nil;
 }
 
 - (void)imageLoadingComplete {

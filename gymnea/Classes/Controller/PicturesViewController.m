@@ -17,8 +17,8 @@
     NSMutableArray *_selections;
 }
 
-@property (nonatomic, strong) NSMutableArray *photos;
-@property (nonatomic, strong) NSMutableArray *thumbs;
+@property (nonatomic, retain) NSMutableArray *sourcePhotos;
+@property (nonatomic, retain) NSMutableArray *sourceThumbs;
 @property (nonatomic, strong) ALAssetsLibrary *assetLibrary;
 @property (nonatomic, strong) NSMutableArray *assets;
 
@@ -119,8 +119,8 @@
 
 - (void)loadPicturesFromArray:(NSArray *)picList
 {
-    NSMutableArray *photos = [[NSMutableArray alloc] init];
-    NSMutableArray *thumbs = [[NSMutableArray alloc] init];
+    self.sourcePhotos = [[NSMutableArray alloc] init];
+    self.sourceThumbs = [[NSMutableArray alloc] init];
 
     MWPhoto *photo;
 
@@ -132,15 +132,12 @@
 
         photo = [MWPhoto photoWithPictureId:userPicture.pictureId withSize:UserPictureImageSizeBig];
         photo.caption = [formatter stringFromDate:[userPicture pictureDate]];
-        [photos addObject:photo];
-        [thumbs addObject:[MWPhoto photoWithPictureId:userPicture.pictureId withSize:UserPictureImageSizeMedium]];
+        [self.sourcePhotos addObject:photo];
+        [self.sourceThumbs addObject:[MWPhoto photoWithPictureId:userPicture.pictureId withSize:UserPictureImageSizeMedium]];
     }
 
-    self.photos = photos;
-    self.thumbs = thumbs;
-
     // Create browser
-    
+
     self.displayActionButton = YES;
     self.displayNavArrows = NO;
     self.displaySelectionButtons = NO;
@@ -163,18 +160,18 @@
 #pragma mark - MWPhotoBrowserDelegate
 
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
-    return _photos.count;
+    return self.sourcePhotos.count;
 }
 
 - (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
-    if (index < _photos.count)
-        return [_photos objectAtIndex:index];
+    if (index < self.sourcePhotos.count)
+        return [self.sourcePhotos objectAtIndex:index];
     return nil;
 }
 
 - (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtIndex:(NSUInteger)index {
-    if (index < _thumbs.count)
-        return [_thumbs objectAtIndex:index];
+    if (index < self.sourceThumbs.count)
+        return [self.sourceThumbs objectAtIndex:index];
     return nil;
 }
 
@@ -189,7 +186,7 @@
 //}
 
 - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didDisplayPhotoAtIndex:(NSUInteger)index {
-    NSLog(@"Did start viewing photo at index %lu", (unsigned long)index);
+
 }
 
 - (BOOL)photoBrowser:(MWPhotoBrowser *)photoBrowser isPhotoSelectedAtIndex:(NSUInteger)index {
@@ -202,12 +199,10 @@
 
 - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index selectedChanged:(BOOL)selected {
     [_selections replaceObjectAtIndex:index withObject:[NSNumber numberWithBool:selected]];
-    NSLog(@"Photo at index %lu selected %@", (unsigned long)index, selected ? @"YES" : @"NO");
 }
 
 - (void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
     // If we subscribe to this method we must dismiss the view controller ourselves
-    NSLog(@"Did finish modal presentation");
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

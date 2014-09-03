@@ -161,7 +161,7 @@
     _photoImageView.image = nil;
     if (!_loadingError) {
         _loadingError = [UIImageView new];
-        _loadingError.image = [UIImage imageNamed:@"MWPhotoBrowser.bundle/images/ImageError.png"];
+        _loadingError.image = [UIImage imageNamed:@"ImageError"];
         _loadingError.userInteractionEnabled = NO;
 		_loadingError.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin |
         UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
@@ -251,11 +251,7 @@
 
     // Calculate Max
 	CGFloat maxScale = 3;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        // Let them go a bit bigger on a bigger screen!
-        maxScale = 4;
-    }
-    
+
     // Image is smaller than screen so no zooming!
 	if (xScale >= 1 && yScale >= 1) {
 		minScale = 1.0;
@@ -269,6 +265,7 @@
     self.zoomScale = [self initialZoomScaleWithMinScale];
     
     // If we're zooming to fill then centralise
+/*
     if (self.zoomScale != minScale) {
         // Centralise
         self.contentOffset = CGPointMake((imageSize.width * self.zoomScale - boundsSize.width) / 2.0,
@@ -276,7 +273,7 @@
         // Disable scrolling initially until the first pinch to fix issues with swiping on an initally zoomed in photo
         self.scrollEnabled = NO;
     }
-    
+*/
     // Layout
 	[self setNeedsLayout];
 

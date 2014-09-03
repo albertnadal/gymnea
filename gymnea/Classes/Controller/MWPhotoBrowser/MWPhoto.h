@@ -19,6 +19,7 @@
 @property (nonatomic) int pictureId;
 @property (nonatomic) GymneaUserPictureImageSize pictureSize;
 @property (nonatomic, strong) NSString *caption;
+@property (nonatomic, strong) UIImage *imatge;
 @property (nonatomic, readonly) UIImage *image;
 @property (nonatomic, readonly) NSURL *photoURL;
 @property (nonatomic, readonly) NSString *filePath  __attribute__((deprecated("Use photoURL"))); // Depreciated

@@ -1325,7 +1325,6 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                           
                           for (NSDictionary *userPictureDict in (NSArray *)[responseData objectForKey:@"pictures"]) {
 
-                              NSLog(@"userPictureDict: %@", userPictureDict);
                               UserPicture *userPictureFromDB = [UserPicture getUserPictureInfo:[[userPictureDict objectForKey:@"id"] intValue]];
                               
                               if(userPictureFromDB != nil) {
