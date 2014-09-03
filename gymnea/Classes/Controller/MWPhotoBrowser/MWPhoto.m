@@ -8,16 +8,13 @@
 
 #import "MWPhoto.h"
 #import "MWPhotoBrowser.h"
-#import "SDWebImageDecoder.h"
-#import "SDWebImageManager.h"
-#import "SDWebImageOperation.h"
+#import "GymneaWSClient.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
 @interface MWPhoto () {
 
     BOOL _loadingInProgress;
-    id <SDWebImageOperation> _webImageOperation;
-        
+    
 }
 
 - (void)imageLoadingComplete;
@@ -30,8 +27,8 @@
 
 #pragma mark - Class Methods
 
-+ (MWPhoto *)photoWithPictureId:(int)picId {
-    return [[MWPhoto alloc] initWithPictureId:picId];
++ (MWPhoto *)photoWithPictureId:(int)picId withSize:(GymneaUserPictureImageSize)size; {
+    return [[MWPhoto alloc] initWithPictureId:picId withSize:size];
 }
 
 + (MWPhoto *)photoWithImage:(UIImage *)image {
@@ -49,16 +46,18 @@
 
 #pragma mark - Init
 
-- (id)initWithPictureId:(int)picId
+- (id)initWithPictureId:(int)picId withSize:(GymneaUserPictureImageSize)size
 {
     if ((self = [super init])) {
         self.pictureId = picId;
+        self.pictureSize = size;
     }
     return self;
 }
 
 - (id)initWithImage:(UIImage *)image {
 	if ((self = [super init])) {
+        self.pictureId = 0;
 		_image = image;
 	}
 	return self;
@@ -67,6 +66,7 @@
 // Deprecated
 - (id)initWithFilePath:(NSString *)path {
 	if ((self = [super init])) {
+        self.pictureId = 0;
 		_photoURL = [NSURL fileURLWithPath:path];
 	}
 	return self;
@@ -74,6 +74,7 @@
 
 - (id)initWithURL:(NSURL *)url {
 	if ((self = [super init])) {
+        self.pictureId = 0;
 		_photoURL = [url copy];
 	}
 	return self;
@@ -115,7 +116,7 @@
         self.underlyingImage = _image;
         [self imageLoadingComplete];
         
-    } else if (_photoURL) {
+    } else if ((_photoURL) || (self.pictureId)) {
         
         // Check what type of url it is
         if ([[[_photoURL scheme] lowercaseString] isEqualToString:@"assets-library"]) {
@@ -163,37 +164,25 @@
             });
             
         } else {
-            
-            // Load async from web (using SDWebImage)
-            @try {
-                SDWebImageManager *manager = [SDWebImageManager sharedManager];
-                _webImageOperation = [manager downloadWithURL:_photoURL
-                                                      options:0
-                                                     progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                                                         if (expectedSize > 0) {
-                                                             float progress = receivedSize / (float)expectedSize;
-                                                             NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                                   [NSNumber numberWithFloat:progress], @"progress",
-                                                                                   self, @"photo", nil];
-                                                             [[NSNotificationCenter defaultCenter] postNotificationName:MWPHOTO_PROGRESS_NOTIFICATION object:dict];
-                                                         }
-                                                     }
-                                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                                                        if (error) {
-                                                            MWLog(@"SDWebImage failed to download image: %@", error);
+
+            [[GymneaWSClient sharedInstance] requestImageForUserPicture:self.pictureId
+                                                               withSize:self.pictureSize
+                                                    withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *userPictureImage) {
+
+                                                        if(success==GymneaWSClientRequestSuccess) {
+                                                            
+                                                            if(userPictureImage != nil) {
+
+                                                                self.underlyingImage = userPictureImage;
+                                                                [self imageLoadingComplete];
+
+                                                            }
+
                                                         }
-                                                        _webImageOperation = nil;
-                                                        self.underlyingImage = image;
-                                                        [self imageLoadingComplete];
                                                     }];
-            } @catch (NSException *e) {
-                MWLog(@"Photo from web: %@", e);
-                _webImageOperation = nil;
-                [self imageLoadingComplete];
-            }
-            
+
         }
-        
+
     } else {
         
         // Failed - no source
@@ -222,10 +211,7 @@
 }
 
 - (void)cancelAnyLoading {
-    if (_webImageOperation) {
-        [_webImageOperation cancel];
         _loadingInProgress = NO;
-    }
 }
 
 @end

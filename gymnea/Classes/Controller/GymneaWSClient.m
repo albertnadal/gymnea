@@ -1367,6 +1367,91 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
 }
 
+- (void)requestImageForUserPicture:(int)pictureId
+                          withSize:(GymneaUserPictureImageSize)size
+               withCompletionBlock:(userImageCompletionBlock)completionBlock
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+    
+    UIImage *image = nil;
+    BOOL imageInDB = FALSE;
+    
+    // First try to retrieve the picture from the DB
+    UserPicture *userPicture = [UserPicture getUserPictureInfo:pictureId];
+    
+    if(userPicture) {
+
+            if((size == UserPictureImageSizeMedium) && (userPicture.photoMedium != nil)) {
+                image = [UIImage imageWithData:userPicture.photoMedium];
+            } else if((size == UserPictureImageSizeBig) && (userPicture.photoBig != nil)) {
+                image = [UIImage imageWithData:userPicture.photoBig];
+            }
+
+        if(image != nil) {
+            imageInDB = TRUE;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if(completionBlock != nil) {
+                    completionBlock(GymneaWSClientRequestSuccess, image);
+                }
+            });
+            
+            return;
+        }
+    }
+    
+    if((self.internetIsReachable) && (!imageInDB)) {
+        
+        // Retrieve data from web service API
+
+        NSString *requestPath = nil;
+        if(size == UserPictureImageSizeMedium) {
+            requestPath = [NSString stringWithFormat:@"/body_picture/medium/%d", pictureId];
+        } else if(size == UserPictureImageSizeBig) {
+            requestPath = [NSString stringWithFormat:@"/body_picture/big/%d", pictureId];
+        }
+
+        [self performImageAsyncRequest:requestPath
+                        withDictionary:nil
+                    withAuthentication:auth
+                   withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *image) {
+                       
+                       if(success == GymneaWSClientRequestSuccess) {
+                           // Update the exercise picture in the DB by using the UserInfo model
+
+                           if(size == UserPictureImageSizeMedium) {
+                               [userPicture updateWithPhotoMedium:UIImagePNGRepresentation(image)];
+                           } else if(size == UserPictureImageSizeBig) {
+                               [userPicture updateWithPhotoBig:UIImagePNGRepresentation(image)];
+                           }
+
+                           AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+                           [appDelegate saveContext];
+                       }
+                       
+                       dispatch_async(dispatch_get_main_queue(), ^{
+                           if(completionBlock != nil) {
+                               completionBlock(success, image);
+                           }
+                           
+                       });
+                       
+                   }];
+        
+    } else if(!imageInDB) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(completionBlock != nil) {
+                completionBlock(GymneaWSClientRequestSuccess, nil);
+            }
+            
+        });
+        
+    }
+
+}
+
 - (void)performPDFAsyncRequest:(NSString *)path
                 withDictionary:(NSDictionary *)values
             withAuthentication:(GEAAuthentication *)auth

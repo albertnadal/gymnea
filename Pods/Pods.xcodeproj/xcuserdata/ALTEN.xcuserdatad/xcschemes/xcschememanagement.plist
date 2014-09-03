@@ -34,11 +34,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-SDWebImage.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-URBMediaFocusViewController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -52,47 +47,42 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>19E8E1E519634121BDCC11DD</key>
+		<key>12D97229068C4AC39D77149F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>247F7E474C734F078D0B5FF6</key>
+		<key>170A6467A8B9474AA969B66D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>53D5BEEC2CBB4A2BA59F30F6</key>
+		<key>2CDDE4CC13F840AB92DBDAAA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>68DFFDE6D6DA4E00A1C59B96</key>
+		<key>887198725F694FE6BD573719</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7C1F3A1D22444C03B6B7E732</key>
+		<key>ACDB4A61CCEF45D59C9C82B4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9A496356EDD949FDA035320A</key>
+		<key>B952EC4C8DF24D8F8FA13382</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A139F7AFAD77487387F228A1</key>
+		<key>CA5152CD08CA421F907E1D1F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BD8962B854364FBCAB090387</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>EA4CCCBF5EBD4115B21D3D30</key>
+		<key>E4CF12C57E9F44498E72A257</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -136,16 +136,22 @@
 
 
     // Photos & thumbs
-    photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://albertnadal.cat/wp-content/uploads/2013/11/header_plantar_pi-150x150.jpg"]];
-    photo.caption = @"Plantar un pi";
+    photo = [MWPhoto photoWithPictureId:58 withSize:UserPictureImageSizeBig]; //photoWithURL:[NSURL URLWithString:@"http://albertnadal.cat/wp-content/uploads/2013/11/header_plantar_pi-150x150.jpg"]];
+    photo.caption = @"Fotografia 1";
     [photos addObject:photo];
-    [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://albertnadal.cat/wp-content/uploads/2013/11/header_plantar_pi-150x150.jpg"]]];
+    [thumbs addObject:[MWPhoto photoWithPictureId:58 withSize:UserPictureImageSizeMedium]]; //photoWithURL:[NSURL URLWithString:@"http://albertnadal.cat/wp-content/uploads/2013/11/header_plantar_pi-150x150.jpg"]]];
 
+    photo = [MWPhoto photoWithPictureId:32 withSize:UserPictureImageSizeBig]; //photoWithURL:[NSURL URLWithString:@"http://albertnadal.cat/wp-content/uploads/2013/11/header_plantar_pi-150x150.jpg"]];
+    photo.caption = @"Fotografia 2";
+    [photos addObject:photo];
+    [thumbs addObject:[MWPhoto photoWithPictureId:32 withSize:UserPictureImageSizeMedium]]; //photoWithURL:[NSURL URLWithString:@"http://albertnadal.cat/wp-content/uploads/2013/11/header_plantar_pi-150x150.jpg"]]];
+
+/*
     photo = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://albertnadal.cat/wp-content/uploads/2013/03/bunquers_martinet_montella-150x150.jpg"]];
     photo.caption = @"Bunquers de Martinet";
     [photos addObject:photo];
     [thumbs addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://albertnadal.cat/wp-content/uploads/2013/03/bunquers_martinet_montella-150x150.jpg"]]];
-
+*/
 
     self.photos = photos;
     self.thumbs = thumbs;

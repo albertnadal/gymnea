@@ -149,4 +149,8 @@ typedef void(^userPicturesCompletionBlock)(GymneaWSClientRequestStatus success, 
 
 - (void)requestUserPicturesWithCompletionBlock:(userPicturesCompletionBlock)completionBlock;
 
+- (void)requestImageForUserPicture:(int)pictureId
+                          withSize:(GymneaUserPictureImageSize)size
+               withCompletionBlock:(userImageCompletionBlock)completionBlock;
+
 @end

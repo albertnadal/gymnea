@@ -25,9 +25,6 @@ PODS:
   - MBProgressHUD (0.8)
   - PSTCollectionView (1.2.3)
   - Reachability (3.1.1)
-  - SDWebImage (3.7.1):
-    - SDWebImage/Core
-  - SDWebImage/Core (3.7.1)
   - URBMediaFocusViewController (0.5.5)
 
 DEPENDENCIES:
@@ -38,7 +35,6 @@ DEPENDENCIES:
   - MBProgressHUD (~> 0.8)
   - PSTCollectionView (~> 1.2)
   - Reachability (~> 3.1.1)
-  - SDWebImage (~> 3.7)
   - URBMediaFocusViewController
 
 SPEC CHECKSUMS:
@@ -48,7 +44,6 @@ SPEC CHECKSUMS:
   MBProgressHUD: c356980b0cd097f19acec959b49dca5eb8ec31be
   PSTCollectionView: d9f466e4554cc83260ca9bde7beb27f308e8fd76
   Reachability: 8e9635e3cb4f98e7f825e51147f677ecc694d0e7
-  SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
   URBMediaFocusViewController: 4dff9de3767e60b96ba325c897d4ffa7131a122e
 
 COCOAPODS: 0.33.1
