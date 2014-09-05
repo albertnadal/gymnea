@@ -11,6 +11,8 @@
 #import "MWCommon.h"
 #import "GEALabel+Gymnea.h"
 #import <AssetsLibrary/AssetsLibrary.h>
+#import "NSData+Base64.h"
+#import "UIImage+Resize.h"
 
 @interface PicturesViewController ()<MWPhotoBrowserDelegate>
 {
@@ -263,6 +265,178 @@
         
     });
     
+}
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    NSString *mediaType = info[UIImagePickerControllerMediaType];
+
+    [self showGrid:NO];
+    [self dismissViewControllerAnimated:YES completion:nil];
+
+    if ([mediaType isEqualToString:(NSString *)kUTTypeImage])
+    {
+        UIImage *image = info[UIImagePickerControllerOriginalImage];
+        UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:finishedSavingWithError:contextInfo:), nil);
+
+        image = [self fixrotation:image];
+        CGFloat originalWidth = image.size.width;
+        CGFloat originalHeight = image.size.height;
+
+        CGFloat imageHeight = 600.0f;
+        CGFloat imageWidth = (originalWidth * 600.0f) / originalHeight;
+
+        image = [image resizedImageToFitInSize:CGSizeMake(imageWidth, imageHeight) scaleIfSmaller:YES];
+
+        NSLog(@"W: %f | H: %f", imageWidth, imageHeight);
+
+        UIImage *imageCropped = [self imageByCropping:image toRect:CGRectMake(0, (imageHeight/2.0f) - (imageWidth/2.0f), imageWidth, imageWidth)];
+
+        [_cameraButton setEnabled:FALSE];
+        self.loadPicturesHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.loadPicturesHud.labelText = @"Saving picture";
+
+        NSData *imageData = UIImagePNGRepresentation(imageCropped);
+
+        UserPicture *userPicture = [UserPicture userPictureWithPictureId:0
+                                                             photoMedium:imageData
+                                                                photoBig:imageData
+                                                             pictureDate:[NSDate date]];
+
+        self.loadingData = TRUE;
+
+        GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
+        [gymneaWSClient uploadUserPicture:userPicture
+                      withCompletionBlock:^(GymneaWSClientRequestStatus success, NSNumber *userPictureId) {
+
+            if(success == GymneaWSClientRequestSuccess) {
+
+                // IMPLEMENTAR actualitzar el userPicture amb el userPictureId proporcionat pel servidor
+
+                // Hide HUD after 0.3 seconds
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                    [_cameraButton setEnabled:YES];
+                    [self.loadPicturesHud hide:YES];
+                    self.loadingData = FALSE;
+                    self.needRefreshData = TRUE;
+
+                    // IMPLEMENTAR afegir la nova foto a l'array de fotos del source de fotos
+
+                    [self reloadData];
+                });
+
+            } else {
+
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"An unexpected error occurred. Check your Internet connection and retry again." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                [alert show];
+
+                [self.loadPicturesHud hide:YES];
+                self.loadingData = FALSE;
+                self.needRefreshData = TRUE;
+                [self.noPicturesFoundLabel setHidden:NO];
+            }
+
+        }];
+
+    }
+}
+
+-(UIImage*)imageByCropping:(UIImage *)imageToCrop toRect:(CGRect)rect
+{
+    CGImageRef imageRef = CGImageCreateWithImageInRect([imageToCrop CGImage], rect);
+    UIImage *cropped = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);
+    return cropped;
+}
+
+-(UIImage *)fixrotation:(UIImage *)image
+{
+    if (image.imageOrientation == UIImageOrientationUp) return image;
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    
+    switch (image.imageOrientation) {
+        case UIImageOrientationDown:
+        case UIImageOrientationDownMirrored:
+            transform = CGAffineTransformTranslate(transform, image.size.width, image.size.height);
+            transform = CGAffineTransformRotate(transform, M_PI);
+            break;
+            
+        case UIImageOrientationLeft:
+        case UIImageOrientationLeftMirrored:
+            transform = CGAffineTransformTranslate(transform, image.size.width, 0);
+            transform = CGAffineTransformRotate(transform, M_PI_2);
+            break;
+            
+        case UIImageOrientationRight:
+        case UIImageOrientationRightMirrored:
+            transform = CGAffineTransformTranslate(transform, 0, image.size.height);
+            transform = CGAffineTransformRotate(transform, -M_PI_2);
+            break;
+        case UIImageOrientationUp:
+        case UIImageOrientationUpMirrored:
+            break;
+    }
+    
+    switch (image.imageOrientation) {
+        case UIImageOrientationUpMirrored:
+        case UIImageOrientationDownMirrored:
+            transform = CGAffineTransformTranslate(transform, image.size.width, 0);
+            transform = CGAffineTransformScale(transform, -1, 1);
+            break;
+            
+        case UIImageOrientationLeftMirrored:
+        case UIImageOrientationRightMirrored:
+            transform = CGAffineTransformTranslate(transform, image.size.height, 0);
+            transform = CGAffineTransformScale(transform, -1, 1);
+            break;
+        case UIImageOrientationUp:
+        case UIImageOrientationDown:
+        case UIImageOrientationLeft:
+        case UIImageOrientationRight:
+            break;
+    }
+    
+    // Now we draw the underlying CGImage into a new context, applying the transform
+    // calculated above.
+    CGContextRef ctx = CGBitmapContextCreate(NULL, image.size.width, image.size.height,
+                                             CGImageGetBitsPerComponent(image.CGImage), 0,
+                                             CGImageGetColorSpace(image.CGImage),
+                                             CGImageGetBitmapInfo(image.CGImage));
+    CGContextConcatCTM(ctx, transform);
+    switch (image.imageOrientation) {
+        case UIImageOrientationLeft:
+        case UIImageOrientationLeftMirrored:
+        case UIImageOrientationRight:
+        case UIImageOrientationRightMirrored:
+            // Grr...
+            CGContextDrawImage(ctx, CGRectMake(0,0,image.size.height,image.size.width), image.CGImage);
+            break;
+            
+        default:
+            CGContextDrawImage(ctx, CGRectMake(0,0,image.size.width,image.size.height), image.CGImage);
+            break;
+    }
+    
+    // And now we just create a new UIImage from the drawing context
+    CGImageRef cgimg = CGBitmapContextCreateImage(ctx);
+    UIImage *img = [UIImage imageWithCGImage:cgimg];
+    CGContextRelease(ctx);
+    CGImageRelease(cgimg);
+    return img;
+    
+}
+
+-(void)image:(UIImage *)image finishedSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
+    if (error) {
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle: @"Save failed"
+                              message: @"Failed to save image"
+                              delegate: nil
+                              cancelButtonTitle:@"Ok"
+                              otherButtonTitles:nil];
+        [alert show];
+    }
 }
 
 @end

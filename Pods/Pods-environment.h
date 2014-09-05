@@ -66,6 +66,12 @@
 #define COCOAPODS_VERSION_MINOR_MBProgressHUD 8
 #define COCOAPODS_VERSION_PATCH_MBProgressHUD 0
 
+// NSData+Base64
+#define COCOAPODS_POD_AVAILABLE_NSData_Base64
+#define COCOAPODS_VERSION_MAJOR_NSData_Base64 1
+#define COCOAPODS_VERSION_MINOR_NSData_Base64 0
+#define COCOAPODS_VERSION_PATCH_NSData_Base64 0
+
 // PSTCollectionView
 #define COCOAPODS_POD_AVAILABLE_PSTCollectionView
 #define COCOAPODS_VERSION_MAJOR_PSTCollectionView 1
@@ -77,6 +83,12 @@
 #define COCOAPODS_VERSION_MAJOR_Reachability 3
 #define COCOAPODS_VERSION_MINOR_Reachability 1
 #define COCOAPODS_VERSION_PATCH_Reachability 1
+
+// UIImage-Resize
+#define COCOAPODS_POD_AVAILABLE_UIImage_Resize
+#define COCOAPODS_VERSION_MAJOR_UIImage_Resize 1
+#define COCOAPODS_VERSION_MINOR_UIImage_Resize 0
+#define COCOAPODS_VERSION_PATCH_UIImage_Resize 1
 
 // URBMediaFocusViewController
 #define COCOAPODS_POD_AVAILABLE_URBMediaFocusViewController

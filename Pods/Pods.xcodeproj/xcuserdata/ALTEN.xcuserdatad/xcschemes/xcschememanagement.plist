@@ -24,12 +24,22 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-NSData+Base64.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-PSTCollectionView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>Pods-Reachability.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-UIImage-Resize.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -47,42 +57,52 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>12D97229068C4AC39D77149F</key>
+		<key>027F18372BEB4EAA8085AD79</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>170A6467A8B9474AA969B66D</key>
+		<key>197E3D2722734D50A57042FD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2CDDE4CC13F840AB92DBDAAA</key>
+		<key>27F5702A64F44148BBBFBBDD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>887198725F694FE6BD573719</key>
+		<key>878C9B00F05E4C51929061AA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>ACDB4A61CCEF45D59C9C82B4</key>
+		<key>8BCFA37FF8454D6D87ECCF00</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B952EC4C8DF24D8F8FA13382</key>
+		<key>A17705BD5AB343D5B7087F78</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CA5152CD08CA421F907E1D1F</key>
+		<key>B3CC5AAF8141459BA49D5074</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E4CF12C57E9F44498E72A257</key>
+		<key>B4D2CBFD6B63412BB6152452</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B57C1963BC3343A2A4792815</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D474DBCC6C9B4BC8A6149EBC</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -114,6 +114,7 @@
 		FFF779481985340C0073E0BE /* NextExerciseCountdownViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFF779461985340C0073E0BE /* NextExerciseCountdownViewController.xib */; };
 		FFF826EA19B5D96B00DD3916 /* UserPicture.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF826E919B5D96B00DD3916 /* UserPicture.m */; };
 		FFF826ED19B5DB4400DD3916 /* UserPicture+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF826EC19B5DB4400DD3916 /* UserPicture+Management.m */; };
+		FFF826EF19B8C9E900DD3916 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFF826EE19B8C9E900DD3916 /* MobileCoreServices.framework */; };
 		FFFC076E19AF8450007F2982 /* WorkoutPlayTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFC076C19AF8450007F2982 /* WorkoutPlayTableViewController.m */; };
 		FFFC076F19AF8450007F2982 /* WorkoutPlayTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFFC076D19AF8450007F2982 /* WorkoutPlayTableViewController.xib */; };
 		FFFC077319AF8568007F2982 /* WorkoutPlayTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFC077119AF8568007F2982 /* WorkoutPlayTableViewCell.m */; };
@@ -318,6 +319,7 @@
 		FFF826E919B5D96B00DD3916 /* UserPicture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserPicture.m; path = Classes/Model/UserPicture.m; sourceTree = "<group>"; };
 		FFF826EB19B5DB4400DD3916 /* UserPicture+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UserPicture+Management.h"; sourceTree = "<group>"; };
 		FFF826EC19B5DB4400DD3916 /* UserPicture+Management.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UserPicture+Management.m"; sourceTree = "<group>"; };
+		FFF826EE19B8C9E900DD3916 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		FFFC076B19AF8450007F2982 /* WorkoutPlayTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutPlayTableViewController.h; path = Classes/Controller/WorkoutPlayTableViewController.h; sourceTree = "<group>"; };
 		FFFC076C19AF8450007F2982 /* WorkoutPlayTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutPlayTableViewController.m; path = Classes/Controller/WorkoutPlayTableViewController.m; sourceTree = "<group>"; };
 		FFFC076D19AF8450007F2982 /* WorkoutPlayTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkoutPlayTableViewController.xib; path = Classes/Controller/WorkoutPlayTableViewController.xib; sourceTree = "<group>"; };
@@ -331,6 +333,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFF826EF19B8C9E900DD3916 /* MobileCoreServices.framework in Frameworks */,
 				FFA1377B1969A7C200DBEE68 /* HealthKit.framework in Frameworks */,
 				F78AC13037F04624A2F80D9A /* libPods.a in Frameworks */,
 			);
@@ -745,6 +748,7 @@
 		FFA1378C1969FE7100DBEE68 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FFF826EE19B8C9E900DD3916 /* MobileCoreServices.framework */,
 				FFADD41619884E0E009F14F3 /* AudioToolbox.framework */,
 				FFA1377A1969A7C200DBEE68 /* HealthKit.framework */,
 				F89F9838FFAD409CB7CBD870 /* libPods.a */,

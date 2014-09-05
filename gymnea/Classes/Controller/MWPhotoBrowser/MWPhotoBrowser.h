@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 #import "MWPhoto.h"
 #import "MWPhotoProtocol.h"
 #import "MWCaptionView.h"
@@ -39,8 +40,10 @@
 
 @end
 
-@interface MWPhotoBrowser : UIViewController <UIScrollViewDelegate, MFMailComposeViewControllerDelegate>
-
+@interface MWPhotoBrowser : UIViewController <UIScrollViewDelegate, MFMailComposeViewControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+{
+    UIBarButtonItem *_cameraButton;
+}
 
 @property (nonatomic, retain) id<MWPhotoBrowserDelegate> delegate;
 @property (nonatomic) BOOL zoomPhotosToFill;
@@ -75,5 +78,6 @@
 // Other
 - (void)_initialisation;
 - (void)loadVisuals;
+- (void)showGrid:(BOOL)animated;
 
 @end

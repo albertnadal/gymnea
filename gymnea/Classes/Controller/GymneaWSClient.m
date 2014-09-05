@@ -13,6 +13,7 @@
 #import "Reachability.h"
 #import "GEAAuthentication.h"
 #import "GEAAuthenticationKeychainStore.h"
+#import "NSData+Base64.h"
 
 static const NSString *kWSDomain = @"athlete.gymnea.com";
 
@@ -1447,6 +1448,54 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
             
         });
         
+    }
+
+}
+
+- (void)uploadUserPicture:(UserPicture *)userPicture
+      withCompletionBlock:(uploadUserPictureCompletionBlock)completionBlock
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+
+    if(self.internetIsReachable) {
+
+        // Retrieve data from web service API
+        NSString *requestPath = @"/api/add_picture/add_new_picture";
+
+        NSString *imageDataBase64 = [NSString stringWithFormat:@"data:image/png;base64,%@", [userPicture.photoBig base64EncodedString]];
+        NSLog(@"STRING LENGTH: %d", imageDataBase64.length);
+
+        [self performPOSTAsyncRequest:requestPath
+                       withDictionary:@{@"photo" : imageDataBase64}
+                   withAuthentication:auth
+                  withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
+
+                      //NSLog(@"RESPONSE DATA: %@", responseData);
+
+                      int userPictureId = 0;
+
+                      if(success == GymneaWSClientRequestSuccess) {
+                          userPictureId = [(NSNumber *)[responseData objectForKey:@"id"] intValue];
+                      }
+
+                      dispatch_async(dispatch_get_main_queue(), ^{
+                          if(completionBlock != nil) {
+                              completionBlock(success, [NSNumber numberWithInt:userPictureId]);
+                          }
+
+                      });
+
+                  }];
+    } else {
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(completionBlock != nil) {
+                completionBlock(GymneaWSClientRequestSuccess, [NSNumber numberWithInt:0]);
+            }
+
+        });
+
     }
 
 }

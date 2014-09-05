@@ -23,8 +23,10 @@ PODS:
   - CHTCollectionViewWaterfallLayout (0.7)
   - DACircularProgress (2.2.0)
   - MBProgressHUD (0.8)
+  - NSData+Base64 (1.0.0)
   - PSTCollectionView (1.2.3)
   - Reachability (3.1.1)
+  - UIImage-Resize (1.0.1)
   - URBMediaFocusViewController (0.5.5)
 
 DEPENDENCIES:
@@ -33,8 +35,10 @@ DEPENDENCIES:
   - CHTCollectionViewWaterfallLayout (~> 0.7)
   - DACircularProgress (~> 2.2)
   - MBProgressHUD (~> 0.8)
+  - NSData+Base64 (~> 1.0)
   - PSTCollectionView (~> 1.2)
   - Reachability (~> 3.1.1)
+  - UIImage-Resize (~> 1.0)
   - URBMediaFocusViewController
 
 SPEC CHECKSUMS:
@@ -42,8 +46,10 @@ SPEC CHECKSUMS:
   CHTCollectionViewWaterfallLayout: 184d3b6d5456b48e93ac97e93e606bd8b68aedcc
   DACircularProgress: 3b41941891a56dc6aa17971f5322a9a38a6f446e
   MBProgressHUD: c356980b0cd097f19acec959b49dca5eb8ec31be
+  NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   PSTCollectionView: d9f466e4554cc83260ca9bde7beb27f308e8fd76
   Reachability: 8e9635e3cb4f98e7f825e51147f677ecc694d0e7
+  UIImage-Resize: fc57263eed2cd98f74e5ba4848bedae979a0bdf0
   URBMediaFocusViewController: 4dff9de3767e60b96ba325c897d4ffa7131a122e
 
 COCOAPODS: 0.33.1

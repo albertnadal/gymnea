@@ -12,7 +12,7 @@
 #import "MWPhotoBrowserPrivate.h"
 #import "GEALabel+Gymnea.h"
 
-#define PADDING                  10
+#define PADDING                  0
 
 @implementation MWPhotoBrowser
 
@@ -203,7 +203,7 @@
     
     // Swipe to dismiss
     if (_enableSwipeToDismiss) {
-        UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(doneButtonPressed:)];
+        UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(cameraButtonPressed:)];
         swipeGesture.direction = UISwipeGestureRecognizerDirectionDown | UISwipeGestureRecognizerDirectionUp;
         [self.view addGestureRecognizer:swipeGesture];
     }
@@ -218,22 +218,23 @@
 	// Setup pages
     [_visiblePages removeAllObjects];
     [_recycledPages removeAllObjects];
-/*
+
     // Navigation buttons
     if ([self.navigationController.viewControllers objectAtIndex:0] == self) {
+
         // We're first on stack so show done button
-        _doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStylePlain target:self action:@selector(doneButtonPressed:)];
+        _cameraButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(cameraButtonPressed:)];
         // Set appearance
         if ([UIBarButtonItem respondsToSelector:@selector(appearance)]) {
-            [_doneButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-            [_doneButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
-            [_doneButton setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-            [_doneButton setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsLandscapePhone];
-            [_doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateNormal];
-            [_doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateHighlighted];
+            [_cameraButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+            [_cameraButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
+            [_cameraButton setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+            [_cameraButton setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsLandscapePhone];
+            [_cameraButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateNormal];
+            [_cameraButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateHighlighted];
         }
-        self.navigationItem.rightBarButtonItem = _doneButton;
-    } else {
+        self.navigationItem.rightBarButtonItem = _cameraButton;
+    }/* else {
         // We're not first so show back button
         UIViewController *previousViewController = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
         NSString *backButtonTitle = previousViewController.navigationItem.backBarButtonItem ? previousViewController.navigationItem.backBarButtonItem.title : previousViewController.title;
@@ -1455,9 +1456,32 @@
 
 #pragma mark - Misc
 
-- (void)doneButtonPressed:(id)sender {
+- (void)cameraButtonPressed:(id)sender {
     // Only if we're modal and there's a done button
-    if (_doneButton) {
+
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
+        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+        imagePicker.delegate = self;
+        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        imagePicker.mediaTypes =  @[(NSString *)kUTTypeImage];
+        imagePicker.allowsEditing = NO;
+        CGRect overlayFrame = [[UIScreen mainScreen] bounds];
+        overlayFrame.size.height-=100;
+        UIView *overlayView = [[UIView alloc] initWithFrame:overlayFrame];
+        UIView *topBlack = [[UIView alloc] initWithFrame:CGRectMake(0, 40, [[UIScreen mainScreen] bounds].size.width, 35)];
+        [topBlack setBackgroundColor:[UIColor blackColor]];
+        [overlayView addSubview:topBlack];
+
+        UIView *bottomBlack = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topBlack.frame) + [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.width, 103)];
+        [bottomBlack setBackgroundColor:[UIColor blackColor]];
+        [overlayView addSubview:bottomBlack];
+
+        [imagePicker setCameraOverlayView: overlayView];
+        [self presentViewController:imagePicker animated:YES completion:nil];
+    }
+/*
+    if (_cameraButton) {
         if ([_delegate respondsToSelector:@selector(photoBrowserDidFinishModalPresentation:)]) {
             // Call delegate method and let them dismiss us
             [_delegate photoBrowserDidFinishModalPresentation:self];
@@ -1465,6 +1489,7 @@
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }
+*/
 }
 
 #pragma mark - Actions

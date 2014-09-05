@@ -20,5 +20,7 @@
 - (id)init;
 - (void)loadPicturesFromArray:(NSArray *)picList;
 - (void)loadInitialData;
+- (UIImage*)imageByCropping:(UIImage *)imageToCrop toRect:(CGRect)rect;
+- (UIImage *)fixrotation:(UIImage *)image;
 
 @end

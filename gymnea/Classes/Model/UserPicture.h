@@ -14,6 +14,6 @@
 @property (nonatomic) int32_t pictureId;
 @property (nonatomic, retain) NSData *photoMedium;
 @property (nonatomic, retain) NSData *photoBig;
-@property (nonatomic, retain) NSDate * pictureDate;
+@property (nonatomic, retain) NSDate *pictureDate;
 
 @end
