@@ -213,7 +213,7 @@
     
     // Setup
     _performingLayout = YES;
-    NSUInteger numberOfPhotos = [self numberOfPhotos];
+    //NSUInteger numberOfPhotos = [self numberOfPhotos];
     
 	// Setup pages
     [_visiblePages removeAllObjects];
@@ -234,24 +234,8 @@
             [_cameraButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateHighlighted];
         }
         self.navigationItem.rightBarButtonItem = _cameraButton;
-    }/* else {
-        // We're not first so show back button
-        UIViewController *previousViewController = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
-        NSString *backButtonTitle = previousViewController.navigationItem.backBarButtonItem ? previousViewController.navigationItem.backBarButtonItem.title : previousViewController.title;
-        UIBarButtonItem *newBackButton = [[UIBarButtonItem alloc] initWithTitle:backButtonTitle style:UIBarButtonItemStylePlain target:nil action:nil];
-        // Appearance
-        if ([UIBarButtonItem respondsToSelector:@selector(appearance)]) {
-            [newBackButton setBackButtonBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-            [newBackButton setBackButtonBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
-            [newBackButton setBackButtonBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-            [newBackButton setBackButtonBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsLandscapePhone];
-            [newBackButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateNormal];
-            [newBackButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateHighlighted];
-        }
-        _previousViewControllerBackButton = previousViewController.navigationItem.backBarButtonItem; // remember previous
-        previousViewController.navigationItem.backBarButtonItem = newBackButton;
     }
-*/
+
     // Toolbar items
     BOOL hasItems = NO;
     UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
@@ -268,26 +252,12 @@
     }
 
     // Middle - Nav
-    if (_previousButton && _nextButton && numberOfPhotos > 1) {
-        hasItems = YES;
-        [items addObject:flexSpace];
-        [items addObject:_previousButton];
-        [items addObject:flexSpace];
-        [items addObject:_nextButton];
-        [items addObject:flexSpace];
-    } else {
-        [items addObject:flexSpace];
-    }
+    [items addObject:flexSpace];
+    [items addObject:_actionButton];
+    [items addObject:flexSpace];
 
     // Right - Action
-    if (_actionButton && !(!hasItems && !self.navigationItem.rightBarButtonItem)) {
-        [items addObject:_actionButton];
-    } else {
-        // We're not showing the toolbar so try and show in top right
-        if (_actionButton)
-            self.navigationItem.rightBarButtonItem = _actionButton;
-        [items addObject:fixedSpace];
-    }
+    [items addObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteButtonPressed:)]];//initWithImage:[UIImage imageNamed:@"UIBarButtonItemGrid"] style:UIBarButtonItemStylePlain target:self action:@selector(showGridAnimated)]];
 
     // Toolbar visibility
     [_toolbar setItems:items];
@@ -692,13 +662,10 @@
 }
 
 - (NSUInteger)numberOfPhotos {
-    if (_photoCount == NSNotFound) {
-        if ([_delegate respondsToSelector:@selector(numberOfPhotosInPhotoBrowser:)]) {
-            _photoCount = [_delegate numberOfPhotosInPhotoBrowser:self];
-        } else if (_depreciatedPhotoData) {
-            _photoCount = _depreciatedPhotoData.count;
-        }
+    if ([_delegate respondsToSelector:@selector(numberOfPhotosInPhotoBrowser:)]) {
+        _photoCount = [_delegate numberOfPhotosInPhotoBrowser:self];
     }
+
     if (_photoCount == NSNotFound) _photoCount = 0;
     return _photoCount;
 }
@@ -1143,17 +1110,17 @@
 }
 
 - (void)jumpToPageAtIndex:(NSUInteger)index animated:(BOOL)animated {
-	
+
 	// Change page
 	if (index < [self numberOfPhotos]) {
 		CGRect pageFrame = [self frameForPageAtIndex:index];
         [_pagingScrollView setContentOffset:CGPointMake(pageFrame.origin.x - PADDING, 0) animated:animated];
 		[self updateNavigation];
 	}
-	
+
 	// Update timer to give more time
 	[self hideControlsAfterDelay];
-	
+
 }
 
 - (void)gotoPreviousPage {
@@ -1190,6 +1157,14 @@
 
 #pragma mark - Grid
 
+- (void)deleteGridController
+{
+    if (_gridController) {
+        [_gridController.view removeFromSuperview];
+        _gridController = nil;
+    }
+}
+
 - (void)showGridAnimated {
     [self showGrid:YES];
 }
@@ -1197,7 +1172,7 @@
 - (void)showGrid:(BOOL)animated {
 
     if (_gridController) return;
-    
+
     // Init grid controller
     _gridController = [[MWGridViewController alloc] init];
     [_gridController.view setHidden:YES];
@@ -1218,18 +1193,18 @@
 
     // Stop specific layout being triggered
     _skipNextPagingScrollViewPositioning = YES;
-    
+
     // Add as a child view controller
     [self addChildViewController:_gridController];
     [self.view addSubview:_gridController.view];
 
     // Hide action button on nav bar if it exists
-/*    if (self.navigationItem.rightBarButtonItem == _actionButton) {
+    if (self.navigationItem.rightBarButtonItem == _actionButton) {
         _gridPreviousRightNavItem = _actionButton;
         [self.navigationItem setRightBarButtonItem:nil animated:YES];
     } else {
         _gridPreviousRightNavItem = nil;
-    }*/
+    }
     
     // Update
     [self updateNavigation];
@@ -1493,6 +1468,20 @@
 }
 
 #pragma mark - Actions
+
+- (void)deleteButtonPressed:(id)sender {
+
+    // Only react when image has loaded
+    id <MWPhoto> photo = [self photoAtIndex:_currentPageIndex];
+
+    // If they have defined a delegate method then just message them
+    if ([self.delegate respondsToSelector:@selector(photoBrowser:deleteButtonPressedForPhotoAtIndex:)]) {
+
+        // Let delegate handle things
+        [self.delegate photoBrowser:self deleteButtonPressedForPhotoAtIndex:_currentPageIndex];
+    }
+
+}
 
 - (void)actionButtonPressed:(id)sender {
 

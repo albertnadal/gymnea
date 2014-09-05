@@ -32,6 +32,11 @@
     return [[MWPhoto alloc] initWithPictureId:picId withSize:size];
 }
 
++ (MWPhoto *)photoWithPictureId:(int)picId withSize:(GymneaUserPictureImageSize)size withImage:(UIImage*)image
+{
+    return [[MWPhoto alloc] initWithPictureId:picId withSize:size withImage:image];
+}
+
 + (MWPhoto *)photoWithImage:(UIImage *)image {
 	return [[MWPhoto alloc] initWithImage:image];
 }
@@ -52,6 +57,16 @@
     if ((self = [super init])) {
         self.pictureId = picId;
         self.pictureSize = size;
+    }
+    return self;
+}
+
+- (id)initWithPictureId:(int)picId withSize:(GymneaUserPictureImageSize)size withImage:(UIImage *)image
+{
+    if ((self = [super init])) {
+        self.pictureId = picId;
+        self.pictureSize = size;
+        _image = image;
     }
     return self;
 }

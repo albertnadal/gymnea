@@ -187,6 +187,11 @@
 //    NSLog(@"ACTION!");
 //}
 
+- (void)photoBrowser:(MWPhotoBrowser *)photoBrowser deleteButtonPressedForPhotoAtIndex:(NSUInteger)index
+{
+    NSLog(@"DELETE");
+}
+
 - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didDisplayPhotoAtIndex:(NSUInteger)index {
 
 }
@@ -276,10 +281,10 @@
 
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage])
     {
-        UIImage *image = info[UIImagePickerControllerOriginalImage];
-        UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:finishedSavingWithError:contextInfo:), nil);
+        UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
+        UIImageWriteToSavedPhotosAlbum(originalImage, self, @selector(image:finishedSavingWithError:contextInfo:), nil);
 
-        image = [self fixrotation:image];
+        UIImage *image = [self fixrotation:originalImage];
         CGFloat originalWidth = image.size.width;
         CGFloat originalHeight = image.size.height;
 
@@ -298,44 +303,74 @@
 
         NSData *imageData = UIImagePNGRepresentation(imageCropped);
 
+        UIImage *imageMediumCropped = [imageCropped resizedImageToFitInSize:CGSizeMake(275, 275) scaleIfSmaller:YES];
+        NSData *imageMediumData = UIImagePNGRepresentation(imageMediumCropped);
+
         UserPicture *userPicture = [UserPicture userPictureWithPictureId:0
-                                                             photoMedium:imageData
+                                                             photoMedium:imageMediumData
                                                                 photoBig:imageData
                                                              pictureDate:[NSDate date]];
 
         self.loadingData = TRUE;
 
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        [formatter setTimeZone:[NSTimeZone systemTimeZone]];
+
         GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
         [gymneaWSClient uploadUserPicture:userPicture
                       withCompletionBlock:^(GymneaWSClientRequestStatus success, NSNumber *userPictureId) {
 
-            if(success == GymneaWSClientRequestSuccess) {
+                          // Add the new photo to the sourcePhotos list
+                          MWPhoto *photo = [MWPhoto photoWithPictureId:[userPictureId intValue] withSize:UserPictureImageSizeBig withImage:imageCropped];
+                          photo.caption = [formatter stringFromDate:[userPicture pictureDate]];
+                          [self.sourcePhotos insertObject:photo atIndex:0];
+                          [self.sourceThumbs insertObject:[MWPhoto photoWithPictureId:[userPictureId intValue] withSize:UserPictureImageSizeMedium withImage:imageMediumCropped] atIndex:0];
 
-                // IMPLEMENTAR actualitzar el userPicture amb el userPictureId proporcionat pel servidor
+                          [self deleteGridController];
+                          [self loadVisuals];
+                          [self showGrid:NO];
 
-                // Hide HUD after 0.3 seconds
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                    [_cameraButton setEnabled:YES];
-                    [self.loadPicturesHud hide:YES];
-                    self.loadingData = FALSE;
-                    self.needRefreshData = TRUE;
+                          if(success == GymneaWSClientRequestSuccess) {
+                              
+                              // Hide HUD after 0.3 seconds
+                              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                                  [self.noPicturesFoundLabel setHidden:YES];
+                                  [_cameraButton setEnabled:YES];
+                                  [self.loadPicturesHud hide:YES];
+                                  self.loadingData = FALSE;
+                                  self.needRefreshData = TRUE;
 
-                    // IMPLEMENTAR afegir la nova foto a l'array de fotos del source de fotos
+                                  [self viewWillAppear:YES];
+                                  [self reloadData];
 
-                    [self reloadData];
-                });
+                                  // Show added picture
+                                  [self setCurrentPhotoIndex:0];
+                                  [self hideGrid];
+                              });
+                              
+                          } else {
 
-            } else {
+                              // Hide HUD after 0.3 seconds
+                              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                                  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"An unexpected error occurred. Check your Internet connection and retry again." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                                  [alert show];
+                                  
+                                  [self.loadPicturesHud hide:YES];
+                                  self.loadingData = FALSE;
+                                  self.needRefreshData = TRUE;
+                                  [self.noPicturesFoundLabel setHidden:YES];
+                                  [_cameraButton setEnabled:YES];
+                                  
+                                  [self viewWillAppear:YES];
+                                  [self reloadData];
+                                  
+                                  // Show added picture
+                                  [self setCurrentPhotoIndex:0];
+                                  [self hideGrid];
 
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"An unexpected error occurred. Check your Internet connection and retry again." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-                [alert show];
-
-                [self.loadPicturesHud hide:YES];
-                self.loadingData = FALSE;
-                self.needRefreshData = TRUE;
-                [self.noPicturesFoundLabel setHidden:NO];
-            }
-
+                              });
+                          }
         }];
 
     }
