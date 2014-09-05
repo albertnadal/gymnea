@@ -22,11 +22,15 @@ static NSString * const kEntityName = @"UserPicture";
 
 {
     UserPicture *newUserPicture = (UserPicture *) [NSEntityDescription insertNewObjectForEntityForName:kEntityName inManagedObjectContext:defaultManagedObjectContext()];
-    
+
     [newUserPicture updateWithPictureId:pictureId
                             photoMedium:photoMedium
                                photoBig:photoBig
                             pictureDate:pictureDate];
+
+    if(!pictureId) {
+        newUserPicture.temporalPictureId = 1000 + (arc4random() % 10000000);
+    }
 
     commitDefaultMOC();
     return newUserPicture;
@@ -112,6 +116,15 @@ static NSString * const kEntityName = @"UserPicture";
   return userPictureInfo;
 }
 
++ (UserPicture*)getUserPictureInfoWithTemporalPictureId:(int)tempPictureId
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"temporalPictureId == %d", tempPictureId];
+    
+    UserPicture *userPictureInfo = (UserPicture*) fetchManagedObject(kEntityName, predicate, nil, defaultManagedObjectContext());
+    
+    return userPictureInfo;
+}
+
 - (void)updateWithPhotoMedium:(NSData *)photoMedium
 {
     self.photoMedium = photoMedium;
@@ -140,9 +153,25 @@ static NSString * const kEntityName = @"UserPicture";
 
 + (NSArray *)getUserPictures
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"pictureId > %d", 0];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"pictureId >= %d", 0];
 
     return fetchManagedObjects(kEntityName, predicate, nil, defaultManagedObjectContext());
+}
+
+#pragma mark Delete methods
+
++ (void)deletePictureWithPictureId:(int)pictureId
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"pictureId == %d", pictureId];
+
+    deleteManagedObjects(kEntityName, predicate, defaultManagedObjectContext());
+}
+
++ (void)deletePictureWithTemporalPictureId:(int)temporalPictureId
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"temporalPictureId == %d", temporalPictureId];
+
+    deleteManagedObjects(kEntityName, predicate, defaultManagedObjectContext());
 }
 
 @end

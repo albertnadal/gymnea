@@ -28,13 +28,13 @@
 
 #pragma mark - Class Methods
 
-+ (MWPhoto *)photoWithPictureId:(int)picId withSize:(GymneaUserPictureImageSize)size; {
-    return [[MWPhoto alloc] initWithPictureId:picId withSize:size];
++ (MWPhoto *)photoWithPictureId:(int)picId withTempPictureId:(int)tempPictureId withSize:(GymneaUserPictureImageSize)size; {
+    return [[MWPhoto alloc] initWithPictureId:picId withTempPictureId:tempPictureId withSize:size];
 }
 
-+ (MWPhoto *)photoWithPictureId:(int)picId withSize:(GymneaUserPictureImageSize)size withImage:(UIImage*)image
++ (MWPhoto *)photoWithPictureId:(int)picId withTempPictureId:(int)tempPictureId withSize:(GymneaUserPictureImageSize)size withImage:(UIImage*)image
 {
-    return [[MWPhoto alloc] initWithPictureId:picId withSize:size withImage:image];
+    return [[MWPhoto alloc] initWithPictureId:picId withTempPictureId:tempPictureId withSize:size withImage:image];
 }
 
 + (MWPhoto *)photoWithImage:(UIImage *)image {
@@ -52,20 +52,22 @@
 
 #pragma mark - Init
 
-- (id)initWithPictureId:(int)picId withSize:(GymneaUserPictureImageSize)size
+- (id)initWithPictureId:(int)picId withTempPictureId:(int)tempPictureId withSize:(GymneaUserPictureImageSize)size
 {
     if ((self = [super init])) {
         self.pictureId = picId;
         self.pictureSize = size;
+        self.temporalPictureId = tempPictureId;
     }
     return self;
 }
 
-- (id)initWithPictureId:(int)picId withSize:(GymneaUserPictureImageSize)size withImage:(UIImage *)image
+- (id)initWithPictureId:(int)picId withTempPictureId:(int)tempPictureId withSize:(GymneaUserPictureImageSize)size withImage:(UIImage *)image
 {
     if ((self = [super init])) {
         self.pictureId = picId;
         self.pictureSize = size;
+        self.temporalPictureId = tempPictureId;
         _image = image;
     }
     return self;
@@ -74,6 +76,7 @@
 - (id)initWithImage:(UIImage *)image {
 	if ((self = [super init])) {
         self.pictureId = 0;
+        self.temporalPictureId = 0;
 		_image = image;
 	}
 	return self;
@@ -83,6 +86,7 @@
 - (id)initWithFilePath:(NSString *)path {
 	if ((self = [super init])) {
         self.pictureId = 0;
+        self.temporalPictureId = 0;
 		_photoURL = [NSURL fileURLWithPath:path];
 	}
 	return self;
@@ -91,6 +95,7 @@
 - (id)initWithURL:(NSURL *)url {
 	if ((self = [super init])) {
         self.pictureId = 0;
+        self.temporalPictureId = 0;
 		_photoURL = [url copy];
 	}
 	return self;

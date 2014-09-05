@@ -12,6 +12,7 @@
 @interface UserPicture : NSManagedObject
 
 @property (nonatomic) int32_t pictureId;
+@property (nonatomic) int32_t temporalPictureId;
 @property (nonatomic, retain) NSData *photoMedium;
 @property (nonatomic, retain) NSData *photoBig;
 @property (nonatomic, retain) NSDate *pictureDate;

@@ -17,6 +17,7 @@
 @interface MWPhoto : NSObject <MWPhoto>
 
 @property (nonatomic) int pictureId;
+@property (nonatomic) int temporalPictureId;
 @property (nonatomic) GymneaUserPictureImageSize pictureSize;
 @property (nonatomic, strong) NSString *caption;
 @property (nonatomic, strong) UIImage *imatge;
@@ -24,14 +25,14 @@
 @property (nonatomic, readonly) NSURL *photoURL;
 @property (nonatomic, readonly) NSString *filePath  __attribute__((deprecated("Use photoURL"))); // Depreciated
 
-+ (MWPhoto *)photoWithPictureId:(int)picId withSize:(GymneaUserPictureImageSize)size;
-+ (MWPhoto *)photoWithPictureId:(int)picId withSize:(GymneaUserPictureImageSize)size withImage:(UIImage*)image;
++ (MWPhoto *)photoWithPictureId:(int)picId withTempPictureId:(int)tempPictureId withSize:(GymneaUserPictureImageSize)size;
++ (MWPhoto *)photoWithPictureId:(int)picId withTempPictureId:(int)tempPictureId withSize:(GymneaUserPictureImageSize)size withImage:(UIImage*)image;
 + (MWPhoto *)photoWithImage:(UIImage *)image;
 + (MWPhoto *)photoWithFilePath:(NSString *)path  __attribute__((deprecated("Use photoWithURL: with a file URL"))); // Depreciated
 + (MWPhoto *)photoWithURL:(NSURL *)url;
 
-- (id)initWithPictureId:(int)picId withSize:(GymneaUserPictureImageSize)size;
-- (id)initWithPictureId:(int)picId withSize:(GymneaUserPictureImageSize)size withImage:(UIImage *)image;
+- (id)initWithPictureId:(int)picId withTempPictureId:(int)tempPictureId withSize:(GymneaUserPictureImageSize)size;
+- (id)initWithPictureId:(int)picId withTempPictureId:(int)tempPictureId withSize:(GymneaUserPictureImageSize)size withImage:(UIImage *)image;
 - (id)initWithImage:(UIImage *)image;
 - (id)initWithURL:(NSURL *)url;
 - (id)initWithFilePath:(NSString *)path  __attribute__((deprecated("Use initWithURL: with a file URL"))); // Depreciated

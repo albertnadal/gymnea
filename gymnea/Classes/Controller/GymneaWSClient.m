@@ -32,6 +32,11 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
 typedef void(^responseVideoCompletionBlock)(GymneaWSClientRequestStatus success, NSData *video);
 typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, NSData *pdf);
 
+- (void)performDELETEAsyncRequest:(NSString *)path
+                   withDictionary:(NSDictionary *)values
+               withAuthentication:(GEAAuthentication *)auth
+              withCompletionBlock:(responseCompletionBlock)completionBlock;
+
 - (void)performPOSTAsyncRequest:(NSString *)path
                  withDictionary:(NSDictionary *)values
              withAuthentication:(GEAAuthentication *)auth
@@ -1500,6 +1505,46 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
 }
 
+- (void)deleteUserPicture:(int)pictureId
+      withCompletionBlock:(deleteUserPictureCompletionBlock)completionBlock
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+
+    // First delete the picture saved locally
+    [UserPicture deletePictureWithPictureId:pictureId];
+
+    // Finally delete the picture in the server side
+    if(self.internetIsReachable) {
+        
+        // Retrieve data from web service API
+        NSString *requestPath = [NSString stringWithFormat:@"/api/pictures/picture/%d", pictureId];
+
+        [self performDELETEAsyncRequest:requestPath
+                         withDictionary:nil
+                     withAuthentication:auth
+                    withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
+
+                      dispatch_async(dispatch_get_main_queue(), ^{
+                          if(completionBlock != nil) {
+                              completionBlock(success);
+                          }
+                          
+                      });
+                      
+                  }];
+    } else {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(completionBlock != nil) {
+                completionBlock(GymneaWSClientRequestSuccess);
+            }
+            
+        });
+        
+    }
+}
+
 - (void)performPDFAsyncRequest:(NSString *)path
                 withDictionary:(NSDictionary *)values
             withAuthentication:(GEAAuthentication *)auth
@@ -1787,6 +1832,19 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
     [requestOperation start];
 
+}
+
+- (void)performDELETEAsyncRequest:(NSString *)path
+                   withDictionary:(NSDictionary *)values
+               withAuthentication:(GEAAuthentication *)auth
+              withCompletionBlock:(responseCompletionBlock)completionBlock {
+    
+    [self performAsyncRequest:path
+               withDictionary:values
+           withAuthentication:auth
+                   withMethod:@"DELETE"
+          withCompletionBlock:completionBlock];
+    
 }
 
 - (void)performPOSTAsyncRequest:(NSString *)path

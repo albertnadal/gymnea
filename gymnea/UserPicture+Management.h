@@ -45,6 +45,12 @@ typedef enum _GymneaUserPictureImageSize
 
 + (UserPicture*)getUserPictureInfo:(int)pictureId;
 
++ (UserPicture*)getUserPictureInfoWithTemporalPictureId:(int)tempPictureId;
+
 + (NSArray *)getUserPictures;
+
++ (void)deletePictureWithPictureId:(int)pictureId;
+
++ (void)deletePictureWithTemporalPictureId:(int)temporalPictureId;
 
 @end

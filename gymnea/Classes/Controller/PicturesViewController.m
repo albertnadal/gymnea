@@ -132,10 +132,10 @@
         [formatter setDateFormat:@"yyyy-MM-dd"];
         [formatter setTimeZone:[NSTimeZone systemTimeZone]];
 
-        photo = [MWPhoto photoWithPictureId:userPicture.pictureId withSize:UserPictureImageSizeBig];
+        photo = [MWPhoto photoWithPictureId:userPicture.pictureId withTempPictureId:userPicture.temporalPictureId withSize:UserPictureImageSizeBig];
         photo.caption = [formatter stringFromDate:[userPicture pictureDate]];
         [self.sourcePhotos addObject:photo];
-        [self.sourceThumbs addObject:[MWPhoto photoWithPictureId:userPicture.pictureId withSize:UserPictureImageSizeMedium]];
+        [self.sourceThumbs addObject:[MWPhoto photoWithPictureId:userPicture.pictureId withTempPictureId:userPicture.temporalPictureId withSize:UserPictureImageSizeMedium]];
     }
 
     // Create browser
@@ -150,7 +150,7 @@
     self.enableSwipeToDismiss = YES;
 
     [self setCurrentPhotoIndex:0];
-    
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -189,7 +189,77 @@
 
 - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser deleteButtonPressedForPhotoAtIndex:(NSUInteger)index
 {
-    NSLog(@"DELETE");
+    if(index >= self.sourcePhotos.count) return;
+
+    MWPhoto *photo = (MWPhoto *)[self.sourcePhotos objectAtIndex:index];
+
+    if(photo.pictureId) {
+
+        self.loadingData = TRUE;
+        
+        [self.noPicturesFoundLabel setHidden:YES];
+        self.loadPicturesHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.loadPicturesHud.labelText = @"Removing picture";
+        
+        GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
+        [gymneaWSClient deleteUserPicture:photo.pictureId
+                      withCompletionBlock:^(GymneaWSClientRequestStatus success) {
+
+                          if(success == GymneaWSClientRequestSuccess) {
+                              self.needRefreshData = FALSE;
+
+                              [self.sourcePhotos removeObject:photo];
+                              [self loadVisuals];
+                              
+                              [[self.loadPicturesHud superview] bringSubviewToFront:self.loadPicturesHud];
+                              
+                              // Hide HUD after 0.3 seconds
+                              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                                  [self.noPicturesFoundLabel setHidden:[self.sourcePhotos count]];
+
+                                  [self.loadPicturesHud hide:YES];
+                                  self.loadingData = FALSE;
+                                  
+                                  [self viewWillAppear:YES];
+                                  [self reloadData];
+                                  
+                              });
+                              
+                          } else {
+                              
+                              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"An unexpected error occurred. Check your Internet connection and retry again." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                              [alert show];
+
+                              [self.sourcePhotos removeObject:photo];
+                              [self loadVisuals];
+
+                              [self.loadPicturesHud hide:YES];
+                              self.loadingData = FALSE;
+                              self.needRefreshData = TRUE;
+
+                              [self.noPicturesFoundLabel setHidden:[self.sourcePhotos count]];
+
+                              [self viewWillAppear:YES];
+                              [self reloadData];
+                          }
+
+        }];
+
+    } else if(photo.temporalPictureId) {
+
+        [UserPicture deletePictureWithTemporalPictureId:photo.temporalPictureId];
+        [self.sourcePhotos removeObject:photo];
+        [self loadVisuals];
+
+        self.loadingData = FALSE;
+        self.needRefreshData = TRUE;
+        
+        [self.noPicturesFoundLabel setHidden:[self.sourcePhotos count]];
+
+        [self viewWillAppear:YES];
+        [self reloadData];
+    }
+
 }
 
 - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didDisplayPhotoAtIndex:(NSUInteger)index {
@@ -322,10 +392,10 @@
                       withCompletionBlock:^(GymneaWSClientRequestStatus success, NSNumber *userPictureId) {
 
                           // Add the new photo to the sourcePhotos list
-                          MWPhoto *photo = [MWPhoto photoWithPictureId:[userPictureId intValue] withSize:UserPictureImageSizeBig withImage:imageCropped];
+                          MWPhoto *photo = [MWPhoto photoWithPictureId:[userPictureId intValue] withTempPictureId:0 withSize:UserPictureImageSizeBig withImage:imageCropped];
                           photo.caption = [formatter stringFromDate:[userPicture pictureDate]];
                           [self.sourcePhotos insertObject:photo atIndex:0];
-                          [self.sourceThumbs insertObject:[MWPhoto photoWithPictureId:[userPictureId intValue] withSize:UserPictureImageSizeMedium withImage:imageMediumCropped] atIndex:0];
+                          [self.sourceThumbs insertObject:[MWPhoto photoWithPictureId:[userPictureId intValue] withTempPictureId:0 withSize:UserPictureImageSizeMedium withImage:imageMediumCropped] atIndex:0];
 
                           [self deleteGridController];
                           [self loadVisuals];

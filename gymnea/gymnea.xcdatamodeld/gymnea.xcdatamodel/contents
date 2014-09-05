@@ -45,6 +45,7 @@
         <attribute name="photoMedium" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="pictureDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="pictureId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="temporalPictureId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="Workout" representedClassName="Workout" syncable="YES">
         <attribute name="downloaded" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -86,10 +87,10 @@
         <element name="Exercise" positionX="-101" positionY="225" width="128" height="180"/>
         <element name="ExerciseDetail" positionX="-252" positionY="222" width="128" height="255"/>
         <element name="UserInfo" positionX="-254" positionY="3" width="128" height="210"/>
+        <element name="UserPicture" positionX="-45" positionY="153" width="128" height="120"/>
         <element name="Workout" positionX="52" positionY="-0" width="128" height="180"/>
         <element name="WorkoutDay" positionX="241" positionY="62" width="128" height="133"/>
         <element name="WorkoutDayExercise" positionX="52" positionY="225" width="128" height="178"/>
         <element name="WorkoutDetail" positionX="-101" positionY="-0" width="128" height="103"/>
-        <element name="UserPicture" positionX="-45" positionY="153" width="128" height="103"/>
     </elements>
 </model>

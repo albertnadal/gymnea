@@ -12,6 +12,7 @@
 @implementation UserPicture
 
 @dynamic pictureId;
+@dynamic temporalPictureId;
 @dynamic photoMedium;
 @dynamic photoBig;
 @dynamic pictureDate;

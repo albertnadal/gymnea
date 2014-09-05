@@ -50,6 +50,7 @@ typedef void(^workoutsCompletionBlock)(GymneaWSClientRequestStatus success, NSAr
 typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
 typedef void(^userPicturesCompletionBlock)(GymneaWSClientRequestStatus success, NSArray *userPictures);
 typedef void(^uploadUserPictureCompletionBlock)(GymneaWSClientRequestStatus success, NSNumber *userPictureId);
+typedef void(^deleteUserPictureCompletionBlock)(GymneaWSClientRequestStatus success);
 
 @interface GymneaWSClient : NSObject<NSURLConnectionDelegate, NSURLSessionDelegate>
 {
@@ -156,5 +157,8 @@ typedef void(^uploadUserPictureCompletionBlock)(GymneaWSClientRequestStatus succ
 
 - (void)uploadUserPicture:(UserPicture *)userPicture
       withCompletionBlock:(uploadUserPictureCompletionBlock)completionBlock;
+
+- (void)deleteUserPicture:(int)pictureId
+      withCompletionBlock:(deleteUserPictureCompletionBlock)completionBlock;
 
 @end
