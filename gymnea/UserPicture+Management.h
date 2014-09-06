@@ -29,6 +29,8 @@ typedef enum _GymneaUserPictureImageSize
                    photoBig:(NSData*)photoBig
                 pictureDate:(NSDate*)pictureDate;
 
+- (void)updateWithUserPictureId:(int)pictureId;
+
 - (void)updateWithPhotoMedium:(NSData *)photoMedium;
 
 - (void)updateWithPhotoBig:(NSData *)photoBig;

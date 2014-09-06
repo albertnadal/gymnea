@@ -17,14 +17,17 @@
 @interface PicturesViewController ()<MWPhotoBrowserDelegate>
 {
     NSMutableArray *_selections;
+    UIImage *lastPhotoTaken;
 }
 
 @property (nonatomic, retain) NSMutableArray *sourcePhotos;
 @property (nonatomic, retain) NSMutableArray *sourceThumbs;
 @property (nonatomic, strong) ALAssetsLibrary *assetLibrary;
 @property (nonatomic, strong) NSMutableArray *assets;
+@property (nonatomic, retain) UIImage *lastPhotoTaken;
 
 - (void)loadAssets;
+- (void)uploadLastPhotoTaken;
 
 @end
 
@@ -32,6 +35,7 @@
 
 @synthesize loadingData;
 @synthesize needRefreshData;
+@synthesize lastPhotoTaken;
 
 - (id)init
 {
@@ -42,6 +46,7 @@
         self.delegate = self;
         self.needRefreshData = TRUE;
         self.loadingData = FALSE;
+        self.lastPhotoTaken = FALSE;
 
         [self loadAssets];
 
@@ -208,7 +213,8 @@
                           if(success == GymneaWSClientRequestSuccess) {
                               self.needRefreshData = FALSE;
 
-                              [self.sourcePhotos removeObject:photo];
+                              [self.sourcePhotos removeObjectAtIndex:index];
+                              [self.sourceThumbs removeObjectAtIndex:index];
                               [self loadVisuals];
                               
                               [[self.loadPicturesHud superview] bringSubviewToFront:self.loadPicturesHud];
@@ -219,9 +225,10 @@
 
                                   [self.loadPicturesHud hide:YES];
                                   self.loadingData = FALSE;
-                                  
-                                  [self viewWillAppear:YES];
+                                  self.needRefreshData = FALSE;
+
                                   [self reloadData];
+                                  [self viewWillAppear:YES];
                                   
                               });
                               
@@ -230,7 +237,8 @@
                               UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"An unexpected error occurred. Check your Internet connection and retry again." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
                               [alert show];
 
-                              [self.sourcePhotos removeObject:photo];
+                              [self.sourcePhotos removeObjectAtIndex:index];
+                              [self.sourceThumbs removeObjectAtIndex:index];
                               [self loadVisuals];
 
                               [self.loadPicturesHud hide:YES];
@@ -248,7 +256,8 @@
     } else if(photo.temporalPictureId) {
 
         [UserPicture deletePictureWithTemporalPictureId:photo.temporalPictureId];
-        [self.sourcePhotos removeObject:photo];
+        [self.sourcePhotos removeObjectAtIndex:index];
+        [self.sourceThumbs removeObjectAtIndex:index];
         [self loadVisuals];
 
         self.loadingData = FALSE;
@@ -342,108 +351,107 @@
     
 }
 
+- (void)uploadLastPhotoTaken
+{
+     UIImageWriteToSavedPhotosAlbum(self.lastPhotoTaken, self, @selector(image:finishedSavingWithError:contextInfo:), nil);
+     UIImage *fixedRotationImage = [self fixrotation:self.lastPhotoTaken];
+     CGFloat originalWidth = fixedRotationImage.size.width;
+     CGFloat originalHeight = fixedRotationImage.size.height;
+     
+     CGFloat imageHeight = 774.0f;
+     CGFloat imageWidth = (originalWidth * 774.0f) / originalHeight;
+     
+     UIImage *image = [fixedRotationImage resizedImageToFitInSize:CGSizeMake(imageWidth, imageHeight) scaleIfSmaller:YES];
+     
+     UIImage *imageCropped = [self imageByCropping:image toRect:CGRectMake(0, (imageHeight/2.0f) - (imageWidth/2.0f), imageWidth, imageWidth)];
+    
+     UIImage *imageMediumCropped = [imageCropped resizedImageToFitInSize:CGSizeMake(275, 275) scaleIfSmaller:YES];
+
+    UserPicture *userPicture = [UserPicture userPictureWithPictureId:0
+                                                         photoMedium:UIImagePNGRepresentation(imageMediumCropped)
+                                                            photoBig:UIImagePNGRepresentation(imageCropped)
+                                                         pictureDate:[NSDate date]];
+
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    [formatter setTimeZone:[NSTimeZone systemTimeZone]];
+    
+    [[GymneaWSClient sharedInstance] uploadUserPicture:userPicture
+                                   withCompletionBlock:^(GymneaWSClientRequestStatus success, NSNumber *userPictureId) {
+
+                                       // Add the new photo to the sourcePhotos list
+
+                                        MWPhoto *photo = [MWPhoto photoWithPictureId:[userPictureId intValue] withTempPictureId:[userPicture temporalPictureId] withSize:UserPictureImageSizeBig withImage:imageCropped];
+                                        photo.caption = [formatter stringFromDate:[userPicture pictureDate]];
+                                        [self.sourcePhotos insertObject:photo atIndex:0];
+                                        [self.sourceThumbs insertObject:[MWPhoto photoWithPictureId:[userPictureId intValue] withTempPictureId:[userPicture temporalPictureId] withSize:UserPictureImageSizeMedium withImage:imageMediumCropped] atIndex:0];
+
+                                       
+                                       [self deleteGridController];
+                                       [self loadVisuals];
+                                       [self showGrid:NO];
+                                       
+                                       if(success == GymneaWSClientRequestSuccess) {
+                                           
+                                           // Hide HUD after 0.3 seconds
+                                           dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+
+                                               [self.noPicturesFoundLabel setHidden:YES];
+                                               [_cameraButton setEnabled:YES];
+                                               [self.loadPicturesHud hide:YES];
+                                               self.loadingData = FALSE;
+                                               self.needRefreshData = TRUE;
+                                               
+                                               [self viewWillAppear:YES];
+                                               [self reloadData];
+                                               
+                                               // Show added picture
+                                               [self setCurrentPhotoIndex:0];
+                                               [self hideGrid];
+                                           });
+                                           
+                                       } else {
+                                           
+                                           // Hide HUD after 0.3 seconds
+                                           dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                                               UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"An unexpected error occurred. Check your Internet connection and retry again." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                                               [alert show];
+                                               
+                                               [self.loadPicturesHud hide:YES];
+                                               self.loadingData = FALSE;
+                                               self.needRefreshData = TRUE;
+                                               [self.noPicturesFoundLabel setHidden:YES];
+                                               [_cameraButton setEnabled:YES];
+                                               
+                                               [self viewWillAppear:YES];
+                                               [self reloadData];
+                                               
+                                               // Show added picture
+                                               [self setCurrentPhotoIndex:0];
+                                               [self hideGrid];
+                                               
+                                           });
+                                       }
+                                       
+                            }];
+    
+}
+
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    NSString *mediaType = info[UIImagePickerControllerMediaType];
-
     [self showGrid:NO];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    self.lastPhotoTaken = info[UIImagePickerControllerOriginalImage];
 
-    if ([mediaType isEqualToString:(NSString *)kUTTypeImage])
-    {
-        UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
-        UIImageWriteToSavedPhotosAlbum(originalImage, self, @selector(image:finishedSavingWithError:contextInfo:), nil);
-
-        UIImage *image = [self fixrotation:originalImage];
-        CGFloat originalWidth = image.size.width;
-        CGFloat originalHeight = image.size.height;
-
-        CGFloat imageHeight = 600.0f;
-        CGFloat imageWidth = (originalWidth * 600.0f) / originalHeight;
-
-        image = [image resizedImageToFitInSize:CGSizeMake(imageWidth, imageHeight) scaleIfSmaller:YES];
-
-        NSLog(@"W: %f | H: %f", imageWidth, imageHeight);
-
-        UIImage *imageCropped = [self imageByCropping:image toRect:CGRectMake(0, (imageHeight/2.0f) - (imageWidth/2.0f), imageWidth, imageWidth)];
+    [self dismissViewControllerAnimated:YES completion:^{
 
         [_cameraButton setEnabled:FALSE];
         self.loadPicturesHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.loadPicturesHud.labelText = @"Saving picture";
-
-        NSData *imageData = UIImagePNGRepresentation(imageCropped);
-
-        UIImage *imageMediumCropped = [imageCropped resizedImageToFitInSize:CGSizeMake(275, 275) scaleIfSmaller:YES];
-        NSData *imageMediumData = UIImagePNGRepresentation(imageMediumCropped);
-
-        UserPicture *userPicture = [UserPicture userPictureWithPictureId:0
-                                                             photoMedium:imageMediumData
-                                                                photoBig:imageData
-                                                             pictureDate:[NSDate date]];
-
         self.loadingData = TRUE;
 
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy-MM-dd"];
-        [formatter setTimeZone:[NSTimeZone systemTimeZone]];
+        [self performSelector:@selector(uploadLastPhotoTaken) withObject:nil afterDelay:0.3];
 
-        GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
-        [gymneaWSClient uploadUserPicture:userPicture
-                      withCompletionBlock:^(GymneaWSClientRequestStatus success, NSNumber *userPictureId) {
-
-                          // Add the new photo to the sourcePhotos list
-                          MWPhoto *photo = [MWPhoto photoWithPictureId:[userPictureId intValue] withTempPictureId:0 withSize:UserPictureImageSizeBig withImage:imageCropped];
-                          photo.caption = [formatter stringFromDate:[userPicture pictureDate]];
-                          [self.sourcePhotos insertObject:photo atIndex:0];
-                          [self.sourceThumbs insertObject:[MWPhoto photoWithPictureId:[userPictureId intValue] withTempPictureId:0 withSize:UserPictureImageSizeMedium withImage:imageMediumCropped] atIndex:0];
-
-                          [self deleteGridController];
-                          [self loadVisuals];
-                          [self showGrid:NO];
-
-                          if(success == GymneaWSClientRequestSuccess) {
-                              
-                              // Hide HUD after 0.3 seconds
-                              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                                  [self.noPicturesFoundLabel setHidden:YES];
-                                  [_cameraButton setEnabled:YES];
-                                  [self.loadPicturesHud hide:YES];
-                                  self.loadingData = FALSE;
-                                  self.needRefreshData = TRUE;
-
-                                  [self viewWillAppear:YES];
-                                  [self reloadData];
-
-                                  // Show added picture
-                                  [self setCurrentPhotoIndex:0];
-                                  [self hideGrid];
-                              });
-                              
-                          } else {
-
-                              // Hide HUD after 0.3 seconds
-                              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                                  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"An unexpected error occurred. Check your Internet connection and retry again." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-                                  [alert show];
-                                  
-                                  [self.loadPicturesHud hide:YES];
-                                  self.loadingData = FALSE;
-                                  self.needRefreshData = TRUE;
-                                  [self.noPicturesFoundLabel setHidden:YES];
-                                  [_cameraButton setEnabled:YES];
-                                  
-                                  [self viewWillAppear:YES];
-                                  [self reloadData];
-                                  
-                                  // Show added picture
-                                  [self setCurrentPhotoIndex:0];
-                                  [self hideGrid];
-
-                              });
-                          }
-        }];
-
-    }
+    }];
 }
 
 -(UIImage*)imageByCropping:(UIImage *)imageToCrop toRect:(CGRect)rect

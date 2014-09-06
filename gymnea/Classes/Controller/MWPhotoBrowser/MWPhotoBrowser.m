@@ -80,6 +80,8 @@
     _thumbPhotos = [[NSMutableArray alloc] init];
     _currentGridContentOffset = CGPointMake(0, CGFLOAT_MAX);
     _didSavePreviousStateOfNavBar = NO;
+    photoIndexToDelete = 0;
+
     if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]){
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
@@ -658,7 +660,10 @@
         [self performLayout];
         [self.view setNeedsLayout];
     }
-    
+
+    if(_gridController) {
+        [_gridController.collectionView reloadData];
+    }
 }
 
 - (NSUInteger)numberOfPhotos {
@@ -1441,6 +1446,7 @@
         imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
         imagePicker.mediaTypes =  @[(NSString *)kUTTypeImage];
         imagePicker.allowsEditing = NO;
+
         CGRect overlayFrame = [[UIScreen mainScreen] bounds];
         overlayFrame.size.height-=100;
         UIView *overlayView = [[UIView alloc] initWithFrame:overlayFrame];
@@ -1455,32 +1461,38 @@
         [imagePicker setCameraOverlayView: overlayView];
         [self presentViewController:imagePicker animated:YES completion:nil];
     }
-/*
-    if (_cameraButton) {
-        if ([_delegate respondsToSelector:@selector(photoBrowserDidFinishModalPresentation:)]) {
-            // Call delegate method and let them dismiss us
-            [_delegate photoBrowserDidFinishModalPresentation:self];
-        } else  {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }
-    }
-*/
 }
 
 #pragma mark - Actions
 
 - (void)deleteButtonPressed:(id)sender {
 
-    // Only react when image has loaded
-    id <MWPhoto> photo = [self photoAtIndex:_currentPageIndex];
+    photoIndexToDelete = _currentPageIndex;
 
-    // If they have defined a delegate method then just message them
-    if ([self.delegate respondsToSelector:@selector(photoBrowser:deleteButtonPressedForPhotoAtIndex:)]) {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Delete confirmation"
+                                                    message:@"Do you really want to delete this picture?"
+                                                   delegate:self
+                                          cancelButtonTitle:@"Cancel"
+                                          otherButtonTitles:@"Delete", nil];
+    
+    [alert setTag:2];
+    [alert show];
 
-        // Let delegate handle things
-        [self.delegate photoBrowser:self deleteButtonPressedForPhotoAtIndex:_currentPageIndex];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if([alertView tag] == 2)
+    {
+        if(buttonIndex == 1)
+        {
+            // Delete the picture at index
+            if ([self.delegate respondsToSelector:@selector(photoBrowser:deleteButtonPressedForPhotoAtIndex:)]) {
+                
+                [self.delegate photoBrowser:self deleteButtonPressedForPhotoAtIndex:photoIndexToDelete];
+            }
+        }
     }
-
 }
 
 - (void)actionButtonPressed:(id)sender {

@@ -29,7 +29,7 @@ static NSString * const kEntityName = @"UserPicture";
                             pictureDate:pictureDate];
 
     if(!pictureId) {
-        newUserPicture.temporalPictureId = 1000 + (arc4random() % 10000000);
+        newUserPicture.temporalPictureId = 1000 + (arc4random() % 1000000);
     }
 
     commitDefaultMOC();
@@ -123,6 +123,13 @@ static NSString * const kEntityName = @"UserPicture";
     UserPicture *userPictureInfo = (UserPicture*) fetchManagedObject(kEntityName, predicate, nil, defaultManagedObjectContext());
     
     return userPictureInfo;
+}
+
+- (void)updateWithUserPictureId:(int)pictureId
+{
+    self.pictureId = pictureId;
+    
+    commitDefaultMOC();
 }
 
 - (void)updateWithPhotoMedium:(NSData *)photoMedium

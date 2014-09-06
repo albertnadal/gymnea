@@ -41,9 +41,10 @@
 
 @end
 
-@interface MWPhotoBrowser : UIViewController <UIScrollViewDelegate, MFMailComposeViewControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface MWPhotoBrowser : UIViewController <UIScrollViewDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 {
     UIBarButtonItem *_cameraButton;
+    int photoIndexToDelete;
 }
 
 @property (nonatomic, retain) id<MWPhotoBrowserDelegate> delegate;

@@ -1467,21 +1467,22 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
         // Retrieve data from web service API
         NSString *requestPath = @"/api/add_picture/add_new_picture";
-
         NSString *imageDataBase64 = [NSString stringWithFormat:@"data:image/png;base64,%@", [userPicture.photoBig base64EncodedString]];
-        NSLog(@"STRING LENGTH: %d", imageDataBase64.length);
 
-        [self performPOSTAsyncRequest:requestPath
+        [self performPUTAsyncRequest:requestPath
                        withDictionary:@{@"photo" : imageDataBase64}
                    withAuthentication:auth
                   withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
-
-                      //NSLog(@"RESPONSE DATA: %@", responseData);
-
                       int userPictureId = 0;
 
                       if(success == GymneaWSClientRequestSuccess) {
-                          userPictureId = [(NSNumber *)[responseData objectForKey:@"id"] intValue];
+                          userPictureId = [(NSNumber *)[responseData objectForKey:@"pictureId"] intValue];
+
+                          // Update the picture id from the register in the DB
+                          [userPicture updateWithUserPictureId:userPictureId];
+
+                          AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+                          [appDelegate saveContext];
                       }
 
                       dispatch_async(dispatch_get_main_queue(), ^{
@@ -1931,13 +1932,16 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
     NSError *error;
     if(values != nil) {
-        NSData *postData = [NSJSONSerialization dataWithJSONObject:values options:0 error:&error];
-        [request setHTTPBody:postData];
+        [request setHTTPBody:[NSJSONSerialization dataWithJSONObject:values options:0 error:&error]];
     }
 
     NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:Nil];
 
+    sessionConfiguration.requestCachePolicy = NSURLRequestUseProtocolCachePolicy;
+    NSURLCache *cache = [[NSURLCache alloc] initWithMemoryCapacity:1024 * 100 diskCapacity:1024 * 100 diskPath:@"gymnea.urlcache"];
+    sessionConfiguration.URLCache = cache;
+
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:Nil];
 
     NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request
                                                     completionHandler:^(NSData *responseData, NSURLResponse *urlResponse, NSError *error) {
