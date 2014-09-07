@@ -64,6 +64,7 @@
 
 - (void)loadMainContainer
 {
+/*
     UIViewController *favoritesViewController = [[UIViewController alloc] init];
     [favoritesViewController.view setFrame:CGRectMake(0,0,320,690)];
     CGRect frame = favoritesViewController.navigationController.toolbar.frame;
@@ -77,7 +78,7 @@
     [favoritesController.interactivePopGestureRecognizer setEnabled:NO];
     // Add the screen title
     favoritesViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Dashboard" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
-    
+*/
     
     
     
@@ -190,7 +191,7 @@
     
     
     
-    
+/*
     UIViewController *favorites4ViewController = [[UIViewController alloc] init];
     [favorites4ViewController.view setFrame:CGRectMake(0,0,320,690)];
     CGRect frame4 = favorites4ViewController.navigationController.toolbar.frame;
@@ -204,13 +205,13 @@
     [favorites4Controller.interactivePopGestureRecognizer setEnabled:NO];
     // Add the screen title
     favorites4ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Classes" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+*/
     
     
     
     
     
-    
-    
+/*
     UIViewController *favorites5ViewController = [[UIViewController alloc] init];
     [favorites5ViewController.view setFrame:CGRectMake(0,0,320,690)];
     CGRect frame5 = favorites5ViewController.navigationController.toolbar.frame;
@@ -224,7 +225,7 @@
     [favorites5Controller.interactivePopGestureRecognizer setEnabled:NO];
     // Add the screen title
     favorites5ViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Health / Logs" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
-    
+*/
     
     
     
@@ -260,6 +261,25 @@
 
 
 
+    
+    
+    
+    
+    
+    
+     UIViewController *settingsViewController = [[UIViewController alloc] init];
+     settingsViewController.edgesForExtendedLayout = UIRectEdgeNone;
+     [settingsViewController.view setBackgroundColor:[UIColor whiteColor]];
+     UITabBarItem *settingsTabBarItem = [[UITabBarItem alloc] initWithTitle:@"Settings" image:[UIImage imageNamed:@"sidebar-settings-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-settings-icon"]];
+     [settingsViewController setTabBarItem:settingsTabBarItem];
+     UINavigationController *settingsController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
+     [settingsController.interactivePopGestureRecognizer setEnabled:NO];
+     settingsViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Settings" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+
+    
+    
+    
+
 
 
 
@@ -291,7 +311,7 @@
 
     // Side menu
     GEASideMenuController *sideMenuController = [[GEASideMenuController alloc] init];
-    sideMenuController.viewControllers = @[favoritesController, favorites2Controller, exercisesController, favorites4Controller, favorites5Controller, picturesController /*picturesController*/];
+    sideMenuController.viewControllers = @[favorites2Controller, exercisesController, picturesController, settingsController];
     
     [[[UIApplication sharedApplication] keyWindow] setRootViewController:sideMenuController];
 }
