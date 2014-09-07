@@ -83,11 +83,6 @@
     
     
     CurrentWorkoutDetailViewController *currentWorkoutViewController = [[CurrentWorkoutDetailViewController alloc] init];
-    currentWorkoutViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-//    CGRect viewControllerFrame = currentWorkoutViewController.navigationController.toolbar.frame;
-//    viewControllerFrame.origin.y = 20;
-//    currentWorkoutViewController.navigationController.toolbar.frame = viewControllerFrame;
-//    currentWorkoutViewController.edgesForExtendedLayout = UIRectEdgeNone;
     [currentWorkoutViewController setTitle:@"Current"];
 
     GenericWorkoutsViewController *workoutsViewController = [[GenericWorkoutsViewController alloc] init];
@@ -108,6 +103,7 @@
     [downloadedWorkoutsViewController setTitle:@"Downloaded"];
 
     GEAScrollableTabBarController *scrollableTabBarController = [[GEAScrollableTabBarController alloc] init];
+    //scrollableTabBarController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     [scrollableTabBarController.view setFrame:CGRectMake(0,0,320,690)];
     [scrollableTabBarController setViewControllers:@[currentWorkoutViewController, workoutsViewController, /*customWorkoutsViewController,*/ savedWorkoutsViewController, downloadedWorkoutsViewController]];
 
@@ -267,14 +263,14 @@
     
     
     
-     UIViewController *settingsViewController = [[UIViewController alloc] init];
-     settingsViewController.edgesForExtendedLayout = UIRectEdgeNone;
-     [settingsViewController.view setBackgroundColor:[UIColor whiteColor]];
-     UITabBarItem *settingsTabBarItem = [[UITabBarItem alloc] initWithTitle:@"Settings" image:[UIImage imageNamed:@"sidebar-settings-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-settings-icon"]];
-     [settingsViewController setTabBarItem:settingsTabBarItem];
-     UINavigationController *settingsController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
-     [settingsController.interactivePopGestureRecognizer setEnabled:NO];
-     settingsViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Settings" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+     UIViewController *accountViewController = [[UIViewController alloc] init];
+     accountViewController.edgesForExtendedLayout = UIRectEdgeNone;
+     [accountViewController.view setBackgroundColor:[UIColor whiteColor]];
+     UITabBarItem *accountTabBarItem = [[UITabBarItem alloc] initWithTitle:@"Account" image:[UIImage imageNamed:@"sidebar-account-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-account-icon"]];
+     [accountViewController setTabBarItem:accountTabBarItem];
+     UINavigationController *accountController = [[UINavigationController alloc] initWithRootViewController:accountViewController];
+     [accountController.interactivePopGestureRecognizer setEnabled:NO];
+     accountViewController.navigationItem.titleView = [[GEALabel alloc] initWithText:@"Account" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
     
     
@@ -311,7 +307,7 @@
 
     // Side menu
     GEASideMenuController *sideMenuController = [[GEASideMenuController alloc] init];
-    sideMenuController.viewControllers = @[favorites2Controller, exercisesController, picturesController, settingsController];
+    sideMenuController.viewControllers = @[favorites2Controller, exercisesController, picturesController, accountController];
     
     [[[UIApplication sharedApplication] keyWindow] setRootViewController:sideMenuController];
 }

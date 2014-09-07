@@ -43,6 +43,8 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     NSArray *exercisePhotoGender;
     NSArray *exercisePhotoOrder;
     int photoIndex;
+
+    BOOL showPlayButton;
 }
 
 @property (nonatomic, retain) Exercise *exercise;
@@ -105,7 +107,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 @synthesize exercise, exerciseDetail, exerciseId, popover, detailsView;
 
-- (id)initWithExercise:(Exercise *)exercise_
+- (id)initWithExercise:(Exercise *)exercise_ showPlayButton:(BOOL)show
 {
     if(self = [super initWithNibName:@"ExerciseDetailViewController" bundle:nil])
     {
@@ -115,6 +117,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         photoIndex = 0;
         exercisePhotoGender = @[ [NSNumber numberWithInteger:ExerciseImageMale], [NSNumber numberWithInteger:ExerciseImageMale], [NSNumber numberWithInteger:ExerciseImageFemale], [NSNumber numberWithInteger:ExerciseImageFemale] ];
         exercisePhotoOrder = @[ [NSNumber numberWithInteger:ExerciseImageFirst], [NSNumber numberWithInteger:ExerciseImageSecond], [NSNumber numberWithInteger:ExerciseImageFirst], [NSNumber numberWithInteger:ExerciseImageSecond] ];
+        showPlayButton = show;
     }
 
     return self;
@@ -132,7 +135,9 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
             [self updateEventDetailData];       // Updates the UI from model
 
             [self.scroll setHidden:NO];
-            [self.buyContainer setHidden:NO];
+            if(showPlayButton) {
+                [self.buyContainer setHidden:NO];
+            }
 
             [self addActionsButton];
             [self loadNextExercisePicture];
@@ -448,7 +453,9 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     CGFloat scrollContentLength = self.bannerContainer.frame.size.height + self.basicInfoContainer.frame.size.height + kGEASpaceBetweenLabels + self.dealContainer.frame.size.height + self.segmentContainer.frame.size.height + heightSegmentSelectedOption + kGEASpaceBetweenLabels;
 
     [self.scroll setContentSize:CGSizeMake([[UIScreen mainScreen] bounds].size.width, scrollContentLength)];
-    [self.scroll setFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, self.buyContainer.frame.origin.y - 1.0f)];
+    if(!showPlayButton) {
+        [self.scroll setFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height - 44.0f - 20.0f)];
+    }
 }
 
 - (void)updateBannerData
@@ -498,12 +505,17 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 {
     [super viewDidLoad];
 
+    self.view.autoresizingMask = UIViewAutoresizingNone;
+
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:nil
                                                                             action:nil];
+
+    [self.view setFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 44.0f - 20.0f)];
+    NSLog(@"Y: %f H: %f", self.view.frame.origin.y, self.view.frame.size.height);
 
     self.navigationItem.titleView = [[GEALabel alloc] initWithText:[self.exercise name] fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
@@ -649,7 +661,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     bannerFrame.size.width = (bannerFrame.size.height * [[UIScreen mainScreen] bounds].size.width) / self.banner.image.size.height;
     bannerFrame.origin.y = -offsetAmplified + (offsetAmplifiedDiff/2.0f);
     bannerFrame.origin.x = ([[UIScreen mainScreen] bounds].size.width - bannerFrame.size.width) / 2.0f;
-    [self.banner setFrame:bannerFrame];
+    [self.banner setFrame:CGRectIntegral(bannerFrame)];
 
 }
 

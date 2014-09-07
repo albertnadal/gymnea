@@ -158,4 +158,15 @@
     }];
 }
 
+- (void)updateScroll
+{
+    CGFloat heightSegmentSelectedOption = self.showingDetails ? self.detailsView.frame.size.height : [self.workoutDaysTableViewController getHeight];
+    CGFloat scrollContentLength = self.bannerContainer.frame.size.height + self.basicInfoContainer.frame.size.height + kGEASpaceBetweenLabels + self.dealContainer.frame.size.height + self.segmentContainer.frame.size.height + heightSegmentSelectedOption + kGEASpaceBetweenLabels;
+    
+    [self.scroll setContentSize:CGSizeMake([[UIScreen mainScreen] bounds].size.width, scrollContentLength)];
+    
+    self.scroll.delaysContentTouches = YES;
+    self.scroll.canCancelContentTouches = NO;
+}
+
 @end

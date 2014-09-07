@@ -8,20 +8,6 @@
 
 #import "WorkoutDetailViewController.h"
 
-#define DETAILS_SEGMENT_INDEX 0
-#define WORKOUT_DAYS_SEGMENT_INDEX 1
-
-static float const kGEASpaceBetweenLabels = 15.0f;
-static float const kGEAContainerPadding = 7.0f;
-static float const kGEAHorizontalMargin = 11.0f;
-static float const kGEADescriptionButtonMargin = 10.0f;
-
-// Banner setup
-static CGFloat const kGEABannerZoomFactor = 0.65f;
-static CGFloat const kGEABannerOffsetFactor = 0.45f;
-static float const kGEABannerTransitionCrossDissolveDuration = 0.3f;
-static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeholder";
-
 @interface WorkoutDetailViewController ()
 
 
@@ -271,7 +257,9 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
                                                 }
                                                 
                                                 [self updateBannerData];
-                                                [self updateWorkoutDetailData];       // Updates the UI from model
+                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                    [self updateWorkoutDetailData];       // Updates the UI from model
+                                                });
 
                                             }
 
@@ -662,7 +650,8 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     CGFloat scrollContentLength = self.bannerContainer.frame.size.height + self.basicInfoContainer.frame.size.height + kGEASpaceBetweenLabels + self.dealContainer.frame.size.height + self.segmentContainer.frame.size.height + heightSegmentSelectedOption + kGEASpaceBetweenLabels;
 
     [self.scroll setContentSize:CGSizeMake([[UIScreen mainScreen] bounds].size.width, scrollContentLength)];
-    [self.scroll setFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, self.buyContainer.frame.origin.y - 1.0f)];
+    [self.scroll setFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 44.0f - 20.0f)];
+
     self.scroll.delaysContentTouches = YES;
     self.scroll.canCancelContentTouches = NO;
 }
@@ -713,6 +702,8 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 - (void)loadWorkoutView
 {
+    [self.view setFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 44.0f - 20.0f)];
+
     self.navigationItem.titleView = [[GEALabel alloc] initWithText:[self.workout name] fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
     
     self.loadWorkoutHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -856,7 +847,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     bannerFrame.size.width = (bannerFrame.size.height * [[UIScreen mainScreen] bounds].size.width) / self.banner.image.size.height;
     bannerFrame.origin.y = -offsetAmplified + (offsetAmplifiedDiff/2.0f);
     bannerFrame.origin.x = ([[UIScreen mainScreen] bounds].size.width - bannerFrame.size.width) / 2.0f;
-    [self.banner setFrame:bannerFrame];
+    [self.banner setFrame:CGRectIntegral(bannerFrame)];
 
 }
 
@@ -985,13 +976,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 {
     Exercise *exercise = [Exercise getExerciseInfo:exerciseId];
     
-    ExerciseDetailViewController *viewController = [[ExerciseDetailViewController alloc] initWithExercise:exercise];
-    viewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    viewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    CGRect viewControllerFrame = viewController.navigationController.toolbar.frame;
-    viewControllerFrame.origin.y = 20;
-    viewController.navigationController.toolbar.frame = viewControllerFrame;
-    viewController.edgesForExtendedLayout = UIRectEdgeNone;
+    ExerciseDetailViewController *viewController = [[ExerciseDetailViewController alloc] initWithExercise:exercise showPlayButton:NO];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 

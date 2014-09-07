@@ -11,6 +11,6 @@
 
 @interface ExerciseDetailViewController : UIViewController
 
-- (id)initWithExercise:(Exercise *)exercise_;
+- (id)initWithExercise:(Exercise *)exercise_ showPlayButton:(BOOL)show;
 
 @end

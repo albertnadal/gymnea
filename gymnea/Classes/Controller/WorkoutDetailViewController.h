@@ -23,6 +23,20 @@
 #import "ExerciseDetailViewController.h"
 #import "MBProgressHUD.h"
 
+#define DETAILS_SEGMENT_INDEX 0
+#define WORKOUT_DAYS_SEGMENT_INDEX 1
+
+static float const kGEASpaceBetweenLabels = 15.0f;
+static float const kGEAContainerPadding = 7.0f;
+static float const kGEAHorizontalMargin = 11.0f;
+static float const kGEADescriptionButtonMargin = 10.0f;
+
+// Banner setup
+static CGFloat const kGEABannerZoomFactor = 0.65f;
+static CGFloat const kGEABannerOffsetFactor = 0.45f;
+static float const kGEABannerTransitionCrossDissolveDuration = 0.3f;
+static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeholder";
+
 @interface WorkoutDetailViewController : UIViewController <GEAPopoverViewControllerDelegate, UIScrollViewDelegate, ChooseWorkoutDayViewControllerDelegate, WorkoutDayTableViewControllerDelegate, UIAlertViewDelegate, UIDocumentInteractionControllerDelegate>
 {
     Workout *workout;

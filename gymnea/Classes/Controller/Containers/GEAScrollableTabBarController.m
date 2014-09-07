@@ -82,10 +82,10 @@ static const CGFloat kVTSTabBarBackTapTresshold = 110.0f;
   tabBarBackground.image = [UIImage imageNamed:@"ScrollableTabBarBg"];
   
   // Create the content scroll view
-  self.contentScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 44.0f, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds) - 44.0f)];
+  self.contentScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 44.0f, CGRectGetWidth(self.view.bounds), [[UIScreen mainScreen] bounds].size.height - CGRectGetHeight(self.tabBarScrollView.bounds) - 44.0f - 20.0f)];
   self.contentScrollView.delaysContentTouches = YES;
   self.contentScrollView.canCancelContentTouches = NO;
-  self.contentScrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+  //self.contentScrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
   self.contentScrollView.backgroundColor = [UIColor whiteColor];
   self.contentScrollView.alwaysBounceHorizontal = YES;
   self.contentScrollView.showsHorizontalScrollIndicator = NO;

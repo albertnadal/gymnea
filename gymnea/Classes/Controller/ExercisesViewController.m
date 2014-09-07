@@ -245,13 +245,7 @@
 {
     Exercise *exercise = (Exercise *)[self.exercisesList objectAtIndex:indexPath.row];
 
-    ExerciseDetailViewController *viewController = [[ExerciseDetailViewController alloc] initWithExercise:exercise];
-    viewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    viewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    CGRect viewControllerFrame = viewController.navigationController.toolbar.frame;
-    viewControllerFrame.origin.y = 20;
-    viewController.navigationController.toolbar.frame = viewControllerFrame;
-    viewController.edgesForExtendedLayout = UIRectEdgeNone;
+    ExerciseDetailViewController *viewController = [[ExerciseDetailViewController alloc] initWithExercise:exercise showPlayButton:YES];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
