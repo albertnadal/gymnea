@@ -262,7 +262,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
                                          withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *image) {
 
                                              if(image == nil) {
-                                                 image = [UIImage imageNamed:@"exercise-default-thumbnail"];
+                                                 image = [UIImage imageNamed:@"workout-banner-placeholder"];
                                              }
 
                                              UIImage *imageCropped = [self imageByCropping:image toRect:CGRectMake(0, (image.size.height/2.0f) - (120.0f/2.0f), image.size.width, 120.0f)];

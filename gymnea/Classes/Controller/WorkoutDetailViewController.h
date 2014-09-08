@@ -92,6 +92,8 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 @property (nonatomic) int totalWorkoutExercises;
 @property (nonatomic, retain) UIDocumentInteractionController *documentController;
 @property (nonatomic, retain) NSURL *pdfFileURL;
+@property (nonatomic, retain) IBOutlet UIView *currentWorkoutGuideView;
+@property (nonatomic, retain) UIScrollView *currentWorkoutGuideScroll;
 
 
 - (id)initWithWorkout:(Workout *)workout_;

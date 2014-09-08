@@ -50,33 +50,63 @@
         Workout *latest_current_workout = [userInfo getUserCurrentWorkout];
 
         // If the latest current workout retrieved from the web server is the same locally then there is no necessary to reload
-        if(latest_current_workout.workoutId == self.workout.workoutId) {
+        if((latest_current_workout.workoutId == self.workout.workoutId) && (latest_current_workout != nil)) {
             return;
         }
-
-        self.workout = latest_current_workout;
-
-        self.navigationItem.titleView = [[GEALabel alloc] initWithText:[self.workout name] fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
         if(self.loadWorkoutHud) {
             [self.loadWorkoutHud hide:YES];
         }
 
-        self.loadWorkoutHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self.loadWorkoutHud.labelText = @"Loading current workout";
+        self.navigationItem.titleView = [[GEALabel alloc] initWithText:@"" fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
-        self.descriptionButton.layer.borderWidth = 1.0f;
-        self.descriptionButton.layer.borderColor = [UIColor colorWithRed:111.0/255.0 green:190.0/255.0 blue:226.0/255.0 alpha:1.0].CGColor;
-        self.descriptionButton.layer.cornerRadius = 2.0;
-        UIBezierPath *descriptionBackgroundViewShadowPath = [UIBezierPath bezierPathWithRect:self.descriptionButton.bounds];
-        self.descriptionButton.layer.shadowPath = descriptionBackgroundViewShadowPath.CGPath;
+        self.workout = latest_current_workout;
 
-        [self.scroll setHidden:YES];
-        [self.buyContainer setHidden:YES];
+        if(self.workout != nil) {
 
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-            [self loadWorkoutDetailData];
-        });
+            // This user have a current workout.
+            self.navigationItem.titleView = [[GEALabel alloc] initWithText:[self.workout name] fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+
+            self.loadWorkoutHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            self.loadWorkoutHud.labelText = @"Loading current workout";
+            
+            self.descriptionButton.layer.borderWidth = 1.0f;
+            self.descriptionButton.layer.borderColor = [UIColor colorWithRed:111.0/255.0 green:190.0/255.0 blue:226.0/255.0 alpha:1.0].CGColor;
+            self.descriptionButton.layer.cornerRadius = 2.0;
+            UIBezierPath *descriptionBackgroundViewShadowPath = [UIBezierPath bezierPathWithRect:self.descriptionButton.bounds];
+            self.descriptionButton.layer.shadowPath = descriptionBackgroundViewShadowPath.CGPath;
+            
+            [self.scroll setHidden:YES];
+            [self.buyContainer setHidden:YES];
+            if(self.currentWorkoutGuideScroll) {
+                [self.currentWorkoutGuideScroll setHidden:YES];
+            }
+
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                [self loadWorkoutDetailData];
+            });
+
+        } else {
+            // This use doest not have a workout set as current workout. Show the instructions view.
+            NSLog(@"No workout assigned yet!");
+
+            [self.scroll setHidden:YES];
+            [self.buyContainer setHidden:YES];
+
+            if(!self.currentWorkoutGuideScroll) {
+                self.currentWorkoutGuideScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, self.view.frame.size.height)];
+                [self.currentWorkoutGuideScroll setContentSize:CGSizeMake([[UIScreen mainScreen] bounds].size.width, self.currentWorkoutGuideView.frame.size.height)];
+                self.currentWorkoutGuideScroll.delaysContentTouches = YES;
+                self.currentWorkoutGuideScroll.canCancelContentTouches = NO;
+                [self.currentWorkoutGuideScroll addSubview:self.currentWorkoutGuideView];
+                [self.view addSubview:self.currentWorkoutGuideScroll];
+                [self.currentWorkoutGuideScroll setBackgroundColor:[UIColor whiteColor]];
+                [self.currentWorkoutGuideScroll setOpaque:YES];
+            }
+
+            [self.currentWorkoutGuideScroll setHidden:NO];
+
+        }
 
     });
 }
@@ -89,8 +119,19 @@
                                                  name:GEANotificationUserInfoUpdated
                                                object:nil];
 
+
     self.navigationItem.titleView = [[GEALabel alloc] initWithText:[self.workout name] fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
+
+    self.descriptionButton.layer.borderWidth = 1.0f;
+    self.descriptionButton.layer.borderColor = [UIColor colorWithRed:111.0/255.0 green:190.0/255.0 blue:226.0/255.0 alpha:1.0].CGColor;
+    self.descriptionButton.layer.cornerRadius = 2.0;
+    UIBezierPath *descriptionBackgroundViewShadowPath = [UIBezierPath bezierPathWithRect:self.descriptionButton.bounds];
+    self.descriptionButton.layer.shadowPath = descriptionBackgroundViewShadowPath.CGPath;
     
+    [self.scroll setHidden:YES];
+    [self.buyContainer setHidden:YES];
+
+
     if(self.workout != nil) {
 
         if(self.loadWorkoutHud) {
@@ -113,6 +154,15 @@
             [self loadWorkoutDetailData];
         });
         
+    } else {
+
+        // No current workout assigned yet locally, waiting for server. Show the loading indicator while waiting for the GEANotificationUserInfoUpdated notification.
+        if(self.loadWorkoutHud) {
+            [self.loadWorkoutHud hide:YES];
+        }
+
+        self.loadWorkoutHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.loadWorkoutHud.labelText = @"Checking for current workout";
     }
 }
 
