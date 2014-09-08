@@ -515,7 +515,6 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
                                                                             action:nil];
 
     [self.view setFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 44.0f - 20.0f)];
-    NSLog(@"Y: %f H: %f", self.view.frame.origin.y, self.view.frame.size.height);
 
     self.navigationItem.titleView = [[GEALabel alloc] initWithText:[self.exercise name] fontSize:21.0f frame:CGRectMake(0.0f,0.0f,200.0f,30.0f)];
 
@@ -573,44 +572,6 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     ExerciseDescriptionViewController *edvc = [[ExerciseDescriptionViewController alloc] initWithName:self.exercise.name withDescription:self.exerciseDetail.exerciseDescription];
     [self.navigationController pushViewController:edvc animated:YES];
 }
-
-/*
-- (IBAction)buyNow:(id)sender
-{
-#warning the following event detail fake is used only for testing purposes. This must use the event detail information provided by the web service
-    EventDetail *eventDetailTest = [[EventDetail alloc] init];
-    [eventDetailTest setEventId:1];
-    [eventDetailTest setBannerUrl:@"http://www.lafruitera.com/img_banner_fake.png"];
-    [eventDetailTest setEventUrl:@"http://www.albertnadal.cat"];
-    [eventDetailTest setTitle:@"Luces de Bohemia de Ramon del Valle-Inclán. Luces de Bohemia de Ramon del Valle-Inclán. Luces de Bohemia de Ramon del Valle-Inclán."];
-    [eventDetailTest setCompany:@"Gerry McCambridge"];
-    [eventDetailTest setRating:8];
-    [eventDetailTest setDescription:@"Gerry McCambridge has one of the most unique acts in Las Vegas as well as one of the most unique job titles: Mentalist.\n\nAs a mentalist, Gerry reads the minds of random audience members and predicts the outcome of random situations during the performance.\nThe entire show is also laced with comedy and plenty of audience interaction, making each performance a different experience.\n\nAccess Hollywood calls it “Amazing!”. Nominated “Best Magician in Las Vegas” and voted “World’s Best Entertainer” in his field, Gerry thrills audiences with his ability to get inside the minds of others. You won’t believe it until you see him LIVE!"];
-
-    NSDateComponents *comps = [[NSDateComponents alloc] init];
-    [comps setDay:1];
-    [comps setMonth:4];
-    [comps setYear:2013];
-    [eventDetailTest setStartDate:[[NSCalendar currentCalendar] dateFromComponents:comps]];
-
-    [comps setDay:1];
-    [comps setMonth:6];
-    [comps setYear:2013];
-    [eventDetailTest setEndDate:[[NSCalendar currentCalendar] dateFromComponents:comps]];
-
-    [eventDetailTest setMinPrice:35];
-    [eventDetailTest setMaxPrice:120];
-    [eventDetailTest setMinimalAge:18];
-    [eventDetailTest setAddress:@"Variety Theater\n3667 Las Vegas Blvd South\nLas Vegas, NV 89109\nUnited States"];
-    [eventDetailTest setLatitude:41.403571f];
-    [eventDetailTest setLongitude:2.174472f];
-
-    [eventDetailTest setTimes:@[@"5:00 PM", @"7:00 PM", @"9:00 PM", @"11:00 PM"]];
-
-//    PurchaseDateAndTimesViewController *pdtvc = [[PurchaseDateAndTimesViewController alloc] initWithEvent:eventDetailTest];
-//    [self.navigationController pushViewController:pdtvc animated:YES];
-
-}*/
 
 - (NSDictionary*)parseURLParams:(NSString *)query
 {

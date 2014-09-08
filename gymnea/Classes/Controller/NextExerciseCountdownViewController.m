@@ -22,6 +22,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *exerciseTitleLabel;
 @property (nonatomic, weak) IBOutlet UILabel *exerciseSetsAndRepetitionsLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *thumbnail;
+@property (nonatomic, weak) IBOutlet UIView *buttonsView;
 @property (nonatomic, retain) NSTimer *countdownTemporizer;
 @property (assign) SystemSoundID countdownSound;
 
@@ -44,6 +45,15 @@
     }
 
     return self;
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+
+    CGRect buttonsViewFrame = self.buttonsView.frame;
+    buttonsViewFrame.origin.y = [[UIScreen mainScreen] bounds].size.height - CGRectGetHeight(buttonsViewFrame);
+    self.buttonsView.frame = buttonsViewFrame;
 }
 
 - (void)viewDidLoad

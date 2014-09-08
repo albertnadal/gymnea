@@ -19,6 +19,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *workoutTitleLabel;
 @property (nonatomic, weak) IBOutlet UILabel *workoutDayTitleLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *thumbnail;
+@property (nonatomic, weak) IBOutlet UIView *buttonsView;
 
 - (IBAction)discardResults:(id)sender;
 - (IBAction)saveResults:(id)sender;
@@ -36,6 +37,15 @@
     }
 
     return self;
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    CGRect buttonsViewFrame = self.buttonsView.frame;
+    buttonsViewFrame.origin.y = [[UIScreen mainScreen] bounds].size.height - CGRectGetHeight(buttonsViewFrame);
+    self.buttonsView.frame = buttonsViewFrame;
 }
 
 - (void)viewDidLoad

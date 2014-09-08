@@ -99,6 +99,28 @@
     return [NSArray arrayWithArray:workoutDaySequenceTemp];
 }
 
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+
+    CGRect startContainerViewFrame = self.startContainerView.frame;
+    startContainerViewFrame.origin.y = [[UIScreen mainScreen] bounds].size.height - 44.0f - 20.0f - CGRectGetHeight(startContainerViewFrame);
+    self.startContainerView.frame = startContainerViewFrame;
+    NSLog(@"Y: %f", self.startContainerView.frame.origin.y);
+    
+    self.workoutPlayTableViewController = [[WorkoutPlayTableViewController alloc] initWithExercises:self.workoutDay.workoutDayExercises];
+    
+    CGRect workoutDayFrame = self.workoutPlayTableViewController.view.frame;
+    workoutDayFrame.origin.x = 0.0f;
+    workoutDayFrame.origin.y = 0.0f;
+    workoutDayFrame.size.width = [[UIScreen mainScreen] bounds].size.width;
+    workoutDayFrame.size.height = self.startContainerView.frame.origin.y;
+    
+    [self.workoutPlayTableViewController.view setFrame:workoutDayFrame];
+    [self.view addSubview:self.workoutPlayTableViewController.view];
+    [self.view bringSubviewToFront:self.startContainerView];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -111,19 +133,6 @@
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:nil
                                                                             action:nil];
-
-    self.workoutPlayTableViewController = [[WorkoutPlayTableViewController alloc] initWithExercises:self.workoutDay.workoutDayExercises];
-
-    CGRect workoutDayFrame = self.workoutPlayTableViewController.view.frame;
-    workoutDayFrame.origin.x = 0.0f;
-    workoutDayFrame.origin.y = 0.0f;
-    workoutDayFrame.size.width = [[UIScreen mainScreen] bounds].size.width;
-    workoutDayFrame.size.height = self.startContainerView.frame.origin.y;
-    
-    [self.workoutPlayTableViewController.view setFrame:workoutDayFrame];
-    [self.view addSubview:self.workoutPlayTableViewController.view];
-    [self.view bringSubviewToFront:self.startContainerView];
-
 }
 
 - (IBAction)startWorkout:(id)sender

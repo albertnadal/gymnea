@@ -17,6 +17,7 @@
 @property (nonatomic, retain) NSURL *videoFileURL;
 @property (nonatomic, weak) IBOutlet UILabel *repetitionsLabel;
 @property (nonatomic, weak) IBOutlet UILabel *setLabel;
+@property (nonatomic, weak) IBOutlet UIView *buttonsView;
 @property (strong, nonatomic) MPMoviePlayerController *videoPlayer;
 
 - (IBAction)showOptionsMenu:(id)sender;
@@ -34,6 +35,15 @@
     }
 
     return self;
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    CGRect buttonsViewFrame = self.buttonsView.frame;
+    buttonsViewFrame.origin.y = [[UIScreen mainScreen] bounds].size.height - CGRectGetHeight(buttonsViewFrame);
+    self.buttonsView.frame = buttonsViewFrame;
 }
 
 - (void)viewDidLoad
