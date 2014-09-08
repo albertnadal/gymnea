@@ -21,6 +21,7 @@
 #import "GEAScrollableTabBarController.h"
 #import "ExerciseDetailViewController.h"
 #import "PicturesViewController.h"
+#import "AccountViewController.h"
 
 @interface StartViewController ()
 {
@@ -263,7 +264,7 @@
     
     
     
-     UIViewController *accountViewController = [[UIViewController alloc] init];
+     AccountViewController *accountViewController = [[AccountViewController alloc] init];
      accountViewController.edgesForExtendedLayout = UIRectEdgeNone;
      [accountViewController.view setBackgroundColor:[UIColor whiteColor]];
      UITabBarItem *accountTabBarItem = [[UITabBarItem alloc] initWithTitle:@"Account" image:[UIImage imageNamed:@"sidebar-account-icon-unselected"] selectedImage:[UIImage imageNamed:@"sidebar-account-icon"]];
