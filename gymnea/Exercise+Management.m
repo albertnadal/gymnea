@@ -468,15 +468,11 @@ static NSString * const kEntityName = @"Exercise";
     }
 }
 
-/*
-
-#pragma mark Delete methods
-
-+ (void) cleanDataToDate:(NSDate *)toDate
++ (void)deleteAll
 {
-  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"lastUpdateDate < %@", toDate];
-  
-  deleteManagedObjects(kEntityName, predicate, defaultManagedObjectContext());  
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"exerciseId >= 0"];
+    
+    deleteManagedObjects(kEntityName, predicate, defaultManagedObjectContext());
 }
-*/
+
 @end

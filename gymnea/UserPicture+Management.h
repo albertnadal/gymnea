@@ -55,4 +55,6 @@ typedef enum _GymneaUserPictureImageSize
 
 + (void)deletePictureWithTemporalPictureId:(int)temporalPictureId;
 
++ (void)deleteAll;
+
 @end

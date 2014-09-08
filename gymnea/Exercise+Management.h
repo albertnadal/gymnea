@@ -85,4 +85,6 @@ typedef enum _GymneaExerciseImageGender
                              withLevel:(GymneaExerciseLevel)levelId
                               withName:(NSString *)searchText;
 
++ (void)deleteAll;
+
 @end

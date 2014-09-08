@@ -61,6 +61,17 @@
     return YES;
 }
 
+- (void)showInitialView
+{
+    InitialViewController *initialViewController = [[InitialViewController alloc] initWithNibName:@"InitialViewController" bundle:nil];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:initialViewController];
+    self.window.rootViewController = navigationController;
+
+    [navigationController setNavigationBarHidden:YES animated:NO];
+    [self.window setBackgroundColor:[UIColor whiteColor]];
+    [self.window makeKeyAndVisible];
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

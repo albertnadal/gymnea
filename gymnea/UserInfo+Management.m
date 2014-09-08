@@ -169,7 +169,16 @@ static NSString * const kEntityName = @"UserInfo";
         return nil;
     }
 
+    NSLog(@"Get current workout id: %d", self.currentWorkoutId);
+
     return [Workout getWorkoutInfo:self.currentWorkoutId];
+}
+
++ (void)deleteAll
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"email != %@", @""];
+    
+    deleteManagedObjects(kEntityName, predicate, defaultManagedObjectContext());
 }
 
 @end

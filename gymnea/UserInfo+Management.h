@@ -52,4 +52,6 @@
 
 - (Workout *)getUserCurrentWorkout;
 
++ (void)deleteAll;
+
 @end

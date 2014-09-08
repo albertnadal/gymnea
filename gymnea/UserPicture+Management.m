@@ -181,4 +181,11 @@ static NSString * const kEntityName = @"UserPicture";
     deleteManagedObjects(kEntityName, predicate, defaultManagedObjectContext());
 }
 
++ (void)deleteAll
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"pictureId >= 0"];
+    
+    deleteManagedObjects(kEntityName, predicate, defaultManagedObjectContext());
+}
+
 @end

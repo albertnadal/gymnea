@@ -58,4 +58,6 @@ typedef enum _GymneaExerciseImageOrder
 
 + (ExerciseDetail*)getExerciseDetailInfo:(int)exerciseId;
 
++ (void)deleteAll;
+
 @end

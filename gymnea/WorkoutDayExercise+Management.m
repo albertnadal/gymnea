@@ -69,4 +69,11 @@ static NSString * const kEntityName = @"WorkoutDayExercise";
   deleteManagedObjects(kEntityName, predicate, defaultManagedObjectContext());  
 }
 
++ (void)deleteAll
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"workoutDayId >= 0"];
+    
+    deleteManagedObjects(kEntityName, predicate, defaultManagedObjectContext());
+}
+
 @end

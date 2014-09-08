@@ -49,6 +49,8 @@
         //NSLog(@"user info current workout: %d", userInfo.currentWorkoutId);
         Workout *latest_current_workout = [userInfo getUserCurrentWorkout];
 
+        NSLog(@"Latest current workout id: %d", latest_current_workout.workoutId);
+
         // If the latest current workout retrieved from the web server is the same locally then there is no necessary to reload
         if((latest_current_workout.workoutId == self.workout.workoutId) && (latest_current_workout != nil)) {
             return;
@@ -88,7 +90,6 @@
 
         } else {
             // This use doest not have a workout set as current workout. Show the instructions view.
-            NSLog(@"No workout assigned yet!");
 
             [self.scroll setHidden:YES];
             [self.buyContainer setHidden:YES];

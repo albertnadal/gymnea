@@ -73,4 +73,6 @@ typedef enum _GymneaWorkoutImageSize
                             withLevel:(GymneaWorkoutLevel)levelId
                              withName:(NSString *)searchText;
 
++ (void)deleteAll;
+
 @end

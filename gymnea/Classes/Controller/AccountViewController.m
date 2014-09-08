@@ -7,8 +7,20 @@
 //
 
 #import "AccountViewController.h"
+#import "GEAAuthenticationKeychainStore.h"
+#import "Exercise+Management.h"
+#import "ExerciseDetail+Management.h"
+#import "Workout+Management.h"
+#import "WorkoutDetail+Management.h"
+#import "WorkoutDayExercise+Management.h"
+#import "WorkoutDay+Management.h"
+#import "UserInfo+Management.h"
+#import "UserPicture+Management.h"
+#import "AppDelegate.h"
 
 @interface AccountViewController ()
+
+- (IBAction)doLogout:(id)sender;
 
 @end
 
@@ -29,21 +41,48 @@
     // Do any additional setup after loading the view from its nib.
 }
 
-- (void)didReceiveMemoryWarning
+- (IBAction)doLogout:(id)sender
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Logout confirmation"
+                                                    message:@"Do you really want to logout?"
+                                                   delegate:self
+                                          cancelButtonTitle:@"Cancel"
+                                          otherButtonTitles:@"Logout", nil];
+
+    [alert setTag:1];
+    [alert show];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if([alertView tag] == 1)
+    {
+        if(buttonIndex == 1)
+        {
+            // Logout
+            [self logout];
+        }
+    }
 }
-*/
+
+- (void)logout
+{
+    // Remove the auth data
+    [GEAAuthenticationKeychainStore clearAllData];
+
+    // Delete all DB data
+    [Exercise deleteAll];
+    [ExerciseDetail deleteAll];
+    [Workout deleteAll];
+    [WorkoutDetail deleteAll];
+    [WorkoutDay deleteAll];
+    [WorkoutDayExercise deleteAll];
+    [UserPicture deleteAll];
+    [UserInfo deleteAll];
+
+    // Show initial view
+    UIResponder *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    [appDelegate performSelector:@selector(showInitialView) withObject:nil afterDelay:0.1f];
+}
 
 @end

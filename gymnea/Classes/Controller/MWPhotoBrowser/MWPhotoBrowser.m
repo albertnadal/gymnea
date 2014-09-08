@@ -1467,7 +1467,7 @@
 
 - (void)deleteButtonPressed:(id)sender {
 
-    photoIndexToDelete = _currentPageIndex;
+    photoIndexToDelete = (int)_currentPageIndex;
 
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Delete confirmation"
                                                     message:@"Do you really want to delete this picture?"

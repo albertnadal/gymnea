@@ -122,6 +122,8 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
            withAuthentication:nil
           withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
 
+              NSLog(@"SIGN IN RESPONSE DATA: %@", responseData);
+
               UserInfo *userInfo = nil;
 
               GymneaSignInWSClientRequestResponse signInStatus = GymneaSignInWSClientRequestError;
@@ -249,7 +251,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                withAuthentication:auth
               withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
 
-                  //NSLog(@"USER INFO RESPONSE DATA: %@", responseData);
+                  NSLog(@"USER INFO RESPONSE DATA: %@", responseData);
 
                   UserInfo *userInfo = nil;
                   NSMutableDictionary *responseMutableData = [[NSMutableDictionary alloc] initWithDictionary:responseData];
@@ -271,6 +273,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                       [appDelegate saveContext];
 
                       // Send notification to reload the user current workout view
+                      NSLog(@"GEANotificationUserInfoUpdated sent.");
                       [[NSNotificationCenter defaultCenter] postNotificationName:GEANotificationUserInfoUpdated object:nil userInfo:nil];
 
                   }

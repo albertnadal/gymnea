@@ -29,4 +29,6 @@
 
 + (WorkoutDetail*)getWorkoutDetailInfo:(int)workoutId;
 
++ (void)deleteAll;
+
 @end

@@ -326,4 +326,13 @@ static NSString * const kEntityName = @"Workout";
     }
 }
 
+#pragma mark Delete methods
+
++ (void)deleteAll
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"workoutId >= 0"];
+    
+    deleteManagedObjects(kEntityName, predicate, defaultManagedObjectContext());
+}
+
 @end

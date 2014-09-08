@@ -34,4 +34,6 @@
 
 + (void)deleteWorkoutDayExercisesWithWorkoutDayId:(int)workoutDayId;
 
++ (void)deleteAll;
+
 @end
