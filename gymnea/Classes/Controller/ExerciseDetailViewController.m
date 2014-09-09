@@ -474,7 +474,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         [self.bannerContainer setHidden:NO];
 
         // Adjust banner height
-        int bannerHeight = self.banner.image.size.height;
+        int bannerHeight = 141.0f; //self.banner.image.size.height;
         CGRect bannerFrame = self.banner.frame;
         bannerFrame.size.height = bannerHeight;
         [self.banner setFrame:bannerFrame];
