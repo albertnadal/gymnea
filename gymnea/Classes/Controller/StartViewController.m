@@ -22,24 +22,31 @@
 #import "ExerciseDetailViewController.h"
 #import "PicturesViewController.h"
 #import "AccountViewController.h"
+#import "GEAAuthentication.h"
+#import "GEAAuthenticationKeychainStore.h"
 
 @interface StartViewController ()
 {
-    
+    BOOL showSplashScreen;
 }
 
+@property (nonatomic) BOOL showSplashScreen;
+
 - (void)loadMainContainer;
+- (void)initializeLocalData;
 
 @end
 
 @implementation StartViewController
 
-- (id)init
+@synthesize showSplashScreen;
+
+- (id)initShowingSplashScreen:(BOOL)showSplash
 {
     self = [super initWithNibName:@"StartViewController" bundle:nil];
     if (self)
     {
-
+        self.showSplashScreen = showSplash;
     }
     return self;
 }
@@ -55,12 +62,96 @@
                                                                             target:nil
                                                                             action:nil];
 
+    if(self.showSplashScreen) {
+        UIImageView *splashImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+        [splashImage setImage:[UIImage imageNamed:@"gymnea-initial"]];
+        [self.view addSubview:splashImage];
+    }
+
     // Now we ask fot the session id
     [[GymneaWSClient sharedInstance] requestSessionIdWithCompletionBlock:^(GymneaWSClientRequestStatus success) {
 
-        [self loadMainContainer];
+
+        // Check if is necessary to initialize local data
+        GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+        GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+        if(![auth localDataIsInitialized]) {
+
+            // Initialize local data
+            [self performSelector:@selector(initializeLocalData) withObject:nil afterDelay:0.01];
+
+        } else {
+
+            // Start loading the main container with the side menu
+            [self performSelector:@selector(loadMainContainer) withObject:nil afterDelay:0.01];
+
+        }
 
     }];
+}
+
+- (void)initializeLocalData
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+
+        // Download exercises
+        [[GymneaWSClient sharedInstance] requestExercisesWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSArray *exercises) {
+
+            if(success == GymneaWSClientRequestSuccess) {
+
+                // Download workouts
+                [[GymneaWSClient sharedInstance] requestWorkoutsWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSArray *workouts) {
+
+                    if(success == GymneaWSClientRequestSuccess) {
+
+                        // Set session as initialized
+                        GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+                        GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+                        [auth setLocalDataIsInitialized:YES];
+                        [keychainStore setAuthentication:auth forIdentifier:@"gymnea"];
+
+                        // Start loading the main container with the side menu
+                        [self loadMainContainer];
+
+                    } else {
+
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                        message:@"Unable to reach the network when updating local data."
+                                                                       delegate:nil
+                                                              cancelButtonTitle:nil
+                                                              otherButtonTitles:@"Retry", nil];
+                        [alert setTag:1];
+                        [alert show];
+
+                    }
+
+                }];
+
+            } else {
+
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                message:@"Unable to reach the network when updating local data."
+                                                               delegate:nil
+                                                      cancelButtonTitle:nil
+                                                      otherButtonTitles:@"Retry", nil];
+                [alert setTag:1];
+                [alert show];
+
+            }
+
+        }];
+
+    });
+
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if([alertView tag] == 1)
+    {
+        // Update local data again
+        [self performSelector:@selector(initializeLocalData) withObject:nil afterDelay:0.01];
+    }
 }
 
 - (void)loadMainContainer
@@ -309,7 +400,8 @@
     // Side menu
     GEASideMenuController *sideMenuController = [[GEASideMenuController alloc] init];
     sideMenuController.viewControllers = @[favorites2Controller, exercisesController, picturesController, accountController];
-    
+
+    NSLog(@"Adding side menu controller as root view controller");
     [[[UIApplication sharedApplication] keyWindow] setRootViewController:sideMenuController];
 }
 

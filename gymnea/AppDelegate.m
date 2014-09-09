@@ -48,7 +48,7 @@
         [navigationController setNavigationBarHidden:YES animated:NO];
     } else {
         // USER PREVIOUSLY AUTHENTICATED => AUTOLOGIN ENABLED
-        StartViewController *startViewController = [[StartViewController alloc] init];
+        StartViewController *startViewController = [[StartViewController alloc] initShowingSplashScreen:YES];
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:startViewController];
         self.window.rootViewController = navigationController;
 

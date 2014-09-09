@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface StartViewController : UIViewController
+@interface StartViewController : UIViewController<UIAlertViewDelegate>
 
-- (id)init;
+- (id)initShowingSplashScreen:(BOOL)showSplash;
 
 @end

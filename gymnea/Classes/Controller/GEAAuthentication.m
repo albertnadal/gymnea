@@ -23,6 +23,7 @@
         self.userEmail = userEmail;
         self.clientInfoHash = clientInfoHash;
         self.clientKey = clientKey;
+        self.localDataIsInitialized = FALSE;
     }
 
     return self;
@@ -34,6 +35,7 @@
   [aCoder encodeObject:_userEmail forKey:@"userEmail"];
   [aCoder encodeObject:_clientInfoHash  forKey:@"clientInfoHash"];
   [aCoder encodeObject:_clientKey forKey:@"clientKey"];
+  [aCoder encodeObject:[NSNumber numberWithBool:_localDataIsInitialized] forKey:@"localDataIsInitialized"];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -45,6 +47,7 @@
     self.userEmail = [aDecoder decodeObjectForKey:@"userEmail"];
     self.clientInfoHash = [aDecoder decodeObjectForKey:@"clientInfoHash"];
     self.clientKey = [aDecoder decodeObjectForKey:@"clientKey"];
+    self.localDataIsInitialized = [(NSNumber *)[aDecoder decodeObjectForKey:@"localDataIsInitialized"] boolValue];
   }
   
   return self;  
@@ -53,11 +56,12 @@
 
 - (NSString *)description {
 
-  return [NSString stringWithFormat:@"baseUrl=%@ userEmail=%@ clientInfoHash=%@ clientKey=%@",
+  return [NSString stringWithFormat:@"baseUrl=%@ userEmail=%@ clientInfoHash=%@ clientKey=%@ localDataIsInitialized=%d",
           self.baseUrl,
           self.userEmail,
           self.clientInfoHash,
-          self.clientKey];
+          self.clientKey,
+          self.localDataIsInitialized];
 }
 
 @end

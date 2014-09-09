@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSString *userEmail;
 @property (nonatomic, strong) NSString *clientInfoHash;
 @property (nonatomic, strong) NSString *clientKey;
+@property (nonatomic) BOOL localDataIsInitialized;
 @property (nonatomic, strong) NSDictionary *additionalParameters;
 
 - (id)initWithAuthBaseURL:(NSString *)baseUrl
