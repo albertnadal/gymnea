@@ -32,6 +32,12 @@ typedef void(^responseImageCompletionBlock)(GymneaWSClientRequestStatus success,
 typedef void(^responseVideoCompletionBlock)(GymneaWSClientRequestStatus success, NSData *video);
 typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, NSData *pdf);
 
+- (BOOL)exercisesNeedUpdate;
+
+- (BOOL)workoutsNeedUpdate;
+
+- (BOOL)userPicturesNeedUpdate;
+
 - (void)performDELETEAsyncRequest:(NSString *)path
                    withDictionary:(NSDictionary *)values
                withAuthentication:(GEAAuthentication *)auth
@@ -529,7 +535,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
     GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
     GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
 
-    if(self.internetIsReachable) {
+    if((self.internetIsReachable) && ([self exercisesNeedUpdate])) {
 
         // Retrieve data from web service API
 
@@ -579,6 +585,13 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
                       AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
                       [appDelegate saveContext];
+
+                      // Save the update date for the exercises list
+                      GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+                      GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+                      [auth setDateExercisesUpdate:[NSDate date]];
+                      [keychainStore setAuthentication:auth forIdentifier:@"gymnea"];
+
                   }
 
                   dispatch_async(dispatch_get_main_queue(), ^{
@@ -871,7 +884,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
     GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
     GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
     
-    if(self.internetIsReachable) {
+    if((self.internetIsReachable) && ([self workoutsNeedUpdate])) {
         
         // Retrieve data from web service API
         
@@ -915,6 +928,13 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                       
                       AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
                       [appDelegate saveContext];
+
+                      // Save the update date for the workouts list
+                      GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+                      GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+                      [auth setDateWorkoutsUpdate:[NSDate date]];
+                      [keychainStore setAuthentication:auth forIdentifier:@"gymnea"];
+
                   }
                   
                   dispatch_async(dispatch_get_main_queue(), ^{
@@ -1316,18 +1336,18 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
     GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
     GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
     
-    if(self.internetIsReachable) {
-        
+    if((self.internetIsReachable) && ([self userPicturesNeedUpdate])) {
+
         // Retrieve data from web service API
         NSString *requestPath = @"/api/pictures/get_pictures";
-        
+
         [self performPOSTAsyncRequest:requestPath
                        withDictionary:nil
                    withAuthentication:auth
                   withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
 
                       NSMutableArray *userPicturesArray = nil;
-                      
+
                       if(success == GymneaWSClientRequestSuccess) {
 
                           userPicturesArray = [[NSMutableArray alloc] init];
@@ -1349,6 +1369,13 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
                           AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
                           [appDelegate saveContext];
+
+                          // Save the update date for the user pictures list
+                          GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+                          GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+                          [auth setDateUserPicturesUpdate:[NSDate date]];
+                          [keychainStore setAuthentication:auth forIdentifier:@"gymnea"];
+
                       }
 
                       dispatch_async(dispatch_get_main_queue(), ^{
@@ -2000,6 +2027,51 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
             completionHandler(NSURLSessionAuthChallengeUseCredential,credential);
         }
     }
+}
+
+- (BOOL)exercisesNeedUpdate
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+
+    if([auth dateExercisesUpdate] == nil) {
+        return TRUE;
+    } else if([[NSDate date] timeIntervalSinceDate:[auth dateExercisesUpdate]] >= GEATimeIntervalBetweenDataUpdates) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+
+}
+
+- (BOOL)workoutsNeedUpdate
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+
+    if([auth dateWorkoutsUpdate] == nil) {
+        return TRUE;
+    } else if([[NSDate date] timeIntervalSinceDate:[auth dateWorkoutsUpdate]] >= GEATimeIntervalBetweenDataUpdates) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+
+}
+
+- (BOOL)userPicturesNeedUpdate
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+
+    if([auth dateUserPicturesUpdate] == nil) {
+        return TRUE;
+    } else if([[NSDate date] timeIntervalSinceDate:[auth dateUserPicturesUpdate]] >= GEATimeIntervalBetweenDataUpdates) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+
 }
 
 @end

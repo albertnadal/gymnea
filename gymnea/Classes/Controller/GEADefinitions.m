@@ -74,6 +74,8 @@ NSString * const GEAWorkoutExpert = @"Expert";
 
 NSString * const GEANotificationUserInfoUpdated = @"GEANotificationUserInfoUpdated";
 
+NSTimeInterval const GEATimeIntervalBetweenDataUpdates = 60 * 60 * 2; // 2 hours
+
 @interface GEADefinitions()
 
 + (UIColor *)colorWithHexColorString:(NSString*)inColorString withAlpha:(float)alpha;

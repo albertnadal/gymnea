@@ -15,6 +15,9 @@
 @property (nonatomic, strong) NSString *clientInfoHash;
 @property (nonatomic, strong) NSString *clientKey;
 @property (nonatomic) BOOL localDataIsInitialized;
+@property (nonatomic, strong) NSDate *dateExercisesUpdate;
+@property (nonatomic, strong) NSDate *dateWorkoutsUpdate;
+@property (nonatomic, strong) NSDate *dateUserPicturesUpdate;
 @property (nonatomic, strong) NSDictionary *additionalParameters;
 
 - (id)initWithAuthBaseURL:(NSString *)baseUrl

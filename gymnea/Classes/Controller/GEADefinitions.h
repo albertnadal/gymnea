@@ -156,6 +156,8 @@ extern NSString * const GEAWorkoutExpert;
 
 extern NSString * const GEANotificationUserInfoUpdated;
 
+extern NSTimeInterval const GEATimeIntervalBetweenDataUpdates;
+
 @interface GEADefinitions : NSObject
 
 + (NSString *)retrieveTitleForMuscle:(GymneaMuscleType)muscleId;

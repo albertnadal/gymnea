@@ -16,7 +16,7 @@
                 clientKey:(NSString *)clientKey
 {
     self = [super init];
-    
+
     if (self) {
 
         self.baseUrl = baseUrl;
@@ -24,6 +24,10 @@
         self.clientInfoHash = clientInfoHash;
         self.clientKey = clientKey;
         self.localDataIsInitialized = FALSE;
+        self.dateExercisesUpdate = nil;
+        self.dateWorkoutsUpdate = nil;
+        self.dateUserPicturesUpdate = nil;
+
     }
 
     return self;
@@ -35,7 +39,13 @@
   [aCoder encodeObject:_userEmail forKey:@"userEmail"];
   [aCoder encodeObject:_clientInfoHash  forKey:@"clientInfoHash"];
   [aCoder encodeObject:_clientKey forKey:@"clientKey"];
+
   [aCoder encodeObject:[NSNumber numberWithBool:_localDataIsInitialized] forKey:@"localDataIsInitialized"];
+
+  [aCoder encodeObject:_dateExercisesUpdate forKey:@"dateExercisesUpdate"];
+  [aCoder encodeObject:_dateWorkoutsUpdate forKey:@"dateWorkoutsUpdate"];
+  [aCoder encodeObject:_dateUserPicturesUpdate forKey:@"dateUserPicturesUpdate"];
+
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -48,6 +58,11 @@
     self.clientInfoHash = [aDecoder decodeObjectForKey:@"clientInfoHash"];
     self.clientKey = [aDecoder decodeObjectForKey:@"clientKey"];
     self.localDataIsInitialized = [(NSNumber *)[aDecoder decodeObjectForKey:@"localDataIsInitialized"] boolValue];
+
+    self.dateExercisesUpdate = [aDecoder decodeObjectForKey:@"dateExercisesUpdate"];
+    self.dateWorkoutsUpdate = [aDecoder decodeObjectForKey:@"dateWorkoutsUpdate"];
+    self.dateUserPicturesUpdate = [aDecoder decodeObjectForKey:@"dateUserPicturesUpdate"];
+
   }
   
   return self;  
@@ -56,12 +71,15 @@
 
 - (NSString *)description {
 
-  return [NSString stringWithFormat:@"baseUrl=%@ userEmail=%@ clientInfoHash=%@ clientKey=%@ localDataIsInitialized=%d",
+  return [NSString stringWithFormat:@"baseUrl=%@ userEmail=%@ clientInfoHash=%@ clientKey=%@ localDataIsInitialized=%d dateExercisesUpdate=%@ dateWorkoutsUpdate=%@ dateUserPicturesUpdate=%@",
           self.baseUrl,
           self.userEmail,
           self.clientInfoHash,
           self.clientKey,
-          self.localDataIsInitialized];
+          self.localDataIsInitialized,
+          self.dateExercisesUpdate,
+          self.dateWorkoutsUpdate,
+          self.dateUserPicturesUpdate];
 }
 
 @end
