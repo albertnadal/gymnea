@@ -11,6 +11,7 @@
 #import "GEAAuthentication.h"
 #import "GEAAuthenticationKeychainStore.h"
 #import "StartViewController.h"
+#import "UserInfo+Management.h"
 
 @interface AppDelegate ()
 
@@ -33,20 +34,32 @@
 
     // Check if auto-login
 
-    // Uncomment the following line for removing all data in the keychain. YOU MUST USE THIS CALL WHEN LOG OUT!
+    // Uncomment the following line only for testing purposes!
     //[GEAAuthenticationKeychainStore clearAllData];
 
     GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
     GEAAuthentication *authentication = [keychainStore authenticationForIdentifier:@"gymnea"];
 
+    if((authentication != nil) && ([UserInfo getUserInfo:[authentication userEmail]] == nil)) {
+
+        // This case only happens when a loged-in user removes the application and reinstall again (iOS keeps the data in the keychain but the DB is empty)
+        // Is necessary to remove the data in the keychain to put the application in a clear-initial state.
+        [GEAAuthenticationKeychainStore clearAllData];
+        authentication = nil;
+
+    }
+
     if(authentication == nil) {
+
         // NO AUTOLOGIN
         InitialViewController *initialViewController = [[InitialViewController alloc] initWithNibName:@"InitialViewController" bundle:nil];
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:initialViewController];
         self.window.rootViewController = navigationController;
 
         [navigationController setNavigationBarHidden:YES animated:NO];
+
     } else {
+
         // USER PREVIOUSLY AUTHENTICATED => AUTOLOGIN ENABLED
         StartViewController *startViewController = [[StartViewController alloc] initShowingSplashScreen:YES];
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:startViewController];
