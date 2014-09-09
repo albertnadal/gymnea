@@ -49,8 +49,6 @@
         //NSLog(@"user info current workout: %d", userInfo.currentWorkoutId);
         Workout *latest_current_workout = [userInfo getUserCurrentWorkout];
 
-        NSLog(@"Latest current workout id: %d", latest_current_workout.workoutId);
-
         // If the latest current workout retrieved from the web server is the same locally then there is no necessary to reload
         if((latest_current_workout.workoutId == self.workout.workoutId) && (latest_current_workout != nil)) {
             return;

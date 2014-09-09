@@ -627,6 +627,10 @@
 
         [self.workoutFrequency setText:[NSString stringWithFormat:@"%d days / week", self.workout.frequency]];
         [self.workoutDifficulty setText:[GEADefinitions retrieveTitleForWorkoutLevel:self.workout.levelId]];
+        CGRect workoutMusclesFrame = self.workoutMuscles.frame;
+        workoutMusclesFrame.size.width = [UIScreen mainScreen].bounds.size.width - (2 * 10.0f);
+        workoutMusclesFrame.size.height = 74.0f;
+        self.workoutMuscles.frame = workoutMusclesFrame;
         [self.workoutMuscles setText:self.workoutDetail.muscles];
         [self.workoutMuscles sizeToFit];
 
