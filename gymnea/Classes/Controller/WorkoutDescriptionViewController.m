@@ -29,7 +29,7 @@ static const float kGEAiPhoneNavigationBarHeight = 44.0f;
 @property (nonatomic, weak) IBOutlet UILabel *eventTitle;
 @property (nonatomic, weak) IBOutlet UILabel *eventAuthor;
 @property (nonatomic, weak) IBOutlet UIView *separator;
-@property (nonatomic, weak) IBOutlet UILabel *description;
+@property (nonatomic, weak) IBOutlet UILabel *theDescription;
 @property (nonatomic, weak) IBOutlet UIScrollView *scroll;
 
 @end
@@ -79,12 +79,12 @@ static const float kGEAiPhoneNavigationBarHeight = 44.0f;
     
     baseYPosition+=kGEASeparatorMargin;
     
-    [self.description setText:self.workoutDescription];
-    [self.description sizeToFit];
+    [self.theDescription setText:self.workoutDescription];
+    [self.theDescription sizeToFit];
     
-    CGRect descriptionFrame = self.description.frame;
+    CGRect descriptionFrame = self.theDescription.frame;
     descriptionFrame.origin.y = baseYPosition;
-    self.description.frame = descriptionFrame;
+    self.theDescription.frame = descriptionFrame;
     
     baseYPosition+=(descriptionFrame.size.height+kGEAContentMargin);
     

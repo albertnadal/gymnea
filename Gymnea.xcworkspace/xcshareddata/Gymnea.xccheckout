@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>F7FDC2C5-962D-4E3E-8715-6BE664987811</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Gymnea</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>FE8D922801351A0C568AC2A5F13A207B59365500</key>
+		<string>https://bitbucket.org/anadalg/gymnea-ios.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Gymnea.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>FE8D922801351A0C568AC2A5F13A207B59365500</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bitbucket.org/anadalg/gymnea-ios.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>FE8D922801351A0C568AC2A5F13A207B59365500</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>FE8D922801351A0C568AC2A5F13A207B59365500</string>
+			<key>IDESourceControlWCCName</key>
+			<string>gymnea</string>
+		</dict>
+	</array>
+</dict>
+</plist>

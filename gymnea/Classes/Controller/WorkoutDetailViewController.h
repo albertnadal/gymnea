@@ -77,7 +77,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 @property (nonatomic, weak) IBOutlet UILabel *overallRating;
 @property (nonatomic, weak) IBOutlet UIView *scoreBackgroundView;
 @property (nonatomic, weak) IBOutlet UIButton *descriptionButton;
-@property (nonatomic, weak) IBOutlet UILabel *description;
+@property (nonatomic, weak) IBOutlet UILabel *theDescription;
 @property (nonatomic, weak) IBOutlet UILabel *workoutType;
 @property (nonatomic, weak) IBOutlet UILabel *workoutFrequency;
 @property (nonatomic, weak) IBOutlet UILabel *workoutDifficulty;

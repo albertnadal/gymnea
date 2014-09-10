@@ -52,9 +52,6 @@
 
         indexCurrentExercise = 0;
         indexCurrentExerciseSet = 0;
-
-        NSLog(@"\nSEQUENCE: %@", self.workoutDaySequence);
-
     }
     return self;
 }

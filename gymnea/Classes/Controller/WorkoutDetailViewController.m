@@ -517,11 +517,11 @@
     descriptionButtonFrame.origin.y = y;
     [self.descriptionButton setFrame:descriptionButtonFrame];
 
-    CGRect descriptionFrame = self.description.frame;
+    CGRect descriptionFrame = self.theDescription.frame;
     descriptionFrame.origin.y = descriptionButtonFrame.origin.y + kGEADescriptionButtonMargin;
-    [self.description setFrame:descriptionFrame];
+    [self.theDescription setFrame:descriptionFrame];
 
-    [self.description setText:self.workoutDetail.workoutDescription];
+    [self.theDescription setText:self.workoutDetail.workoutDescription];
 
     CGRect basicInfoContainerFrame = self.basicInfoContainer.frame;
     basicInfoContainerFrame.origin.y = baseYPosition;
@@ -848,7 +848,9 @@
 {
     if(offset>=0)
         return;
-    
+
+    [self.bannerContainer setClipsToBounds:NO];
+
     CGFloat offsetAmplified = fabsf(offset*(1+kGEABannerZoomFactor));
     CGFloat offsetAmplifiedDiff = fabsf(offset*kGEABannerZoomFactor);
     
@@ -868,9 +870,10 @@
     
     CGRect bannerFrame = self.banner.frame;
     CGFloat y = ((offset * kGEABannerOffsetFactor));
-    //bannerFrame.origin.x = 0.0f;
     bannerFrame.origin.y = y;
-    
+
+    [self.bannerContainer setClipsToBounds:YES];
+
     [self.banner setFrame:bannerFrame];
 }
 

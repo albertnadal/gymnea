@@ -128,7 +128,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
            withAuthentication:nil
           withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
 
-              NSLog(@"SIGN IN RESPONSE DATA: %@", responseData);
+              //NSLog(@"SIGN IN RESPONSE DATA: %@", responseData);
 
               UserInfo *userInfo = nil;
 
@@ -257,7 +257,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                withAuthentication:auth
               withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
 
-                  NSLog(@"USER INFO RESPONSE DATA: %@", responseData);
+                  //NSLog(@"USER INFO RESPONSE DATA: %@", responseData);
 
                   UserInfo *userInfo = nil;
                   NSMutableDictionary *responseMutableData = [[NSMutableDictionary alloc] initWithDictionary:responseData];

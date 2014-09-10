@@ -63,7 +63,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 @property (nonatomic, weak) IBOutlet UIImageView *bannerBottomShadow;
 @property (nonatomic, weak) IBOutlet UILabel *eventTitle;
 @property (nonatomic, weak) IBOutlet UIButton *descriptionButton;
-@property (nonatomic, weak) IBOutlet UILabel *description;
+@property (nonatomic, weak) IBOutlet UILabel *theDescription;
 @property (nonatomic, weak) IBOutlet UILabel *exerciseType;
 @property (nonatomic, weak) IBOutlet UILabel *exerciseMuscle;
 @property (nonatomic, weak) IBOutlet UILabel *exerciseEquipment;
@@ -379,11 +379,11 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     descriptionButtonFrame.origin.y = y;
     [self.descriptionButton setFrame:descriptionButtonFrame];
 
-    CGRect descriptionFrame = self.description.frame;
+    CGRect descriptionFrame = self.theDescription.frame;
     descriptionFrame.origin.y = descriptionButtonFrame.origin.y + kGEADescriptionButtonMargin;
-    [self.description setFrame:descriptionFrame];
+    [self.theDescription setFrame:descriptionFrame];
 
-    [self.description setText:[self.exerciseDetail exerciseDescription]];
+    [self.theDescription setText:[self.exerciseDetail exerciseDescription]];
 
     CGRect basicInfoContainerFrame = self.basicInfoContainer.frame;
     basicInfoContainerFrame.origin.y = baseYPosition;
@@ -613,10 +613,12 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 {
     if(offset>=0)
         return;
-    
+
+    [self.bannerContainer setClipsToBounds:NO];
+
     CGFloat offsetAmplified = fabsf(offset*(1+kGEABannerZoomFactor));
     CGFloat offsetAmplifiedDiff = fabsf(offset*kGEABannerZoomFactor);
-    
+
     CGRect bannerFrame = self.banner.frame;
     bannerFrame.size.height = self.banner.image.size.height + (offsetAmplified) + 0.5f;
     bannerFrame.size.width = (bannerFrame.size.height * [[UIScreen mainScreen] bounds].size.width) / self.banner.image.size.height;
@@ -630,12 +632,13 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 {
     if(offset<0)
         return;
-    
+
     CGRect bannerFrame = self.banner.frame;
     CGFloat y = ((offset * kGEABannerOffsetFactor));
-    //bannerFrame.origin.x = 0.0f;
     bannerFrame.origin.y = y;
-    
+
+    [self.bannerContainer setClipsToBounds:YES];
+
     [self.banner setFrame:bannerFrame];
 }
 
