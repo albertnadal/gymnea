@@ -28,8 +28,10 @@
 @interface StartViewController ()
 {
     BOOL showSplashScreen;
+    
 }
 
+@property (nonatomic, retain) MBProgressHUD *loadingHud;
 @property (nonatomic) BOOL showSplashScreen;
 
 - (void)loadMainContainer;
@@ -40,6 +42,7 @@
 @implementation StartViewController
 
 @synthesize showSplashScreen;
+@synthesize loadingHud;
 
 - (id)initShowingSplashScreen:(BOOL)showSplash
 {
@@ -47,8 +50,12 @@
     if (self)
     {
         self.showSplashScreen = showSplash;
+        self.loadingHud = nil;
+
+        return self;
     }
-    return self;
+
+    return nil;
 }
 
 - (void)viewDidLoad
@@ -77,6 +84,11 @@
         GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
         if(![auth localDataIsInitialized]) {
 
+            if(!self.showSplashScreen) {
+                self.loadingHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                self.loadingHud.labelText = @"Syncing local data";
+            }
+
             // Initialize local data
             [self performSelector:@selector(initializeLocalData) withObject:nil afterDelay:0.01];
 
@@ -96,6 +108,10 @@
 
         // Download exercises
         [[GymneaWSClient sharedInstance] requestExercisesWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSArray *exercises) {
+
+            if(self.loadingHud) {
+                [self.loadingHud hide:YES];
+            }
 
             if(success == GymneaWSClientRequestSuccess) {
 
@@ -149,6 +165,9 @@
 {
     if([alertView tag] == 1)
     {
+        self.loadingHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.loadingHud.labelText = @"Syncing local data";
+
         // Update local data again
         [self performSelector:@selector(initializeLocalData) withObject:nil afterDelay:0.01];
     }

@@ -227,17 +227,17 @@
                                                 image = [UIImage imageNamed:@"workout-banner-placeholder"];
                                             }
                                             
-                                            UIImage *imageCropped = [self imageByCropping:image toRect:CGRectMake(0, (image.size.height/2.0f) - (120.0f/2.0f), image.size.width, 120.0f)];
-                                            
+                                            UIImage *imageCropped = [self imageByCropping:image toRect:CGRectMake(0, (image.size.height/2.0f) - (120.0f/2.0f), [[UIScreen mainScreen] bounds].size.width/*image.size.width*/, 120.0f)];
+
                                             if(success==GymneaWSClientRequestSuccess) {
                                                 // First of all is necessary to rescale the image if the image width is diferent from the device screen width.
                                                 if(imageCropped.size.width != [[UIScreen mainScreen] bounds].size.width)
                                                 {
                                                     
                                                     CGFloat bannerWidth = [[UIScreen mainScreen] bounds].size.width;
-                                                    CGFloat bannerHeight = floor((([[UIScreen mainScreen] bounds].size.width * imageCropped.size.height) / imageCropped.size.width) + 0.5f);
+                                                    CGFloat bannerHeight = 141.0f; //floor((([[UIScreen mainScreen] bounds].size.width * imageCropped.size.height) / imageCropped.size.width) + 0.5f);
                                                     CGSize newBannerSize = CGSizeMake(bannerWidth, bannerHeight);
-                                                    
+
                                                     UIGraphicsBeginImageContext(newBannerSize);
                                                     [imageCropped drawInRect:CGRectMake(0, 0, newBannerSize.width, newBannerSize.height)];
                                                     
