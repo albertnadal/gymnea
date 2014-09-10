@@ -19,6 +19,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *setLabel;
 @property (nonatomic, weak) IBOutlet UIView *buttonsView;
 @property (strong, nonatomic) MPMoviePlayerController *videoPlayer;
+@property (strong, retain) NSDate *initialDate;
 
 - (IBAction)showOptionsMenu:(id)sender;
 
@@ -32,6 +33,7 @@
     if (self) {
         self.delegate = delegate_;
         self.videoFileURL = nil;
+        self.initialDate = nil;
     }
 
     return self;
@@ -102,19 +104,14 @@
 
         [self.view addSubview:_videoPlayer.view];
         [_videoPlayer setFullscreen:NO animated:NO];
+
+        self.initialDate = [NSDate date];
     }
 }
 
 - (void)videoReplay:(NSNotification*)notification {
     MPMoviePlayerController *player = [notification object];
     [player play];
-
-/*
-    [[NSNotificationCenter defaultCenter]
-     removeObserver:self
-     name:MPMoviePlayerPlaybackDidFinishNotification
-     object:player];
-*/
 }
 
 - (IBAction)showOptionsMenu:(id)sender
@@ -135,6 +132,11 @@
     NSError *error = nil;
     [[NSFileManager defaultManager] removeItemAtURL:self.videoFileURL error:&error];
 
+    // Inform the delegate the total number of seconds spent to play the exercise
+    if([self.delegate respondsToSelector:@selector(totalSecondsPlayingExercise:withSeconds:)])
+        [self.delegate totalSecondsPlayingExercise:self withSeconds:[[NSDate date] timeIntervalSinceDate:self.initialDate]];
+
+    // Inform the delegate the exercise has been finished
     if([self.delegate respondsToSelector:@selector(workoutExerciseFinished:)])
         [self.delegate workoutExerciseFinished:self];
 }
@@ -159,22 +161,5 @@
         [_videoPlayer play];
     }
 }
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

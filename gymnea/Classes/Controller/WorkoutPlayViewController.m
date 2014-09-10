@@ -23,6 +23,9 @@
     NSArray *workoutDaySequence;
     int indexCurrentExercise;
     int indexCurrentExerciseSet;
+
+    int totalSecondsPlayingExercises;
+    int totalSecondsResting;
 }
 
 @property (nonatomic, retain) WorkoutDay *workoutDay;
@@ -52,6 +55,9 @@
 
         indexCurrentExercise = 0;
         indexCurrentExerciseSet = 0;
+
+        totalSecondsPlayingExercises = 0;
+        totalSecondsResting = 0;
     }
     return self;
 }
@@ -102,9 +108,7 @@
 
     CGRect startContainerViewFrame = self.startContainerView.frame;
     startContainerViewFrame.origin.y = [[UIScreen mainScreen] bounds].size.height - 44.0f - 20.0f - CGRectGetHeight(startContainerViewFrame);
-    self.startContainerView.frame = startContainerViewFrame;
-    NSLog(@"Y: %f", self.startContainerView.frame.origin.y);
-    
+    self.startContainerView.frame = startContainerViewFrame;    
     self.workoutPlayTableViewController = [[WorkoutPlayTableViewController alloc] initWithExercises:self.workoutDay.workoutDayExercises];
     
     CGRect workoutDayFrame = self.workoutPlayTableViewController.view.frame;
@@ -208,6 +212,11 @@
 
 #pragma WorkoutPlayExerciseViewControllerDelegate
 
+- (void)totalSecondsPlayingExercise:(WorkoutPlayExerciseViewController *)workoutExercise withSeconds:(int)totalSeconds
+{
+    totalSecondsPlayingExercises += totalSeconds;
+}
+
 - (void)workoutExerciseFinished:(WorkoutPlayExerciseViewController *)workoutExercise
 {
 
@@ -297,11 +306,14 @@
 
 #pragma WorkoutPlayRestViewControllerDelegate
 
+- (void)totalSecondsResting:(WorkoutPlayRestViewController *)workoutExerciseRest withSeconds:(int)totalSeconds
+{
+    totalSecondsResting += totalSeconds;
+}
+
 - (void)userDidSelectFinishWorkoutFromRest:(WorkoutPlayRestViewController *)workoutExerciseRest
 {
     self.navigationController.navigationBar.hidden = FALSE;
-    
-    //    [self.navigationController popToViewController:self animated:NO];
 }
 
 - (void)workoutExerciseRestFinished:(WorkoutPlayRestViewController *)workoutExerciseRest
@@ -330,6 +342,16 @@
 }
 
 #pragma WorkoutPlayResultsViewControllerDelegate
+
+- (int)getGetTotalPlayedExerciseSeconds:(WorkoutPlayResultsViewController *)workoutPlayResults
+{
+    return totalSecondsPlayingExercises;
+}
+
+- (int)getGetTotalRestSeconds:(WorkoutPlayResultsViewController *)workoutPlayResults
+{
+    return totalSecondsResting;
+}
 
 - (WorkoutDay *)getWorkoutDay:(WorkoutPlayResultsViewController *)workoutPlayResults
 {

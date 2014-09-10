@@ -25,14 +25,8 @@
 - (NSInteger)numberOfRepetitionsForCurrentExercise:(WorkoutPlayExerciseViewController *)currentExercise;
 - (NSInteger)numberOfSetsForCurrentExercise:(WorkoutPlayExerciseViewController *)currentExercise;
 - (NSInteger)currentSetForCurrentExercise:(WorkoutPlayExerciseViewController *)currentExercise;
-
-/*
-- (NSInteger)numberOfSecondsToCoundown:(NextExerciseCountdownViewController *)nextExerciseCountdown;
-- (NSString *)nextExerciseName:(NextExerciseCountdownViewController *)nextExerciseCountdown;
-- (NSInteger)nextExerciseTotalRepetitions:(NextExerciseCountdownViewController *)nextExerciseCountdown;
-- (NSString *)nextExerciseSetsRepetitionsString:(NextExerciseCountdownViewController *)nextExerciseCountdown;
-*/
 - (void)workoutExerciseFinished:(WorkoutPlayExerciseViewController *)workoutExercise;
 - (void)userDidSelectFinishWorkoutFromExercise:(WorkoutPlayExerciseViewController *)workoutExercise;
+- (void)totalSecondsPlayingExercise:(WorkoutPlayExerciseViewController *)workoutExercise withSeconds:(int)totalSeconds;
 
 @end

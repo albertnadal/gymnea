@@ -27,5 +27,6 @@
 - (int)nextExerciseId:(NextExerciseCountdownViewController *)nextExerciseCountdown;
 - (void)nextExerciseCountdownFinished:(NextExerciseCountdownViewController *)nextExerciseCountdown;
 - (void)userDidSelectFinishWorkoutFromCountdown:(NextExerciseCountdownViewController *)nextExerciseCountdown;
+- (void)totalSecondsResting:(NextExerciseCountdownViewController *)nextExerciseCountdown withSeconds:(int)totalSeconds;
 
 @end

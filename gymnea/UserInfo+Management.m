@@ -169,8 +169,6 @@ static NSString * const kEntityName = @"UserInfo";
         return nil;
     }
 
-    NSLog(@"Get current workout id: %d", self.currentWorkoutId);
-
     return [Workout getWorkoutInfo:self.currentWorkoutId];
 }
 

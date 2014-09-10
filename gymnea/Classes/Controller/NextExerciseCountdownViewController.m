@@ -18,6 +18,7 @@
     BOOL countdownActive;
 }
 
+@property (strong, retain) NSDate *initialDate;
 @property (nonatomic, weak) IBOutlet UILabel *countdownLabel;
 @property (nonatomic, weak) IBOutlet UILabel *exerciseTitleLabel;
 @property (nonatomic, weak) IBOutlet UILabel *exerciseSetsAndRepetitionsLabel;
@@ -42,6 +43,7 @@
         self.countdownTemporizer = nil;
         countdownSeconds = 10;
         countdownActive = TRUE;
+        self.initialDate = nil;
     }
 
     return self;
@@ -108,6 +110,8 @@
                                                               selector:@selector(updateTimer:)
                                                               userInfo:nil
                                                                repeats:YES];
+
+    self.initialDate = [NSDate date];
 }
 
 - (void)updateTimer:(id)sender
@@ -124,6 +128,9 @@
     if(countdownSeconds<=0) {
         [self.countdownTemporizer invalidate];
         self.countdownTemporizer = nil;
+
+        if([self.delegate respondsToSelector:@selector(totalSecondsResting:withSeconds:)])
+            [self.delegate totalSecondsResting:self withSeconds:[[NSDate date] timeIntervalSinceDate:self.initialDate]];
 
         if([self.delegate respondsToSelector:@selector(nextExerciseCountdownFinished:)])
             [self.delegate nextExerciseCountdownFinished:self];
@@ -151,7 +158,10 @@
 {
     [self.countdownTemporizer invalidate];
     self.countdownTemporizer = nil;
-    
+
+    if([self.delegate respondsToSelector:@selector(totalSecondsResting:withSeconds:)])
+        [self.delegate totalSecondsResting:self withSeconds:[[NSDate date] timeIntervalSinceDate:self.initialDate]];
+
     if([self.delegate respondsToSelector:@selector(nextExerciseCountdownFinished:)])
         [self.delegate nextExerciseCountdownFinished:self];
 }

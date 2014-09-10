@@ -13,11 +13,15 @@
 
 @interface WorkoutPlayResultsViewController ()
 {
-    
+    int totalExerciseSeconds;
+    int totalRestSeconds;
 }
 
 @property (nonatomic, weak) IBOutlet UILabel *workoutTitleLabel;
 @property (nonatomic, weak) IBOutlet UILabel *workoutDayTitleLabel;
+@property (nonatomic, weak) IBOutlet UILabel *exerciseTimeLabel;
+@property (nonatomic, weak) IBOutlet UILabel *restTimeLabel;
+@property (nonatomic, weak) IBOutlet UILabel *totalTimeLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *thumbnail;
 @property (nonatomic, weak) IBOutlet UIView *buttonsView;
 
@@ -33,7 +37,8 @@
     self = [super initWithNibName:@"WorkoutPlayResultsViewController" bundle:nil];
     if (self) {
         self.delegate = delegate_;
-
+        totalExerciseSeconds = 0;
+        totalRestSeconds = 0;
     }
 
     return self;
@@ -61,6 +66,19 @@
     self.thumbnail.layer.shadowPath = pictureViewShadowPath.CGPath;
     self.thumbnail.layer.cornerRadius = self.thumbnail.frame.size.width / 2.0f;;
     self.thumbnail.layer.masksToBounds = YES;
+
+    if([self.delegate respondsToSelector:@selector(getGetTotalPlayedExerciseSeconds:)]) {
+        totalExerciseSeconds = [self.delegate getGetTotalPlayedExerciseSeconds:self];
+        [self.exerciseTimeLabel setText:[NSString stringWithFormat:@"%02d:%02d", (totalExerciseSeconds / 60) % 60, totalExerciseSeconds % 60]];
+    }
+
+    if([self.delegate respondsToSelector:@selector(getGetTotalRestSeconds:)]) {
+        totalRestSeconds = [self.delegate getGetTotalRestSeconds:self];
+        [self.restTimeLabel setText:[NSString stringWithFormat:@"%02d:%02d", (totalRestSeconds / 60) % 60, totalRestSeconds % 60]];
+    }
+
+    [self.totalTimeLabel setText:[NSString stringWithFormat:@"%02d:%02d", ((totalExerciseSeconds + totalRestSeconds) / 60) % 60, (totalExerciseSeconds + totalRestSeconds) % 60]];
+
 
     if([self.delegate respondsToSelector:@selector(getWorkoutDay:)]) {
         WorkoutDay *workoutDay = [self.delegate getWorkoutDay:self];

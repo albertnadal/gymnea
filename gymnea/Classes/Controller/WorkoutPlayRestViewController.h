@@ -24,5 +24,6 @@
 - (int)nextExerciseIdAfterRest:(WorkoutPlayRestViewController *)workoutExerciseRest;
 - (void)workoutExerciseRestFinished:(WorkoutPlayRestViewController *)workoutExerciseRest;
 - (void)userDidSelectFinishWorkoutFromRest:(WorkoutPlayRestViewController *)workoutExerciseRest;
+- (void)totalSecondsResting:(WorkoutPlayRestViewController *)workoutExerciseRest withSeconds:(int)totalSeconds;
 
 @end

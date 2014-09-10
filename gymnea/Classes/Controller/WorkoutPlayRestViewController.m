@@ -18,6 +18,7 @@
     BOOL countdownActive;
 }
 
+@property (strong, retain) NSDate *initialDate;
 @property (nonatomic, weak) IBOutlet UILabel *exerciseTitleLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *thumbnail;
 @property (nonatomic, weak) IBOutlet UILabel *countdownLabel;
@@ -41,6 +42,7 @@
         self.countdownTemporizer = nil;
         countdownActive = TRUE;
         countdownSeconds = seconds;
+        self.initialDate = nil;
     }
     
     return self;
@@ -76,6 +78,8 @@
                                                               userInfo:nil
                                                                repeats:YES];
 
+    self.initialDate = [NSDate date];
+
     UIBezierPath *pictureViewShadowPath = [UIBezierPath bezierPathWithRect:self.thumbnail.frame];
     self.thumbnail.layer.shadowPath = pictureViewShadowPath.CGPath;
     self.thumbnail.layer.cornerRadius = self.thumbnail.frame.size.width / 2.0f;;
@@ -83,7 +87,7 @@
 
     if([self.delegate respondsToSelector:@selector(nextExerciseIdAfterRest:)]) {
         int exerciseId = [self.delegate nextExerciseIdAfterRest:self];
-        
+
         [[GymneaWSClient sharedInstance] requestImageForExercise:exerciseId
                                                         withSize:ExerciseImageSizeMedium withGender:ExerciseImageMale
                                                        withOrder:ExerciseImageFirst
@@ -111,7 +115,11 @@
     if(countdownSeconds<=0) {
         [self.countdownTemporizer invalidate];
         self.countdownTemporizer = nil;
-        
+
+        if([self.delegate respondsToSelector:@selector(totalSecondsResting:withSeconds:)]) {
+            [self.delegate totalSecondsResting:self withSeconds:[[NSDate date] timeIntervalSinceDate:self.initialDate]];
+        }
+
         if([self.delegate respondsToSelector:@selector(workoutExerciseRestFinished:)])
             [self.delegate workoutExerciseRestFinished:self];
     }
@@ -138,6 +146,10 @@
 {
     [self.countdownTemporizer invalidate];
     self.countdownTemporizer = nil;
+
+    if([self.delegate respondsToSelector:@selector(totalSecondsResting:withSeconds:)]) {
+        [self.delegate totalSecondsResting:self withSeconds:[[NSDate date] timeIntervalSinceDate:self.initialDate]];
+    }
 
     if([self.delegate respondsToSelector:@selector(workoutExerciseRestFinished:)]) {
         [self.delegate workoutExerciseRestFinished:self];

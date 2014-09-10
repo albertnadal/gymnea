@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6154.21" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6153.13"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WorkoutPlayResultsViewController">
             <connections>
                 <outlet property="buttonsView" destination="ZBy-m2-ZCp" id="sRj-oR-ouo"/>
+                <outlet property="exerciseTimeLabel" destination="QAA-OW-v4W" id="FVh-X5-UmH"/>
+                <outlet property="restTimeLabel" destination="gYx-5o-dY1" id="1VT-5R-VbR"/>
                 <outlet property="thumbnail" destination="Ud4-SF-KFH" id="Pul-Q6-OX7"/>
+                <outlet property="totalTimeLabel" destination="2Zk-p3-x2a" id="CPK-5V-0Ud"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="ZGM-R6-LeF"/>
                 <outlet property="workoutDayTitleLabel" destination="a1O-sO-wKk" id="muV-Te-fIP"/>
                 <outlet property="workoutTitleLabel" destination="qnC-xg-Jxh" id="VBE-eo-nu4"/>
@@ -57,7 +59,7 @@
                     <color key="textColor" red="0.31372549020000001" green="0.31372549020000001" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="8:00" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" id="QAA-OW-v4W" userLabel="countdownPanel">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="00:00" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" id="QAA-OW-v4W" userLabel="countdownPanel">
                     <rect key="frame" x="219" y="184" width="74" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="20"/>
@@ -71,7 +73,7 @@
                     <color key="textColor" red="0.31372549020000001" green="0.31372549020000001" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="8:00" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" id="2Zk-p3-x2a" userLabel="countdownPanel">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="00:00" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" id="2Zk-p3-x2a" userLabel="countdownPanel">
                     <rect key="frame" x="219" y="263" width="74" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="22"/>
@@ -82,7 +84,7 @@
                     <rect key="frame" x="10" y="73" width="77" height="77"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="3:23" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" id="gYx-5o-dY1" userLabel="countdownPanel">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="00:00" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" id="gYx-5o-dY1" userLabel="countdownPanel">
                     <rect key="frame" x="219" y="217" width="74" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="20"/>
@@ -122,7 +124,6 @@
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="20" y="137"/>
         </view>
@@ -130,4 +131,9 @@
     <resources>
         <image name="exercise-default-thumbnail" width="26" height="26"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

@@ -25,5 +25,7 @@
 - (WorkoutDay *)getWorkoutDay:(WorkoutPlayResultsViewController *)workoutPlayResults;
 - (void)userDidSelectDiscardResults:(WorkoutPlayResultsViewController *)workoutPlayResults;
 - (void)userDidSelectSaveResults:(WorkoutPlayResultsViewController *)workoutPlayResults;
+- (int)getGetTotalPlayedExerciseSeconds:(WorkoutPlayResultsViewController *)workoutPlayResults;
+- (int)getGetTotalRestSeconds:(WorkoutPlayResultsViewController *)workoutPlayResults;
 
 @end
