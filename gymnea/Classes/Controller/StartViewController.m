@@ -120,14 +120,43 @@
 
                     if(success == GymneaWSClientRequestSuccess) {
 
-                        // Set session as initialized
-                        GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
-                        GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
-                        [auth setLocalDataIsInitialized:YES];
-                        [keychainStore setAuthentication:auth forIdentifier:@"gymnea"];
 
-                        // Start loading the main container with the side menu
-                        [self loadMainContainer];
+                        [[GymneaWSClient sharedInstance] requestUserPicturesWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSArray *userPictures) {
+
+                            if(success == GymneaWSClientRequestSuccess) {
+
+                                // Set session as initialized
+                                GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+                                GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+                                [auth setLocalDataIsInitialized:YES];
+                                [keychainStore setAuthentication:auth forIdentifier:@"gymnea"];
+                                
+                                // Start loading the main container with the side menu
+                                [self loadMainContainer];
+
+                                // Force load user picture thumbnails in background
+                                for(UserPicture *userPicture in userPictures) {
+
+                                    [[GymneaWSClient sharedInstance] requestImageForUserPicture:userPicture.pictureId
+                                                                                       withSize:UserPictureImageSizeMedium
+                                                                            withCompletionBlock:nil ];
+
+
+                                }
+
+                            } else {
+
+                                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                                message:@"Unable to reach the network when updating local data."
+                                                                               delegate:nil
+                                                                      cancelButtonTitle:nil
+                                                                      otherButtonTitles:@"Retry", nil];
+                                [alert setTag:1];
+                                [alert show];
+
+                            }
+
+                        }];
 
                     } else {
 
