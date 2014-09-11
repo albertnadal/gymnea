@@ -335,6 +335,9 @@
                                                                           AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
                                                                           [appDelegate saveContext];
 
+                                                                          // Refresh exercises downloaded screen
+                                                                          [[NSNotificationCenter defaultCenter] postNotificationName:GEANotificationExercisesDownloadedUpdated object:nil userInfo:nil];
+
                                                                           self.loadWorkoutHud.progress = ((self.totalWorkoutExercises - [self.exerciseIdDownloadQueue count]) * 1.0f) / self.totalWorkoutExercises;
                                                                           [self downloadNextExerciseFromQueue];
 
@@ -361,6 +364,9 @@
         // Flush workout model changes to db
         AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
         [appDelegate saveContext];
+
+        // Reload the downloaded workouts section
+        [[NSNotificationCenter defaultCenter] postNotificationName:GEANotificationWorkoutsDownloadedUpdated object:nil userInfo:nil];
 
         self.exerciseIdDownloadQueue = nil;
         [self.playWorkoutButton setTitle:@"Start Workout" forState:UIControlStateNormal];

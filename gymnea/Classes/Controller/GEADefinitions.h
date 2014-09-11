@@ -155,8 +155,11 @@ extern NSString * const GEAWorkoutIntermediate;
 extern NSString * const GEAWorkoutExpert;
 
 extern NSString * const GEANotificationUserInfoUpdated;
+extern NSString * const GEANotificationExercisesDownloadedUpdated;
+extern NSString * const GEANotificationWorkoutsDownloadedUpdated;
 
 extern NSTimeInterval const GEATimeIntervalBetweenDataUpdates;
+
 
 @interface GEADefinitions : NSObject
 

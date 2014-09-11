@@ -176,6 +176,9 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
                                                               self.exerciseDetail.videoLoop = video;
                                                               [self.playExerciseButton setTitle:@"Play Exercise" forState:UIControlStateNormal];
 
+                                                              // Refresh exercises downloaded screen
+                                                              [[NSNotificationCenter defaultCenter] postNotificationName:GEANotificationExercisesDownloadedUpdated object:nil userInfo:nil];
+
                                                           } else {
                                                               UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                                                                               message:@"Unable to reach the network when retrieving the exercise information."

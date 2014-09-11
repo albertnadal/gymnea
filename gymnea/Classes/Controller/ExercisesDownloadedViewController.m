@@ -11,6 +11,23 @@
 
 @implementation ExercisesDownloadedViewController
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+    // Listen for incoming new downloaded exercise
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadDataAgain)
+                                                 name:GEANotificationExercisesDownloadedUpdated
+                                               object:nil];
+
+}
+
+- (void)reloadDataAgain
+{
+    self.needRefreshData = TRUE;
+    [self reloadData];
+}
 
 - (void)reloadData
 {
@@ -23,6 +40,7 @@
         self.loadExercisesHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.loadExercisesHud.labelText = @"Loading downloaded exercises";
 
+        [self.noExercisesFoundLabel setHidden:YES];
         [self.noExercisesFoundLabel setText:@"No downloaded exercises found"];
 
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
@@ -75,6 +93,10 @@
 
                 [self.loadExercisesHud hide:YES];
                 self.loadingData = FALSE;
+
+                if(_collectionView != nil) {
+                    [_collectionView reloadData];
+                }
 
                 [_collectionView setAlpha:0.0f];
                 [_collectionView setHidden:NO];

@@ -279,7 +279,6 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                       [appDelegate saveContext];
 
                       // Send notification to reload the user current workout view
-                      NSLog(@"GEANotificationUserInfoUpdated sent.");
                       [[NSNotificationCenter defaultCenter] postNotificationName:GEANotificationUserInfoUpdated object:nil userInfo:nil];
 
                   }

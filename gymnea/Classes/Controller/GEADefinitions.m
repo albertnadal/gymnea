@@ -73,6 +73,8 @@ NSString * const GEAWorkoutIntermediate = @"Intermediate";
 NSString * const GEAWorkoutExpert = @"Expert";
 
 NSString * const GEANotificationUserInfoUpdated = @"GEANotificationUserInfoUpdated";
+NSString * const GEANotificationExercisesDownloadedUpdated = @"GEANotificationExercisesDownloadedUpdated";
+NSString * const GEANotificationWorkoutsDownloadedUpdated = @"GEANotificationWorkoutsDownloadedUpdated";
 
 NSTimeInterval const GEATimeIntervalBetweenDataUpdates = 60 * 60 * 2; // 2 hours
 

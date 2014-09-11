@@ -15,4 +15,6 @@
 
 @property (weak, nonatomic) id<ExercisesViewControllerDelegate>filterDelegate;
 
+- (void)reloadDataAgain;
+
 @end
