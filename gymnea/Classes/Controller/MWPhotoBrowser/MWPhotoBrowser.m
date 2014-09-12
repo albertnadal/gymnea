@@ -381,6 +381,12 @@
             _viewHasAppearedInitially = YES;
         }
 
+        // Hide toolbar if the grid is visible
+        if(_gridController.view.frame.origin.y < self.view.bounds.size.height) {
+            // grid is visible, so is necessary to hide the toolbar
+            _toolbar.alpha = 0;
+        }
+
     }
 }
 
