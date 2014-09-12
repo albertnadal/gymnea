@@ -454,7 +454,7 @@
     //Just download the workout PDF
 
     self.loadWorkoutHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.loadWorkoutHud.labelText = @"Downloading workout PDF";
+    self.loadWorkoutHud.labelText = @"Downloading PDF";
 
     [[GymneaWSClient sharedInstance] requestWorkoutPDFWithWorkout:self.workout
                                               withCompletionBlock:^(GymneaWSClientRequestStatus success, NSData *pdf) {
@@ -484,7 +484,7 @@
                                                   } else {
 
                                                       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                                                      message:@"Unable to reach the network when retrieving the workout PDF."
+                                                                                                      message:@"Unable to reach the network when retrieving the PDF."
                                                                                                      delegate:nil
                                                                                             cancelButtonTitle:@"Ok"
                                                                                             otherButtonTitles:nil];
@@ -991,7 +991,7 @@
         case 2: return @"Download";
                 break;
             
-        case 3: return @"Workout PDF";
+        case 3: return @"Download PDF";
                 break;
     }
     

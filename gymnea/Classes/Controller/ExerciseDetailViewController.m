@@ -637,12 +637,11 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 - (void)showPopover:(id)sender
 {
     UIBarButtonItem *button = (UIBarButtonItem *)sender;
-    if(!self.popover)
-    {
-        // Create an instance of GEAPopoverViewController
-        self.popover = [[GEAPopoverViewController alloc] initWithDelegate:self withBarButton:button alignedTo:GEAPopoverAlignmentRight];
-    }
-    
+
+    // Create an instance of GEAPopoverViewController
+    if([self.exercise saved])   self.popover = [[GEAPopoverViewController alloc] initWithDelegate:self withBarButton:button alignedTo:GEAPopoverAlignmentRight withWidth:MAX(kGEAPopoverContentWidth, kGEAPopoverContentWidth + 32.0f)];
+    else                        self.popover = [[GEAPopoverViewController alloc] initWithDelegate:self withBarButton:button alignedTo:GEAPopoverAlignmentRight withWidth:kGEAPopoverContentWidth];
+
     if([self.popover isPresented])
     {
         // Dismiss the popover
