@@ -60,7 +60,7 @@ static const CGFloat kVTSTabBarBackTapTresshold = 110.0f;
   CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
   self.view = [[UIView alloc] initWithFrame:applicationFrame];
   self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-  self.view.backgroundColor = [UIColor blackColor];
+  self.view.backgroundColor = [UIColor clearColor];
   
   // Create the tab bar scroll view
   self.tabBarScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake((CGRectGetWidth(self.view.bounds) - kVTSTabBarScrollViewWidth) / 2.0f, 0, kVTSTabBarScrollViewWidth, 44.0f)];

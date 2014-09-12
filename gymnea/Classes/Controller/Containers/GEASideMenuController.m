@@ -81,7 +81,7 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
   [self.tabBarButtons removeAllObjects];
 
   // Calculate the vertical button separation depending on screen height
-  CGFloat buttonSeparation = ([[UIScreen mainScreen] bounds].size.height == 568.0f) ? kGEASideMenuViewTopInset568ScreenDevice : kGEASideMenuViewTopInset320ScreenDevice;
+  CGFloat buttonSeparation = ([[UIScreen mainScreen] bounds].size.height >= 568.0f) ? kGEASideMenuViewTopInset568ScreenDevice : kGEASideMenuViewTopInset320ScreenDevice;
 
   CGRect screenRect = [[UIScreen mainScreen] bounds];
   CGFloat screenHeight = screenRect.size.height;
@@ -199,23 +199,8 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
   
   return self;
 }
-/*
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-  return [self init];
-}*/
 
 #pragma mark - UIViewController
-/*
-- (void)loadView {
-  // Create and configure the main container UIView
-
-
-  CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
-  self.view = [[UIView alloc] initWithFrame:applicationFrame];
-  self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-  self.view.backgroundColor = [UIColor colorWithRed:5.0/255.0 green:195.0/255.0 blue:249.0/255.0 alpha:1.0];
-
-}*/
 
 - (void)viewDidLoad {
 
@@ -357,12 +342,6 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
 }
 
 - (void)setSelectedViewController:(UIViewController *)selectedViewController {
-/*  if ([_selectedViewController isEqual:selectedViewController] || (!_selectedViewController && !selectedViewController)) {
-    if ([_selectedViewController isKindOfClass:[UINavigationController class] ]) {
-      [(UINavigationController *) _selectedViewController popToRootViewControllerAnimated:YES];
-    }
-    return;
-  }*/
 
     // Create the left bar button item
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60.0f, 44.0f)];
@@ -505,6 +484,7 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
 
       [self.mainViewContainer setClipsToBounds:YES];
       self.mainViewContainer.layer.cornerRadius = 0;
+      self.mainViewContainer.backgroundColor = [UIColor clearColor];
       UIBezierPath *mainViewContainerShadowPath = [UIBezierPath bezierPathWithRect:self.mainViewContainer.bounds];
       self.mainViewContainer.layer.shadowPath = mainViewContainerShadowPath.CGPath;
 
@@ -513,11 +493,11 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
       [UIView commitAnimations];
 
 
-    self.mainViewContainer.frame = CGRectMake(0, 0,
+      self.mainViewContainer.frame = CGRectMake(0, 0,
                                               screenWidth,
                                               screenHeight);
 
-    [self.mainViewContainer sendSubviewToBack:self.tapCaptureView];
+      [self.mainViewContainer sendSubviewToBack:self.tapCaptureView];
 
   } else {
 
@@ -527,6 +507,7 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
 
       [self.mainViewContainer setClipsToBounds:YES];
       self.mainViewContainer.layer.cornerRadius = 16.0f;
+      self.mainViewContainer.backgroundColor = [UIColor whiteColor];
       UIBezierPath *mainViewContainerShadowPath = [UIBezierPath bezierPathWithRect:self.mainViewContainer.bounds];
       self.mainViewContainer.layer.shadowPath = mainViewContainerShadowPath.CGPath;
 
@@ -535,7 +516,7 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
       [UIView commitAnimations];
 
 
-    self.mainViewContainer.frame = CGRectMake(kGEAMainViewContainerOffset, (screenHeight - (screenHeight * kGEAMainViewScaleOffset)) / 2.0f,
+      self.mainViewContainer.frame = CGRectMake(kGEAMainViewContainerOffset, (screenHeight - (screenHeight * kGEAMainViewScaleOffset)) / 2.0f,
                                               screenWidth * kGEAMainViewScaleOffset,
                                               screenHeight * kGEAMainViewScaleOffset);
 
@@ -553,17 +534,21 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
 
   switch (panGesture.state) {
     case UIGestureRecognizerStateBegan:
-      self.sideMenuView.userInteractionEnabled = NO;
+        self.sideMenuView.userInteractionEnabled = NO;
+
     case UIGestureRecognizerStateChanged: {
-      CGFloat xOffset = [panGesture translationInView:self.view].x + (self.sideMenuHidden ? 0 : kGEAMainViewContainerOffset);
-      if (xOffset < 0) {
-        xOffset = 0;
-      } else if (xOffset > kGEAMainViewContainerOffset) {
-        // Elasticity adjustement
-        CGFloat xOffsetAdjustment = xOffset - kGEAMainViewContainerOffset;
-        xOffsetAdjustment = roundf( xOffsetAdjustment / logf(xOffsetAdjustment + 1) * 2 );
-        xOffset = kGEAMainViewContainerOffset + xOffsetAdjustment;
-      }
+        CGFloat xOffset = [panGesture translationInView:self.view].x + (self.sideMenuHidden ? 0 : kGEAMainViewContainerOffset);
+
+        if (xOffset < 0) {
+            xOffset = 0;
+
+        } else if (xOffset > kGEAMainViewContainerOffset) {
+            // Elasticity adjustement
+            CGFloat xOffsetAdjustment = xOffset - kGEAMainViewContainerOffset;
+            xOffsetAdjustment = roundf( xOffsetAdjustment / logf(xOffsetAdjustment + 1) * 2 );
+            xOffset = kGEAMainViewContainerOffset + xOffsetAdjustment;
+
+        }
 
         [self.mainViewContainer setClipsToBounds:YES];
         self.mainViewContainer.layer.cornerRadius = (xOffset * 20) / [[UIScreen mainScreen] bounds].size.width;

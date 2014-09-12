@@ -446,6 +446,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     dealContainerFrame.size.height = 0.0f; //150.0f;
     [self.dealContainer setFrame:dealContainerFrame];
 
+/*
     [self.dealContainer setClipsToBounds:NO];
     [self.dealContainer.layer setMasksToBounds:NO];
     self.dealContainer.layer.shouldRasterize = YES;
@@ -456,6 +457,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
     self.dealContainer.layer.shadowOpacity = 0.6;
     UIBezierPath *dealContainerShadowPath = [UIBezierPath bezierPathWithRect:self.dealContainer.bounds];
     self.dealContainer.layer.shadowPath = dealContainerShadowPath.CGPath;
+*/
 
     // The deal view is not inside the scroll in the Xib
     [self.dealContainer setHidden:YES];
