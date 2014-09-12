@@ -2,6 +2,10 @@
   "images" : [
     {
       "idiom" : "iphone",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "iphone",
       "scale" : "2x",
       "filename" : "gymnea-small-logo-1.png"
     },
@@ -10,6 +14,10 @@
       "filename" : "gymnea-small-logo.png",
       "subtype" : "retina4",
       "scale" : "2x"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "3x"
     }
   ],
   "info" : {

@@ -385,8 +385,6 @@
     //Remove the workout from the favorites list using the API
 
     self.loadWorkoutHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.loadWorkoutHud.mode = MBProgressHUDModeAnnularDeterminate;
-    self.loadWorkoutHud.progress = 0.0f;
     self.loadWorkoutHud.labelText = @"Removing from favorites";
     
     [[GymneaWSClient sharedInstance] requestUnsaveWorkout:self.workout
@@ -407,8 +405,6 @@
     //Add the workout to the favorites list using the API
 
     self.loadWorkoutHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.loadWorkoutHud.mode = MBProgressHUDModeAnnularDeterminate;
-    self.loadWorkoutHud.progress = 0.0f;
     self.loadWorkoutHud.labelText = @"Adding to favorites";
 
     [[GymneaWSClient sharedInstance] requestSaveWorkout:self.workout
@@ -877,12 +873,11 @@
 - (void)showPopover:(id)sender
 {
     UIBarButtonItem *button = (UIBarButtonItem *)sender;
-    if(!self.popover)
-    {
-        // Create an instance of GEAPopoverViewController
-        self.popover = [[GEAPopoverViewController alloc] initWithDelegate:self withBarButton:button alignedTo:GEAPopoverAlignmentRight];
-    }
-    
+
+    // Create an instance of GEAPopoverViewController
+    if([self.workout saved])    self.popover = [[GEAPopoverViewController alloc] initWithDelegate:self withBarButton:button alignedTo:GEAPopoverAlignmentRight withWidth:MAX(kGEAPopoverContentWidth, kGEAPopoverContentWidth + 32.0f)];
+    else                        self.popover = [[GEAPopoverViewController alloc] initWithDelegate:self withBarButton:button alignedTo:GEAPopoverAlignmentRight withWidth:kGEAPopoverContentWidth];
+
     if([self.popover isPresented])
     {
         // Dismiss the popover

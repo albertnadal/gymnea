@@ -9,6 +9,10 @@
       "idiom" : "iphone",
       "scale" : "2x",
       "filename" : "img_popover_separator@2x.png"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "3x"
     }
   ],
   "info" : {

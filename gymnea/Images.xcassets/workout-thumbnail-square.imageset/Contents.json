@@ -9,6 +9,10 @@
       "idiom" : "iphone",
       "scale" : "2x",
       "filename" : "workout_thumbnail_square.png"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "3x"
     }
   ],
   "info" : {

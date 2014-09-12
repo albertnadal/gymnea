@@ -3,16 +3,17 @@
     {
       "idiom" : "iphone",
       "scale" : "1x",
-      "filename" : "8.png"
+      "filename" : "img_icon_popover_remove_from_favorites.png"
     },
     {
       "idiom" : "iphone",
       "scale" : "2x",
-      "filename" : "8@2x.png"
+      "filename" : "img_icon_popover_remove_from_favorites@2x.png"
     },
     {
       "idiom" : "iphone",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "img_icon_popover_remove_from_favorites@2x-1.png"
     }
   ],
   "info" : {

@@ -9,6 +9,10 @@
       "idiom" : "iphone",
       "scale" : "2x",
       "filename" : "img_button_description_bg@2x.png"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "3x"
     }
   ],
   "info" : {

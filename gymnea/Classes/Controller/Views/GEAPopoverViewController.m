@@ -9,18 +9,6 @@
 #import "QuartzCore/QuartzCore.h"
 #import "GEAPopoverViewController.h"
 
-// Sizes
-static const float kGEAPopoverContentWidth = 188.0f; //220.0f
-static const float kGEAPopoverContentRowHeight = 44.0f;
-static const float kGEAPopoverContentSeparatorHeight = 2.0f;
-static const float kGEAPopoverMaxContentHeight = 350.0f;
-static const float kGEAPopoverTailWidth = 23.0f;
-static const float kGEAPopoverTailHeight = 13.0f;
-static const float kGEAPopoverIconWidth = 20.0f;
-static const float kGEAPopoverIconHeight = 20.0f;
-static const float kGEAPopoverTextWidth =  140.0f; //172.0f;
-static const float kGEAPopoverTextHeight = 20.0f;
-
 // Sizes of standard iOS controls
 static const float kGEAiPhoneStatusBarHeight = 20.0f;
 static const float kGEAiPhoneNavigationBarHeight = 44.0f;
@@ -59,6 +47,7 @@ static NSString * const kReuseIdentifierLast = @"GEAPopoverLastCellID";
 @property (atomic) GEAAlignment contentAlignment;
 @property (atomic) float tailCenterX;
 @property (atomic) float totalRows;
+@property (atomic) float minTextWidth;
 
 - (void)presentDarkContainerInView:(UIView *)v animated:(bool)a;
 - (void)presentContentContainerInView:(UIView *)v animated:(bool)a;
@@ -85,10 +74,39 @@ static NSString * const kReuseIdentifierLast = @"GEAPopoverLastCellID";
         self.contentAlignment = align;
         self.totalRows = 0;
         self.tailCenterX = [self getPopoverTailCenterOfBarButton:self.barButtonItem]; // This is the X axis position where the tail must be placed
+        self.minWidth = kGEAPopoverContentWidth;
+        self.minTextWidth = kGEAPopoverTextWidth;
     }
 
     return self;
 }
+
+- (id)initWithDelegate:(id<GEAPopoverViewControllerDelegate>)delegate_ withBarButton:(UIBarButtonItem *)buttonItem alignedTo:(GEAAlignment)align withWidth:(float)minWidth
+{
+    if(self = [super init])
+    {
+        self.isPresented = false;
+        self.contentContainer = nil;
+        self.darkContainer = nil;
+        self.tableView = nil;
+        self.tailImage = nil;
+        self.delegate = delegate_;
+        self.barButtonItem = buttonItem;
+        self.contentAlignment = align;
+        self.totalRows = 0;
+        self.tailCenterX = [self getPopoverTailCenterOfBarButton:self.barButtonItem]; // This is the X axis position where the tail must be placed
+        self.minWidth = MAX(minWidth, kGEAPopoverContentWidth);
+        self.minTextWidth = MAX(kGEAPopoverTextWidth, kGEAPopoverTextWidth + abs(self.minWidth - kGEAPopoverContentWidth));
+    }
+
+    return self;
+}
+
+/*- (void)setMinWidth:(float)minWidth
+{
+    _minWidth = MAX(minWidth, kGEAPopoverContentWidth);
+    _minTextWidth = MAX(kGEAPopoverTextWidth, kGEAPopoverTextWidth + abs(self.minWidth - kGEAPopoverContentWidth));
+}*/
 
 - (void)presentPopoverInView:(UIView *)v animated:(bool)a
 {
@@ -139,19 +157,19 @@ static NSString * const kReuseIdentifierLast = @"GEAPopoverLastCellID";
 
     if(self.contentAlignment == GEAPopoverAlignmentLeft)
     {
-        self.contentContainer = [[UIView alloc] initWithFrame:CGRectMake(kGEAPopoverContentHorizontalPadding, kGEAPopoverContentVerticalPadding + kGEAPopoverSpaceBetweenTailAndContent, kGEAPopoverContentWidth, kGEAPopoverMaxContentHeight)];
+        self.contentContainer = [[UIView alloc] initWithFrame:CGRectMake(kGEAPopoverContentHorizontalPadding, kGEAPopoverContentVerticalPadding + kGEAPopoverSpaceBetweenTailAndContent, self.minWidth, kGEAPopoverMaxContentHeight)];
         [self.contentContainer setBackgroundColor:[UIColor colorWithRed:111.0/255.0 green:190.0/255.0 blue:226.0/255.0 alpha:1.0]];
         [v addSubview:self.contentContainer];
     }
     else if(self.contentAlignment == GEAPopoverAlignmentRight)
     {
-        self.contentContainer = [[UIView alloc] initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width - kGEAPopoverContentWidth - kGEAPopoverContentHorizontalPadding, kGEAPopoverContentVerticalPadding + kGEAPopoverSpaceBetweenTailAndContent, kGEAPopoverContentWidth, kGEAPopoverMaxContentHeight)];
+        self.contentContainer = [[UIView alloc] initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width - self.minWidth - kGEAPopoverContentHorizontalPadding, kGEAPopoverContentVerticalPadding + kGEAPopoverSpaceBetweenTailAndContent, self.minWidth, kGEAPopoverMaxContentHeight)];
         [self.contentContainer setBackgroundColor:[UIColor colorWithRed:111.0/255.0 green:190.0/255.0 blue:226.0/255.0 alpha:1.0]];
         [v addSubview:self.contentContainer];
     }
     else if(self.contentAlignment == GEAPopoverAlignmentCenter)
     {
-        self.contentContainer = [[UIView alloc] initWithFrame:CGRectMake(([[UIScreen mainScreen] bounds].size.width/2.0f) - (kGEAPopoverContentWidth/2.0f), kGEAPopoverContentVerticalPadding + kGEAPopoverSpaceBetweenTailAndContent, kGEAPopoverContentWidth, kGEAPopoverMaxContentHeight)];
+        self.contentContainer = [[UIView alloc] initWithFrame:CGRectMake(([[UIScreen mainScreen] bounds].size.width/2.0f) - (self.minWidth/2.0f), kGEAPopoverContentVerticalPadding + kGEAPopoverSpaceBetweenTailAndContent, self.minWidth, kGEAPopoverMaxContentHeight)];
         [self.contentContainer setBackgroundColor:[UIColor colorWithRed:111.0/255.0 green:190.0/255.0 blue:226.0/255.0 alpha:1.0]];
         [v addSubview:self.contentContainer];
     }
@@ -170,7 +188,7 @@ static NSString * const kReuseIdentifierLast = @"GEAPopoverLastCellID";
     if(self.tableView)
         [self.tableView removeFromSuperview];
 
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, kGEAPopoverContentVerticalMargin, kGEAPopoverContentWidth, 0)];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, kGEAPopoverContentVerticalMargin, self.minWidth, 0)];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView setScrollEnabled:NO];
     [self.tableView setClipsToBounds:YES];
@@ -276,7 +294,7 @@ static NSString * const kReuseIdentifierLast = @"GEAPopoverLastCellID";
     if(self.totalRows>1)    tableViewHeight = ((self.totalRows-1)*kGEAPopoverContentRowHeight) + (kGEAPopoverContentRowHeight-kGEAPopoverContentVerticalMargin);
     else                    tableViewHeight = self.totalRows * kGEAPopoverContentRowHeight;
 
-    self.tableView.frame = CGRectMake(0, kGEAPopoverContentVerticalMargin, kGEAPopoverContentWidth, tableViewHeight);
+    self.tableView.frame = CGRectMake(0, kGEAPopoverContentVerticalMargin, self.minWidth, tableViewHeight);
 
     // Set the container view height
     CGRect contentContainerFrame = self.contentContainer.frame;
@@ -307,11 +325,11 @@ static NSString * const kReuseIdentifierLast = @"GEAPopoverLastCellID";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     if (!cell)
     {
-        cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0,0,kGEAPopoverContentWidth,kGEAPopoverContentRowHeight)];
+        cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0,0,self.minWidth,kGEAPopoverContentRowHeight)];
 
         if(!lastCell)
         {
-            UIImageView *cellSeparator = [[UIImageView alloc] initWithFrame:CGRectMake(0,kGEAPopoverContentRowHeight - kGEAPopoverContentSeparatorHeight, kGEAPopoverContentWidth, kGEAPopoverContentSeparatorHeight)];
+            UIImageView *cellSeparator = [[UIImageView alloc] initWithFrame:CGRectMake(0,kGEAPopoverContentRowHeight - kGEAPopoverContentSeparatorHeight, self.minWidth, kGEAPopoverContentSeparatorHeight)];
             [cellSeparator setImage:[UIImage imageNamed:@"popover-separator"]];
             [cell.contentView addSubview:cellSeparator];
         }
@@ -340,7 +358,7 @@ static NSString * const kReuseIdentifierLast = @"GEAPopoverLastCellID";
     {
         NSString *text = [self.delegate textInPopoverViewController:self atRowIndex:indexPath.row];
         int textVerticalPosition = (kGEAPopoverContentRowHeight/2.0f) - (kGEAPopoverTextHeight/2.0f);
-        UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(kGEAPopoverIconLeftPadding + kGEAPopoverIconWidth + kGEAPopoverTextLeftPadding, textVerticalPosition, kGEAPopoverTextWidth, kGEAPopoverTextHeight)];
+        UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(kGEAPopoverIconLeftPadding + kGEAPopoverIconWidth + kGEAPopoverTextLeftPadding, textVerticalPosition, self.minTextWidth, kGEAPopoverTextHeight)];
         textLabel.textAlignment =  UITextAlignmentLeft;
         textLabel.textColor = [UIColor whiteColor];
         textLabel.backgroundColor = [UIColor clearColor];

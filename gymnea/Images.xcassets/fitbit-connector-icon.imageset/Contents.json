@@ -2,8 +2,16 @@
   "images" : [
     {
       "idiom" : "iphone",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "iphone",
       "scale" : "2x",
       "filename" : "fitbit46x46.png"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "3x"
     }
   ],
   "info" : {
