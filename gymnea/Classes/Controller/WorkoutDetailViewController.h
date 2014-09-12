@@ -118,6 +118,8 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 - (void)moveBannerWithVerticalOffset:(CGFloat)offset;
 - (NSString *)stringFromFloat:(float)value;
 - (BOOL)workoutIsDownload;
+- (void)removeFromFavorites;
+- (void)addToFavorites;
 - (void)downloadWorkout;
 - (void)downloadNextExerciseFromQueue;
 - (void)showErrorMessageAndCancelDownload;

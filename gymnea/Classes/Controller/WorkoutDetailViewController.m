@@ -380,6 +380,35 @@
     }
 }
 
+- (void)removeFromFavorites
+{
+    //Remove the workout from the favorites list using the API
+
+}
+
+- (void)addToFavorites
+{
+    //Add the workout to the favorites list using the API
+
+    self.loadWorkoutHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.loadWorkoutHud.mode = MBProgressHUDModeAnnularDeterminate;
+    self.loadWorkoutHud.progress = 0.0f;
+    self.loadWorkoutHud.labelText = @"Adding to favorites";
+
+    [[GymneaWSClient sharedInstance] requestSaveWorkout:self.workout
+                                    withCompletionBlock:^(GymneaWSClientRequestStatus success) {
+
+                                        // Hide HUD after 0.3 seconds
+                                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+
+                                            [self.loadWorkoutHud hide:YES];
+
+                                        });
+
+                                    }];
+
+}
+
 - (void)downloadWorkout
 {
     //Just download the video loop of all the exercises to complete all the missing exercise attributes
@@ -920,18 +949,19 @@
     switch (index)
     {
         case 0: return [UIImage imageNamed:@"popover-set-as-current"];
-            break;
-            
-        case 1: return [UIImage imageNamed:@"popover-add-to-favorites"];
-            break;
-            
+                break;
+
+        case 1: if(workout.saved)   return [UIImage imageNamed:@"popover-remove-from-favorites"];
+                else                return [UIImage imageNamed:@"popover-add-to-favorites"];
+                break;
+
         case 2: return [UIImage imageNamed:@"popover-download"];
-            break;
-            
+                break;
+
         case 3: return [UIImage imageNamed:@"popover-send-via-email"];
-            break;
+                break;
     }
-    
+
     return nil;
 }
 
@@ -940,16 +970,17 @@
     switch(index)
     {
         case 0: return @"Set as current";
-            break;
+                break;
             
-        case 1: return @"Add to favorites";
-            break;
+        case 1: if(workout.saved)   return @"Remove from favorites";
+                else                return @"Add to favorites";
+                break;
             
         case 2: return @"Download";
-            break;
+                break;
             
         case 3: return @"Workout PDF";
-            break;
+                break;
     }
     
     return @"";
@@ -962,7 +993,8 @@
         case 0: [self setAsUserCurrentWorkout];
                 break;
 
-        case 1: //[self shareWithFacebook];
+        case 1: if(workout.saved)   [self removeFromFavorites];
+                else                [self addToFavorites];
                 break;
 
         case 2: [self downloadWorkout];

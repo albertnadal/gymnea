@@ -10,7 +10,7 @@
 #import "GEAPopoverViewController.h"
 
 // Sizes
-static const float kGEAPopoverContentWidth = 188.0f;
+static const float kGEAPopoverContentWidth = 188.0f; //220.0f
 static const float kGEAPopoverContentRowHeight = 44.0f;
 static const float kGEAPopoverContentSeparatorHeight = 2.0f;
 static const float kGEAPopoverMaxContentHeight = 350.0f;
@@ -18,7 +18,7 @@ static const float kGEAPopoverTailWidth = 23.0f;
 static const float kGEAPopoverTailHeight = 13.0f;
 static const float kGEAPopoverIconWidth = 20.0f;
 static const float kGEAPopoverIconHeight = 20.0f;
-static const float kGEAPopoverTextWidth = 140.0f;
+static const float kGEAPopoverTextWidth =  140.0f; //172.0f;
 static const float kGEAPopoverTextHeight = 20.0f;
 
 // Sizes of standard iOS controls
