@@ -200,6 +200,47 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 }
 
+- (void)removeFromFavorites
+{
+    //Remove the exercise from the favorites list using the API
+    
+    self.loadExerciseHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.loadExerciseHud.labelText = @"Removing from favorites";
+    
+    [[GymneaWSClient sharedInstance] requestUnsaveExercise:self.exercise
+                                       withCompletionBlock:^(GymneaWSClientRequestStatus success) {
+                                          
+                                          // Hide HUD after 0.3 seconds
+                                          dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                                              
+                                              [self.loadExerciseHud hide:YES];
+                                              
+                                          });
+                                          
+                                      }];
+}
+
+- (void)addToFavorites
+{
+    //Add the exercise to the favorites list using the API
+    
+    self.loadExerciseHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.loadExerciseHud.labelText = @"Adding to favorites";
+    
+    [[GymneaWSClient sharedInstance] requestSaveExercise:self.exercise
+                                     withCompletionBlock:^(GymneaWSClientRequestStatus success) {
+                                        
+                                        // Hide HUD after 0.3 seconds
+                                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                                            
+                                            [self.loadExerciseHud hide:YES];
+                                            
+                                        });
+                                        
+                                    }];
+    
+}
+
 - (void)exerciseFinished:(ExercisePlayViewController *)exercisePlay
 {
     [self.navigationController popToViewController:self animated:NO];
@@ -681,13 +722,14 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 {
     switch (index)
     {
-        case 0: return [UIImage imageNamed:@"popover-add-to-favorites"];
-            break;
-            
+        case 0: if(exercise.saved)  return [UIImage imageNamed:@"popover-remove-from-favorites"];
+                else                return [UIImage imageNamed:@"popover-add-to-favorites"];
+                break;
+
         case 1: return [UIImage imageNamed:@"popover-download"];
-            break;
+                break;
     }
-    
+
     return nil;
 }
 
@@ -695,13 +737,14 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 {
     switch(index)
     {
-        case 0: return @"Add to favorites";
-            break;
-            
+        case 0: if(exercise.saved)  return @"Remove from favorites";
+                else                return @"Add to favorites";
+                break;
+
         case 1: return @"Download";
-            break;
+                break;
     }
-    
+
     return @"";
 }
 
@@ -709,7 +752,9 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 {
     switch(index)
     {
-        case 0: break;
+        case 0: if(exercise.saved)  [self removeFromFavorites];
+                else                [self addToFavorites];
+                break;
 
         case 1: [self downloadExercise];
                 break;

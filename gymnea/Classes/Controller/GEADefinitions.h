@@ -155,7 +155,10 @@ extern NSString * const GEAWorkoutIntermediate;
 extern NSString * const GEAWorkoutExpert;
 
 extern NSString * const GEANotificationUserInfoUpdated;
+
 extern NSString * const GEANotificationExercisesDownloadedUpdated;
+extern NSString * const GEANotificationFavoriteExercisesUpdated;
+
 extern NSString * const GEANotificationWorkoutsDownloadedUpdated;
 extern NSString * const GEANotificationFavoriteWorkoutsUpdated;
 

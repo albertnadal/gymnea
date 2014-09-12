@@ -16,13 +16,12 @@
     [super viewDidLoad];
     
     // Listen for incoming new downloaded exercise
-/*
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reloadDataAgain)
-                                                 name:GEANotificationFavoriteWorkoutsUpdated
+                                                 name:GEANotificationFavoriteExercisesUpdated
                                                object:nil];
-*/
-    
+
 }
 
 - (void)reloadDataAgain
@@ -96,6 +95,10 @@
                     
                     [self.loadExercisesHud hide:YES];
                     self.loadingData = FALSE;
+
+                    if(_collectionView != nil) {
+                        [_collectionView reloadData];
+                    }
 
                     [_collectionView setAlpha:0.0f];
                     [_collectionView setHidden:NO];

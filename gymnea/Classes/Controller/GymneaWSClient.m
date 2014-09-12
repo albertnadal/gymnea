@@ -691,6 +691,97 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
     }
 }
 
+- (void)requestSaveExercise:(Exercise *)exercise
+        withCompletionBlock:(workoutSaveExerciseCompletionBlock)completionBlock
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+    
+    exercise.saved = YES;
+    
+    AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+    [appDelegate saveContext];
+    
+    if(self.internetIsReachable) {
+
+        NSString *requestPath = [NSString stringWithFormat:@"/api/saved_exercises/save_exercise/%d", exercise.exerciseId];
+        
+        [self performPUTAsyncRequest:requestPath
+                      withDictionary:@{@"id" : [NSNumber numberWithInt:exercise.exerciseId]}
+                  withAuthentication:auth
+                 withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *responseCookies) {
+                     
+                     // Send notification to reload the favorite exercises view
+                     [[NSNotificationCenter defaultCenter] postNotificationName:GEANotificationFavoriteExercisesUpdated object:nil userInfo:nil];
+                     
+                     dispatch_async(dispatch_get_main_queue(), ^{
+                         if(completionBlock != nil) {
+                             completionBlock(success);
+                         }
+                         
+                     });
+                     
+                 }];
+        
+    } else {
+        
+        // Send notification to reload the favorite exercises view
+        [[NSNotificationCenter defaultCenter] postNotificationName:GEANotificationFavoriteExercisesUpdated object:nil userInfo:nil];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(completionBlock != nil) {
+                completionBlock(GymneaWSClientRequestSuccess);
+            }
+        });
+    }
+
+}
+
+- (void)requestUnsaveExercise:(Exercise *)exercise
+          withCompletionBlock:(workoutSaveExerciseCompletionBlock)completionBlock
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+    
+    exercise.saved = NO;
+    
+    AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+    [appDelegate saveContext];
+    
+    if(self.internetIsReachable) {
+
+        NSString *requestPath = [NSString stringWithFormat:@"/api/saved_exercises/unsave_exercise/%d", exercise.exerciseId];
+        
+        [self performPUTAsyncRequest:requestPath
+                      withDictionary:@{@"id" : [NSNumber numberWithInt:exercise.exerciseId]}
+                  withAuthentication:auth
+                 withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *responseCookies) {
+                     
+                     // Send notification to reload the favorite exercises view
+                     [[NSNotificationCenter defaultCenter] postNotificationName:GEANotificationFavoriteExercisesUpdated object:nil userInfo:nil];
+                     
+                     dispatch_async(dispatch_get_main_queue(), ^{
+                         if(completionBlock != nil) {
+                             completionBlock(success);
+                         }
+                         
+                     });
+                     
+                 }];
+        
+    } else {
+        
+        // Send notification to reload the favorite exercises view
+        [[NSNotificationCenter defaultCenter] postNotificationName:GEANotificationFavoriteExercisesUpdated object:nil userInfo:nil];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(completionBlock != nil) {
+                completionBlock(GymneaWSClientRequestSuccess);
+            }
+        });
+    }
+}
+
 - (void)requestLocalExercisesWithType:(GymneaExerciseType)exerciseTypeId
                            withMuscle:(GymneaMuscleType)muscleId
                         withEquipment:(GymneaEquipmentType)equipmentId

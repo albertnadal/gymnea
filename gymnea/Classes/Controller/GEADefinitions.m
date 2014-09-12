@@ -73,7 +73,10 @@ NSString * const GEAWorkoutIntermediate = @"Intermediate";
 NSString * const GEAWorkoutExpert = @"Expert";
 
 NSString * const GEANotificationUserInfoUpdated = @"GEANotificationUserInfoUpdated";
+
 NSString * const GEANotificationExercisesDownloadedUpdated = @"GEANotificationExercisesDownloadedUpdated";
+NSString * const GEANotificationFavoriteExercisesUpdated = @"GEANotificationFavoriteExercisesUpdated";
+
 NSString * const GEANotificationWorkoutsDownloadedUpdated = @"GEANotificationWorkoutsDownloadedUpdated";
 NSString * const GEANotificationFavoriteWorkoutsUpdated = @"GEANotificationFavoriteWorkoutsUpdated";
 

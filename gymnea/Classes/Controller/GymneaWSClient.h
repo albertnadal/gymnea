@@ -48,6 +48,7 @@ typedef void(^currentWorkoutCompletionBlock)(GymneaWSClientRequestStatus success
 typedef void(^exerciseVideoLoopCompletionBlock)(GymneaWSClientRequestStatus success, NSData *video);
 typedef void(^workoutsCompletionBlock)(GymneaWSClientRequestStatus success, NSArray *workouts);
 typedef void(^workoutSaveWorkoutCompletionBlock)(GymneaWSClientRequestStatus success);
+typedef void(^workoutSaveExerciseCompletionBlock)(GymneaWSClientRequestStatus success);
 typedef void(^sessionIdCompletionBlock)(GymneaWSClientRequestStatus success);
 typedef void(^userPicturesCompletionBlock)(GymneaWSClientRequestStatus success, NSArray *userPictures);
 typedef void(^uploadUserPictureCompletionBlock)(GymneaWSClientRequestStatus success, NSNumber *userPictureId);
@@ -86,6 +87,12 @@ typedef void(^deleteUserPictureCompletionBlock)(GymneaWSClientRequestStatus succ
 - (void)requestExercisesWithCompletionBlock:(exercisesCompletionBlock)completionBlock;
 
 - (void)requestSavedExercisesWithCompletionBlock:(exercisesCompletionBlock)completionBlock;
+
+- (void)requestSaveExercise:(Exercise *)exercise
+        withCompletionBlock:(workoutSaveExerciseCompletionBlock)completionBlock;
+
+- (void)requestUnsaveExercise:(Exercise *)exercise
+          withCompletionBlock:(workoutSaveExerciseCompletionBlock)completionBlock;
 
 - (void)requestLocalExercisesWithType:(GymneaExerciseType)exerciseTypeId
                            withMuscle:(GymneaMuscleType)muscleId
