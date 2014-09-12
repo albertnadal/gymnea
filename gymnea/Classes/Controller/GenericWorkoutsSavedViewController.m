@@ -11,17 +11,34 @@
 
 @implementation GenericWorkoutsSavedViewController
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadDataAgain)
+                                                 name:GEANotificationFavoriteWorkoutsUpdated
+                                               object:nil];
+    
+}
+
+- (void)reloadDataAgain
+{
+    self.needRefreshData = TRUE;
+    [self reloadData];
+}
 
 - (void)reloadData
 {
-    
+
     if((self.needRefreshData) && (!self.loadingData)) {
-        
+
         self.loadingData = TRUE;
 
         self.loadWorkoutsHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.loadWorkoutsHud.labelText = @"Loading favorite workouts";
 
+        [self.noWorkoutsFoundLabel setHidden:YES];
         [self.noWorkoutsFoundLabel setText:@"No favorite workouts found"];
 
         GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
@@ -76,7 +93,11 @@
                     
                     [self.loadWorkoutsHud hide:YES];
                     self.loadingData = FALSE;
-                    
+
+                    if(_collectionView != nil) {
+                        [_collectionView reloadData];
+                    }
+
                     [self.loadWorkoutsHud hide:YES];
                     
                     [_collectionView setAlpha:0.0f];

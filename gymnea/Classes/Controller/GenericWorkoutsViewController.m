@@ -213,6 +213,7 @@
                                                                             action:nil];
     self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     [self.noWorkoutsFoundLabel setHidden:YES];
+
 }
 
 - (void)reloadData

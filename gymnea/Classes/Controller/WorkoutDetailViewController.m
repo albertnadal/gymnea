@@ -384,6 +384,22 @@
 {
     //Remove the workout from the favorites list using the API
 
+    self.loadWorkoutHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.loadWorkoutHud.mode = MBProgressHUDModeAnnularDeterminate;
+    self.loadWorkoutHud.progress = 0.0f;
+    self.loadWorkoutHud.labelText = @"Removing from favorites";
+    
+    [[GymneaWSClient sharedInstance] requestUnsaveWorkout:self.workout
+                                    withCompletionBlock:^(GymneaWSClientRequestStatus success) {
+                                        
+                                        // Hide HUD after 0.3 seconds
+                                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                                            
+                                            [self.loadWorkoutHud hide:YES];
+                                            
+                                        });
+                                        
+                                    }];
 }
 
 - (void)addToFavorites

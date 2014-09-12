@@ -122,6 +122,9 @@ typedef void(^deleteUserPictureCompletionBlock)(GymneaWSClientRequestStatus succ
 - (void)requestSaveWorkout:(Workout *)workout
        withCompletionBlock:(workoutSaveWorkoutCompletionBlock)completionBlock;
 
+- (void)requestUnsaveWorkout:(Workout *)workout
+         withCompletionBlock:(workoutSaveWorkoutCompletionBlock)completionBlock;
+
 - (void)requestLocalWorkoutsWithType:(GymneaWorkoutType)workoutTypeId
                        withFrequency:(int)frequence
                            withLevel:(GymneaWorkoutLevel)levelId

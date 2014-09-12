@@ -11,22 +11,42 @@
 
 @implementation ExercisesSavedViewController
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    // Listen for incoming new downloaded exercise
+/*
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadDataAgain)
+                                                 name:GEANotificationFavoriteWorkoutsUpdated
+                                               object:nil];
+*/
+    
+}
+
+- (void)reloadDataAgain
+{
+    self.needRefreshData = TRUE;
+    [self reloadData];
+}
 
 - (void)reloadData
 {
 
     if((self.needRefreshData) && (!self.loadingData)) {
-        
+
         self.loadingData = TRUE;
 
         self.loadExercisesHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.loadExercisesHud.labelText = @"Loading favorite exercises";
 
+        [self.noExercisesFoundLabel setHidden:YES];
         [self.noExercisesFoundLabel setText:@"No favorite exercises found"];
 
         GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
         [gymneaWSClient requestSavedExercisesWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSArray *exercises) {
-            
+
             if(success == GymneaWSClientRequestSuccess) {
                 self.needRefreshData = FALSE;
 

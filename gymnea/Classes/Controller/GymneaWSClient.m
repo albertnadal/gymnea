@@ -1033,6 +1033,53 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
     }
 }
 
+- (void)requestUnsaveWorkout:(Workout *)workout
+         withCompletionBlock:(workoutSaveWorkoutCompletionBlock)completionBlock
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+    
+    workout.saved = NO;
+    
+    AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+    [appDelegate saveContext];
+    
+    
+    if(self.internetIsReachable) {
+
+        NSString *requestPath = [NSString stringWithFormat:@"/api/saved_workouts/unsave_workout/%d", workout.workoutId];
+        
+        [self performPUTAsyncRequest:requestPath
+                      withDictionary:@{@"id" : [NSNumber numberWithInt:workout.workoutId]}
+                  withAuthentication:auth
+                 withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *responseCookies) {
+                     
+                     // Send notification to reload the favorite workouts view
+                     [[NSNotificationCenter defaultCenter] postNotificationName:GEANotificationFavoriteWorkoutsUpdated object:nil userInfo:nil];
+                     
+                     dispatch_async(dispatch_get_main_queue(), ^{
+                         if(completionBlock != nil) {
+                             completionBlock(success);
+                         }
+                         
+                     });
+                     
+                 }];
+        
+    } else {
+        
+        // Send notification to reload the favorite workouts view
+        [[NSNotificationCenter defaultCenter] postNotificationName:GEANotificationFavoriteWorkoutsUpdated object:nil userInfo:nil];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(completionBlock != nil) {
+                completionBlock(GymneaWSClientRequestSuccess);
+            }
+        });
+    }
+    
+}
+
 - (void)requestSaveWorkout:(Workout *)workout
        withCompletionBlock:(workoutSaveWorkoutCompletionBlock)completionBlock
 {
