@@ -963,8 +963,7 @@
         case 0: return [UIImage imageNamed:@"popover-set-as-current"];
                 break;
 
-        case 1: if(workout.saved)   return [UIImage imageNamed:@"popover-remove-from-favorites"];
-                else                return [UIImage imageNamed:@"popover-add-to-favorites"];
+        case 1: return [UIImage imageNamed:@"popover-add-to-favorites"];
                 break;
 
         case 2: return [UIImage imageNamed:@"popover-download"];

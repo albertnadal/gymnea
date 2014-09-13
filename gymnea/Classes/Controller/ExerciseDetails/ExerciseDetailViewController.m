@@ -723,8 +723,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 {
     switch (index)
     {
-        case 0: if(exercise.saved)  return [UIImage imageNamed:@"popover-remove-from-favorites"];
-                else                return [UIImage imageNamed:@"popover-add-to-favorites"];
+        case 0: return [UIImage imageNamed:@"popover-add-to-favorites"];
                 break;
 
         case 1: return [UIImage imageNamed:@"popover-download"];
