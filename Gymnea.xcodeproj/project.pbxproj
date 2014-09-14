@@ -101,6 +101,8 @@
 		FF1E33F519C3B74C00F1A4F2 /* WorkoutDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF1E33EE19C3B74C00F1A4F2 /* WorkoutDetailViewController.xib */; };
 		FF1E33F819C3B78F00F1A4F2 /* GEASideMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF1E33F719C3B78F00F1A4F2 /* GEASideMenuController.xib */; };
 		FF1E33FA19C3B7BD00F1A4F2 /* clock_tic.wav in Resources */ = {isa = PBXBuildFile; fileRef = FF1E33F919C3B7BD00F1A4F2 /* clock_tic.wav */; };
+		FF1E33FE19C5AED700F1A4F2 /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF1E33FC19C5AED700F1A4F2 /* EditProfileViewController.m */; };
+		FF1E340119C5C11300F1A4F2 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF1E340019C5C11300F1A4F2 /* EditProfileViewController.xib */; };
 		FF3F70A8196D54BE007AADF1 /* GEASideMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF3F70A7196D54BE007AADF1 /* GEASideMenuController.m */; };
 		FF76206B196ABA9100611B3B /* Avenir Next.ttc in Resources */ = {isa = PBXBuildFile; fileRef = FF76206A196ABA9100611B3B /* Avenir Next.ttc */; };
 		FF8E5C7119AA038A00DCA9E6 /* WorkoutDayExercise.m in Sources */ = {isa = PBXBuildFile; fileRef = FF8E5C7019AA038A00DCA9E6 /* WorkoutDayExercise.m */; };
@@ -291,6 +293,9 @@
 		FF1E33EE19C3B74C00F1A4F2 /* WorkoutDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WorkoutDetailViewController.xib; path = Resources/Views/WorkoutDetails/WorkoutDetailViewController.xib; sourceTree = "<group>"; };
 		FF1E33F719C3B78F00F1A4F2 /* GEASideMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GEASideMenuController.xib; path = Resources/Views/Containers/GEASideMenuController.xib; sourceTree = "<group>"; };
 		FF1E33F919C3B7BD00F1A4F2 /* clock_tic.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = clock_tic.wav; path = Resources/Audio/clock_tic.wav; sourceTree = "<group>"; };
+		FF1E33FB19C5AED700F1A4F2 /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditProfileViewController.h; path = Classes/Controller/Account/EditProfileViewController.h; sourceTree = "<group>"; };
+		FF1E33FC19C5AED700F1A4F2 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditProfileViewController.m; path = Classes/Controller/Account/EditProfileViewController.m; sourceTree = "<group>"; };
+		FF1E340019C5C11300F1A4F2 /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditProfileViewController.xib; path = Resources/Views/Account/EditProfileViewController.xib; sourceTree = "<group>"; };
 		FF3F70A6196D54BE007AADF1 /* GEASideMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GEASideMenuController.h; path = Classes/Controller/Containers/GEASideMenuController.h; sourceTree = "<group>"; };
 		FF3F70A7196D54BE007AADF1 /* GEASideMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GEASideMenuController.m; path = Classes/Controller/Containers/GEASideMenuController.m; sourceTree = "<group>"; };
 		FF76206A196ABA9100611B3B /* Avenir Next.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Avenir Next.ttc"; path = "Resources/Fonts/Avenir Next.ttc"; sourceTree = "<group>"; };
@@ -448,6 +453,7 @@
 			isa = PBXGroup;
 			children = (
 				FF1E33CD19C3B58E00F1A4F2 /* AccountViewController.xib */,
+				FF1E340019C5C11300F1A4F2 /* EditProfileViewController.xib */,
 			);
 			name = Account;
 			sourceTree = "<group>";
@@ -595,6 +601,8 @@
 			children = (
 				FF1E332919C3B02400F1A4F2 /* AccountViewController.h */,
 				FF1E332819C3B02400F1A4F2 /* AccountViewController.m */,
+				FF1E33FB19C5AED700F1A4F2 /* EditProfileViewController.h */,
+				FF1E33FC19C5AED700F1A4F2 /* EditProfileViewController.m */,
 			);
 			name = Account;
 			sourceTree = "<group>";
@@ -953,6 +961,7 @@
 				FF1E33F319C3B74C00F1A4F2 /* WorkoutDayTableViewController.xib in Resources */,
 				FF1E33EF19C3B74C00F1A4F2 /* ChooseWorkoutDayTableViewCell.xib in Resources */,
 				FF76206B196ABA9100611B3B /* Avenir Next.ttc in Resources */,
+				FF1E340119C5C11300F1A4F2 /* EditProfileViewController.xib in Resources */,
 				FF1E33D719C3B69200F1A4F2 /* GenericWorkoutsViewController.xib in Resources */,
 				FF1E33F819C3B78F00F1A4F2 /* GEASideMenuController.xib in Resources */,
 				FF1E33F219C3B74C00F1A4F2 /* WorkoutDayTableViewCell.xib in Resources */,
@@ -1094,6 +1103,7 @@
 				FF1E338519C3B2BF00F1A4F2 /* WorkoutPlayTableViewCell.m in Sources */,
 				FFA137571969A58000DBEE68 /* main.m in Sources */,
 				FF1E335A19C3B15500F1A4F2 /* ExercisesViewController.m in Sources */,
+				FF1E33FE19C5AED700F1A4F2 /* EditProfileViewController.m in Sources */,
 				FFF826EA19B5D96B00DD3916 /* UserPicture.m in Sources */,
 				FF1E33AD19C3B3B700F1A4F2 /* InitialQuestionnaireGoalViewController.m in Sources */,
 				FF8E5C7119AA038A00DCA9E6 /* WorkoutDayExercise.m in Sources */,

@@ -17,10 +17,12 @@
 #import "UserInfo+Management.h"
 #import "UserPicture+Management.h"
 #import "AppDelegate.h"
+#import "EditProfileViewController.h"
 
 @interface AccountViewController ()
 
 - (IBAction)doLogout:(id)sender;
+- (IBAction)doEditProfile:(id)sender;
 
 @end
 
@@ -43,14 +45,20 @@
 
 - (IBAction)doLogout:(id)sender
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Logout confirmation"
-                                                    message:@"Do you really want to logout?"
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sign out confirmation"
+                                                    message:@"Do you really want to sign out?"
                                                    delegate:self
                                           cancelButtonTitle:@"Cancel"
-                                          otherButtonTitles:@"Logout", nil];
+                                          otherButtonTitles:@"Sign out", nil];
 
     [alert setTag:1];
     [alert show];
+}
+
+- (IBAction)doEditProfile:(id)sender
+{
+    EditProfileViewController *editProfileViewController = [[EditProfileViewController alloc] init];
+    [self presentViewController:editProfileViewController animated:YES completion:nil];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
