@@ -7,10 +7,21 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditProfileViewController">
             <connections>
+                <outlet property="ageButton" destination="KrI-1e-V2V" id="8RL-b5-wUo"/>
+                <outlet property="ageTextField" destination="FYa-8b-JtA" id="Lkd-bL-odQ"/>
+                <outlet property="emailAddressTextField" destination="nqS-Xs-Det" id="ct4-DY-4kh"/>
+                <outlet property="firstNameTextField" destination="xBg-GC-ZuB" id="y7Q-2I-z6P"/>
+                <outlet property="genderButton" destination="L07-nW-ylu" id="kaC-7S-vMc"/>
+                <outlet property="genderTextField" destination="BbQ-rd-qE4" id="0LH-3k-e4m"/>
+                <outlet property="heightButton" destination="UER-ra-RPK" id="DZV-yw-Qrq"/>
+                <outlet property="heightTextField" destination="pwU-gR-peG" id="Nrn-fq-rox"/>
+                <outlet property="lastNameTextField" destination="GgN-9N-5dN" id="LHY-Yf-zLC"/>
                 <outlet property="userAvatar" destination="Psr-ta-127" id="eSj-Rb-Rzz"/>
                 <outlet property="userAvatarView" destination="rwO-zJ-VQB" id="Gr1-j6-caE"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="viewTitle" destination="XRW-eH-F1K" id="D7n-pv-s8o"/>
+                <outlet property="weightButton" destination="tKp-RY-FpJ" id="6rg-3g-S0O"/>
+                <outlet property="weightTextField" destination="VEL-Dj-6ax" id="fZX-mH-L61"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -31,122 +42,161 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="C3S-S9-f87">
-                            <rect key="frame" x="160" y="143" width="1" height="30"/>
+                            <rect key="frame" x="160" y="104" width="1" height="30"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" red="0.019607843140000001" green="0.76470588240000004" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
                         <view contentMode="scaleToFill" id="Z6T-5a-GYy">
-                            <rect key="frame" x="0.0" y="173" width="320" height="1"/>
+                            <rect key="frame" x="0.0" y="134" width="320" height="1"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" red="0.019607843140000001" green="0.76470588240000004" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
                         <view contentMode="scaleToFill" id="Eyz-pY-Czb">
-                            <rect key="frame" x="0.0" y="213" width="320" height="1"/>
+                            <rect key="frame" x="0.0" y="174" width="320" height="1"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" red="0.019607843140000001" green="0.76470588240000004" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
                         <view contentMode="scaleToFill" id="LNh-GZ-DUJ">
-                            <rect key="frame" x="80" y="214" width="1" height="39"/>
+                            <rect key="frame" x="107" y="175" width="1" height="30"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" red="0.019607843140000001" green="0.76470588240000004" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
                         <view contentMode="scaleToFill" id="fKq-Tb-Iet">
-                            <rect key="frame" x="160" y="214" width="1" height="39"/>
+                            <rect key="frame" x="213" y="175" width="1" height="30"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" red="0.019607843140000001" green="0.76470588240000004" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
                         <view contentMode="scaleToFill" id="6ku-Cx-wqa">
-                            <rect key="frame" x="240" y="214" width="1" height="39"/>
+                            <rect key="frame" x="213" y="134" width="1" height="40"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" red="0.019607843140000001" green="0.76470588240000004" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" minimumFontSize="13" id="xBg-GC-ZuB" userLabel="firstNameTextField">
-                            <rect key="frame" x="10" y="143" width="140" height="30"/>
+                            <rect key="frame" x="10" y="104" width="140" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
-                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="light" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="light" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                            <connections>
+                                <action selector="hideKeyboard:" destination="-1" eventType="editingDidEnd" id="Vd8-jF-9Vq"/>
+                                <action selector="hideSelectors:" destination="-1" eventType="editingDidBegin" id="yAv-sM-ma7"/>
+                                <outlet property="delegate" destination="-1" id="I8Y-o8-Jgm"/>
+                            </connections>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" minimumFontSize="13" id="GgN-9N-5dN" userLabel="lastNameTextField">
-                            <rect key="frame" x="170" y="143" width="140" height="30"/>
+                            <rect key="frame" x="170" y="104" width="140" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
-                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="light" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="light" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                            <connections>
+                                <action selector="hideKeyboard:" destination="-1" eventType="editingDidEnd" id="frt-GJ-Dxm"/>
+                                <action selector="hideSelectors:" destination="-1" eventType="editingDidBegin" id="SR6-py-ZUS"/>
+                                <outlet property="delegate" destination="-1" id="WOC-Q7-Yma"/>
+                            </connections>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="E-mail Address" minimumFontSize="13" id="nqS-Xs-Det" userLabel="emailAddressTextField">
-                            <rect key="frame" x="10" y="179" width="300" height="30"/>
+                            <rect key="frame" x="10" y="140" width="197" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
-                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" keyboardAppearance="light" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" keyboardAppearance="light" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                            <connections>
+                                <action selector="hideKeyboard:" destination="-1" eventType="editingDidEnd" id="Ogb-Zr-s9r"/>
+                                <action selector="hideSelectors:" destination="-1" eventType="editingDidBegin" id="VPD-9P-ha8"/>
+                                <outlet property="delegate" destination="-1" id="Tdl-fk-Li7"/>
+                            </connections>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Age" minimumFontSize="13" id="FYa-8b-JtA" userLabel="ageTextField">
-                            <rect key="frame" x="10" y="219" width="61" height="30"/>
+                            <rect key="frame" x="10" y="180" width="89" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
-                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="light" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="light" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="ki4-aS-iBH"/>
+                            </connections>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Weight" minimumFontSize="13" id="VEL-Dj-6ax" userLabel="weightTextField">
-                            <rect key="frame" x="89" y="219" width="62" height="30"/>
+                            <rect key="frame" x="116" y="180" width="91" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
-                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="light" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="light" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="lyV-c7-n0F"/>
+                            </connections>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Height" minimumFontSize="13" id="pwU-gR-peG" userLabel="heightTextField">
-                            <rect key="frame" x="170" y="219" width="61" height="30"/>
+                            <rect key="frame" x="222" y="180" width="90" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
-                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="light" returnKeyType="go" enablesReturnKeyAutomatically="YES"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="light" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="QMo-p6-CXN"/>
+                            </connections>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Gender" minimumFontSize="13" id="BbQ-rd-qE4" userLabel="genderTextField">
-                            <rect key="frame" x="250" y="219" width="61" height="30"/>
+                            <rect key="frame" x="222" y="140" width="89" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
-                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="light" returnKeyType="go" enablesReturnKeyAutomatically="YES"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="light" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="Hn8-03-ybv"/>
+                            </connections>
                         </textField>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="KrI-1e-V2V" userLabel="ageButton">
-                            <rect key="frame" x="10" y="219" width="61" height="30"/>
+                            <rect key="frame" x="10" y="180" width="89" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                             <state key="normal">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="showBirthdateSelector:" destination="-1" eventType="touchUpInside" id="mZB-HK-nY4"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="tKp-RY-FpJ" userLabel="weightButton">
-                            <rect key="frame" x="89" y="219" width="62" height="30"/>
+                            <rect key="frame" x="116" y="180" width="89" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                             <state key="normal">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="showWeightSelector:" destination="-1" eventType="touchUpInside" id="aFK-0S-nvv"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="UER-ra-RPK" userLabel="heightButton">
-                            <rect key="frame" x="170" y="219" width="61" height="30"/>
+                            <rect key="frame" x="222" y="180" width="88" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                             <state key="normal">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="showHeightSelector:" destination="-1" eventType="touchUpInside" id="AUQ-Rl-FBr"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="L07-nW-ylu" userLabel="genderButton">
-                            <rect key="frame" x="250" y="219" width="61" height="30"/>
+                            <rect key="frame" x="222" y="140" width="89" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                             <state key="normal">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="showGenderSelector:" destination="-1" eventType="touchUpInside" id="EbX-Yo-4XP"/>
+                            </connections>
                         </button>
                         <view contentMode="scaleToFill" id="rwO-zJ-VQB" userLabel="userAvatarView">
-                            <rect key="frame" x="113" y="8" width="94" height="94"/>
+                            <rect key="frame" x="113" y="0.0" width="94" height="94"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="test-avatar" id="Psr-ta-127" userLabel="userAvatar">
@@ -169,7 +219,7 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Gpi-wm-kCn" userLabel="userAvatarButton">
-                            <rect key="frame" x="113" y="8" width="94" height="94"/>
+                            <rect key="frame" x="113" y="0.0" width="94" height="94"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -188,6 +238,9 @@
                     <state key="normal" title="Save">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="sendEditedUserDataRequest:" destination="-1" eventType="touchUpInside" id="zoe-uI-WQe"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="b7Y-vt-ykh">
                     <rect key="frame" x="8" y="21" width="60" height="40"/>
