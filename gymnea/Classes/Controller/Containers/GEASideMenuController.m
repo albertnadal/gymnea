@@ -180,6 +180,8 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
 - (void)didTouchOpenCloseButton:(UIBarButtonItem *)openCloseButton;
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture;
 - (void)handleTapGesture:(UITapGestureRecognizer *)tapGesture;
+- (void)reloadUserInfo;
+- (void)reloadLocalUserInfo;
 
 @end
 
@@ -259,52 +261,68 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
     self.userPicture.layer.cornerRadius = self.userPicture.frame.size.width / 2.0f;;
     self.userPicture.layer.masksToBounds = YES;
 
+    // Listen for incoming new current workout set
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadLocalUserInfo)
+                                                 name:GEANotificationUserInfoUpdated
+                                               object:nil];
+
+    [self reloadUserInfo];
+}
+
+- (void)updateDataWithUserInfo:(UserInfo *)userInfo
+{
+    // Calculate the user age from his birthdate
+    NSDate *today = [[NSDate alloc] init];
+    NSCalendar *sysCalendar = [NSCalendar currentCalendar];
+    unsigned int unitFlags = NSYearCalendarUnit;
+    NSDate *differentialDate = [[NSDate alloc] initWithTimeInterval:[[userInfo birthDate] timeIntervalSinceNow] sinceDate:today];
+    NSDateComponents *userAgeComponents = [sysCalendar components:unitFlags fromDate:today  toDate:differentialDate  options:0];
+    
+    // Calculate the user height (cm <-> ft/in)
+    float centimeters = [userInfo heightCentimeters];
+    NSString *heightString = nil;
+    
+    if([userInfo heightIsMetric]) {
+        heightString = [NSString stringWithFormat:@"%.0fcm", centimeters];
+    } else {
+        float inches = (centimeters * 0.39370078740157477f);
+        int feet = (int)(inches / 12);
+        inches = fmodf(inches, 12);
+        heightString = [NSString stringWithFormat:@"%d' %.2f\"", feet, inches];
+    }
+    
+    // Calculate the user weight
+    float kilograms = [userInfo weightKilograms];
+    NSString *weightString = nil;
+    
+    if([userInfo weightIsMetric]) {
+        weightString = [NSString stringWithFormat:@"%.1fkg", kilograms];
+    } else {
+        weightString = [NSString stringWithFormat:@"%.1flbs", (kilograms * 2.20462262f)];
+    }
+    
+    [self.userInfoLabel setText:[NSString stringWithFormat:@"%@ - %d - %@ - %@", [userInfo.gender capitalizedString], abs((int)[userAgeComponents year]), heightString, weightString]];
+    [self.userNameLabel setText:[NSString stringWithFormat:@"%@ %@", userInfo.firstName, userInfo.lastName]];
+
+}
+
+- (void)reloadUserInfo
+{
 
     // Download the user information or get it from the DB
     [[GymneaWSClient sharedInstance] requestUserInfoWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, UserInfo *userInfo) {
-
-
+        
         if(success == GymneaWSClientRequestSuccess) {
 
-            // Calculate the user age from his birthdate
-            NSDate *today = [[NSDate alloc] init];
-            NSCalendar *sysCalendar = [NSCalendar currentCalendar];
-            unsigned int unitFlags = NSYearCalendarUnit;
-            NSDate *differentialDate = [[NSDate alloc] initWithTimeInterval:[[userInfo birthDate] timeIntervalSinceNow] sinceDate:today];
-            NSDateComponents *userAgeComponents = [sysCalendar components:unitFlags fromDate:today  toDate:differentialDate  options:0];
-
-            // Calculate the user height (cm <-> ft/in)
-            float centimeters = [userInfo heightCentimeters];
-            NSString *heightString = nil;
-
-            if([userInfo heightIsMetric]) {
-                heightString = [NSString stringWithFormat:@"%.0fcm", centimeters];
-            } else {
-                float inches = (centimeters * 0.39370078740157477f);
-                int feet = (int)(inches / 12);
-                inches = fmodf(inches, 12);
-                heightString = [NSString stringWithFormat:@"%d' %.2f\"", feet, inches];
-            }
-
-            // Calculate the user weight
-            float kilograms = [userInfo weightKilograms];
-            NSString *weightString = nil;
-            
-            if([userInfo weightIsMetric]) {
-                weightString = [NSString stringWithFormat:@"%.1fkg", kilograms];
-            } else {
-                weightString = [NSString stringWithFormat:@"%.1flbs", (kilograms * 2.20462262f)];
-            }
-
-            [self.userInfoLabel setText:[NSString stringWithFormat:@"%@ - %d - %@ - %@", [userInfo.gender capitalizedString], abs((int)[userAgeComponents year]), heightString, weightString]];
-            [self.userNameLabel setText:[NSString stringWithFormat:@"%@ %@", userInfo.firstName, userInfo.lastName]];
+            [self updateDataWithUserInfo:userInfo];
 
         } else {
             [self.userNameLabel setText:@"-"];
             [self.userInfoLabel setText:@"-"];
-
+            
         }
-
+        
         //Download the user avatar picture
         [[GymneaWSClient sharedInstance] requestUserImageWithCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *userImage) {
             
@@ -313,8 +331,38 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
             }
             
         }];
-
+        
     }];
+
+}
+
+- (void)reloadLocalUserInfo
+{
+
+    // Get the user info from the local DB
+    [[GymneaWSClient sharedInstance] requestLocalUserInfoWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, UserInfo *userInfo) {
+        
+        if(success == GymneaWSClientRequestSuccess) {
+            
+            [self updateDataWithUserInfo:userInfo];
+            
+        } else {
+            [self.userNameLabel setText:@"-"];
+            [self.userInfoLabel setText:@"-"];
+            
+        }
+        
+        //Download the user avatar picture
+        [[GymneaWSClient sharedInstance] requestUserImageWithCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *userImage) {
+            
+            if(success == GymneaWSClientRequestSuccess) {
+                [self.userPicture setImage:userImage];
+            }
+            
+        }];
+        
+    }];
+
 }
 
 #pragma mark - Getters and setters

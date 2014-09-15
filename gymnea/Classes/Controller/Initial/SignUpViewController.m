@@ -487,8 +487,6 @@
         [self.ageButton setTitle:[NSString stringWithFormat:@"%d years", abs((int)[breakdownInfo year])] forState:UIControlStateNormal];
         [self.ageButton setBackgroundColor:[UIColor whiteColor]];
 
-        //    NSLog(@"DATE: %d-%d-%d", self.day, self.month, self.year);
-
         self.ageSelected = YES;
     }
     else if(pickerView == self.weightPickerView)
@@ -508,12 +506,10 @@
         if(self.weightIsMetricUnits) {
             self.weight = ([pickerView selectedRowInComponent:0] + 30.0f) + (([pickerView selectedRowInComponent:1])/10.0f);
             [self.weightButton setTitle:[NSString stringWithFormat:@"%.1f kg", self.weight] forState:UIControlStateNormal];
-//            NSLog(@"WEIGHT: %.1f", self.weight);
 
         } else {
             self.weight = ([pickerView selectedRowInComponent:0] + 30.0f) + (([pickerView selectedRowInComponent:1])/10.0f);
             [self.weightButton setTitle:[NSString stringWithFormat:@"%.1f lbs", self.weight] forState:UIControlStateNormal];
-//            NSLog(@"WEIGHT: %.2f", self.weight);
 
         }
 
@@ -537,13 +533,11 @@
         if(self.heightIsMetricUnits) {
             self.heightCentimeters = (((int)[pickerView selectedRowInComponent:0] + 1) * 100) + ((int)[pickerView selectedRowInComponent:1]);
             [self.heightButton setTitle:[NSString stringWithFormat:@"%dm %dcm", (int)[pickerView selectedRowInComponent:0] + 1, (int)[pickerView selectedRowInComponent:1]] forState:UIControlStateNormal];
-//            NSLog(@"HEIGHT CENTIMETERS: %d", self.heightCentimeters);
 
         } else {
             self.heightFoot = [pickerView selectedRowInComponent:0] + 1.0f;
             self.heightInches = (int)[pickerView selectedRowInComponent:1];
             [self.heightButton setTitle:[NSString stringWithFormat:@"%d' %d\"", (int)[pickerView selectedRowInComponent:0] + 1, (int)[pickerView selectedRowInComponent:1]] forState:UIControlStateNormal];
-//            NSLog(@"HEIGHT FT/IN: %d ft %d in", self.heightFoot, self.heightInches);
 
         }
 
@@ -893,8 +887,6 @@
                withCompletionBlock:^(GymneaSignUpWSClientRequestResponse success, NSDictionary *responseData, UserInfo *userInfo) {
 
                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-
-//                   NSLog(@"SIGN IN RESPONSE: %@", responseData);
 
                    if([[[responseData objectForKey:@"success"] lowercaseString] isEqual: @"false"]) {
                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[responseData objectForKey:@"errorMsg"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];

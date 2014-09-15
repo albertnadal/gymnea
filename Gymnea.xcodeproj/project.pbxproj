@@ -104,6 +104,10 @@
 		FF1E33FE19C5AED700F1A4F2 /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF1E33FC19C5AED700F1A4F2 /* EditProfileViewController.m */; };
 		FF1E340119C5C11300F1A4F2 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF1E340019C5C11300F1A4F2 /* EditProfileViewController.xib */; };
 		FF3F70A8196D54BE007AADF1 /* GEASideMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF3F70A7196D54BE007AADF1 /* GEASideMenuController.m */; };
+		FF57298219C732D10068ADB0 /* EditPersonalProfileForm.m in Sources */ = {isa = PBXBuildFile; fileRef = FF57298119C732D10068ADB0 /* EditPersonalProfileForm.m */; };
+		FF57298519C743C10068ADB0 /* EditUnitsMeasuresForm.m in Sources */ = {isa = PBXBuildFile; fileRef = FF57298419C743C10068ADB0 /* EditUnitsMeasuresForm.m */; };
+		FF57298819C75ADA0068ADB0 /* EditEmailForm.m in Sources */ = {isa = PBXBuildFile; fileRef = FF57298719C75ADA0068ADB0 /* EditEmailForm.m */; };
+		FF57298B19C7613D0068ADB0 /* EditAvatarForm.m in Sources */ = {isa = PBXBuildFile; fileRef = FF57298A19C7613D0068ADB0 /* EditAvatarForm.m */; };
 		FF76206B196ABA9100611B3B /* Avenir Next.ttc in Resources */ = {isa = PBXBuildFile; fileRef = FF76206A196ABA9100611B3B /* Avenir Next.ttc */; };
 		FF8E5C7119AA038A00DCA9E6 /* WorkoutDayExercise.m in Sources */ = {isa = PBXBuildFile; fileRef = FF8E5C7019AA038A00DCA9E6 /* WorkoutDayExercise.m */; };
 		FF8E69A91987AD1E008C6BF9 /* GEAScrollableTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF8E69A61987AD1E008C6BF9 /* GEAScrollableTabBarController.m */; };
@@ -298,6 +302,14 @@
 		FF1E340019C5C11300F1A4F2 /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditProfileViewController.xib; path = Resources/Views/Account/EditProfileViewController.xib; sourceTree = "<group>"; };
 		FF3F70A6196D54BE007AADF1 /* GEASideMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GEASideMenuController.h; path = Classes/Controller/Containers/GEASideMenuController.h; sourceTree = "<group>"; };
 		FF3F70A7196D54BE007AADF1 /* GEASideMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GEASideMenuController.m; path = Classes/Controller/Containers/GEASideMenuController.m; sourceTree = "<group>"; };
+		FF57298019C732D10068ADB0 /* EditPersonalProfileForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditPersonalProfileForm.h; path = Classes/Controller/Services/EditPersonalProfileForm.h; sourceTree = "<group>"; };
+		FF57298119C732D10068ADB0 /* EditPersonalProfileForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditPersonalProfileForm.m; path = Classes/Controller/Services/EditPersonalProfileForm.m; sourceTree = "<group>"; };
+		FF57298319C743C10068ADB0 /* EditUnitsMeasuresForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditUnitsMeasuresForm.h; path = Classes/Controller/Services/EditUnitsMeasuresForm.h; sourceTree = "<group>"; };
+		FF57298419C743C10068ADB0 /* EditUnitsMeasuresForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditUnitsMeasuresForm.m; path = Classes/Controller/Services/EditUnitsMeasuresForm.m; sourceTree = "<group>"; };
+		FF57298619C75ADA0068ADB0 /* EditEmailForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditEmailForm.h; path = Classes/Controller/Services/EditEmailForm.h; sourceTree = "<group>"; };
+		FF57298719C75ADA0068ADB0 /* EditEmailForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditEmailForm.m; path = Classes/Controller/Services/EditEmailForm.m; sourceTree = "<group>"; };
+		FF57298919C7613D0068ADB0 /* EditAvatarForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditAvatarForm.h; path = Classes/Controller/Services/EditAvatarForm.h; sourceTree = "<group>"; };
+		FF57298A19C7613D0068ADB0 /* EditAvatarForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditAvatarForm.m; path = Classes/Controller/Services/EditAvatarForm.m; sourceTree = "<group>"; };
 		FF76206A196ABA9100611B3B /* Avenir Next.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Avenir Next.ttc"; path = "Resources/Fonts/Avenir Next.ttc"; sourceTree = "<group>"; };
 		FF8E5C6F19AA038A00DCA9E6 /* WorkoutDayExercise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkoutDayExercise.h; path = Classes/Model/WorkoutDayExercise.h; sourceTree = "<group>"; };
 		FF8E5C7019AA038A00DCA9E6 /* WorkoutDayExercise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkoutDayExercise.m; path = Classes/Model/WorkoutDayExercise.m; sourceTree = "<group>"; };
@@ -678,6 +690,14 @@
 				FF1E330819C3AE7D00F1A4F2 /* GymneaWSClient.m */,
 				FF1E330919C3AE7D00F1A4F2 /* SignUpForm.h */,
 				FF1E330A19C3AE7D00F1A4F2 /* SignUpForm.m */,
+				FF57298019C732D10068ADB0 /* EditPersonalProfileForm.h */,
+				FF57298119C732D10068ADB0 /* EditPersonalProfileForm.m */,
+				FF57298319C743C10068ADB0 /* EditUnitsMeasuresForm.h */,
+				FF57298419C743C10068ADB0 /* EditUnitsMeasuresForm.m */,
+				FF57298619C75ADA0068ADB0 /* EditEmailForm.h */,
+				FF57298719C75ADA0068ADB0 /* EditEmailForm.m */,
+				FF57298919C7613D0068ADB0 /* EditAvatarForm.h */,
+				FF57298A19C7613D0068ADB0 /* EditAvatarForm.m */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -1043,6 +1063,7 @@
 				FF1E330519C3AE4000F1A4F2 /* GEAAuthentication.m in Sources */,
 				FF8E69AA1987AD1E008C6BF9 /* GEATouchView.m in Sources */,
 				FF1E339919C3B31800F1A4F2 /* ChooseWorkoutDayTableViewController.m in Sources */,
+				FF57298B19C7613D0068ADB0 /* EditAvatarForm.m in Sources */,
 				FF1E335619C3B15500F1A4F2 /* ExerciseCollectionViewCell.m in Sources */,
 				FF1E339A19C3B31800F1A4F2 /* ChooseWorkoutDayViewController.m in Sources */,
 				FF1E334319C3B08B00F1A4F2 /* MWTapDetectingImageView.m in Sources */,
@@ -1054,6 +1075,7 @@
 				FF1E330C19C3AE7D00F1A4F2 /* SignUpForm.m in Sources */,
 				FF1E332A19C3B02400F1A4F2 /* AccountViewController.m in Sources */,
 				FF1E330F19C3AF0A00F1A4F2 /* UserInfo+Management.m in Sources */,
+				FF57298819C75ADA0068ADB0 /* EditEmailForm.m in Sources */,
 				FF9110AB197B187600818E95 /* Exercise.m in Sources */,
 				FF1E331219C3AF1600F1A4F2 /* UserPicture+Management.m in Sources */,
 				FF8E69A91987AD1E008C6BF9 /* GEAScrollableTabBarController.m in Sources */,
@@ -1077,6 +1099,7 @@
 				FF1E339819C3B31800F1A4F2 /* ChooseWorkoutDayTableViewCell.m in Sources */,
 				FF1E338419C3B2BF00F1A4F2 /* WorkoutPlayResultsViewController.m in Sources */,
 				FF1E338619C3B2BF00F1A4F2 /* WorkoutPlayTableViewController.m in Sources */,
+				FF57298519C743C10068ADB0 /* EditUnitsMeasuresForm.m in Sources */,
 				FF1E334519C3B08B00F1A4F2 /* MWPhoto.m in Sources */,
 				FF1E339E19C3B31800F1A4F2 /* WorkoutDescriptionViewController.m in Sources */,
 				FF1E331B19C3AF3400F1A4F2 /* WorkoutDayExercise+Management.m in Sources */,
@@ -1099,6 +1122,7 @@
 				FFC9893719A9FA3B00E2C592 /* WorkoutDay.m in Sources */,
 				FF1E338719C3B2BF00F1A4F2 /* WorkoutPlayViewController.m in Sources */,
 				FF1E33B119C3B3B700F1A4F2 /* SignUpViewController.m in Sources */,
+				FF57298219C732D10068ADB0 /* EditPersonalProfileForm.m in Sources */,
 				FF1E335719C3B15500F1A4F2 /* ExerciseFilterCollectionReusableView.m in Sources */,
 				FF1E338519C3B2BF00F1A4F2 /* WorkoutPlayTableViewCell.m in Sources */,
 				FFA137571969A58000DBEE68 /* main.m in Sources */,

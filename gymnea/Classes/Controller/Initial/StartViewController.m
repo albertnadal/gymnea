@@ -449,7 +449,6 @@
     GEASideMenuController *sideMenuController = [[GEASideMenuController alloc] init];
     sideMenuController.viewControllers = @[favorites2Controller, exercisesController, picturesController, accountController];
 
-    NSLog(@"Adding side menu controller as root view controller");
     [[[UIApplication sharedApplication] keyWindow] setRootViewController:sideMenuController];
 }
 

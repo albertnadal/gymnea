@@ -308,7 +308,7 @@
                                        }
                                    }
                                   failureBlock:^(NSError *error){
-                                      NSLog(@"operation was not successfull!");
+
                                   }];
                     
                 }
@@ -327,7 +327,7 @@
         [self.assetLibrary enumerateGroupsWithTypes:ALAssetsGroupAll
                                          usingBlock:assetGroupEnumerator
                                        failureBlock:^(NSError *error) {
-                                           NSLog(@"There is an error");
+
                                        }];
         
     });

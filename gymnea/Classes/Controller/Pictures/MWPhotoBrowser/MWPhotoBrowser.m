@@ -830,7 +830,6 @@
             [page.selectedButton removeFromSuperview];
             [page prepareForReuse];
 			[page removeFromSuperview];
-			NSLog(@"Removed page at index %lu", (unsigned long)pageIndex);
 		}
 	}
 	[_visiblePages minusSet:_recycledPages];
@@ -850,8 +849,7 @@
 			[self configurePage:page forIndex:index];
 
 			[_pagingScrollView addSubview:page];
-			//NSLog(@"Added page at index %lu", (unsigned long)index);
-            
+
             // Add caption
             MWCaptionView *captionView = [self captionViewForPhotoAtIndex:index];
             if (captionView) {

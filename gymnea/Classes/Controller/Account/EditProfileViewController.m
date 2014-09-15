@@ -13,6 +13,11 @@
 #import "GEALabel+Gymnea.h"
 #import "UIImage+Resize.h"
 #import "GymneaWSClient.h"
+#import "MBProgressHUD.h"
+#import "EditPersonalProfileForm.h"
+#import "EditEmailForm.h"
+#import "GEAAuthentication.h"
+#import "GEAAuthenticationKeychainStore.h"
 
 @interface EditProfileViewController ()
 {
@@ -36,7 +41,6 @@
 @property (nonatomic, weak) IBOutlet UITextField *firstNameTextField;
 @property (nonatomic, weak) IBOutlet UITextField *lastNameTextField;
 @property (nonatomic, weak) IBOutlet UITextField *emailAddressTextField;
-@property (nonatomic, weak) IBOutlet UITextField *passwordTextField;
 @property (nonatomic, weak) IBOutlet UITextField *ageTextField;
 @property (nonatomic, weak) IBOutlet UITextField *weightTextField;
 @property (nonatomic, weak) IBOutlet UITextField *heightTextField;
@@ -60,18 +64,18 @@
 @property (nonatomic) int day;
 @property (nonatomic) int month;
 @property (nonatomic) int year;
-@property (nonatomic) float weight;
+@property (nonatomic) double weight;
 @property (nonatomic) BOOL weightIsMetricUnits;
 @property (nonatomic) int heightCentimeters;
 @property (nonatomic) int heightFoot;
 @property (nonatomic) int heightInches;
 @property (nonatomic) BOOL heightIsMetricUnits;
 @property (nonatomic) NSString *gender;
-
 @property (nonatomic, retain) IBOutlet UILabel *viewTitle;
 @property (nonatomic, retain) IBOutlet UIImageView *userAvatar;
 @property (nonatomic, retain) IBOutlet UIView *userAvatarView;
 @property (nonatomic, retain) UIImage *lastPhotoTaken;
+@property (nonatomic, retain) MBProgressHUD *loadingIndicatorHud;
 
 - (IBAction)cancelEditProfile:(id)sender;
 - (IBAction)showChangePictureOptionsMenu:(id)sender;
@@ -84,6 +88,9 @@
 - (IBAction)hideKeyboard:(id)sender;
 - (void)hideAllKeyboards;
 - (IBAction)sendEditedUserDataRequest:(id)sender;
+- (void)sendEditedUnitsAndMeasuresRequest;
+- (void)sendEditedEmailRequest;
+- (void)sendEditedAvatarRequest;
 - (void)createBirthdatePicker;
 - (void)createWeightPicker;
 - (void)createGenderPicker;
@@ -151,6 +158,7 @@
     
     self.gender = @"";
 
+    self.loadingIndicatorHud = nil;
 
     [[GymneaWSClient sharedInstance] requestLocalUserInfoWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, UserInfo *userInfo) {
 
@@ -238,7 +246,6 @@
     [self.firstNameTextField resignFirstResponder];
     [self.lastNameTextField resignFirstResponder];
     [self.emailAddressTextField resignFirstResponder];
-    [self.passwordTextField resignFirstResponder];
     [self.genderTextField resignFirstResponder];
     [self.ageTextField resignFirstResponder];
     [self.weightTextField resignFirstResponder];
@@ -299,6 +306,23 @@
 {
     [self hideAllKeyboards];
     [self hideSelectors:nil];
+
+    if(self.weightIsMetricUnits) {
+        // KG
+        [self.weightPickerView selectRow:1 inComponent:2 animated:NO];
+    } else {
+        // LBS
+        [self.weightPickerView selectRow:0 inComponent:2 animated:NO];
+    }
+
+    int weightIntegerValue = (int)self.weight;
+    [self.weightPickerView selectRow:weightIntegerValue - 30 inComponent:0 animated:NO];
+
+    NSString *str = [NSString stringWithFormat:@"%f",self.weight];
+    NSArray *arr = [str componentsSeparatedByString:@"."];
+    int weightDecimalValue = [[[arr lastObject] substringWithRange:NSMakeRange(0, 1)] intValue];
+    [self.weightPickerView selectRow:weightDecimalValue inComponent:1 animated:NO];
+
     [self.genderPickerToolbar setHidden:YES];
     [self.genderPickerView setHidden:YES];
     
@@ -317,18 +341,39 @@
     if(self.heightPickerView == nil) {
         [self createHeightPicker];
     }
-    
+
     [self hideAllKeyboards];
-    
+
+    if(self.heightIsMetricUnits) {
+        // m/cm
+        [self.heightPickerView selectRow:1 inComponent:2 animated:NO];
+
+        int heightIntegerValue = (int)(self.heightCentimeters / 100);
+        [self.heightPickerView selectRow:heightIntegerValue - 1 inComponent:0 animated:NO];
+
+        NSString *str = [NSString stringWithFormat:@"%f",(self.heightCentimeters / 100.0f)];
+        NSArray *arr = [str componentsSeparatedByString:@"."];
+        int heightDecimalValue = [[[arr lastObject] substringWithRange:NSMakeRange(0, 2)] intValue];
+        [self.heightPickerView selectRow:heightDecimalValue inComponent:1 animated:NO];
+
+    } else {
+        // ft/in
+        [self.heightPickerView selectRow:0 inComponent:2 animated:NO];
+
+        [self.heightPickerView selectRow:self.heightFoot - 1 inComponent:0 animated:NO];
+        [self.heightPickerView selectRow:self.heightInches inComponent:1 animated:NO];
+
+    }
+
     [self.genderPickerToolbar setHidden:YES];
     [self.genderPickerView setHidden:YES];
-    
+
     [self.heightPickerToolbar setHidden:NO];
     [self.heightPickerView setHidden:NO];
-    
+
     [self.weightPickerToolbar setHidden:YES];
     [self.weightPickerView setHidden:YES];
-    
+
     [self.birthdatePickerToolbar setHidden:YES];
     [self.birthdatePickerView setHidden:YES];
 }
@@ -375,10 +420,7 @@
         
     } else if(textField == self.emailAddressTextField) {
         [self.emailAddressTextField resignFirstResponder];
-        [self.passwordTextField becomeFirstResponder];
-        
-    } else if(textField == self.passwordTextField) {
-        [self.passwordTextField resignFirstResponder];
+
         if(self.genderPickerView == nil) {
             [self createGenderPicker];
         }
@@ -583,9 +625,7 @@
         
         [self.ageButton setTitle:[NSString stringWithFormat:@"%d years", abs((int)[breakdownInfo year])] forState:UIControlStateNormal];
         [self.ageButton setBackgroundColor:[UIColor whiteColor]];
-        
-        //    NSLog(@"DATE: %d-%d-%d", self.day, self.month, self.year);
-        
+
         self.ageSelected = YES;
     }
     else if(pickerView == self.weightPickerView)
@@ -601,19 +641,19 @@
             [pickerView reloadComponent:0];
             [pickerView reloadComponent:1];
         }
-        
+
+        double weightDecimals = [[NSString stringWithFormat:@"%.1f", [pickerView selectedRowInComponent:1]/10.0f] floatValue];
+
         if(self.weightIsMetricUnits) {
-            self.weight = ([pickerView selectedRowInComponent:0] + 30.0f) + (([pickerView selectedRowInComponent:1])/10.0f);
+            self.weight = ([pickerView selectedRowInComponent:0] + 30.0f) + weightDecimals;
             [self.weightButton setTitle:[NSString stringWithFormat:@"%.1f kg", self.weight] forState:UIControlStateNormal];
-            //            NSLog(@"WEIGHT: %.1f", self.weight);
-            
+
         } else {
-            self.weight = ([pickerView selectedRowInComponent:0] + 30.0f) + (([pickerView selectedRowInComponent:1])/10.0f);
+            self.weight = ([pickerView selectedRowInComponent:0] + 30.0f) + weightDecimals;
             [self.weightButton setTitle:[NSString stringWithFormat:@"%.1f lbs", self.weight] forState:UIControlStateNormal];
-            //            NSLog(@"WEIGHT: %.2f", self.weight);
-            
+
         }
-        
+
         [self.weightButton setBackgroundColor:[UIColor whiteColor]];
         self.weightSelected = YES;
     }
@@ -634,13 +674,11 @@
         if(self.heightIsMetricUnits) {
             self.heightCentimeters = (((int)[pickerView selectedRowInComponent:0] + 1) * 100) + ((int)[pickerView selectedRowInComponent:1]);
             [self.heightButton setTitle:[NSString stringWithFormat:@"%dm %dcm", (int)[pickerView selectedRowInComponent:0] + 1, (int)[pickerView selectedRowInComponent:1]] forState:UIControlStateNormal];
-            //            NSLog(@"HEIGHT CENTIMETERS: %d", self.heightCentimeters);
             
         } else {
             self.heightFoot = [pickerView selectedRowInComponent:0] + 1.0f;
             self.heightInches = (int)[pickerView selectedRowInComponent:1];
             [self.heightButton setTitle:[NSString stringWithFormat:@"%d' %d\"", (int)[pickerView selectedRowInComponent:0] + 1, (int)[pickerView selectedRowInComponent:1]] forState:UIControlStateNormal];
-            //            NSLog(@"HEIGHT FT/IN: %d ft %d in", self.heightFoot, self.heightInches);
             
         }
         
@@ -920,7 +958,166 @@
 
 - (IBAction)sendEditedUserDataRequest:(id)sender
 {
+    [self hideAllKeyboards];
+    [self hideSelectors:nil];
+
+    self.loadingIndicatorHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.loadingIndicatorHud.labelText = @"Saving name, age and gender";
+
+    EditPersonalProfileForm *editPersonalProfileForm = [[EditPersonalProfileForm alloc] initWithName:self.firstNameTextField.text
+                                                                                            lastName:self.lastNameTextField.text
+                                                                                              gender:self.gender
+                                                                                                 day:self.day
+                                                                                               month:self.month
+                                                                                                year:self.year];
+
+    [[GymneaWSClient sharedInstance] editPersonalProfileWithForm:editPersonalProfileForm
+                                             withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSString  *theMessage) {
+
+                                                 [self.loadingIndicatorHud hide:YES];
+
+                                                 if(success == GymneaWSClientRequestSuccess) {
+
+                                                     [self performSelector:@selector(sendEditedUnitsAndMeasuresRequest) withObject:nil afterDelay:0.3f];
+
+                                                 } else {
+
+                                                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:theMessage delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                                                     [alert show];
+
+                                                 }
+
+               }];
+
+}
+
+- (void)sendEditedUnitsAndMeasuresRequest
+{
+    self.loadingIndicatorHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.loadingIndicatorHud.labelText = @"Saving length and weight";
     
+    EditUnitsMeasuresForm *editUnitsMeasuresForm = [[EditUnitsMeasuresForm alloc] initWithCm:[NSString stringWithFormat:@"%d", self.heightCentimeters]
+                                                                                        feet:[NSString stringWithFormat:@"%d", self.heightFoot]
+                                                                                        inch:[NSString stringWithFormat:@"%d", self.heightInches]
+                                                                                        kilo:[NSString stringWithFormat:@"%f", self.weight]
+                                                                                         lbs:@""
+                                                                                          st:@""
+                                                                                       stLbs:@""
+                                                                                 unit_length:self.heightIsMetricUnits ? @"centimeters" : @"inches"
+                                                                                 unit_weight:self.weightIsMetricUnits ? @"kilograms" : @"stone"];
+    
+    [[GymneaWSClient sharedInstance] editUnitsMeasuresProfileWithForm:editUnitsMeasuresForm
+                                                  withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSString  *theMessage) {
+
+                                                 [self.loadingIndicatorHud hide:YES];
+                                                 
+                                                 if(success == GymneaWSClientRequestSuccess) {
+
+                                                     [self performSelector:@selector(sendEditedEmailRequest) withObject:nil afterDelay:0.3f];
+
+                                                 } else {
+                                                     
+                                                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:theMessage delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                                                     [alert show];
+                                                     
+                                                 }
+                                                 
+                                             }];
+}
+
+- (void)sendEditedEmailRequest
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+
+    if([self.emailAddressTextField.text isEqualToString:auth.userEmail]) {
+
+        // Same email, so its not necessary to update the email address, proced to send the avatar picture
+        [self performSelector:@selector(sendEditedAvatarRequest) withObject:nil afterDelay:0.3f];
+
+    } else {
+
+        // Different email, is necessary to save the email
+        self.loadingIndicatorHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.loadingIndicatorHud.labelText = @"Saving email";
+
+        EditEmailForm *editEmailForm = [[EditEmailForm alloc] initWithEmail:[self.emailAddressTextField text]];
+
+        [[GymneaWSClient sharedInstance] editEmailProfileWithForm:editEmailForm
+                                              withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSString  *theMessage) {
+                                                          
+                                                          [self.loadingIndicatorHud hide:YES];
+                                                          
+                                                          if(success == GymneaWSClientRequestSuccess) {
+                                                              
+                                                              [self performSelector:@selector(sendEditedAvatarRequest) withObject:nil afterDelay:0.3f];
+                                                              
+                                                          } else {
+                                                              
+                                                              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:theMessage delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                                                              [alert show];
+                                                            
+                                                          }
+                                                          
+                                                      }];
+
+    }
+}
+
+- (void)sendEditedAvatarRequest
+{
+    if(self.lastPhotoTaken == nil) {
+
+        // Download the updated user information from server
+        [[GymneaWSClient sharedInstance] requestUserInfoWithCompletionBlock:nil];
+
+        // Show update confirmation message
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Profile updated!" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"Continue", nil];
+        [alert setTag:1];
+        [alert show];
+
+    } else {
+
+        // Different email, is necessary to save the email
+        self.loadingIndicatorHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.loadingIndicatorHud.labelText = @"Saving avatar";
+        
+        EditAvatarForm *editAvatarForm = [[EditAvatarForm alloc] initWithPicture:UIImagePNGRepresentation(self.lastPhotoTaken)];
+        
+        [[GymneaWSClient sharedInstance] editAvatarWithForm:editAvatarForm
+                                        withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSString  *theMessage) {
+                                                  
+                                                  [self.loadingIndicatorHud hide:YES];
+                                                  
+                                                  if(success == GymneaWSClientRequestSuccess) {
+
+                                                      // Download the updated user information from server
+                                                      [[GymneaWSClient sharedInstance] requestUserInfoWithCompletionBlock:nil];
+                                                      
+                                                      // Show update confirmation message
+                                                      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Profile updated!" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"Continue", nil];
+                                                      [alert setTag:1];
+                                                      [alert show];
+                                                      
+                                                  } else {
+                                                      
+                                                      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:theMessage delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                                                      [alert show];
+                                                      
+                                                  }
+                                                  
+                                              }];
+        
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if([alertView tag] == 1)
+    {
+        [self hideAllKeyboards];
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 - (IBAction)showChangePictureOptionsMenu:(id)sender

@@ -10,6 +10,10 @@
 #import <UIKit/UIKit.h>
 #import "GEADefinitions.h"
 #import "SignUpForm.h"
+#import "EditPersonalProfileForm.h"
+#import "EditUnitsMeasuresForm.h"
+#import "EditEmailForm.h"
+#import "EditAvatarForm.h"
 #import "Exercise+Management.h"
 #import "ExerciseDetail+Management.h"
 #import "Workout+Management.h"
@@ -38,6 +42,10 @@ typedef enum _GymneaSignUpWSClientRequestResponse
 
 typedef void(^signInCompletionBlock)(GymneaSignInWSClientRequestResponse success, NSDictionary *responseData, UserInfo *userInfo);
 typedef void(^signUpCompletionBlock)(GymneaSignUpWSClientRequestResponse success, NSDictionary *responseData, UserInfo *userInfo);
+typedef void(^editPersonalProfileCompletionBlock)(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSString *message);
+typedef void(^editUnitsMesuresProfileCompletionBlock)(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSString *message);
+typedef void(^editEmailCompletionBlock)(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSString *message);
+typedef void(^editAvatarCompletionBlock)(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSString *message);
 typedef void(^userInfoCompletionBlock)(GymneaWSClientRequestStatus success, NSDictionary *responseData, UserInfo *userInfo);
 typedef void(^userImageCompletionBlock)(GymneaWSClientRequestStatus success, UIImage *userImage);
 typedef void(^exercisesCompletionBlock)(GymneaWSClientRequestStatus success, NSArray *exercises);
@@ -67,6 +75,18 @@ typedef void(^deleteUserPictureCompletionBlock)(GymneaWSClientRequestStatus succ
 
 - (void)signUpWithForm:(SignUpForm *)signInForm
    withCompletionBlock:(signUpCompletionBlock)completionBlock;
+
+- (void)editPersonalProfileWithForm:(EditPersonalProfileForm *)editProfileForm
+                withCompletionBlock:(editPersonalProfileCompletionBlock)completionBlock;
+
+- (void)editUnitsMeasuresProfileWithForm:(EditUnitsMeasuresForm *)editUnitsMeasuresForm
+                     withCompletionBlock:(editUnitsMesuresProfileCompletionBlock)completionBlock;
+
+- (void)editEmailProfileWithForm:(EditEmailForm *)editEmailForm
+             withCompletionBlock:(editEmailCompletionBlock)completionBlock;
+
+- (void)editAvatarWithForm:(EditAvatarForm *)editAvatarForm
+       withCompletionBlock:(editAvatarCompletionBlock)completionBlock;
 
 - (void)requestSessionIdWithCompletionBlock:(sessionIdCompletionBlock)completionBlock;
 

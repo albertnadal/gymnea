@@ -128,8 +128,6 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
            withAuthentication:nil
           withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
 
-              //NSLog(@"SIGN IN RESPONSE DATA: %@", responseData);
-
               UserInfo *userInfo = nil;
 
               GymneaSignInWSClientRequestResponse signInStatus = GymneaSignInWSClientRequestError;
@@ -206,6 +204,125 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
 }
 
+- (void)editPersonalProfileWithForm:(EditPersonalProfileForm *)editProfileForm
+                withCompletionBlock:(editPersonalProfileCompletionBlock)completionBlock
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+
+    NSLog(@"First: %@ | Last: %@ | Gender: %@ ", editProfileForm.firstName, editProfileForm.lastName, editProfileForm.gender);
+
+    NSString *requestPath = @"/api/user/update_personal";
+
+    [self performPOSTAsyncRequest:requestPath
+                   withDictionary:@{@"firstname" : editProfileForm.firstName,
+                                    @"lastname": editProfileForm.lastName,
+                                    @"gender": editProfileForm.gender,
+                                    @"dateofbirth": [NSString stringWithFormat:@"%d-%02d-%02d", editProfileForm.year ,editProfileForm.month, editProfileForm.day]}
+               withAuthentication:auth
+              withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
+
+                  NSString *theMessage = nil;
+
+                  if(success == GymneaWSClientRequestError) {
+                      theMessage = [responseData objectForKey:@"errorMsg"];
+                  }
+
+                  dispatch_async(dispatch_get_main_queue(), ^{
+                      completionBlock(success, responseData, theMessage);
+                  });
+
+              }];
+}
+
+- (void)editUnitsMeasuresProfileWithForm:(EditUnitsMeasuresForm *)editUnitsMeasuresForm
+                     withCompletionBlock:(editUnitsMesuresProfileCompletionBlock)completionBlock
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+
+    NSString *requestPath = @"/api/user/update_units";
+
+    [self performPOSTAsyncRequest:requestPath
+                   withDictionary:@{@"cm" : editUnitsMeasuresForm.cm,
+                                    @"feet": editUnitsMeasuresForm.feet,
+                                    @"inch": editUnitsMeasuresForm.inch,
+                                    @"kilo": editUnitsMeasuresForm.kilo,
+                                    @"lbs": editUnitsMeasuresForm.lbs,
+                                    @"st": editUnitsMeasuresForm.st,
+                                    @"st_lbs": editUnitsMeasuresForm.st_lbs,
+                                    @"unit_length": editUnitsMeasuresForm.unit_length,
+                                    @"unit_weight": editUnitsMeasuresForm.unit_weight}
+               withAuthentication:auth
+              withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
+                  
+                  NSString *theMessage = nil;
+                  
+                  if(success == GymneaWSClientRequestError) {
+                      theMessage = [responseData objectForKey:@"errorMsg"];
+                  }
+                  
+                  dispatch_async(dispatch_get_main_queue(), ^{
+                      completionBlock(success, responseData, theMessage);
+                  });
+                  
+              }];
+}
+
+- (void)editEmailProfileWithForm:(EditEmailForm *)editEmailForm
+             withCompletionBlock:(editEmailCompletionBlock)completionBlock
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+
+    NSString *requestPath = @"/api/settings/update_email";
+
+    [self performPOSTAsyncRequest:requestPath
+                   withDictionary:@{@"newmail" : editEmailForm.email,
+                                    @"confirmmail": editEmailForm.email}
+               withAuthentication:auth
+              withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
+                  
+                  NSString *theMessage = nil;
+                  
+                  if(success == GymneaWSClientRequestError) {
+                      theMessage = [responseData objectForKey:@"errorMsg"];
+                  }
+                  
+                  dispatch_async(dispatch_get_main_queue(), ^{
+                      completionBlock(success, responseData, theMessage);
+                  });
+                  
+              }];
+}
+
+- (void)editAvatarWithForm:(EditAvatarForm *)editAvatarForm
+       withCompletionBlock:(editAvatarCompletionBlock)completionBlock
+{
+    GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+    GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
+
+    NSString *requestPath = @"/api/user/update_picture";
+    NSString *imageDataBase64 = [NSString stringWithFormat:@"data:image/png;base64,%@", [editAvatarForm.avatar base64EncodedString]];
+
+    [self performPOSTAsyncRequest:requestPath
+                   withDictionary:@{@"photo" : imageDataBase64}
+               withAuthentication:auth
+              withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
+                  
+                  NSString *theMessage = nil;
+                  
+                  if(success == GymneaWSClientRequestError) {
+                      theMessage = [responseData objectForKey:@"errorMsg"];
+                  }
+                  
+                  dispatch_async(dispatch_get_main_queue(), ^{
+                      completionBlock(success, responseData, theMessage);
+                  });
+                  
+              }];
+}
+
 - (void)requestSessionIdWithCompletionBlock:(sessionIdCompletionBlock)completionBlock
 {
 
@@ -256,8 +373,6 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                    withDictionary:nil
                withAuthentication:auth
               withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
-
-                  //NSLog(@"USER INFO RESPONSE DATA: %@", responseData);
 
                   UserInfo *userInfo = nil;
                   NSMutableDictionary *responseMutableData = [[NSMutableDictionary alloc] initWithDictionary:responseData];
@@ -552,7 +667,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                       exercisesArray = [[NSMutableArray alloc] init];
 
                       for (NSDictionary *exerciseDict in (NSArray *)responseData) {
-                          //NSLog(@"getExerciseInfo: %d", [[exerciseDict objectForKey:@"id"] intValue]);
+
                           Exercise *exerciseFromDB = [Exercise getExerciseInfo:[[exerciseDict objectForKey:@"id"] intValue]];
 
                           if(exerciseFromDB != nil) {
@@ -639,7 +754,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                       exercisesArray = [[NSMutableArray alloc] init];
 
                       for (NSDictionary *exerciseDict in (NSArray *)responseData) {
-                          //NSLog(@"getExerciseInfo: %d", [[exerciseDict objectForKey:@"id"] intValue]);
+
                           Exercise *exerciseFromDB = [Exercise getExerciseInfo:[[exerciseDict objectForKey:@"id"] intValue]];
                           
                           if(exerciseFromDB != nil) {
@@ -992,7 +1107,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                       workoutsArray = [[NSMutableArray alloc] init];
                       
                       for (NSDictionary *workoutDict in (NSArray *)responseData) {
-                          //NSLog(@"getWorkoutInfo: %d", [[workoutDict objectForKey:@"id"] intValue]);
+
                           Workout *workoutFromDB = [Workout getWorkoutInfo:[[workoutDict objectForKey:@"id"] intValue]];
                           
                           if(workoutFromDB != nil) {
@@ -1073,7 +1188,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                       workoutsArray = [[NSMutableArray alloc] init];
                       
                       for (NSDictionary *workoutDict in (NSArray *)responseData) {
-                          //NSLog(@"getWorkoutInfo: %d", [[workoutDict objectForKey:@"id"] intValue]);
+
                           Workout *workoutFromDB = [Workout getWorkoutInfo:[[workoutDict objectForKey:@"id"] intValue]];
                           
                           if(workoutFromDB != nil) {
@@ -1375,7 +1490,6 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                withAuthentication:auth
               withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
 
-                  //NSLog(@"WORKOUT DETAIL RESPONSE DATA: %@", responseData);
                   WorkoutDetail *workoutDetail = nil;
                   
                   if(success == GymneaWSClientRequestSuccess) {
