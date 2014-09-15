@@ -270,8 +270,10 @@
 
         self.loadingData = TRUE;
 
-        self.loadExercisesHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self.loadExercisesHud.labelText = @"Loading exercises";
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.loadExercisesHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            self.loadExercisesHud.labelText = @"Loading exercises";
+        });
 
         GymneaWSClient *gymneaWSClient = [GymneaWSClient sharedInstance];
         [gymneaWSClient requestExercisesWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSArray *exercises) {
@@ -646,21 +648,24 @@
     [[(ExerciseCollectionViewCell *)cell exerciseEquipment] setText:[GEADefinitions retrieveTitleForEquipment:exercise.equipmentId]];
     [[(ExerciseCollectionViewCell *)cell exerciseLevel] setText:[GEADefinitions retrieveTitleForExerciseLevel:exercise.levelId]];
     [[(ExerciseCollectionViewCell *)cell thumbnail] setImage:[UIImage imageNamed:@"exercise-default-thumbnail"]];
+    [[(ExerciseCollectionViewCell *)cell thumbnail] setTag:exercise.exerciseId];
     [(ExerciseCollectionViewCell *)cell setBackgroundColor:[GEADefinitions retrieveColorForExerciseType:exercise.typeId]];
     
     [[GymneaWSClient sharedInstance] requestImageForExercise:exercise.exerciseId
                                                     withSize:ExerciseImageSizeMedium
                                                   withGender:ExerciseImageMale
                                                    withOrder:ExerciseImageFirst
-                                         withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *exerciseImage) {
+                                         withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *exerciseImage, int exerciseId) {
                                              
                                              if(success==GymneaWSClientRequestSuccess) {
                                                  
                                                  if(exerciseImage == nil) {
                                                      exerciseImage = [UIImage imageNamed:@"exercise-default-thumbnail"];
                                                  }
-                                                 
-                                                 [[(ExerciseCollectionViewCell *)cell thumbnail] setImage:exerciseImage];
+
+                                                 if([[(ExerciseCollectionViewCell *)cell thumbnail] tag] == exerciseId) {
+                                                     [[(ExerciseCollectionViewCell *)cell thumbnail] setImage:exerciseImage];
+                                                 }
                                              }
                                              
                                          }];

@@ -82,7 +82,7 @@
         [[GymneaWSClient sharedInstance] requestImageForExercise:exerciseId
                                                         withSize:ExerciseImageSizeMedium withGender:ExerciseImageMale
                                                        withOrder:ExerciseImageFirst
-                                             withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *exerciseImage) {
+                                             withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *exerciseImage, int exerciseId) {
                                                  [self.thumbnail setImage:exerciseImage];
                                              }];
     }

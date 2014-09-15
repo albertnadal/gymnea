@@ -86,7 +86,7 @@
 
         [[GymneaWSClient sharedInstance] requestImageForWorkout:workoutId
                                                        withSize:WorkoutImageSizeMedium
-                                            withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *workoutImage) {
+                                            withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *workoutImage, int workoutId) {
                                                 [self.thumbnail setImage:workoutImage];
                                             }];
 

@@ -303,7 +303,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
                                                     withSize:ExerciseImageSizeMedium
                                                   withGender:ExerciseImageMale
                                                    withOrder:ExerciseImageFirst
-                                         withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *image) {
+                                         withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *image, int exerciseId) {
 
                                              if(image == nil) {
                                                  image = [UIImage imageNamed:@"workout-banner-placeholder"];
@@ -368,7 +368,7 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
                                                     withSize:ExerciseImageSizeMedium
                                                   withGender:gender
                                                    withOrder:order
-                                         withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *image) {
+                                         withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *image, int exerciseId) {
 
                                              if((success == GymneaWSClientRequestSuccess) && (image != nil)) {
 

@@ -138,7 +138,7 @@
                                                     withSize:ExerciseImageSizeMedium
                                                   withGender:ExerciseImageMale
                                                    withOrder:ExerciseImageFirst
-                                         withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *exerciseImage) {
+                                         withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *exerciseImage, int exerciseId) {
 
                                              if(success==GymneaWSClientRequestSuccess) {
 

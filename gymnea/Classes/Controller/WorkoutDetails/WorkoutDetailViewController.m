@@ -221,7 +221,7 @@
 {
     [[GymneaWSClient sharedInstance] requestImageForWorkout:workout.workoutId
                                                    withSize:WorkoutImageSizeMedium
-                                        withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *image) {
+                                        withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *image, int workoutId) {
 
                                             if(image == nil) {
                                                 image = [UIImage imageNamed:@"workout-banner-placeholder"];

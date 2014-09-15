@@ -37,8 +37,10 @@
 
         self.loadingData = TRUE;
 
-        self.loadExercisesHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self.loadExercisesHud.labelText = @"Loading favorite exercises";
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.loadExercisesHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            self.loadExercisesHud.labelText = @"Loading favorite exercises";
+        });
 
         [self.noExercisesFoundLabel setHidden:YES];
         [self.noExercisesFoundLabel setText:@"No favorite exercises found"];

@@ -48,6 +48,8 @@ typedef void(^editEmailCompletionBlock)(GymneaWSClientRequestStatus success, NSD
 typedef void(^editAvatarCompletionBlock)(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSString *message);
 typedef void(^userInfoCompletionBlock)(GymneaWSClientRequestStatus success, NSDictionary *responseData, UserInfo *userInfo);
 typedef void(^userImageCompletionBlock)(GymneaWSClientRequestStatus success, UIImage *userImage);
+typedef void(^exerciseImageCompletionBlock)(GymneaWSClientRequestStatus success, UIImage *exerciseImage, int exerciseId);
+typedef void(^workoutImageCompletionBlock)(GymneaWSClientRequestStatus success, UIImage *workoutImage, int workoutId);
 typedef void(^exercisesCompletionBlock)(GymneaWSClientRequestStatus success, NSArray *exercises);
 typedef void(^exerciseDetailCompletionBlock)(GymneaWSClientRequestStatus success, ExerciseDetail *exercise);
 typedef void(^workoutDetailCompletionBlock)(GymneaWSClientRequestStatus success, WorkoutDetail *workout);
@@ -102,7 +104,7 @@ typedef void(^deleteUserPictureCompletionBlock)(GymneaWSClientRequestStatus succ
                        withSize:(GymneaExerciseImageSize)size
                      withGender:(GymneaExerciseImageGender)gender
                       withOrder:(GymneaExerciseImageOrder)order
-            withCompletionBlock:(userImageCompletionBlock)completionBlock;
+            withCompletionBlock:(exerciseImageCompletionBlock)completionBlock;
 
 - (void)requestExercisesWithCompletionBlock:(exercisesCompletionBlock)completionBlock;
 
@@ -172,7 +174,7 @@ typedef void(^deleteUserPictureCompletionBlock)(GymneaWSClientRequestStatus succ
 
 - (void)requestImageForWorkout:(int)workoutId
                       withSize:(GymneaWorkoutImageSize)size
-           withCompletionBlock:(userImageCompletionBlock)completionBlock;
+           withCompletionBlock:(workoutImageCompletionBlock)completionBlock;
 
 - (void)requestWorkoutDetailWithWorkout:(Workout *)workout
                     withCompletionBlock:(workoutDetailCompletionBlock)completionBlock;

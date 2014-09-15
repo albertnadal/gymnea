@@ -554,11 +554,12 @@
     [[(GenericWorkoutCollectionViewCell *)cell workoutFrequency] setText:[NSString stringWithFormat:@"%d days / week", workout.frequency]];
     [[(GenericWorkoutCollectionViewCell *)cell workoutLevel] setText:[GEADefinitions retrieveTitleForWorkoutLevel:workout.levelId]];
     [[(GenericWorkoutCollectionViewCell *)cell thumbnail] setImage:[UIImage imageNamed:@"exercise-default-thumbnail"]];
+    [[(GenericWorkoutCollectionViewCell *)cell thumbnail] setTag:workout.workoutId];
     [(GenericWorkoutCollectionViewCell *)cell setBackgroundColor:[GEADefinitions retrieveColorForWorkoutType:workout.typeId]];
 
     [[GymneaWSClient sharedInstance] requestImageForWorkout:workout.workoutId
                                                    withSize:WorkoutImageSizeMedium
-                                        withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *workoutImage) {
+                                        withCompletionBlock:^(GymneaWSClientRequestStatus success, UIImage *workoutImage, int workoutId) {
 
                                              if(success==GymneaWSClientRequestSuccess) {
                                                  
@@ -566,7 +567,9 @@
                                                      workoutImage = [UIImage imageNamed:@"exercise-default-thumbnail"];
                                                  }
 
-                                                 [[(GenericWorkoutCollectionViewCell *)cell thumbnail] setImage:workoutImage];
+                                                 if([[(GenericWorkoutCollectionViewCell *)cell thumbnail] tag] == workoutId) {
+                                                     [[(GenericWorkoutCollectionViewCell *)cell thumbnail] setImage:workoutImage];
+                                                 }
                                              }
 
                                          }];

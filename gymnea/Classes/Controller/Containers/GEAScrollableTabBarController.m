@@ -145,7 +145,11 @@ static const CGFloat kVTSTabBarBackTapTresshold = 110.0f;
 
     if([selectedViewController respondsToSelector:@selector(reloadData)]) {
         if([selectedViewController isKindOfClass:[ExercisesViewController class]]) {
-            [(ExercisesViewController *)selectedViewController reloadData];
+
+            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                [(ExercisesViewController *)selectedViewController reloadData];
+            });
+
         } else if([selectedViewController isKindOfClass:[GenericWorkoutsViewController class]]) {
             [(GenericWorkoutsViewController *)selectedViewController reloadData];
         } else if([selectedViewController isKindOfClass:[PicturesViewController class]]) {

@@ -505,7 +505,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                        withSize:(GymneaExerciseImageSize)size
                      withGender:(GymneaExerciseImageGender)gender
                       withOrder:(GymneaExerciseImageOrder)order
-            withCompletionBlock:(userImageCompletionBlock)completionBlock
+            withCompletionBlock:(exerciseImageCompletionBlock)completionBlock
 {
     GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
     GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
@@ -558,7 +558,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
             dispatch_async(dispatch_get_main_queue(), ^{
                 if(completionBlock != nil) {
-                    completionBlock(GymneaWSClientRequestSuccess, image);
+                    completionBlock(GymneaWSClientRequestSuccess, image, exerciseId);
                 }
             });
 
@@ -625,7 +625,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
                        dispatch_async(dispatch_get_main_queue(), ^{
                            if(completionBlock != nil) {
-                               completionBlock(success, image);
+                               completionBlock(success, image, exerciseId);
                            }
 
                        });
@@ -636,7 +636,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
         dispatch_async(dispatch_get_main_queue(), ^{
             if(completionBlock != nil) {
-                completionBlock(GymneaWSClientRequestSuccess, nil);
+                completionBlock(GymneaWSClientRequestSuccess, nil, exerciseId);
             }
 
         });
@@ -1392,7 +1392,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
 - (void)requestImageForWorkout:(int)workoutId
                       withSize:(GymneaWorkoutImageSize)size
-           withCompletionBlock:(userImageCompletionBlock)completionBlock
+           withCompletionBlock:(workoutImageCompletionBlock)completionBlock
 {
     GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
     GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
@@ -1416,7 +1416,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 if(completionBlock != nil) {
-                    completionBlock(GymneaWSClientRequestSuccess, image);
+                    completionBlock(GymneaWSClientRequestSuccess, image, workoutId);
                 }
             });
             
@@ -1455,7 +1455,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
                        dispatch_async(dispatch_get_main_queue(), ^{
                            if(completionBlock != nil) {
-                               completionBlock(success, image);
+                               completionBlock(success, image, workoutId);
                            }
                            
                        });
@@ -1466,7 +1466,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
         
         dispatch_async(dispatch_get_main_queue(), ^{
             if(completionBlock != nil) {
-                completionBlock(GymneaWSClientRequestSuccess, nil);
+                completionBlock(GymneaWSClientRequestSuccess, nil, workoutId);
             }
             
         });
