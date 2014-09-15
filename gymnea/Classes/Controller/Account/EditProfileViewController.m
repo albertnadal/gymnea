@@ -12,6 +12,7 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "GEALabel+Gymnea.h"
 #import "UIImage+Resize.h"
+#import "GymneaWSClient.h"
 
 @interface EditProfileViewController ()
 {
@@ -150,10 +151,76 @@
     
     self.gender = @"";
 
-    [self createWeightPicker];
-    [self createBirthdatePicker];
-    [self createHeightPicker];
-    [self createGenderPicker];
+
+    [[GymneaWSClient sharedInstance] requestLocalUserInfoWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, UserInfo *userInfo) {
+
+        NSDateComponents* birthdateComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:userInfo.birthDate];
+
+        self.month = (int)[birthdateComponents month];
+        self.day = (int)[birthdateComponents day];
+        self.year = (int)[birthdateComponents year];
+
+        self.weight = userInfo.weightKilograms;
+        self.weightIsMetricUnits = userInfo.weightIsMetric;
+
+        self.heightCentimeters = userInfo.heightCentimeters;
+        self.heightIsMetricUnits = userInfo.heightIsMetric;
+
+        float inches = (userInfo.heightCentimeters * 0.39370078740157477f);
+        self.heightFoot = (int)(inches / 12);
+        self.heightInches = fmodf(inches, 12);
+
+        self.gender = [userInfo gender];
+
+        // Calculate the user age from his birthdate
+        NSDate *today = [[NSDate alloc] init];
+        NSCalendar *sysCalendar = [NSCalendar currentCalendar];
+        unsigned int unitFlags = NSYearCalendarUnit;
+        NSDate *differentialDate = [[NSDate alloc] initWithTimeInterval:[[userInfo birthDate] timeIntervalSinceNow] sinceDate:today];
+        NSDateComponents *userAgeComponents = [sysCalendar components:unitFlags fromDate:today  toDate:differentialDate  options:0];
+        
+        // Calculate the user height (cm <-> ft/in)
+        float centimeters = [userInfo heightCentimeters];
+        NSString *heightString = nil;
+        
+        if([userInfo heightIsMetric]) {
+            heightString = [NSString stringWithFormat:@"%.0fcm", centimeters];
+        } else {
+            float inches = (centimeters * 0.39370078740157477f);
+            int feet = (int)(inches / 12);
+            inches = fmodf(inches, 12);
+            heightString = [NSString stringWithFormat:@"%d' %.2f\"", feet, inches];
+        }
+
+        [self.heightTextField setText:heightString];
+
+        // Calculate the user weight
+        float kilograms = [userInfo weightKilograms];
+        NSString *weightString = nil;
+        
+        if([userInfo weightIsMetric]) {
+            weightString = [NSString stringWithFormat:@"%.1fkg", kilograms];
+        } else {
+            weightString = [NSString stringWithFormat:@"%.1flbs", (kilograms * 2.20462262f)];
+        }
+
+        [self.weightTextField setText:weightString];
+
+        [self.ageTextField setText:[NSString stringWithFormat:@"%d years", abs((int)[userAgeComponents year])]];
+
+        [self.genderTextField setText:[userInfo.gender capitalizedString]];
+
+        [self.firstNameTextField setText:[userInfo firstName]];
+
+        [self.lastNameTextField setText:[userInfo lastName]];
+
+        [self.emailAddressTextField setText:[userInfo email]];
+
+        if(userInfo.picture) {
+            [self.userAvatar setImage:[UIImage imageWithData:userInfo.picture]];
+        }
+
+    }];
 }
 
 - (void)viewDidLayoutSubviews
@@ -205,9 +272,16 @@
     if(self.birthdatePickerView == nil) {
         [self createBirthdatePicker];
     }
-    
+
     [self hideAllKeyboards];
-    
+
+    NSDateComponents* components = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:[NSDate date]];
+    int currentYear = (int)[components year];
+
+    [self.birthdatePickerView selectRow:(self.day - 1) inComponent:0 animated:NO];
+    [self.birthdatePickerView selectRow:(self.month - 1) inComponent:1 animated:NO];
+    [self.birthdatePickerView selectRow:(currentYear - self.year) inComponent:2 animated:NO];
+
     [self.genderPickerToolbar setHidden:YES];
     [self.genderPickerView setHidden:YES];
     
@@ -266,7 +340,16 @@
     }
     
     [self hideAllKeyboards];
-    
+
+    // Set selected the current selected gender option
+    if([[self.gender lowercaseString] isEqualToString: @"male"]) {
+        // Male
+        [self.genderPickerView selectRow:0 inComponent:0 animated:NO];
+    } else {
+        // Female
+        [self.genderPickerView selectRow:1 inComponent:0 animated:NO];
+    }
+
     [self.genderPickerToolbar setHidden:NO];
     [self.genderPickerView setHidden:NO];
     
@@ -1018,6 +1101,8 @@
 
 - (IBAction)cancelEditProfile:(id)sender
 {
+    [self hideAllKeyboards];
+
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
