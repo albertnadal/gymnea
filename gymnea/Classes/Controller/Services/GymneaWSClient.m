@@ -210,8 +210,6 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
     GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
     GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
 
-    NSLog(@"First: %@ | Last: %@ | Gender: %@ ", editProfileForm.firstName, editProfileForm.lastName, editProfileForm.gender);
-
     NSString *requestPath = @"/api/user/update_personal";
 
     [self performPOSTAsyncRequest:requestPath
