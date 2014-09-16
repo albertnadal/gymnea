@@ -67,7 +67,7 @@
     GEALabel *titleModal = [[GEALabel alloc] initWithText:@"Get ready!" fontSize:21.0f frame:CGRectMake(0.0f,20.0f,[[UIScreen mainScreen] bounds].size.width,44.0f)];
     [self.view addSubview:titleModal];
 
-    NSString *pewPewPath = [[NSBundle mainBundle] pathForResource:@"clock_tic" ofType:@"wav"];
+    NSString *pewPewPath = [[NSBundle mainBundle] pathForResource:@"clock_tic" ofType:@"mp3"];
     NSURL *pewPewURL = [NSURL fileURLWithPath:pewPewPath];
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)pewPewURL, &_countdownSound);
 

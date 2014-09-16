@@ -68,7 +68,7 @@
 
     [self.countdownLabel setText:[NSString stringWithFormat:@"%d", countdownSeconds]];
 
-    NSString *pewPewPath = [[NSBundle mainBundle] pathForResource:@"clock_tic" ofType:@"wav"];
+    NSString *pewPewPath = [[NSBundle mainBundle] pathForResource:@"clock_tic" ofType:@"mp3"];
     NSURL *pewPewURL = [NSURL fileURLWithPath:pewPewPath];
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)pewPewURL, &_countdownSound);
 
