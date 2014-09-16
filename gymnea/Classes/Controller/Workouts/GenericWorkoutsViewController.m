@@ -697,9 +697,11 @@
     return 300.0f;
 }
 
-- (void)didReceiveMemoryWarning
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super didReceiveMemoryWarning];
+    [super viewWillAppear:animated];
+    
+    self.screenName = @"GenericWorkoutsViewController";
 }
 
 @end

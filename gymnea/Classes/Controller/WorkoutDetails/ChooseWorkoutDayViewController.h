@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAI.h"
+#import "GAITracker.h"
+#import "GAIDictionaryBuilder.h"
 
 @protocol ChooseWorkoutDayViewControllerDelegate;
 
-@interface ChooseWorkoutDayViewController : UIViewController
+@interface ChooseWorkoutDayViewController : GAITrackedViewController
 
 @property (weak, nonatomic) id<ChooseWorkoutDayViewControllerDelegate>delegate;
 

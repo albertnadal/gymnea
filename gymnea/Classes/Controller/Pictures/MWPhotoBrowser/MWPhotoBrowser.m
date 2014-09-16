@@ -1445,6 +1445,12 @@
 
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
+        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Pictures"
+                                                                                            action:@"Show Camera"
+                                                                                             label:@""
+                                                                                             value:nil] build]];
+        [[GAI sharedInstance] dispatch];
+
         UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
         imagePicker.delegate = self;
         imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;

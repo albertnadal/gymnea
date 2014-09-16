@@ -11,8 +11,11 @@
 #import "WorkoutPlayRestViewController.h"
 #import "WorkoutDay+Management.h"
 #import <UIKit/UIKit.h>
+#import "GAI.h"
+#import "GAITracker.h"
+#import "GAIDictionaryBuilder.h"
 
-@interface WorkoutPlayViewController : UIViewController<NextExerciseCountdownViewControllerDelegate, WorkoutPlayExerciseViewControllerDelegate, WorkoutPlayRestViewControllerDelegate>
+@interface WorkoutPlayViewController : GAITrackedViewController<NextExerciseCountdownViewControllerDelegate, WorkoutPlayExerciseViewControllerDelegate, WorkoutPlayRestViewControllerDelegate>
 
 - (id)initWithWorkoutDay:(WorkoutDay *)theWorkoutDay;
 

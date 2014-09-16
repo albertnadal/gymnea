@@ -71,6 +71,12 @@
 
 - (IBAction)cancelWorkout:(id)sender
 {
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"ChooseWorkoutDay"
+                                                                                        action:@"Cancel"
+                                                                                         label:@""
+                                                                                         value:nil] build]];
+    [[GAI sharedInstance] dispatch];
+
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -92,15 +98,11 @@
     }];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)viewWillAppear:(BOOL)animated
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    [super viewWillAppear:animated];
+    
+    self.screenName = @"ChooseWorkoutDayViewController";
 }
-*/
 
 @end

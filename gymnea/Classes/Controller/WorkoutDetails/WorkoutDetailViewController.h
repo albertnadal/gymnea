@@ -22,6 +22,9 @@
 #import "WorkoutPlayViewController.h"
 #import "ExerciseDetailViewController.h"
 #import "MBProgressHUD.h"
+#import "GAI.h"
+#import "GAITracker.h"
+#import "GAIDictionaryBuilder.h"
 
 #define DETAILS_SEGMENT_INDEX 0
 #define WORKOUT_DAYS_SEGMENT_INDEX 1
@@ -37,7 +40,7 @@ static CGFloat const kGEABannerOffsetFactor = 0.45f;
 static float const kGEABannerTransitionCrossDissolveDuration = 0.3f;
 static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeholder";
 
-@interface WorkoutDetailViewController : UIViewController <GEAPopoverViewControllerDelegate, UIScrollViewDelegate, ChooseWorkoutDayViewControllerDelegate, WorkoutDayTableViewControllerDelegate, UIAlertViewDelegate, UIDocumentInteractionControllerDelegate>
+@interface WorkoutDetailViewController : GAITrackedViewController <GEAPopoverViewControllerDelegate, UIScrollViewDelegate, ChooseWorkoutDayViewControllerDelegate, WorkoutDayTableViewControllerDelegate, UIAlertViewDelegate, UIDocumentInteractionControllerDelegate>
 {
     Workout *workout;
     WorkoutDetail *workoutDetail;

@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAI.h"
+#import "GAITracker.h"
+#import "GAIDictionaryBuilder.h"
 
-@interface WorkoutDescriptionViewController : UIViewController
+@interface WorkoutDescriptionViewController : GAITrackedViewController
 
 - (id)initWithName:(NSString *)exerciseName withDescription:(NSString *)exerciseDescription;
 

@@ -164,8 +164,13 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 - (void)downloadExercise
 {
-    //Just download the video loop of the exercise is needed to complete all the missing exercise attributes
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"ExerciseDetail"
+                                                                                        action:@"Download Exercise"
+                                                                                         label:@"Start Downloading"
+                                                                                         value:nil] build]];
+    [[GAI sharedInstance] dispatch];
 
+    //Just download the video loop of the exercise is needed to complete all the missing exercise attributes
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Downloading exercise";
 
@@ -173,6 +178,13 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
                                                       withCompletionBlock:^(GymneaWSClientRequestStatus success, NSData *video) {
 
                                                           if((success == GymneaWSClientRequestSuccess) && (video != nil)) {
+
+                                                              [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"ExerciseDetail"
+                                                                                                                                                  action:@"Download Exercise"
+                                                                                                                                                   label:@"Exercise Downloaded"
+                                                                                                                                                   value:nil] build]];
+                                                              [[GAI sharedInstance] dispatch];
+
                                                               self.exerciseDetail.videoLoop = video;
                                                               [self.playExerciseButton setTitle:@"Play Exercise" forState:UIControlStateNormal];
 
@@ -258,6 +270,12 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
     if(self.exerciseDetail.videoLoop == nil) {
 
+        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"ExerciseDetail"
+                                                                                            action:@"Play Exercise"
+                                                                                             label:@"Need Download"
+                                                                                             value:nil] build]];
+        [[GAI sharedInstance] dispatch];
+
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download is needed"
                                                         message:@"First of all is necessary to download the exercise to your device. This will let you to play this exercise anywhere without access to Internet."
                                                        delegate:self
@@ -268,6 +286,12 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         [alert show];
 
     } else {
+
+        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"ExerciseDetail"
+                                                                                            action:@"Play Exercise"
+                                                                                             label:@""
+                                                                                             value:nil] build]];
+        [[GAI sharedInstance] dispatch];
 
         ExercisePlayViewController *epvc = [[ExercisePlayViewController alloc] initWithExercise:self.exercise withDetails:self.exerciseDetail withDelegate:self];
         [self.navigationController pushViewController:epvc animated:NO];
@@ -589,6 +613,12 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 {
     if([sender isKindOfClass:[UIButton class]])
     {
+        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"ExerciseDetail"
+                                                                                            action:@"Show Exercise Image"
+                                                                                             label:@""
+                                                                                             value:nil] build]];
+        [[GAI sharedInstance] dispatch];
+
         [self.mediaFocusController showImage:[(UIButton *)sender backgroundImageForState:UIControlStateNormal] fromView:self.view];
     }
 }
@@ -615,6 +645,12 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
 
 - (IBAction)showDescription:(id)sender
 {
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"ExerciseDetail"
+                                                                                        action:@"Show Description"
+                                                                                         label:@""
+                                                                                         value:nil] build]];
+    [[GAI sharedInstance] dispatch];
+
     ExerciseDescriptionViewController *edvc = [[ExerciseDescriptionViewController alloc] initWithName:self.exercise.name withDescription:self.exerciseDetail.exerciseDescription];
     [self.navigationController pushViewController:edvc animated:YES];
 }
@@ -759,6 +795,13 @@ static NSString *const kGEAEventDetailImagePlaceholder = @"workout-banner-placeh
         case 1: [self downloadExercise];
                 break;
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.screenName = @"ExerciseDetailViewController";
 }
 
 @end

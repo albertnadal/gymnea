@@ -196,4 +196,11 @@
     [self showWorkoutDetailsAtIndexPath:indexPath];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    //[super viewWillAppear:animated];
+    
+    self.screenName = @"GenericWorkoutsSavedViewController";
+}
+
 @end

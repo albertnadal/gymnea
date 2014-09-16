@@ -201,4 +201,11 @@
     [self showExerciseDetailsAtIndexPath:indexPath];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    //[super viewWillAppear:animated];
+    
+    self.screenName = @"ExercisesSavedViewController";
+}
+
 @end

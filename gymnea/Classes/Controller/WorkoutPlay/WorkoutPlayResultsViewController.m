@@ -98,7 +98,12 @@
 
 - (IBAction)discardResults:(id)sender
 {
-    
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"WorkoutPlayResults"
+                                                                                        action:@"Discard Results"
+                                                                                         label:@""
+                                                                                         value:nil] build]];
+    [[GAI sharedInstance] dispatch];
+
     if([self.delegate respondsToSelector:@selector(userDidSelectDiscardResults:)])
         [self.delegate userDidSelectDiscardResults:self];
 
@@ -120,6 +125,12 @@
 
 - (IBAction)saveResults:(id)sender
 {
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"WorkoutPlayResults"
+                                                                                        action:@"Save Results"
+                                                                                         label:@""
+                                                                                         value:nil] build]];
+    [[GAI sharedInstance] dispatch];
+
     if([self.delegate respondsToSelector:@selector(userDidSelectSaveResults:)])
         [self.delegate userDidSelectSaveResults:self];
 
@@ -139,10 +150,11 @@
     }
 }
 
-- (void)didReceiveMemoryWarning
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [super viewWillAppear:animated];
+    
+    self.screenName = @"WorkoutPlayResultsViewController";
 }
 
 @end

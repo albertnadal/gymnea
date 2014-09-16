@@ -184,6 +184,12 @@
 
     if(photo.pictureId) {
 
+        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Pictures"
+                                                                                            action:@"Delete Photo"
+                                                                                             label:@""
+                                                                                             value:nil] build]];
+        [[GAI sharedInstance] dispatch];
+
         self.loadingData = TRUE;
         
         [self.noPicturesFoundLabel setHidden:YES];
@@ -336,6 +342,12 @@
 
 - (void)uploadLastPhotoTaken
 {
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Pictures"
+                                                                                        action:@"Upload Photo"
+                                                                                         label:@""
+                                                                                         value:nil] build]];
+    [[GAI sharedInstance] dispatch];
+
      UIImageWriteToSavedPhotosAlbum(self.lastPhotoTaken, self, @selector(image:finishedSavingWithError:contextInfo:), nil);
      UIImage *fixedRotationImage = [self fixrotation:self.lastPhotoTaken];
      CGFloat originalWidth = fixedRotationImage.size.width;
@@ -533,6 +545,13 @@
                               otherButtonTitles:nil];
         [alert show];
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    self.screenName = @"PicturesViewController";
 }
 
 @end

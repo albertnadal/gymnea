@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAI.h"
+#import "GAITracker.h"
+#import "GAIDictionaryBuilder.h"
 
 @protocol NextExerciseCountdownViewControllerDelegate;
 
-@interface NextExerciseCountdownViewController : UIViewController
+@interface NextExerciseCountdownViewController : GAITrackedViewController
 
 @property (weak, nonatomic) id<NextExerciseCountdownViewControllerDelegate>delegate;
 

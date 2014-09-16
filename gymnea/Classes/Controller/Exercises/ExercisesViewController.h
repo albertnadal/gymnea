@@ -14,12 +14,15 @@
 #import "GymneaWSClient.h"
 #import "GEADefinitions.h"
 #import "Exercise.h"
+#import "GAI.h"
+#import "GAITracker.h"
+#import "GAIDictionaryBuilder.h"
 
 @class ExerciseFilterCollectionReusableView;
 @protocol ExerciseFilterCollectionReusableViewDelegate;
 @protocol ExercisesViewControllerDelegate;
 
-@interface ExercisesViewController : UIViewController<UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, UIPickerViewDataSource, UIPickerViewDelegate, ExerciseFilterCollectionReusableViewDelegate>
+@interface ExercisesViewController : GAITrackedViewController<UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, UIPickerViewDataSource, UIPickerViewDelegate, ExerciseFilterCollectionReusableViewDelegate>
 {
     UICollectionView *_collectionView;
     UIView *_disableCollectionView;

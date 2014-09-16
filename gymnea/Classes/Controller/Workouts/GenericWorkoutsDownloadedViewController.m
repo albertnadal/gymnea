@@ -187,8 +187,10 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
-    
+    //[super viewWillAppear:animated];
+
+    self.screenName = @"GenericWorkoutsDownloadedViewController";
+
     if(_collectionView != nil) {
         // Refresh downloaded workouts on view will appear
         self.workoutsList = [Workout getDownloadedWorkouts];

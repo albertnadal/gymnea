@@ -101,4 +101,11 @@ static const float kGEAiPhoneNavigationBarHeight = 44.0f;
     [self.scroll setContentSize:CGSizeMake([[UIScreen mainScreen] bounds].size.width, baseYPosition)];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.screenName = @"WorkoutDescriptionViewController";
+}
+
 @end

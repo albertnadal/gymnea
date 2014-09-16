@@ -40,7 +40,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
 }
 
 - (IBAction)doLogout:(id)sender
@@ -68,6 +67,12 @@
         if(buttonIndex == 1)
         {
             // Logout
+            [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Account"
+                                                                                                action:@"SignOut"
+                                                                                                 label:@""
+                                                                                                 value:nil] build]];
+            [[GAI sharedInstance] dispatch];
+
             [self logout];
         }
     }
@@ -91,6 +96,13 @@
     // Show initial view
     UIResponder *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     [appDelegate performSelector:@selector(showInitialView) withObject:nil afterDelay:0.1f];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    self.screenName = @"AccountViewController";
 }
 
 @end

@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "Exercise.h"
+#import "GAI.h"
+#import "GAITracker.h"
+#import "GAIDictionaryBuilder.h"
 
-@interface ExerciseDetailViewController : UIViewController
+@interface ExerciseDetailViewController : GAITrackedViewController
 
 - (id)initWithExercise:(Exercise *)exercise_ showPlayButton:(BOOL)show;
 

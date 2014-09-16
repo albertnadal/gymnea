@@ -816,4 +816,11 @@
     [super didReceiveMemoryWarning];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.screenName = @"ExercisesViewController";
+}
+
 @end

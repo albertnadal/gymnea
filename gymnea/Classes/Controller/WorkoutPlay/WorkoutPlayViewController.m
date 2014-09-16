@@ -138,14 +138,14 @@
 
 - (IBAction)startWorkout:(id)sender
 {
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"WorkoutPlay"
+                                                                                        action:@"Start Workout"
+                                                                                         label:@""
+                                                                                         value:nil] build]];
+    [[GAI sharedInstance] dispatch];
+
     NextExerciseCountdownViewController *nextExerciseCountdownViewController = [[NextExerciseCountdownViewController alloc] initWithDelegate:self];
     [self.navigationController pushViewController:nextExerciseCountdownViewController animated:NO];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (NSInteger)numberOfSecondsToCoundown:(NextExerciseCountdownViewController *)nextExerciseCountdown
@@ -219,9 +219,21 @@
 
 - (void)workoutExerciseFinished:(WorkoutPlayExerciseViewController *)workoutExercise
 {
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"WorkoutPlay"
+                                                                                        action:@"Exercise Finished"
+                                                                                         label:@""
+                                                                                         value:nil] build]];
+    [[GAI sharedInstance] dispatch];
 
     // Check first if workout has finished
     if([self.workoutDaySequence count] == indexCurrentExerciseSet + 1) {
+
+        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"WorkoutPlay"
+                                                                                            action:@"Workout Finished"
+                                                                                             label:@""
+                                                                                             value:nil] build]];
+        [[GAI sharedInstance] dispatch];
+
         WorkoutPlayResultsViewController *workoutPlayResultsViewController = [[WorkoutPlayResultsViewController alloc] initWithDelegate:self];
         [self.navigationController pushViewController:workoutPlayResultsViewController animated:YES];
         return;
@@ -366,6 +378,13 @@
 - (void)userDidSelectSaveResults:(WorkoutPlayResultsViewController *)workoutPlayResults
 {
     // Implement
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.screenName = @"WorkoutPlayViewController";
 }
 
 @end

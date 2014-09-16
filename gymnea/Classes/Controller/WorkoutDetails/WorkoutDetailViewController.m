@@ -179,7 +179,13 @@
 - (IBAction)startWorkout:(id)sender
 {
     if(![self workoutIsDownload]) {
-        
+
+        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"WorkoutDetail"
+                                                                                            action:@"Start Workout"
+                                                                                             label:@"Need Download"
+                                                                                             value:nil] build]];
+        [[GAI sharedInstance] dispatch];
+
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download is needed"
                                                         message:@"First of all is necessary to download the workout to your device. This will let you to play this workout anywhere without access to Internet."
                                                        delegate:self
@@ -190,7 +196,13 @@
         [alert show];
         
     } else {
-        
+
+        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"WorkoutDetail"
+                                                                                            action:@"Start Workout"
+                                                                                             label:@""
+                                                                                             value:nil] build]];
+        [[GAI sharedInstance] dispatch];
+
         ChooseWorkoutDayViewController *chooseWorkoutDayViewController = [[ChooseWorkoutDayViewController alloc] initWithWorkoutDays:self.workoutDetail.workoutDays withDelegate:self];
         [self presentViewController:chooseWorkoutDayViewController animated:YES completion:nil];
     }
@@ -291,6 +303,12 @@
 
 - (void)showErrorMessageAndCancelDownload
 {
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"WorkoutDetail"
+                                                                                        action:@"Download Failed"
+                                                                                         label:@""
+                                                                                         value:nil] build]];
+    [[GAI sharedInstance] dispatch];
+
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                     message:@"Unable to reach the network when retrieving the exercises information."
                                                    delegate:nil
@@ -371,6 +389,12 @@
         self.exerciseIdDownloadQueue = nil;
         [self.playWorkoutButton setTitle:@"Start Workout" forState:UIControlStateNormal];
 
+        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"WorkoutDetail"
+                                                                                            action:@"Download Workout"
+                                                                                             label:@"Workout Downloaded"
+                                                                                             value:nil] build]];
+        [[GAI sharedInstance] dispatch];
+
         // Hide HUD after 0.3 seconds
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
 
@@ -389,7 +413,13 @@
     
     [[GymneaWSClient sharedInstance] requestUnsaveWorkout:self.workout
                                     withCompletionBlock:^(GymneaWSClientRequestStatus success) {
-                                        
+
+                                        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"WorkoutDetail"
+                                                                                                                            action:@"Remove From Favorites"
+                                                                                                                             label:@""
+                                                                                                                             value:nil] build]];
+                                        [[GAI sharedInstance] dispatch];
+
                                         // Hide HUD after 0.3 seconds
                                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                                             
@@ -410,6 +440,12 @@
     [[GymneaWSClient sharedInstance] requestSaveWorkout:self.workout
                                     withCompletionBlock:^(GymneaWSClientRequestStatus success) {
 
+                                        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"WorkoutDetail"
+                                                                                                                            action:@"Add To Favorites"
+                                                                                                                             label:@""
+                                                                                                                             value:nil] build]];
+                                        [[GAI sharedInstance] dispatch];
+
                                         // Hide HUD after 0.3 seconds
                                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
 
@@ -423,8 +459,14 @@
 
 - (void)downloadWorkout
 {
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"WorkoutDetail"
+                                                                                        action:@"Download Workout"
+                                                                                         label:@"Start Downloading"
+                                                                                         value:nil] build]];
+    [[GAI sharedInstance] dispatch];
+
     //Just download the video loop of all the exercises to complete all the missing exercise attributes
-    
+
     self.loadWorkoutHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.loadWorkoutHud.mode = MBProgressHUDModeAnnularDeterminate;
     self.loadWorkoutHud.progress = 0.0f;
@@ -460,6 +502,12 @@
                                               withCompletionBlock:^(GymneaWSClientRequestStatus success, NSData *pdf) {
 
                                                   if((success == GymneaWSClientRequestSuccess) && (pdf != nil)) {
+
+                                                      [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"WorkoutDetail"
+                                                                                                                                          action:@"Download PDF"
+                                                                                                                                           label:@""
+                                                                                                                                           value:nil] build]];
+                                                      [[GAI sharedInstance] dispatch];
 
                                                       NSError *error = nil;
 
@@ -513,6 +561,12 @@
 
     [[GymneaWSClient sharedInstance] setUserCurrentWorkoutWithWorkout:self.workout
                                                   withCompletionBlock:^(GymneaWSClientRequestStatus success) {
+
+                                                      [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"WorkoutDetail"
+                                                                                                                                          action:@"Set As Current"
+                                                                                                                                           label:@""
+                                                                                                                                           value:nil] build]];
+                                                      [[GAI sharedInstance] dispatch];
 
                                                       // Setup local notifications properly
                                                       [self setupLocalNotifications];
@@ -588,18 +642,6 @@
     dealContainerFrame.size.height = 0.0f; //150.0f;
     [self.dealContainer setFrame:dealContainerFrame];
 
-/*
-    [self.dealContainer setClipsToBounds:NO];
-    [self.dealContainer.layer setMasksToBounds:NO];
-    self.dealContainer.layer.shouldRasterize = YES;
-    self.dealContainer.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-    self.dealContainer.layer.shadowColor = [[UIColor blackColor] CGColor];
-    self.dealContainer.layer.shadowOffset = CGSizeMake(0,0.8);
-    self.dealContainer.layer.shadowRadius = 2;
-    self.dealContainer.layer.shadowOpacity = 0.6;
-    UIBezierPath *dealContainerShadowPath = [UIBezierPath bezierPathWithRect:self.dealContainer.bounds];
-    self.dealContainer.layer.shadowPath = dealContainerShadowPath.CGPath;
-*/
     // The deal view is not inside the scroll in the Xib
     [self.dealContainer setHidden:YES];
     [self.scroll addSubview:self.dealContainer];
@@ -616,23 +658,6 @@
 
 - (NSString *)stringFromFloat:(float)value
 {
-/*
-    bool valueHasDecimals = (value - (int)value > 0.0f);
-    NSString *valueString;
-
-    if(valueHasDecimals)
-    {
-        // This value has decimals.
-        valueString = [NSString stringWithFormat:@"%.2f", self.eventDetail.priceLowest];
-    }
-    else
-    {
-        // This value does not has decimals.
-        valueString = [NSString stringWithFormat:@"%d", (int)self.eventDetail.priceLowest];
-    }
-
-    return valueString;
-*/
     return nil;
 }
 
@@ -841,9 +866,23 @@
     switch([sender selectedSegmentIndex])
     {
         case DETAILS_SEGMENT_INDEX:         showingDetails = true;
+
+                                            [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"WorkoutDetail"
+                                                                                                                                action:@"Show Workout Details"
+                                                                                                                                 label:@""
+                                                                                                                                 value:nil] build]];
+                                            [[GAI sharedInstance] dispatch];
+
                                             break;
 
         case WORKOUT_DAYS_SEGMENT_INDEX:    showingDetails = false;
+
+                                            [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"WorkoutDetail"
+                                                                                                                                action:@"Show Workout Days"
+                                                                                                                                 label:@""
+                                                                                                                                 value:nil] build]];
+                                            [[GAI sharedInstance] dispatch];
+
                                             break;
     }
 
@@ -852,6 +891,12 @@
 
 - (IBAction)showDescription:(id)sender
 {
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"WorkoutDetail"
+                                                                                        action:@"Show Description"
+                                                                                         label:@""
+                                                                                         value:nil] build]];
+    [[GAI sharedInstance] dispatch];
+
     WorkoutDescriptionViewController *edvc = [[WorkoutDescriptionViewController alloc] initWithName:self.workout.name withDescription:self.workoutDetail.workoutDescription];
     [self.navigationController pushViewController:edvc animated:YES];
 }
@@ -1036,6 +1081,12 @@
 
 - (void)willSelectExerciseInWorkoutDayTableViewController:(WorkoutDayTableViewController *)workoutDayTableViewController withExerciseId:(int)exerciseId
 {
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"WorkoutDetail"
+                                                                                        action:@"Show Exercise"
+                                                                                         label:@""
+                                                                                         value:nil] build]];
+    [[GAI sharedInstance] dispatch];
+
     Exercise *exercise = [Exercise getExerciseInfo:exerciseId];
     
     ExerciseDetailViewController *viewController = [[ExerciseDetailViewController alloc] initWithExercise:exercise showPlayButton:NO];
@@ -1054,6 +1105,13 @@
 
 -(void)documentInteractionControllerDidDismissOpenInMenu:(UIDocumentInteractionController *)controller {
     
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.screenName = @"WorkoutDetailViewController";
 }
 
 @end

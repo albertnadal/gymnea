@@ -12,6 +12,9 @@
 #import "MWPhoto.h"
 #import "MWPhotoProtocol.h"
 #import "MWCaptionView.h"
+#import "GAI.h"
+#import "GAITracker.h"
+#import "GAIDictionaryBuilder.h"
 
 // Debug Logging
 #if 0 // Set to 1 to enable debug logging
@@ -41,7 +44,7 @@
 
 @end
 
-@interface MWPhotoBrowser : UIViewController <UIScrollViewDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface MWPhotoBrowser : GAITrackedViewController <UIScrollViewDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 {
     UIBarButtonItem *_cameraButton;
     int photoIndexToDelete;

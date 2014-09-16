@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "WorkoutDetailViewController.h"
+#import "GAI.h"
+#import "GAITracker.h"
+#import "GAIDictionaryBuilder.h"
 
 @interface CurrentWorkoutDetailViewController : WorkoutDetailViewController
 

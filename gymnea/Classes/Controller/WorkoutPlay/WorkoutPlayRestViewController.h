@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAI.h"
+#import "GAITracker.h"
+#import "GAIDictionaryBuilder.h"
 
 @protocol WorkoutPlayRestViewControllerDelegate;
 
-@interface WorkoutPlayRestViewController : UIViewController
+@interface WorkoutPlayRestViewController : GAITrackedViewController
 
 @property (weak, nonatomic) id<WorkoutPlayRestViewControllerDelegate>delegate;
 

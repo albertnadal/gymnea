@@ -112,6 +112,12 @@
 
 - (IBAction)showOptionsMenu:(id)sender
 {
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"ExercisePlay"
+                                                                                        action:@"Show Options Menu"
+                                                                                         label:@""
+                                                                                         value:nil] build]];
+    [[GAI sharedInstance] dispatch];
+
     counterActive = FALSE;
     [_videoPlayer pause];
 
@@ -138,6 +144,13 @@
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) {
+
+        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"ExercisePlay"
+                                                                                            action:@"Finish Play Exercise"
+                                                                                             label:@""
+                                                                                             value:nil] build]];
+        [[GAI sharedInstance] dispatch];
+
         [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:_videoPlayer];
         [_videoPlayer stop];
 
@@ -154,15 +167,23 @@
         }
 
     } else if (buttonIndex == 1) {
+
+        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"ExercisePlay"
+                                                                                            action:@"Resume Play Exercise"
+                                                                                             label:@""
+                                                                                             value:nil] build]];
+        [[GAI sharedInstance] dispatch];
+
         counterActive = TRUE;
         [_videoPlayer play];
     }
 }
 
-- (void)didReceiveMemoryWarning
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [super viewWillAppear:animated];
+    
+    self.screenName = @"ExercisePlayViewController";
 }
 
 @end

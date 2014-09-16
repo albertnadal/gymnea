@@ -120,6 +120,8 @@
 
     [super viewDidLoad];
 
+    self.screenName = @"EditProfileViewController";
+
     GEALabel *titleModal = [[GEALabel alloc] initWithText:self.viewTitle.text fontSize:18.0f frame:self.viewTitle.frame];
     [self.view addSubview:titleModal];
     [self.viewTitle removeFromSuperview];
@@ -961,6 +963,12 @@
     [self hideAllKeyboards];
     [self hideSelectors:nil];
 
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"EditProfile"
+                                                                                        action:@"Save"
+                                                                                         label:@""
+                                                                                         value:nil] build]];
+    [[GAI sharedInstance] dispatch];
+
     self.loadingIndicatorHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.loadingIndicatorHud.labelText = @"Saving name, age and gender";
 
@@ -1116,6 +1124,13 @@
     if([alertView tag] == 1)
     {
         [self hideAllKeyboards];
+
+        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"EditProfile"
+                                                                                            action:@"Save Success"
+                                                                                             label:@""
+                                                                                             value:nil] build]];
+        [[GAI sharedInstance] dispatch];
+
         [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     }
 }
@@ -1299,6 +1314,12 @@
 - (IBAction)cancelEditProfile:(id)sender
 {
     [self hideAllKeyboards];
+
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"EditProfile"
+                                                                                        action:@"Cancel"
+                                                                                         label:@""
+                                                                                         value:nil] build]];
+    [[GAI sharedInstance] dispatch];
 
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }

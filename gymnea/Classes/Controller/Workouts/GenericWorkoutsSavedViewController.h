@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "GenericWorkoutsViewController.h"
+#import "GAI.h"
+#import "GAITracker.h"
+#import "GAIDictionaryBuilder.h"
 
 @class WorkoutFilterCollectionReusableView;
 @protocol WorkoutFilterCollectionReusableViewDelegate;

@@ -216,4 +216,11 @@
     self.scroll.canCancelContentTouches = NO;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    //[super viewWillAppear:animated];
+    
+    self.screenName = @"CurrentWorkoutDetailViewController";
+}
+
 @end

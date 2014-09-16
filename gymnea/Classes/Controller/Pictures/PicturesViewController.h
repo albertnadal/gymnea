@@ -11,6 +11,9 @@
 #import "GymneaWSClient.h"
 #import "UserPicture+Management.h"
 #import "MWPhotoBrowser/MWPhotoBrowser.h"
+#import "GAI.h"
+#import "GAITracker.h"
+#import "GAIDictionaryBuilder.h"
 
 @interface PicturesViewController : MWPhotoBrowser
 
