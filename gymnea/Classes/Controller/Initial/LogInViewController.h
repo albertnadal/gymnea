@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAI.h"
 
-@interface LogInViewController : UIViewController<UITextFieldDelegate>
+@interface LogInViewController : GAITrackedViewController<UITextFieldDelegate>
 
 - (id)init;
 

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAI.h"
 
-@interface InitialQuestionnaireViewController : UIViewController<UIScrollViewDelegate>
+@interface InitialQuestionnaireViewController : GAITrackedViewController<UIScrollViewDelegate>
 
 - (id)init;
 - (IBAction)selectOptionButton:(id)button;

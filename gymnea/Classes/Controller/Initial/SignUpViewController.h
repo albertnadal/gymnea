@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "SignUpForm.h"
+#import "GAI.h"
 
-@interface SignUpViewController : UIViewController<UITextFieldDelegate>
+@interface SignUpViewController : GAITrackedViewController<UITextFieldDelegate>
 
 - (id)initWithSignUpForm:(SignUpForm *)theSignUpForm;
 

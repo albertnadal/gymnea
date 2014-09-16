@@ -10,6 +10,9 @@
 #import "StartViewController.h"
 #import "MBProgressHUD.h"
 #import "GymneaWSClient.h"
+#import "GAI.h"
+#import "GAITracker.h"
+#import "GAIDictionaryBuilder.h"
 
 @interface LogInViewController ()
 
@@ -36,6 +39,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    self.screenName = @"LogInView";
+
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Initial"
+                                                                                        action:@"LogIn"
+                                                                                         label:@"viewDidLoad"
+                                                                                         value:nil] build]];
+    [[GAI sharedInstance] dispatch];
 
     [self.forgotPasswordButton addTarget:self action:@selector(forgotPassword:) forControlEvents:UIControlEventTouchUpInside];
     [self.forgotPasswordButton addTarget:self action:@selector(setBgColorForForgotPasswordButton:) forControlEvents:UIControlEventTouchDown];
@@ -87,9 +98,23 @@
                       [MBProgressHUD hideHUDForView:self.view animated:YES];
 
                       if([[[responseData objectForKey:@"success"] lowercaseString] isEqual: @"false"]) {
+
+                          [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Initial"
+                                                                                                              action:@"LogIn"
+                                                                                                               label:@"LogIn Failed"
+                                                                                                               value:nil] build]];
+                          [[GAI sharedInstance] dispatch];
+
                           UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[responseData objectForKey:@"errorMsg"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
                           [alert show];
                       } else if([[[responseData objectForKey:@"success"] lowercaseString] isEqual: @"true"]){
+
+                          [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Initial"
+                                                                                                              action:@"LogIn"
+                                                                                                               label:@"LogIn Success"
+                                                                                                               value:nil] build]];
+                          [[GAI sharedInstance] dispatch];
+
                           StartViewController *startViewController = [[StartViewController alloc] initShowingSplashScreen:NO];
                           [self.navigationController pushViewController:startViewController animated:NO];
                       } else {

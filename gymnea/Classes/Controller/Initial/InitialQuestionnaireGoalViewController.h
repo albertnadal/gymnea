@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "SignUpForm.h"
+#import "GAI.h"
 
-@interface InitialQuestionnaireGoalViewController : UIViewController
+@interface InitialQuestionnaireGoalViewController : GAITrackedViewController
 
 - (id)initWithSignUpForm:(SignUpForm *)theSignUpForm;
 

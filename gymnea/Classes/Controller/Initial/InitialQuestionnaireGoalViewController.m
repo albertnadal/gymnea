@@ -8,6 +8,9 @@
 
 #import "InitialQuestionnaireGoalViewController.h"
 #import "SignUpViewController.h"
+#import "GAI.h"
+#import "GAITracker.h"
+#import "GAIDictionaryBuilder.h"
 
 @interface InitialQuestionnaireGoalViewController ()
 
@@ -39,9 +42,17 @@
 {
     [super viewDidLoad];
 
+    self.screenName = @"InitialQuestionnaireGoalView";
+
     [self.nextButton addTarget:self action:@selector(goToRegister:) forControlEvents:UIControlEventTouchUpInside];
     [self.nextButton addTarget:self action:@selector(setBgColorForButton:) forControlEvents:UIControlEventTouchDown];
     [self.nextButton addTarget:self action:@selector(clearBgColorForButton:) forControlEvents:UIControlEventTouchDragExit];
+
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Initial"
+                                                                                        action:@"Questionnaire Goal"
+                                                                                         label:@"viewDidLoad"
+                                                                                         value:nil] build]];
+    [[GAI sharedInstance] dispatch];
 }
 
 - (IBAction)goBack:(id)sender

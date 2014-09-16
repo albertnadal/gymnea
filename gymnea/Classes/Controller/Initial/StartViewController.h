@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAI.h"
 
-@interface StartViewController : UIViewController<UIAlertViewDelegate>
+@interface StartViewController : GAITrackedViewController<UIAlertViewDelegate>
 
 - (id)initShowingSplashScreen:(BOOL)showSplash;
 

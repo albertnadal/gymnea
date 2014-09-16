@@ -41,6 +41,8 @@
 {
     [super viewDidLoad];
 
+    self.screenName = @"InitialView";
+
     [self.view addSubview:self.beforeContinueView];
     CGRect beforeContinueViewRect = self.beforeContinueView.frame;
     beforeContinueViewRect.origin.y = 0.0f - [[UIScreen mainScreen] bounds].size.height;

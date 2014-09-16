@@ -10,6 +10,9 @@
 #import "StartViewController.h"
 #import "GymneaWSClient.h"
 #import "MBProgressHUD.h"
+#import "GAI.h"
+#import "GAITracker.h"
+#import "GAIDictionaryBuilder.h"
 
 @interface SignUpViewController ()<UIPickerViewDataSource, UIPickerViewDelegate, UIActionSheetDelegate>
 {
@@ -141,6 +144,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    self.screenName = @"SignUpView";
+
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Initial"
+                                                                                        action:@"SignUp"
+                                                                                         label:@"viewDidLoad"
+                                                                                         value:nil] build]];
+    [[GAI sharedInstance] dispatch];
 }
 
 - (void)hideAllKeyboards
@@ -889,9 +900,23 @@
                    [MBProgressHUD hideHUDForView:self.view animated:YES];
 
                    if([[[responseData objectForKey:@"success"] lowercaseString] isEqual: @"false"]) {
+
+                       [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Initial"
+                                                                                                           action:@"SignUp"
+                                                                                                            label:@"SignUp Failed"
+                                                                                                            value:nil] build]];
+                       [[GAI sharedInstance] dispatch];
+
                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[responseData objectForKey:@"errorMsg"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
                        [alert show];
                    } else if([[[responseData objectForKey:@"success"] lowercaseString] isEqual: @"true"]){
+
+                       [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Initial"
+                                                                                                           action:@"SignUp"
+                                                                                                            label:@"SignUp Success"
+                                                                                                            value:nil] build]];
+                       [[GAI sharedInstance] dispatch];
+
                        StartViewController *startViewController = [[StartViewController alloc] initShowingSplashScreen:NO];
                        [self.navigationController pushViewController:startViewController animated:NO];
                    } else {

@@ -62,6 +62,8 @@
 {
     [super viewDidLoad];
 
+    self.screenName = @"StartView";
+
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""

@@ -9,6 +9,9 @@
 #import "InitialQuestionnaireViewController.h"
 #import "InitialQuestionnaireGoalViewController.h"
 #import "SignUpForm.h"
+#import "GAI.h"
+#import "GAITracker.h"
+#import "GAIDictionaryBuilder.h"
 
 @interface InitialQuestionnaireViewController ()
 
@@ -58,12 +61,20 @@
 {
     [super viewDidLoad];
 
+    self.screenName = @"InitialQuestionnaireView";
+
     [self.skipButton addTarget:self action:@selector(skip:) forControlEvents:UIControlEventTouchUpInside];
     [self.skipButton addTarget:self action:@selector(setBgColorForSkipButton:) forControlEvents:UIControlEventTouchDown];
     [self.skipButton addTarget:self action:@selector(clearBgColorForSkipButton:) forControlEvents:UIControlEventTouchDragExit];
 
     [self.scrollView addSubview:self.scrollContainerView];
     [self.scrollView setContentSize:CGSizeMake(self.scrollContainerView.frame.size.width, self.scrollContainerView.frame.size.height)];
+
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Initial"
+                                                                                        action:@"Questionnaire"
+                                                                                         label:@"viewDidLoad"
+                                                                                         value:nil] build]];
+    [[GAI sharedInstance] dispatch];
 }
 
 - (IBAction)goBack:(id)sender

@@ -22,6 +22,7 @@ PODS:
     - AFNetworking/NSURLSession
   - CHTCollectionViewWaterfallLayout (0.7)
   - DACircularProgress (2.2.0)
+  - GoogleAnalytics-iOS-SDK (3.0.9)
   - MBProgressHUD (0.8)
   - NSData+Base64 (1.0.0)
   - PSTCollectionView (1.2.3)
@@ -34,6 +35,7 @@ DEPENDENCIES:
   - AFNetworking/NSURLSession (~> 2.0)
   - CHTCollectionViewWaterfallLayout (~> 0.7)
   - DACircularProgress (~> 2.2)
+  - GoogleAnalytics-iOS-SDK (~> 3.0)
   - MBProgressHUD (~> 0.8)
   - NSData+Base64 (~> 1.0)
   - PSTCollectionView (~> 1.2)
@@ -45,6 +47,7 @@ SPEC CHECKSUMS:
   AFNetworking: 6d7b76aa5d04c8c37daad3eef4b7e3f2a7620da3
   CHTCollectionViewWaterfallLayout: 184d3b6d5456b48e93ac97e93e606bd8b68aedcc
   DACircularProgress: 3b41941891a56dc6aa17971f5322a9a38a6f446e
+  GoogleAnalytics-iOS-SDK: d9e198b1f955259a72886769be7377cdfcdb2250
   MBProgressHUD: c356980b0cd097f19acec959b49dca5eb8ec31be
   NSData+Base64: aae92a2e3f0bd88b29fe6093551ded3f5c062548
   PSTCollectionView: d9f466e4554cc83260ca9bde7beb27f308e8fd76

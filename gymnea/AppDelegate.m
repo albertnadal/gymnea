@@ -25,6 +25,22 @@
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    // Optional: automatically send uncaught exceptions to Google Analytics.
+    [GAI sharedInstance].trackUncaughtExceptions = YES;
+
+    // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
+    [GAI sharedInstance].dispatchInterval = 120;
+
+    // Initialize tracker. Replace with your tracking ID.
+    self.tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-54835553-1"];
+
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Application"
+                                                                                        action:@"Launch"
+                                                                                         label:@"Single"
+                                                                                         value:nil] build]];
+    [[GAI sharedInstance] dispatch];
+
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] ;
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 
@@ -52,6 +68,13 @@
     if(authentication == nil) {
 
         // NO AUTOLOGIN
+
+        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Application"
+                                                                                            action:@"Launch"
+                                                                                             label:@"Initial Screen"
+                                                                                             value:nil] build]];
+        [[GAI sharedInstance] dispatch];
+
         InitialViewController *initialViewController = [[InitialViewController alloc] initWithNibName:@"InitialViewController" bundle:nil];
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:initialViewController];
         self.window.rootViewController = navigationController;
@@ -61,6 +84,13 @@
     } else {
 
         // USER PREVIOUSLY AUTHENTICATED => AUTOLOGIN ENABLED
+
+        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Application"
+                                                                                            action:@"Launch"
+                                                                                             label:@"Autologin"
+                                                                                             value:nil] build]];
+        [[GAI sharedInstance] dispatch];
+
         StartViewController *startViewController = [[StartViewController alloc] initShowingSplashScreen:YES];
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:startViewController];
         self.window.rootViewController = navigationController;
