@@ -88,5 +88,6 @@
 - (void)hideGrid;
 - (void)performLayout;
 - (void)showCameraButton;
+- (void)showGridAnimated;
 
 @end

@@ -1853,6 +1853,8 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
     // First delete the picture saved locally
     [UserPicture deletePictureWithPictureId:pictureId];
+    AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+    [appDelegate saveContext];
 
     // Finally delete the picture in the server side
     if(self.internetIsReachable) {

@@ -191,7 +191,7 @@
     if(photo.pictureId) {
 
         [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Pictures"
-                                                                                            action:@"Delete Photo"
+                                                                                            action:@"Delete Picture"
                                                                                              label:@""
                                                                                              value:nil] build]];
         [[GAI sharedInstance] dispatch];
@@ -212,7 +212,8 @@
                               [self.sourcePhotos removeObjectAtIndex:index];
                               [self.sourceThumbs removeObjectAtIndex:index];
                               [self loadVisuals];
-                              
+
+                              [self showGridAnimated];
                               [[self.loadPicturesHud superview] bringSubviewToFront:self.loadPicturesHud];
                               
                               // Hide HUD after 0.3 seconds
@@ -223,9 +224,12 @@
                                   self.loadingData = FALSE;
                                   self.needRefreshData = FALSE;
 
-                                  [self reloadData];
-                                  [self viewWillAppear:YES];
-                                  
+                                  if([self.sourcePhotos count]) {
+                                      [self viewWillAppear:YES];
+                                      [self reloadData];
+                                  } else {
+                                      [self showCameraButton];
+                                  }
                               });
                               
                           } else {
@@ -243,8 +247,12 @@
 
                               [self.noPicturesFoundLabel setHidden:[self.sourcePhotos count]];
 
-                              [self viewWillAppear:YES];
-                              [self reloadData];
+                              if([self.sourcePhotos count]) {
+                                  [self viewWillAppear:YES];
+                                  [self reloadData];
+                              } else {
+                                  [self showCameraButton];
+                              }
                           }
 
         }];
@@ -261,8 +269,12 @@
         
         [self.noPicturesFoundLabel setHidden:[self.sourcePhotos count]];
 
-        [self viewWillAppear:YES];
-        [self reloadData];
+        if([self.sourcePhotos count]) {
+            [self viewWillAppear:YES];
+            [self reloadData];
+        } else {
+            [self showCameraButton];
+        }
     }
 
 }
@@ -403,8 +415,12 @@
                                                self.loadingData = FALSE;
                                                self.needRefreshData = TRUE;
                                                
-                                               [self viewWillAppear:YES];
-                                               [self reloadData];
+                                               if([self.sourcePhotos count]) {
+                                                   [self viewWillAppear:YES];
+                                                   [self reloadData];
+                                               } else {
+                                                   [self showCameraButton];
+                                               }
                                                
                                                // Show added picture
                                                [self setCurrentPhotoIndex:0];
@@ -424,8 +440,12 @@
                                                [self.noPicturesFoundLabel setHidden:YES];
                                                [_cameraButton setEnabled:YES];
                                                
-                                               [self viewWillAppear:YES];
-                                               [self reloadData];
+                                               if([self.sourcePhotos count]) {
+                                                   [self viewWillAppear:YES];
+                                                   [self reloadData];
+                                               } else {
+                                                   [self showCameraButton];
+                                               }
                                                
                                                // Show added picture
                                                [self setCurrentPhotoIndex:0];
