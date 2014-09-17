@@ -12,6 +12,7 @@
 #import "GEAAuthenticationKeychainStore.h"
 #import "StartViewController.h"
 #import "UserInfo+Management.h"
+#import "GymneaWSClient.h"
 
 @interface AppDelegate ()
 
@@ -64,6 +65,8 @@
         [GEAAuthenticationKeychainStore clearAllData];
         authentication = nil;
 
+        // Remove the session ID
+        [[GymneaWSClient sharedInstance] setSessionId:@""];
     }
 
     if(authentication == nil) {

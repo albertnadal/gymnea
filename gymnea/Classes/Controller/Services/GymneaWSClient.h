@@ -69,6 +69,8 @@ typedef void(^deleteUserPictureCompletionBlock)(GymneaWSClientRequestStatus succ
     NSString *sessionId;
 }
 
+@property (nonatomic, retain) NSString *sessionId;
+
 + (GymneaWSClient *)sharedInstance;
 
 - (void)signInForUsername:(NSString *)username

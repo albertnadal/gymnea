@@ -101,6 +101,7 @@
 
                           UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[responseData objectForKey:@"errorMsg"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
                           [alert show];
+
                       } else if([[[responseData objectForKey:@"success"] lowercaseString] isEqual: @"true"]){
 
                           [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Initial"
@@ -111,6 +112,7 @@
 
                           StartViewController *startViewController = [[StartViewController alloc] initShowingSplashScreen:NO];
                           [self.navigationController pushViewController:startViewController animated:NO];
+
                       } else {
                           UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"An unexpected error occurred. Check your Internet connection and retry again." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
                           [alert show];

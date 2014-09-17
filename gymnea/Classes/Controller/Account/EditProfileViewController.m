@@ -164,6 +164,8 @@
 
     [[GymneaWSClient sharedInstance] requestLocalUserInfoWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, UserInfo *userInfo) {
 
+        NSLog(@"USER INFO name: %@ | lastname: %@ | birthdate: %@", userInfo.firstName, userInfo.lastName, userInfo.birthDate);
+
         NSDateComponents* birthdateComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:userInfo.birthDate];
 
         self.month = (int)[birthdateComponents month];

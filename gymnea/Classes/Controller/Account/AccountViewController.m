@@ -18,6 +18,7 @@
 #import "UserPicture+Management.h"
 #import "AppDelegate.h"
 #import "EditProfileViewController.h"
+#import "GymneaWSClient.h"
 
 @interface AccountViewController ()
 
@@ -83,6 +84,9 @@
     // Remove the auth data
     [GEAAuthenticationKeychainStore clearAllData];
 
+    // Remove the session ID
+    [[GymneaWSClient sharedInstance] setSessionId:@""];
+
     // Delete all DB data
     [Exercise deleteAll];
     [ExerciseDetail deleteAll];
@@ -93,8 +97,11 @@
     [UserPicture deleteAll];
     [UserInfo deleteAll];
 
+    // Save Core Data context
+    AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+    [appDelegate saveContext];
+
     // Show initial view
-    UIResponder *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     [appDelegate performSelector:@selector(showInitialView) withObject:nil afterDelay:0.1f];
 }
 
