@@ -412,7 +412,7 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
         UIViewController *rootViewController = (UIViewController *)navController.viewControllers[0];
 
         if([rootViewController respondsToSelector:@selector(loadInitialData)]) {
-            [(PicturesViewController *)rootViewController loadInitialData];
+            [(PicturesViewController *)rootViewController performSelector:@selector(loadInitialData) withObject:nil afterDelay:0.3f];
         }
 
         rootViewController.sideMenuController = self;

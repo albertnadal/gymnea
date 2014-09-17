@@ -35,7 +35,7 @@ DEPENDENCIES:
   - AFNetworking/NSURLSession (~> 2.0)
   - CHTCollectionViewWaterfallLayout (~> 0.7)
   - DACircularProgress (~> 2.2)
-  - GoogleAnalytics-iOS-SDK (~> 3.0)
+  - GoogleAnalytics-iOS-SDK (~> 3.0.3c)
   - MBProgressHUD (~> 0.8)
   - NSData+Base64 (~> 1.0)
   - PSTCollectionView (~> 1.2)

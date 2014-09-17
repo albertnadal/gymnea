@@ -86,5 +86,7 @@
 - (void)showGrid:(BOOL)animated;
 - (void)deleteGridController;
 - (void)hideGrid;
+- (void)performLayout;
+- (void)showCameraButton;
 
 @end

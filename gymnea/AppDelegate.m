@@ -34,6 +34,7 @@
 
     // Initialize tracker. Replace with your tracking ID.
     self.tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-54835553-1"];
+    self.tracker.allowIDFACollection = NO;
 
     [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Application"
                                                                                         action:@"Launch"

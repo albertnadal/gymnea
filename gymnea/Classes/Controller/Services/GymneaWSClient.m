@@ -121,6 +121,8 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
               andPassword:(NSString *)password
       withCompletionBlock:(signInCompletionBlock)completionBlock
 {
+    [GEAAuthenticationKeychainStore clearAllData];
+
     NSString *requestPath = @"/api/auth";
 
     [self performPOSTAsyncRequest:requestPath
@@ -161,6 +163,8 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 - (void)signUpWithForm:(SignUpForm *)signUpForm
    withCompletionBlock:(signUpCompletionBlock)completionBlock
 {
+    [GEAAuthenticationKeychainStore clearAllData];
+
     NSString *requestPath = @"/api/signup";
     
     [self performPOSTAsyncRequest:requestPath
@@ -190,10 +194,19 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
               if(success == GymneaWSClientRequestSuccess) {
                   signUpStatus = GymneaSignUpWSClientRequestSuccess;
-                  userInfo = [[UserInfo alloc] init];
 
-                  // Now we make a fake request to update the session id
-                  [self requestSessionIdWithCompletionBlock:^(GymneaWSClientRequestStatus success) { /* Do nothing */ }];
+                  if([cookies objectForKey:@"uid"] != nil) {
+                      GEAAuthentication *authentication = [[GEAAuthentication alloc] initWithAuthBaseURL:[NSString stringWithFormat:@"%@", kWSDomain]
+                                                                                               userEmail:signUpForm.emailAddress
+                                                                                          clientInfoHash:[cookies objectForKey:@"uid"]
+                                                                                               clientKey:[cookies objectForKey:@"ukey"]];
+                      
+                      GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
+                      [keychainStore setAuthentication:authentication forIdentifier:@"gymnea"];
+                  }
+
+                  userInfo = [UserInfo updateUserInfoWithEmail:signUpForm.emailAddress withDictionary:[responseData objectForKey:@"userInfo"]];
+
               }
 
               dispatch_async(dispatch_get_main_queue(), ^{
@@ -371,7 +384,7 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                    withDictionary:nil
                withAuthentication:auth
               withCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, NSDictionary *cookies) {
-
+                  
                   UserInfo *userInfo = nil;
                   NSMutableDictionary *responseMutableData = [[NSMutableDictionary alloc] initWithDictionary:responseData];
                   NSMutableDictionary *userInfoMutableData = [[NSMutableDictionary alloc] initWithDictionary:[responseMutableData objectForKey:@"userInfo"]];

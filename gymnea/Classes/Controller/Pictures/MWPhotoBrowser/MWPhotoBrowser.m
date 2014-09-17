@@ -211,19 +211,14 @@
     }
 }
 
-- (void)performLayout {
-    
-    // Setup
-    _performingLayout = YES;
-    //NSUInteger numberOfPhotos = [self numberOfPhotos];
-    
-	// Setup pages
-    [_visiblePages removeAllObjects];
-    [_recycledPages removeAllObjects];
-
+- (void)showCameraButton
+{
     // Navigation buttons
-    if ([self.navigationController.viewControllers objectAtIndex:0] == self) {
+    if(_cameraButton != nil)
+        return;
 
+    if ([self.navigationController.viewControllers objectAtIndex:0] == self) {
+        
         // We're first on stack so show done button
         _cameraButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(cameraButtonPressed:)];
         // Set appearance
@@ -237,6 +232,20 @@
         }
         self.navigationItem.rightBarButtonItem = _cameraButton;
     }
+}
+
+- (void)performLayout {
+    
+    // Setup
+    _performingLayout = YES;
+    //NSUInteger numberOfPhotos = [self numberOfPhotos];
+    
+	// Setup pages
+    [_visiblePages removeAllObjects];
+    [_recycledPages removeAllObjects];
+
+    // Navigation buttons
+    [self showCameraButton];
 
     // Toolbar items
     BOOL hasItems = NO;
@@ -1431,10 +1440,13 @@
             index = [self numberOfPhotos]-1;
     }
     _currentPageIndex = index;
-	if ([self isViewLoaded]) {
-        [self jumpToPageAtIndex:index animated:NO];
-        if (!_viewIsActive)
-            [self tilePages]; // Force tiling if view is not visible
+
+    if(photoCount) {
+        if ([self isViewLoaded]) {
+            [self jumpToPageAtIndex:index animated:NO];
+            if (!_viewIsActive)
+                [self tilePages]; // Force tiling if view is not visible
+        }
     }
 }
 

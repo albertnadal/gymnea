@@ -90,14 +90,20 @@
 
                 [[self.loadPicturesHud superview] bringSubviewToFront:self.loadPicturesHud];
 
+
                 // Hide HUD after 0.3 seconds
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                    [self.noPicturesFoundLabel setHidden:YES];
+
+                    [self.noPicturesFoundLabel setHidden:[userPictures count]];
                     [self.loadPicturesHud hide:YES];
                     self.loadingData = FALSE;
 
-                    [self viewWillAppear:YES];
-                    [self reloadData];
+                    if([userPictures count]) {
+                        [self viewWillAppear:YES];
+                        [self reloadData];
+                    } else {
+                        [self showCameraButton];
+                    }
 
                 });
 

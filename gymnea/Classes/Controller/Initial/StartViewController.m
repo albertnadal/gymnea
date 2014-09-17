@@ -150,7 +150,7 @@
 
                                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                                                 message:@"Unable to reach the network when updating local data."
-                                                                               delegate:nil
+                                                                               delegate:self
                                                                       cancelButtonTitle:nil
                                                                       otherButtonTitles:@"Retry", nil];
                                 [alert setTag:1];
@@ -164,7 +164,7 @@
 
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                                         message:@"Unable to reach the network when updating local data."
-                                                                       delegate:nil
+                                                                       delegate:self
                                                               cancelButtonTitle:nil
                                                               otherButtonTitles:@"Retry", nil];
                         [alert setTag:1];
@@ -178,7 +178,7 @@
 
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                                 message:@"Unable to reach the network when updating local data."
-                                                               delegate:nil
+                                                               delegate:self
                                                       cancelButtonTitle:nil
                                                       otherButtonTitles:@"Retry", nil];
                 [alert setTag:1];

@@ -76,7 +76,6 @@
 
 // Layout
 - (void)layoutVisiblePages;
-- (void)performLayout;
 - (BOOL)presentingViewControllerPrefersStatusBarHidden;
 
 // Nav Bar Appearance
