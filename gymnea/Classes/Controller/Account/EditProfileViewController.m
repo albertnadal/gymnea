@@ -164,8 +164,6 @@
 
     [[GymneaWSClient sharedInstance] requestLocalUserInfoWithCompletionBlock:^(GymneaWSClientRequestStatus success, NSDictionary *responseData, UserInfo *userInfo) {
 
-        NSLog(@"USER INFO name: %@ | lastname: %@ | birthdate: %@", userInfo.firstName, userInfo.lastName, userInfo.birthDate);
-
         NSDateComponents* birthdateComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:userInfo.birthDate];
 
         self.month = (int)[birthdateComponents month];
@@ -588,9 +586,7 @@
     
     [self.view addSubview:genderPickerView];
     [self.view addSubview:genderPickerToolbar];
-    
-    self.gender = @"male";
-    
+
     [self.genderButton setTitle:[self.gender capitalizedString] forState:UIControlStateNormal];
     [self.genderButton setBackgroundColor:[UIColor whiteColor]];
     

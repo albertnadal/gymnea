@@ -272,8 +272,6 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
 
 - (void)updateDataWithUserInfo:(UserInfo *)userInfo
 {
-    NSLog(@"UPDATE GEASIDEVIEW USERINFO name: %@ | email: %@", userInfo.firstName, userInfo.email);
-
     // Calculate the user age from his birthdate
     NSDate *today = [[NSDate alloc] init];
     NSCalendar *sysCalendar = [NSCalendar currentCalendar];
@@ -317,7 +315,6 @@ static const CGFloat kGEAOpenCloseAnimationDuration = 0.3f;
         
         if(success == GymneaWSClientRequestSuccess) {
 
-            NSLog(@"UPDATE reloadUserInfo USERINFO name: %@ | email: %@", userInfo.firstName, userInfo.email);
             [self updateDataWithUserInfo:userInfo];
 
         } else {

@@ -430,8 +430,6 @@
      
      [MBProgressHUD hideHUDForView:self.view animated:YES];
      
-     //                   NSLog(@"SIGN IN RESPONSE: %@", responseData);
-     
      if([[[responseData objectForKey:@"success"] lowercaseString] isEqual: @"false"]) {
      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[responseData objectForKey:@"errorMsg"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
      [alert show];

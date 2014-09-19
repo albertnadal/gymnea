@@ -127,10 +127,6 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
 
     NSString *requestPath = @"/api/auth";
 
-//    NSLog(@"USERNAME: %@", username);
-//    NSLog(@"PASSWORD: %@", password);
-
-
     [self performPOSTAsyncRequest:requestPath
                withDictionary:@{@"username" : username, @"password": password}
            withAuthentication:nil
@@ -149,10 +145,6 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                                                                                           clientInfoHash:[cookies objectForKey:@"uid"]
                                                                                                clientKey:[cookies objectForKey:@"ukey"]];
 
-//                      NSLog(@"COOKIES: %@", cookies);
-//                      NSLog(@"NOU UID FROM SERVER: %@", [cookies objectForKey:@"uid"]);
-//                      NSLog(@"NOU UKEY FROM SERVER: %@", [cookies objectForKey:@"ukey"]);
-
                       GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
                       [keychainStore setAuthentication:authentication forIdentifier:@"gymnea"];
                   }
@@ -160,7 +152,6 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                   // Truncate the UserInfo table.
                   [UserInfo deleteAll];
 
-                  NSLog(@"USER INFO DATA FROM SERVER AFTER LOGIN: %@", [responseData objectForKey:@"userInfo"]);
                   userInfo = [UserInfo updateUserInfoWithEmail:username withDictionary:[responseData objectForKey:@"userInfo"]];
 
                   AppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
@@ -394,10 +385,6 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
     GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
     GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
 
-    NSLog(@"requestUserInfoWithCompletionBlock email: %@", [auth userEmail]);
-    NSLog(@"requestUserInfoWithCompletionBlock UID: %@", [auth clientInfoHash]);
-    NSLog(@"requestUserInfoWithCompletionBlock KEY: %@", [auth clientKey]);
-
     if(self.internetIsReachable) {
 
         // Retrieve data from web service API
@@ -422,8 +409,6 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
                           [userInfoMutableData setObject:userInfoFromDB.picture forKey:@"picture"];
                           [responseMutableData setObject:userInfoMutableData forKey:@"userInfo"];
                       }
-
-                      NSLog(@"OBTINGUT DEL SERVIDOR I ACTUALITZAR DADES LOCALS: %@ | DICT: %@", [auth userEmail], userInfoMutableData);
 
                       userInfo = [UserInfo updateUserInfoWithEmail:[auth userEmail] withDictionary:userInfoMutableData];
 
@@ -466,12 +451,8 @@ typedef void(^responsePDFCompletionBlock)(GymneaWSClientRequestStatus success, N
     GEAAuthenticationKeychainStore *keychainStore = [[GEAAuthenticationKeychainStore alloc] init];
     GEAAuthentication *auth = [keychainStore authenticationForIdentifier:@"gymnea"];
 
-    NSLog(@"REQUESTING LOCAL DATA FOR userEmail: %@", [auth userEmail]);
-
     // Retrieve data from DB by using the email address as primary key
     UserInfo *userInfo = [UserInfo getUserInfo:[auth userEmail]];
-
-    NSLog(@"LOCAL INFO RETRIEVED email: %@ | first name: %@", userInfo.email, userInfo.firstName);
 
     GymneaWSClientRequestStatus success = (userInfo == nil) ? GymneaWSClientRequestError : GymneaWSClientRequestSuccess;
     

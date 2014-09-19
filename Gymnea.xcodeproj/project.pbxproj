@@ -333,7 +333,6 @@
 		FFA1376A1969A58000DBEE68 /* gymneaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = gymneaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFA1376F1969A58000DBEE68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FFA137701969A58000DBEE68 /* gymneaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = gymneaTests.m; sourceTree = "<group>"; };
-		FFA1377A1969A7C200DBEE68 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		FFA1377C1969A7C200DBEE68 /* gymnea.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = gymnea.entitlements; sourceTree = "<group>"; };
 		FFADD41619884E0E009F14F3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		FFC9892419A6719600E2C592 /* Workout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Workout.h; path = Classes/Model/Workout.h; sourceTree = "<group>"; };
@@ -851,7 +850,6 @@
 			children = (
 				FFF826EE19B8C9E900DD3916 /* MobileCoreServices.framework */,
 				FFADD41619884E0E009F14F3 /* AudioToolbox.framework */,
-				FFA1377A1969A7C200DBEE68 /* HealthKit.framework */,
 				F89F9838FFAD409CB7CBD870 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -939,7 +937,7 @@
 								enabled = 1;
 							};
 							com.apple.HealthKit = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -1219,7 +1217,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: MobiTurmix, Sociedad Limitada (D5J23R36S2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: MobiTurmix, Sociedad Limitada (D5J23R36S2)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1243,7 +1242,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = gymnea/gymnea.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = gymnea/Info.plist;
@@ -1260,9 +1258,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = gymnea/gymnea.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				INFOPLIST_FILE = gymnea/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
